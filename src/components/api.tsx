@@ -32,10 +32,10 @@ function Api() {
     // Fetching crypto data from the API only
     // once when the component is mounted
     useEffect(() => {
-        axios.get(
+        fetch(
              'https://twa-backend-g83o.onrender.com/api/cryptocurrency'
         )
-            .then((res) => res.data)
+            .then((res) => res.json())
             .then((result) => {
                 console.log(result);
                 GetName(result.data[0].name); // Assuming you're fetching the first cryptocurrency name
