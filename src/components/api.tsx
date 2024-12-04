@@ -30,22 +30,22 @@ function Api() {
 
     // Fetching crypto data from the API only
     // once when the component is mounted
-    let response = null;
     useEffect(() => {
-     response =  Axios.get(
-            `https://sandbox-api.coinmarketcap.com/v1/cryptocurrency/listings/latest?CMC_PRO_API_KEY=4a218c19-80f5-4eb9-828e-f3e4dd8b05f1`
-        ).then((res) => {
-            var result = res.data;
-            console.log(result);
-            GetName(result[0].name);
-
-        });
+        fetch(
+            `https://cors-anywhere.herokuapp.com/https://sandbox-api.coinmarketcap.com/v1/cryptocurrency/listings/latest?CMC_PRO_API_KEY=4a218c19-80f5-4eb9-828e-f3e4dd8b05f1`
+        )
+            .then((res) => res.json())
+            .then((result) => {
+                console.log(result);
+                GetName(result.data[0].name); // Assuming you're fetching the first cryptocurrency name
+            })
+            .catch((error) => console.error(error));
     }, []);
-
+    
     return (
         <div className="App">
           <AppContainer>
-            <h1>All Cryptocurrencies</h1>
+          
             <input id='Finder'
                 type="text"
                 placeholder="Search..."
