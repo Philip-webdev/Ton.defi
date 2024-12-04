@@ -22,7 +22,7 @@ const AppContainer = styled.div`
   max-width: 900px;
   margin: 0 auto;
 `;
-
+const Home = home;
 function App() {
  
   return (
@@ -31,13 +31,13 @@ function App() {
   
     <HashRouter>
     <Routes>
-    <Route path="/" Component={home}/>
+    <Route path="/" Component={Home}/>
      
     </Routes>
   </HashRouter>
-  <StyledApp style={{backgroundImage: 'url("https://i.imgur.com/EHAMVNs.jpeg?1")', backgroundSize: 'cover', backgroundPosition: 'center'}}>
+  <StyledApp >
 
-    
+    <Home/>
  
   </StyledApp>
     </div>
