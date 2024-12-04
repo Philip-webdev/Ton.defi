@@ -29,7 +29,7 @@ function home(){
             currentIndex = (currentIndex + 1) % slidex.length;
             if (slideContents != null){
             slideContents.style.transform = 'translateX(' + (currentIndex * -innerWidth) + 'px)';
-            
+    
             }
         }
         setInterval(changeSlide, 2000);
