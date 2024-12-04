@@ -21,7 +21,7 @@
 
 const AppContainer = styled.div`
   max-width: 900px;
-  margin: 0 auto;
+  margin: 0;
 `;
 const Home = home;
 function App() {
@@ -38,9 +38,8 @@ function App() {
     </Routes>
   </HashRouter>
   <StyledApp >
-<AppContainer>
 <Home/>
-</AppContainer>
+
 
  
   </StyledApp>
