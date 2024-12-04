@@ -33,7 +33,7 @@ function App() {
     <HashRouter>
     <Routes>
     <Route path="/" Component={Home}/>
-    <Route path="/send" Component={send}/>
+    
      
     </Routes>
   </HashRouter>
