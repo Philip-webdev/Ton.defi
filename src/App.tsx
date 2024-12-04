@@ -38,8 +38,10 @@ function App() {
     </Routes>
   </HashRouter>
   <StyledApp >
+<AppContainer>
+<Home/>
+</AppContainer>
 
-    <Home/>
  
   </StyledApp>
     </div>
