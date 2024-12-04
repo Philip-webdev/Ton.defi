@@ -27,7 +27,7 @@ const AppContainer = styled.div`
   margin: 0 auto;
 `;
 
-function App() {
+function send() {
   const { network } = useTonConnect();
 
   return (
@@ -53,4 +53,4 @@ function App() {
   );
 }
 
-export default App;
+export default send;
