@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import Api from "./api";
 import styled from "styled-components";
 
 
@@ -62,6 +63,9 @@ function home(){
 
 <div>
     <div style={{display :'flex',  alignContent:'center'}}><div style={{background:"white"}}>Tokens</div><div style={{background:"bisque"}}>NFTs</div></div>
+</div>
+<div>
+    <Api/>
 </div>
                 </div>
             </AppContainer>
