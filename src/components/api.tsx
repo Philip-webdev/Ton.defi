@@ -38,7 +38,7 @@ function Api() {
             .then((res) => res.json())
             .then((result) => {
                 console.log(result);
-                GetName(result.data[0].name); // Assuming you're fetching the first cryptocurrency name
+                GetName(result.data[0]); // Assuming you're fetching the first cryptocurrency name
             })
             .catch((error) => console.log(error));
     }, []);
