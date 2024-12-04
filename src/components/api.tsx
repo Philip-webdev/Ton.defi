@@ -48,7 +48,7 @@ function Api() {
                 GetPrice(result.data[0].quote.USD.price); // Assuming you're fetching the first cryptocurrency name
             })
             .catch((error) => console.log(error));
-    }, []);
+    } );
     
     return (
         <div className="App">
