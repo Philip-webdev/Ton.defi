@@ -31,7 +31,7 @@ function App() {
   
     <HashRouter>
     <Routes>
-    <Route path="/" Component={Home}/>
+    <Route path="/home" Component={Home}/>
      
     </Routes>
   </HashRouter>
