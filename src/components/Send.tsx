@@ -27,7 +27,7 @@ const AppContainer = styled.div`
   margin: 0 auto;
 `;
 
-function send() {
+function sendCoin() {
   const { network } = useTonConnect();
 
   return (
@@ -53,4 +53,4 @@ function send() {
   );
 }
 
-export default send;
+export default sendCoin;
