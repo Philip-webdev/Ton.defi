@@ -1,23 +1,20 @@
-import "./App.css";
-import { TonConnectButton } from "@tonconnect/ui-react";
-import { Counter } from "./components/Counter";
-import { Jetton } from "./components/Jetton";
-import { TransferTon } from "./components/TransferTon";
-import styled from "styled-components";
-import { Button, FlexBoxCol, FlexBoxRow } from "./components/styled/styled";
-import { useTonConnect } from "./hooks/useTonConnect";
-import { CHAIN } from "@tonconnect/protocol";
-import "@twa-dev/sdk";
+ import home from "./components/home";
+ import styled from "styled-components";
+ import "./App.css";
+ import "@twa-dev/sdk";
+ import { HashRouter, Route, Routes} from "react-router-dom";
 
-const StyledApp = styled.div`
-  background-color: #e8e8e8;
+
+ const StyledApp = styled.div`
+  background-color: whitesmoke;
   color: black;
-
+  border-radius: 17px;
+    position: fixed;
   @media (prefers-color-scheme: dark) {
-    background-color: #222;
+    background-color: rgb(29, 40, 58);
     color: white;
   }
-  min-height: 100vh;
+  min-height: 90vh;
   padding: 20px 20px;
 `;
 
@@ -27,28 +24,23 @@ const AppContainer = styled.div`
 `;
 
 function App() {
-  const { network } = useTonConnect();
-
+ 
   return (
-    <StyledApp>
-      <AppContainer>
-        <FlexBoxCol>
-          <FlexBoxRow>
-            <TonConnectButton />
-            <Button>
-              {network
-                ? network === CHAIN.MAINNET
-                  ? "mainnet"
-                  : "testnet"
-                : "N/A"}
-            </Button>
-          </FlexBoxRow>
-          <Counter />
-          <TransferTon />
-          <Jetton />
-        </FlexBoxCol>
-      </AppContainer>
-    </StyledApp>
+    <div >
+   
+  
+    <HashRouter>
+    <Routes>
+    <Route path="/" Component={home}/>
+     
+    </Routes>
+  </HashRouter>
+  <StyledApp style={{backgroundImage: 'url("https://i.imgur.com/EHAMVNs.jpeg?1")', backgroundSize: 'cover', backgroundPosition: 'center'}}>
+
+    
+ 
+  </StyledApp>
+    </div>
   );
 }
 
