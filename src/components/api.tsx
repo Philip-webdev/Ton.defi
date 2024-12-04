@@ -1,4 +1,4 @@
-import axios from "axios";
+ 
 import Axios from "axios";
 import { useEffect, useState } from "react";
 
@@ -13,7 +13,7 @@ function Api() {
     // once when the component is mounted
     let response = null;
     useEffect(() => {
-     response =  axios.get(
+     response =  Axios.get(
             `https://sandbox-api.coinmarketcap.com/v1/cryptocurrency/listings/latest?CMC_PRO_API_KEY=4a218c19-80f5-4eb9-828e-f3e4dd8b05f1`
         ).then((res) => {
             var result = res.data;

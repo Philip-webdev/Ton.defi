@@ -25,7 +25,6 @@ function home(){
         const slideContainer = document.getElementById('slideContainer');
         var currentIndex = 0;
         function changeSlide(){
-           
             const slidex = ['1', '2'];
             currentIndex = (currentIndex + 1) % slidex.length;
             if (slideContents != null){
