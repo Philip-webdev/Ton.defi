@@ -1,5 +1,6 @@
  import home from "./components/home";
  import styled from "styled-components";
+ import send from "./components/Send";
  import "./App.css";
  import "@twa-dev/sdk";
  import { HashRouter, Route, Routes} from "react-router-dom";
@@ -32,6 +33,7 @@ function App() {
     <HashRouter>
     <Routes>
     <Route path="/home" Component={Home}/>
+    <Route path="/send" Component={send}/>
      
     </Routes>
   </HashRouter>
