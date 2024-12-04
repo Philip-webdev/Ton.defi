@@ -74,10 +74,10 @@ function Api() {
                 {/* Mapping all the cryptos */}
                 <tbody>
                     {/* Filtering to check for the searched crypto */}
-                 <tr> <td>{name}</td>
+                 <tr> <td>{rank}</td>
                  <td>{name}</td>
-                 <td>{name}</td>
-                 <td>{name}</td></tr>
+                 <td>{symbol}</td>
+                 <td>{price}</td></tr>
                                  
                 </tbody>
             </table></AppContainer> 
