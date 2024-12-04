@@ -1,7 +1,26 @@
  
 import Axios from "axios";
 import { useEffect, useState } from "react";
+import styled from "styled-components";
 
+
+const StyledApp = styled.div`
+  background-color: whitesmoke;
+  color: black;
+  border-radius: 17px;
+    position: fixed;
+  @media (prefers-color-scheme: dark) {
+    background-color: rgb(29, 40, 58);
+    color: white;
+  }
+  min-height: 90vh;
+  padding: 20px 20px;
+`;
+
+const AppContainer = styled.div`
+  max-width: fit-content;
+  margin: 0;
+`;
 function Api() {
     // Setting up the initial states using
     // react hook 'useState'
@@ -25,6 +44,7 @@ function Api() {
 
     return (
         <div className="App">
+          <AppContainer>
             <h1>All Cryptocurrencies</h1>
             <input id='Finder'
                 type="text"
@@ -49,7 +69,7 @@ function Api() {
                   {name} 
                                  
                 </tbody>
-            </table>
+            </table></AppContainer> 
         </div>
     );
 }
