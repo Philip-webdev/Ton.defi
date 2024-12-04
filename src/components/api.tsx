@@ -45,7 +45,7 @@ function Api() {
                 GetRank(result.data[0].cmc_rank);
                 GetName(result.data[0].name);
                 GetSymbol(result.data[0].symbol);
-                GetPrice(result.data[0].quote.USD.price); // Assuming you're fetching the first cryptocurrency name
+                GetPrice(result.data[0].quote.USD.price.setPrecision(2)); // Assuming you're fetching the first cryptocurrency name
             })
             .catch((error) => console.log(error));
     } );
