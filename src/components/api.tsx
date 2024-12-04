@@ -26,8 +26,12 @@ function Api() {
     // Setting up the initial states using
     // react hook 'useState'
     const [search, setSearch] = useState("");
-    const [crypto, setCrypto] = useState([]);
-    const [name, GetName] = useState('Dummy');
+   // const [crypto, setCrypto] = useState([]);
+    const [rank, GetRank] = useState(' ');
+    const [name, GetName] = useState(' ');
+    const [symbol, GetSymbol] = useState(' ');
+    const [price, GetPrice] = useState(' ');
+     
 
     // Fetching crypto data from the API only
     // once when the component is mounted
@@ -38,7 +42,10 @@ function Api() {
             .then((res) => res.json())
             .then((result) => {
                 console.log(result);
-                GetName(result.data[0].name); // Assuming you're fetching the first cryptocurrency name
+                GetRank(result.data[0].cmc_rank);
+                GetName(result.data[0].name);
+                GetSymbol(result.data[0].symbol);
+                GetPrice(result.data[0].quote.USD.price); // Assuming you're fetching the first cryptocurrency name
             })
             .catch((error) => console.log(error));
     }, []);
@@ -67,7 +74,10 @@ function Api() {
                 {/* Mapping all the cryptos */}
                 <tbody>
                     {/* Filtering to check for the searched crypto */}
-                  {name} 
+                 <tr> <td>{name}</td>
+                 <td>{name}</td>
+                 <td>{name}</td>
+                 <td>{name}</td></tr>
                                  
                 </tbody>
             </table></AppContainer> 
