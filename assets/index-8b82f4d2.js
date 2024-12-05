@@ -1243,6 +1243,7 @@ Please change the parent <Route path="${At}"> to <Route path="${At==="/"?"*":`${
   color: black;
   border-radius: 17px;
     position: fixed;
+     width:100%;
   @media (prefers-color-scheme: dark) {
     background-color: rgb(29, 40, 58);
     color: white;
@@ -1250,6 +1251,7 @@ Please change the parent <Route path="${At}"> to <Route path="${At==="/"?"*":`${
   min-height: 90vh;
   padding: 20px 20px;
 `;styled.div`
-  max-width: 900px;
+  width: 100%;
+  height:fit-content;
   margin: 0;
 `;const Home=home;function App(){return jsxs("div",{children:[jsx$1(HashRouter,{children:jsxs(Routes,{children:[jsx$1(Route,{path:"/",Component:Home}),jsx$1(Route,{path:"/send",Component:sendCoin})]})}),jsx$1(StyledApp,{children:jsx$1(Home,{})})]})}const index="",manifestUrl="https://raw.githubusercontent.com/ton-community/tutorials/main/03-client/test/public/tonconnect-manifest.json",queryClient=new QueryClient({defaultOptions:{queries:{refetchOnWindowFocus:!1}}});client.createRoot(document.getElementById("root")).render(jsx$1(TonConnectUIProvider$1,{manifestUrl,children:jsx$1(QueryClientProvider,{client:queryClient,children:jsx$1(App,{})})}));
