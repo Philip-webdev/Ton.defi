@@ -6,7 +6,7 @@ import styled from "styled-components";
 const StyledApp = styled.div`
   background-color: #e8e8e8;
   color: black;
-
+ width:100%;
   @media (prefers-color-scheme: dark) {
     background-color: #222;
     color: white;
@@ -18,7 +18,7 @@ const StyledApp = styled.div`
 const AppContainer = styled.div`
   width: 100%;
   height:fit-content;
-  margin: 0 auto;
+  margin: 0;
 `;
 function home(){
     const slide = ()=>{
