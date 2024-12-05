@@ -16,7 +16,8 @@ const StyledApp = styled.div`
 `;
 
 const AppContainer = styled.div`
-  max-width: 900px;
+  width: 100%;
+  height:fit-content;
   margin: 0 auto;
 `;
 function home(){
@@ -28,7 +29,7 @@ function home(){
             const slidex = ['1', '2'];
             currentIndex = (currentIndex + 1) % slidex.length;
             if (slideContents != null){
-            slideContents.style.transform = 'translateX(' + (currentIndex * -innerWidth) + 'px)';
+            slideContents.style.transform = 'translateY(' + (currentIndex * -67.5) + 'px)';
     
             }
         }
@@ -40,30 +41,30 @@ function home(){
         <StyledApp>
             <AppContainer>
                 <div>
-                    <div  id="header" style={{display:'flex', justifyContent:'space-between'}}><div>Settings</div><div>Home</div><div>Scan</div></div>
-                    <div id="showcase" style={{height:'100px', width: '50%', margin:'auto', marginTop:'5%',marginBottom:'5%', background :'white', borderRadius:'7px'}}>This the panel that displays the balance</div>
+                    <div  id="header" style={{display:'flex', justifyContent:'space-between', margin:'0'}}><div><img src='https://i.imgur.com/yRr0m7B.png' height='14px' width='14px'/></div><div>My wallet</div><div><img src="https://i.imgur.com/FtIlp2H.png" height='14px' width='14px'/></div></div>
+                    <div id="showcase" style={{height:'100px', width: '100%', margin:'auto', marginTop:'5%',marginBottom:'5%', backgroundImage :'linear-gradient(to  right, #1FA0FF, #12DAFB, #A7FDCC)', borderRadius:'7px'}}></div>
 
-                <div style={{display:'flex',background :'white', justifyContent:'space-between'}}><div style={{borderRadius:'100%'}}></div>
-                <div style={{borderRadius:'100%'}}>Send</div>
-                <div style={{borderRadius:'100%'}}>Buy</div>
-                <div style={{borderRadius:'100%'}}>Swap</div></div>
+                <div style={{display:'flex',background :'white', justifyContent:'space-around', borderRadius:'7px'}}>
+                <div style={{borderRadius:'100%', padding:'10px'}}><a style={{textDecoration:'none'}} href='#/send'><img src="https://i.imgur.com/hCrmXO1.png" height='24px' width='24px'/></a></div>
+                <div style={{borderRadius:'100%', padding:'10px'}}><a style={{textDecoration:'none'}} href='#/buy'><img src="https://i.imgur.com/VDoLGZY.png" height='24px' width='24px'/></a></div>
+                <div style={{borderRadius:'100%', padding:'10px'}}><a style={{textDecoration:'none'}} href='#/swap'><img src="https://i.imgur.com/R8iA1Vo.png" height='24px' width='24px'/></a></div></div>
                    <br/>
 
-                <div style={{margin:'auto', width:'50%', justifyContent:'center'}}>
-    <div  id='slideContainer' style={{zIndex:'0',marginLeft:'19px' , width:'auto', height:'fit-content', overflow:'hidden',  border:'none', borderRadius:'7px', justifySelf:'center'}}>
-        <div id='slideContents' style={{height:'fit-content', width:'auto', display:'flex', transition:'1s ease'}}>
+                <div style={{ margin:'auto', width:'100%', justifyContent:'center'}}>
+    <div  id='slideContainer' style={{zIndex:'0',marginLeft:'10px' , width:'auto', height:'fit-content', overflow:'hidden',  border:'none', borderRadius:'7px', justifySelf:'center'}}>
+        <div id='slideContents' style={{height:'fit-content', width:'auto',  transition:'1s ease'}}>
 {/* <img src='src/components/WhatsApp_Image_2024-11-29_at_07.00.35_1f4f8a03-removebg-preview.png' height='500px' width='auto'/> */}
 
 <img src='https://i.imgur.com/BbaNXnn.png' height='auto' width='auto' style={{borderRadius:'7px'}}/>
-<img src='https://i.imgur.com/UBMXOLK.png' height='auto' width='auto' style={{marginLeft:'7px',borderRadius:'7px'}}/>
+<img src='https://i.imgur.com/UBMXOLK.png' height='auto' width='auto' style={{marginTop:'7px',borderRadius:'7px'}}/>
         </div></div>
     
 </div> 
-
+<br/> <br/>
 <div>
-    <div style={{display :'flex',  alignContent:'center'}}><div style={{background:"white"}}>Tokens</div><div style={{background:"bisque"}}>NFTs</div></div>
+    <div style={{display :'flex', background:"white", alignContent:'center', borderRadius:'7px'}}><div style={{padding:'10px'}}>Tokens</div><div style={{color:"grey", padding:'10px'}}>NFTs</div></div>
 </div>
-<div>
+<div> <br/> <br/>
     <Api/>
 </div>
                 </div>

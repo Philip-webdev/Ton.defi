@@ -63,11 +63,11 @@ function Api() {
             />
             <table>
                 <thead>
-                    <tr>
-                        <td>Rank</td>
-                        <td>Name</td>
-                        <td>Symbol</td>
-                        <td>Price</td>
+                    <tr style={{gap:'40px'}}>
+                       <b> <td>Rank</td></b>
+                       <b><td>Name</td></b> 
+                       <b> <td>Symbol</td></b>
+                       <b> <td>Price</td></b>
                 
                     </tr>
                 </thead>
