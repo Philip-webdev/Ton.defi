@@ -11,6 +11,7 @@
   color: black;
   border-radius: 17px;
     position: fixed;
+     width:100%;
   @media (prefers-color-scheme: dark) {
     background-color: rgb(29, 40, 58);
     color: white;
@@ -20,7 +21,8 @@
 `;
 
 const AppContainer = styled.div`
-  max-width: 900px;
+  width: 100%;
+  height:fit-content;
   margin: 0;
 `;
 const Home = home;
