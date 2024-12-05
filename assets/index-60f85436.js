@@ -1159,7 +1159,7 @@ PERFORMANCE OF THIS SOFTWARE.
   min-height: 90vh;
   padding: 20px 20px;
 `;const AppContainer$2=styled.div`
-  max-width: fit-content;
+  width: fit-content;
   margin: 0;
 `;function Api(){const[et,tt]=reactExports.useState(""),[rt,nt]=reactExports.useState(" "),[ut,it]=reactExports.useState(" "),[ft,dt]=reactExports.useState(" "),[mt,vt]=reactExports.useState(" ");return reactExports.useEffect(()=>{fetch("https://twa-backend-g83o.onrender.com/api/cryptocurrency").then(yt=>yt.json()).then(yt=>{console.log(yt),nt(yt.data[0].cmc_rank),it(yt.data[0].name),dt(yt.data[0].symbol),vt(yt.data[0].quote.USD.price.toFixed(2))}).catch(yt=>console.log(yt))}),jsx$1("div",{className:"App",children:jsxs(AppContainer$2,{children:[jsx$1("input",{id:"Finder",type:"text",placeholder:"Search...",onChange:yt=>{tt(yt.target.value)}}),jsxs("table",{children:[jsx$1("thead",{children:jsxs("tr",{style:{gap:"40px"},children:[jsxs("b",{children:[" ",jsx$1("td",{children:"Rank"})]}),jsx$1("b",{children:jsx$1("td",{children:"Name"})}),jsxs("b",{children:[" ",jsx$1("td",{children:"Symbol"})]}),jsxs("b",{children:[" ",jsx$1("td",{children:"Price"})]})]})}),jsx$1("tbody",{children:jsxs("tr",{children:[" ",jsx$1("td",{children:rt}),jsx$1("td",{children:ut}),jsx$1("td",{children:ft}),jsx$1("td",{children:mt})]})})]})]})})}const Card=styled.div`
   padding: 18px 20px;
