@@ -19,7 +19,7 @@ const StyledApp = styled.div`
 `;
 
 const AppContainer = styled.div`
-  max-width: fit-content;
+  width: fit-content;
   margin: 0;
 `;
 function Api() {
