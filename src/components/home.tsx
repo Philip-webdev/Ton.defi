@@ -47,12 +47,13 @@ function home(){
             <AppContainer>
                 <div>
                     <div  id="header" style={{display:'flex', justifyContent:'space-between', margin:'0',fontFamily: 'Lexend'}}><div><img src='https://i.imgur.com/yRr0m7B.png' height='14px' width='14px'/></div><div style={{fontFamily: 'Lexend'}}>My wallet</div><div><img src="https://i.imgur.com/0DG5nGo.png" height='14px' width='14px'/></div></div><br/>
-                    <div id="showcase" style={{color: 'white', height:'100px', width: '100%', margin:'auto', marginTop:'5%',marginBottom:'5%',fontFamily: 'Lexend', backgroundImage :'linear-gradient(to  right,  #34495E, #BEC3C7,#EBF1F1)', borderRadius:'7px'}}><p style={{paddingLeft:'7px',paddingTop:'7px',zoom:'90%'}}>Wallet Balance</p><p style={{paddingLeft:'7px', fontWeight:'700'}}>$200,000.00</p></div>
+                    <div id="showcase" style={{borderWidth:'1px',borderStyle:'groove', borderColor: 'white',color: 'white', height:'100px', width: '100%', margin:'auto', marginTop:'5%',marginBottom:'5%',fontFamily: 'Lexend', backgroundImage :'linear-gradient(to  right, #2C3F50, #34495E, #BEC3C7)', borderRadius:'7px'}}><p style={{paddingLeft:'7px',paddingTop:'7px',zoom:'90%'}}>Wallet Balance</p><p style={{paddingLeft:'7px', fontWeight:'600'}}>$200,000.00</p></div>
 
-                <div style={{fontFamily: 'Lexend',display:'flex',background :'white', justifyContent:'space-around', borderRadius:'7px'}}>
-                <div style={{borderRadius:'100%', background :'rgb(225, 250, 209)',padding:'10px'}}><a style={{textDecoration:'none'}} href='#/send'><img src="https://i.imgur.com/XBdXlv9.png" height='24px' width='24px'/></a></div>
-                <div style={{borderRadius:'100%', background :'rgb(255, 244, 201)', padding:'10px'}}><a style={{textDecoration:'none'}} href='#/buy'><img src="https://i.imgur.com/VDoLGZY.png" height='24px' width='24px'/></a></div>
-                <div style={{borderRadius:'100%', background :'rgb(234, 225, 237)', padding:'10px'}}><a style={{textDecoration:'none'}} href='#/swap'><img src="https://i.imgur.com/R8iA1Vo.png" height='24px' width='24px'/></a></div></div>
+                <div style={{fontFamily: 'Lexend',display:'flex',background :'white', justifyContent:'space-around', borderRadius:'7px', borderStyle:'groove', borderColor:'white', borderWidth:'1px'}}>
+                    
+                <div style={{borderRadius:'100%',  padding:'10px'}}><a style={{textDecoration:'none'}} href='#/send'><img src="https://i.imgur.com/pEwpEBs.png" height='24px' width='24px'/></a></div>
+                <div style={{borderRadius:'100%',  padding:'10px'}}><a style={{textDecoration:'none'}} href='#/buy'><img src="https://i.imgur.com/gayUD73.png" height='24px' width='24px'/></a></div>
+                <div style={{borderRadius:'100%',  padding:'10px'}}><a style={{textDecoration:'none'}} href='#/swap'><img src="https://i.imgur.com/8TOrLnG.png" height='24px' width='24px'/></a></div></div>
                    <br/>
 
                 <div style={{ margin:'0', width:'100%', justifyContent:'center'}}>

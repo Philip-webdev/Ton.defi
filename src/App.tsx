@@ -43,7 +43,7 @@ function App() {
     </Routes>
   </HashRouter>
   <StyledApp >
-<Home/>
+ 
 
 
  
