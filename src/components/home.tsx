@@ -54,7 +54,6 @@ function home(){
     <div  id='slideContainer' style={{zIndex:'0',marginLeft:'10px' , width:'auto', height:'fit-content', overflow:'hidden',  border:'none', borderRadius:'7px', justifySelf:'center'}}>
         <div id='slideContents' style={{height:'fit-content', width:'auto',  transition:'1s ease'}}>
 {/* <img src='src/components/WhatsApp_Image_2024-11-29_at_07.00.35_1f4f8a03-removebg-preview.png' height='500px' width='auto'/> */}
-
 <img src='https://i.imgur.com/BbaNXnn.png' height='auto' width='auto' style={{borderRadius:'7px'}}/>
 <img src='https://i.imgur.com/UBMXOLK.png' height='auto' width='auto' style={{marginTop:'7px',borderRadius:'7px'}}/>
         </div></div>
