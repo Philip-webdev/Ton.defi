@@ -1,15 +1,16 @@
 import { useEffect } from "react";
 import Api from "./api";
+import '../index.css';
 import styled from "styled-components";
 import { Button } from "./styled/styled";
 import 'react-icons/bs';
 import 'react-icons/fa';
-import { FaChartBar, FaDiscourse, FaGamepad, FaHome } from "react-icons/fa";
-import { BsFillWalletFill } from "react-icons/bs";
+ 
 
 const StyledApp = styled.div`
   background-color: white;
   color: black;
+font-family: Lexend ;
   
   @media (prefers-color-scheme: dark) {
     background-color: #222;
@@ -45,13 +46,13 @@ function home(){
         <StyledApp>
             <AppContainer>
                 <div>
-                    <div  id="header" style={{display:'flex', justifyContent:'space-between', margin:'0'}}><div><img src='https://i.imgur.com/yRr0m7B.png' height='14px' width='14px'/></div><div>My wallet</div><div><img src="https://i.imgur.com/0DG5nGo.png" height='14px' width='14px'/></div></div>
-                    <div id="showcase" style={{height:'100px', width: '100%', margin:'auto', marginTop:'5%',marginBottom:'5%', backgroundImage :'linear-gradient(to  right, #1FA0FF, #12DAFB, #A7FDCC)', borderRadius:'7px'}}></div>
+                    <div  id="header" style={{display:'flex', justifyContent:'space-between', margin:'0',fontFamily: 'Lexend'}}><div><img src='https://i.imgur.com/yRr0m7B.png' height='14px' width='14px'/></div><div style={{fontFamily: 'Lexend'}}>My wallet</div><div><img src="https://i.imgur.com/0DG5nGo.png" height='14px' width='14px'/></div></div><br/>
+                    <div id="showcase" style={{color: 'white', height:'100px', width: '100%', margin:'auto', marginTop:'5%',marginBottom:'5%',fontFamily: 'Lexend', backgroundImage :'linear-gradient(to  right,  #34495E, #BEC3C7,#EBF1F1)', borderRadius:'7px'}}><p style={{paddingLeft:'7px',paddingTop:'7px',zoom:'90%'}}>Wallet Balance</p><p style={{paddingLeft:'7px', fontWeight:'700'}}>$200,000.00</p></div>
 
-                <div style={{display:'flex',background :'white', justifyContent:'space-around', borderRadius:'7px'}}>
-                <div style={{borderRadius:'100%', background :'whitesmoke',padding:'10px'}}><a style={{textDecoration:'none'}} href='#/send'><img src="https://i.imgur.com/XBdXlv9.png" height='24px' width='24px'/></a></div>
-                <div style={{borderRadius:'100%', background :'whitesmoke', padding:'10px'}}><a style={{textDecoration:'none'}} href='#/buy'><img src="https://i.imgur.com/VDoLGZY.png" height='24px' width='24px'/></a></div>
-                <div style={{borderRadius:'100%', background :'whitesmoke', padding:'10px'}}><a style={{textDecoration:'none'}} href='#/swap'><img src="https://i.imgur.com/R8iA1Vo.png" height='24px' width='24px'/></a></div></div>
+                <div style={{fontFamily: 'Lexend',display:'flex',background :'white', justifyContent:'space-around', borderRadius:'7px'}}>
+                <div style={{borderRadius:'100%', background :'rgb(225, 250, 209)',padding:'10px'}}><a style={{textDecoration:'none'}} href='#/send'><img src="https://i.imgur.com/XBdXlv9.png" height='24px' width='24px'/></a></div>
+                <div style={{borderRadius:'100%', background :'rgb(255, 244, 201)', padding:'10px'}}><a style={{textDecoration:'none'}} href='#/buy'><img src="https://i.imgur.com/VDoLGZY.png" height='24px' width='24px'/></a></div>
+                <div style={{borderRadius:'100%', background :'rgb(234, 225, 237)', padding:'10px'}}><a style={{textDecoration:'none'}} href='#/swap'><img src="https://i.imgur.com/R8iA1Vo.png" height='24px' width='24px'/></a></div></div>
                    <br/>
 
                 <div style={{ margin:'0', width:'100%', justifyContent:'center'}}>
@@ -66,8 +67,8 @@ function home(){
 <br/> <br/>
 <div>
     <div style={{display :'flex', background:"whitesmoke", alignContent:'center', borderRadius:'7px', width:'fit-content'}}><div style={{padding:'10px'}}>Tokens</div><div style={{color:"grey", padding:'10px'}}>NFTs</div></div>
-</div>
-<div> <br/> <br/>
+</div> <br/> <br/>
+<div style={{background:'whitesmoke',padding:'10px',borderRadius:'7px'}}>
     <Api/>
 </div>
                 </div>

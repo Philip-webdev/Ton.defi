@@ -2,6 +2,7 @@
  import styled from "styled-components";
  import send from "./components/Send";
  import "./App.css";
+  
  import "@twa-dev/sdk";
  import { HashRouter, Route, Routes} from "react-router-dom";
 

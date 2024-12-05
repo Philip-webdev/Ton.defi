@@ -54,30 +54,32 @@ function Api() {
         <div className="App">
           <AppContainer>
           
-            <input id='Finder'
+           {/*} <input id='Finder'
                 type="text"
                 placeholder="Search..."
                 onChange={(e) => {
                     setSearch(e.target.value);
                 }}
-            />
+            />*/}
             <table>
-                <thead>
-                    <tr style={{gap:'40px'}}>
+              
+                   {/* <tr style={{gap:'40px'}}>
                        <b> <td>Rank</td></b>
                        <b><td>Name</td></b> 
                        <b> <td>Symbol</td></b>
                        <b> <td>Price</td></b>
                 
-                    </tr>
-                </thead>
+                    </tr>*/}
+               
                 {/* Mapping all the cryptos */}
-                <tbody>
+                <tbody  style={{borderRadius:'7px'}}>
                     {/* Filtering to check for the searched crypto */}
-                 <tr> <td>{rank}</td>
-                 <td>{name}</td>
-                 <td>{symbol}</td>
-                 <td>{price}</td></tr>
+                 <tr style={{borderRadius:'7px'}}>
+                   <td style={{padding:'7px'}}><img src='https://i.imgur.com/sSYmdfQ.png' height='15px' width='15px'/></td>
+                 <td style={{padding:'7px'}}>{name}</td>
+                 <td style={{padding:'7px'}}>{symbol}</td>
+                 <td style={{padding:'7px'}}>{price}</td>
+                 </tr>
                                  
                 </tbody>
             </table></AppContainer> 
