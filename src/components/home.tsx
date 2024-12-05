@@ -8,9 +8,9 @@ import { FaChartBar, FaDiscourse, FaGamepad, FaHome } from "react-icons/fa";
 import { BsFillWalletFill } from "react-icons/bs";
 
 const StyledApp = styled.div`
-  background-color: #e8e8e8;
+  background-color: white;
   color: black;
- width:100%;
+  
   @media (prefers-color-scheme: dark) {
     background-color: #222;
     color: white;
@@ -49,7 +49,7 @@ function home(){
                     <div id="showcase" style={{height:'100px', width: '100%', margin:'auto', marginTop:'5%',marginBottom:'5%', backgroundImage :'linear-gradient(to  right, #1FA0FF, #12DAFB, #A7FDCC)', borderRadius:'7px'}}></div>
 
                 <div style={{display:'flex',background :'white', justifyContent:'space-around', borderRadius:'7px'}}>
-                <div style={{borderRadius:'100%', background :'whitesmoke',padding:'10px'}}><a style={{textDecoration:'none'}} href='#/send'><img src="https://i.imgur.com/hCrmXO1.png" height='24px' width='24px'/></a></div>
+                <div style={{borderRadius:'100%', background :'whitesmoke',padding:'10px'}}><a style={{textDecoration:'none'}} href='#/send'><img src="https://i.imgur.com/XBdXlv9.png" height='24px' width='24px'/></a></div>
                 <div style={{borderRadius:'100%', background :'whitesmoke', padding:'10px'}}><a style={{textDecoration:'none'}} href='#/buy'><img src="https://i.imgur.com/VDoLGZY.png" height='24px' width='24px'/></a></div>
                 <div style={{borderRadius:'100%', background :'whitesmoke', padding:'10px'}}><a style={{textDecoration:'none'}} href='#/swap'><img src="https://i.imgur.com/R8iA1Vo.png" height='24px' width='24px'/></a></div></div>
                    <br/>
@@ -65,7 +65,7 @@ function home(){
 </div> 
 <br/> <br/>
 <div>
-    <div style={{display :'flex', background:"white", alignContent:'center', borderRadius:'7px', width:'fit-content'}}><div style={{padding:'10px'}}>Tokens</div><div style={{color:"grey", padding:'10px'}}>NFTs</div></div>
+    <div style={{display :'flex', background:"whitesmoke", alignContent:'center', borderRadius:'7px', width:'fit-content'}}><div style={{padding:'10px'}}>Tokens</div><div style={{color:"grey", padding:'10px'}}>NFTs</div></div>
 </div>
 <div> <br/> <br/>
     <Api/>
