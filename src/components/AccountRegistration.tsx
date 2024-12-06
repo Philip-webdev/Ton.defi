@@ -81,7 +81,7 @@ return(
     </div>
     <div className="input-group">
         
-        <input type="number"  placeholder={bvnDateOfBirth} value={AccountData.bvnDetails}
+        <input type="text"  placeholder={bvnDateOfBirth} value={bvnDateOfBirth}
              onChange={(e) => setBvnDateOfBirth(e.target.value)}/>
     </div>
     <div className="input-group">
