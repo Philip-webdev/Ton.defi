@@ -60,7 +60,7 @@ function home(){
         fetch('https://twa-backend-g83o.onrender.com/AccBalance').then((res) => res.json())
               .then((result) => {
                 console.log(result);
-                setAccountName(result.responseBody.availableBalance);
+                setAccountBalance(result.responseBody.availableBalance);
                 })
                 
                 .catch((error) => console.log(error));
@@ -71,8 +71,14 @@ function home(){
             
             <AppContainer>
                 <div>
-                    <div  id="header" style={{display:'flex', justifyContent:'space-between', margin:'0',fontFamily: 'Lexend'}}><div><img src='https://i.imgur.com/yRr0m7B.png' height='14px' width='14px'/></div><div style={{fontFamily: 'Lexend'}}>My Account</div><div><img src="https://i.imgur.com/0DG5nGo.png" height='14px' width='14px'/></div></div><br/>
-                    <div id="showcase" style={{ color: 'white', height:'100px', width: '100%', margin:'auto', marginTop:'5%',marginBottom:'5%',fontFamily: 'Lexend', backgroundImage :'linear-gradient(to  right, #2C3F50, #34495E, #BEC3C7)', borderRadius:'10px'}}><p style={{paddingLeft:'7px',paddingTop:'7px',zoom:'90%'}}>Wallet Balance</p><p style={{paddingLeft:'7px', fontWeight:'600'}}>{AccountBalance}</p></div>
+                    <div  id="header" style={{display:'flex', justifyContent:'space-between', margin:'0',fontFamily: 'Lexend'}}>
+                      <div>
+                      <img src='https://i.imgur.com/yRr0m7B.png' height='14px' width='14px'/></div><div style={{fontFamily: 'Lexend'}}> <a href='#/register' style={{color:'black', textDecoration:'none'}}> My Account </a></div><div><img src="https://i.imgur.com/0DG5nGo.png" height='14px' width='14px'/>
+                    </div>
+                    </div><br/>
+                    <div id="showcase" style={{ color: 'white', height:'100px', width: '100%', margin:'auto', marginTop:'5%',marginBottom:'5%',fontFamily: 'Lexend', backgroundImage :'linear-gradient(to  right, #2C3F50, #34495E, #BEC3C7)', borderRadius:'10px'}}><p style={{paddingLeft:'7px',paddingTop:'7px',zoom:'90%'}}>Wallet Balance</p>
+                    <p style={{paddingLeft:'7px',color:'white' ,fontWeight:'600'}}>{AccountName}</p><br/>
+                    <p style={{paddingLeft:'7px', fontWeight:'600'}}>{AccountBalance}</p></div>
 
                 <div style={{fontFamily: 'Lexend',display:'flex',background :'white', justifyContent:'space-around', borderRadius:'7px', borderStyle:'groove', borderColor:'white', borderWidth:'1px'}}>
                     

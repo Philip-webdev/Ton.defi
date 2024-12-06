@@ -136,7 +136,7 @@ const ABI = [
         <label htmlFor="amount">Amount:</label>
         <input type="number" id="amount" placeholder="Amount"/>
     </div>
-    <div style={{margin:'auto', width:'50%'}}><button onClick={swapTokens}>Swap Tokens</button></div>
+    <div style={{margin:'auto', width:'50%'}}> <button id='swapper' type="button" onClick={swapTokens}>Swap Tokens</button></div>
     <div id="result"></div>
     <div id="loader" className="hidden"></div>
     </div>

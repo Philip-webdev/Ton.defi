@@ -16,9 +16,9 @@ label {
     width: 100px;
 }
 
-input[type="text"],
-input[type="number"],
-button {
+input[type="text"],input[type="number"],
+input[type="email"]
+ {
     padding: 5px 10px;
     font-size: 16px;
 }
@@ -27,8 +27,13 @@ button {
     background-color: #007bff;
     color: white;
     border: none;
-    cursor: pointer;
     
+    cursor: pointer;
+    padding: 5px 10px;
+    
+}
+#swapper{
+    width:100px;
 }
 
 button:hover {

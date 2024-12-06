@@ -2,7 +2,7 @@
  import styled from "styled-components";
  import send from "./components/Send";
  import "./App.css";
-  
+  import Register from "./components/AccountRegistration";
  import "@twa-dev/sdk";
  import { HashRouter, Route, Routes} from "react-router-dom";
 import swap from "./components/swap";
@@ -38,6 +38,7 @@ function App() {
     <Route path="/" Component={Home}/>
     <Route path="/send" Component={send}/>
     <Route path="/swap" Component={swap}/>
+    <Route path="/register" Component={Register}/>
     
      
     </Routes>
