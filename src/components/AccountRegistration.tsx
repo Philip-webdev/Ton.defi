@@ -43,7 +43,7 @@ const [walletReference, setWalletreference] = useState("ref"+ Math.floor((Math.r
       
   
         try {
-            const response = await fetch('https://twa-backend-g83o.onrender.com//api/monnify', {
+            const response = await fetch('https://twa-backend-g83o.onrender.com/api/monnify', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
