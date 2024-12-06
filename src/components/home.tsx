@@ -1,17 +1,18 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import Api from "./api";
 import '../index.css';
 import styled from "styled-components";
 import { Button } from "./styled/styled";
 import 'react-icons/bs';
 import 'react-icons/fa';
+import { Helmet } from 'react-helmet';
  
 
 const StyledApp = styled.div`
-  background-color: white;
+  background-color: whitesmoke;
   color: black;
 font-family: Lexend ;
-  
+  border-radius:7px;
   @media (prefers-color-scheme: dark) {
     background-color: #222;
     color: white;
@@ -42,18 +43,42 @@ function home(){
        }
     useEffect(()=>{
        slide();} ,[])
+
+       const [AccountName, setAccountName] = useState('*****');
+       const [AccountBalance, setAccountBalance] = useState('***')
+       useEffect(()=>{
+        fetch('https://twa-backend-g83o.onrender.com/walletdetails').then((res) => res.json())
+              .then((result) => {
+                console.log(result);
+                setAccountName(result.walletName);
+                })
+                
+                .catch((error) => console.log(error));
+      });
+
+      useEffect(()=>{
+        fetch('https://twa-backend-g83o.onrender.com/AccBalance').then((res) => res.json())
+              .then((result) => {
+                console.log(result);
+                setAccountName(result.responseBody.availableBalance);
+                })
+                
+                .catch((error) => console.log(error));
+      });
+      
     return(
         <StyledApp>
+            
             <AppContainer>
                 <div>
-                    <div  id="header" style={{display:'flex', justifyContent:'space-between', margin:'0',fontFamily: 'Lexend'}}><div><img src='https://i.imgur.com/yRr0m7B.png' height='14px' width='14px'/></div><div style={{fontFamily: 'Lexend'}}>My wallet</div><div><img src="https://i.imgur.com/0DG5nGo.png" height='14px' width='14px'/></div></div><br/>
-                    <div id="showcase" style={{borderWidth:'1px',borderStyle:'groove', borderColor: 'white',color: 'white', height:'100px', width: '100%', margin:'auto', marginTop:'5%',marginBottom:'5%',fontFamily: 'Lexend', backgroundImage :'linear-gradient(to  right, #2C3F50, #34495E, #BEC3C7)', borderRadius:'7px'}}><p style={{paddingLeft:'7px',paddingTop:'7px',zoom:'90%'}}>Wallet Balance</p><p style={{paddingLeft:'7px', fontWeight:'600'}}>$200,000.00</p></div>
+                    <div  id="header" style={{display:'flex', justifyContent:'space-between', margin:'0',fontFamily: 'Lexend'}}><div><img src='https://i.imgur.com/yRr0m7B.png' height='14px' width='14px'/></div><div style={{fontFamily: 'Lexend'}}>My Account</div><div><img src="https://i.imgur.com/0DG5nGo.png" height='14px' width='14px'/></div></div><br/>
+                    <div id="showcase" style={{ color: 'white', height:'100px', width: '100%', margin:'auto', marginTop:'5%',marginBottom:'5%',fontFamily: 'Lexend', backgroundImage :'linear-gradient(to  right, #2C3F50, #34495E, #BEC3C7)', borderRadius:'10px'}}><p style={{paddingLeft:'7px',paddingTop:'7px',zoom:'90%'}}>Wallet Balance</p><p style={{paddingLeft:'7px', fontWeight:'600'}}>{AccountBalance}</p></div>
 
                 <div style={{fontFamily: 'Lexend',display:'flex',background :'white', justifyContent:'space-around', borderRadius:'7px', borderStyle:'groove', borderColor:'white', borderWidth:'1px'}}>
                     
                 <div style={{borderRadius:'100%',  padding:'10px'}}><a style={{textDecoration:'none'}} href='#/send'><img src="https://i.imgur.com/pEwpEBs.png" height='24px' width='24px'/></a></div>
                 <div style={{borderRadius:'100%',  padding:'10px'}}><a style={{textDecoration:'none'}} href='#/buy'><img src="https://i.imgur.com/gayUD73.png" height='24px' width='24px'/></a></div>
-                <div style={{borderRadius:'100%',  padding:'10px'}}><a style={{textDecoration:'none'}} href='#/swap'><img src="https://i.imgur.com/8TOrLnG.png" height='24px' width='24px'/></a></div></div>
+                <div style={{borderRadius:'100%',  padding:'10px'}}><a style={{textDecoration:'none'}} href='#/swap'><img src="https://i.imgur.com/ajZ5VgY.png" height='24px' width='24px'/></a></div></div>
                    <br/>
 
                 <div style={{ margin:'0', width:'100%', justifyContent:'center'}}>
@@ -67,9 +92,9 @@ function home(){
 </div> 
 <br/> <br/>
 <div>
-    <div style={{display :'flex', background:"whitesmoke", alignContent:'center', borderRadius:'7px', width:'fit-content'}}><div style={{padding:'10px'}}>Tokens</div><div style={{color:"grey", padding:'10px'}}>NFTs</div></div>
+    <div style={{display :'flex', background:"white", alignContent:'center', borderRadius:'7px', width:'fit-content'}}><div style={{padding:'10px',borderRightColor:'red', borderStyle:'groove', borderLeft:'none',borderTop:'none',borderBottom:'none',borderWidth:'1px'}}>Tokens</div><div style={{color:"grey", padding:'10px'}}>NFTs</div></div>
 </div> <br/> <br/>
-<div style={{background:'whitesmoke',padding:'10px',borderRadius:'7px'}}>
+<div style={{background:'white',padding:'10px',borderRadius:'7px'}}>
     <Api/>
 </div>
                 </div>

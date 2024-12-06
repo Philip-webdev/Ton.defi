@@ -1,6 +1,3 @@
- 
-import axios from "axios";
-import Axios from "axios";
 import { useEffect, useState } from "react";
 import styled from "styled-components";
 
@@ -48,8 +45,9 @@ function Api() {
                 GetPrice(result.data[0].quote.USD.price.toFixed(2)); // Assuming you're fetching the first cryptocurrency name
             })
             .catch((error) => console.log(error));
+            
     } );
-    
+   
     return (
         <div className="App">
           <AppContainer>
@@ -77,10 +75,10 @@ function Api() {
                  <tr style={{borderRadius:'7px'}}>
                    <td style={{padding:'7px'}}><img src='https://i.imgur.com/sSYmdfQ.png' height='15px' width='15px'/></td>
                  <td style={{padding:'7px'}}>{name}</td>
-                 <td style={{padding:'7px'}}>{symbol}</td>
-                 <td style={{padding:'7px'}}>{price}</td>
+                 <td style={{paddingRight:'17px'}}>{symbol}</td>
+                 <td style={{   paddingLeft:'57px'}}>${price}</td>
                  </tr>
-                                 
+                              
                 </tbody>
             </table></AppContainer> 
         </div>

@@ -5,7 +5,7 @@
   
  import "@twa-dev/sdk";
  import { HashRouter, Route, Routes} from "react-router-dom";
-
+import swap from "./components/swap";
 
  const StyledApp = styled.div`
   background-color: whitesmoke;
@@ -37,7 +37,7 @@ function App() {
     <Routes>
     <Route path="/" Component={Home}/>
     <Route path="/send" Component={send}/>
-
+    <Route path="/swap" Component={swap}/>
     
      
     </Routes>
