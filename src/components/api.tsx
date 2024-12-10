@@ -22,7 +22,7 @@ const AppContainer = styled.div`
 
 interface CryptoData {
     logo: string;
-    id: object;
+    id:  string;
     cmc_rank: number;
     name: string;
     symbol: string;
@@ -80,7 +80,7 @@ function Api() {
                     </thead>
                     <tbody>
                         {cryptos.map((crypto) => (
-                            <CryptoRow key={crypto.cmc_rank} crypto={crypto} />
+                            <CryptoRow key={crypto.id} crypto={crypto} />
                         ))}
                     </tbody>
                 </table>
