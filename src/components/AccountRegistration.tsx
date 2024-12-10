@@ -4,10 +4,10 @@ import { Button } from "./styled/styled";
 
 
 const StyledApp = styled.div`
-  background-color: whitesmoke;
+  background-color: #F9F9F9;
   color: black;
   border-radius: 17px;
-    position: fixed;
+    position:  ;
   @media (prefers-color-scheme: dark) {
     background-color: rgb(29, 40, 58);
     color: white;
@@ -62,6 +62,7 @@ const [walletReference, setWalletreference] = useState("ref"+ Math.floor((Math.r
         }
     };
 return(
+    <StyledApp>
     <AppContainer>
     <div style={{margin:'auto', width:'50%'}}><h2 style={{zoom:'90%'}}>Fiat way</h2>
 <form>
@@ -99,7 +100,7 @@ return(
     </form>
     </div>
     
-    <div style={{right:'0.1%', bottom:'0%', display:'flex',justifyContent:'space-evenly' ,height:'fit-content',background:'#e8e8e8', width:'100%', paddingBottom:'10px', paddingRight:'10px',position:'fixed', borderRadius:'7px'}}>
+    <div style={{right:'0.1%', bottom:'0%', display:'flex',justifyContent:'space-evenly' ,height:'fit-content',background:'white', width:'100%', paddingBottom:'10px', paddingRight:'10px',position:'fixed', borderRadius:'7px'}}>
             <a href='#/fav' style={{color:'black', textDecoration:'none'}}> 
             <Button  style={{  fontFamily: 'Lexend' ,  marginLeft:'20px',bottom:'0%', marginRight:'27px', background:'none', color:"black"}}><img src='https://i.imgur.com/uxozY7V.png' height='14px' width='14px' />
             <p style={{zoom:'80%'}}>Home</p> </Button></a>
@@ -109,7 +110,7 @@ return(
               <p style={{zoom:'80%'}}>market</p></Button></a> <a href='#/task' style={{color:'black', textDecoration:'none'}}><Button  style={{ fontFamily: 'Lexend' ,bottom:'0%', background:'none', color:"black"}}><img src='https://i.imgur.com/S444rBc.png'height='14px' width='14px'/>
               <p style={{zoom:'80%'}}>Discover</p> </Button></a>
             </div>
-    </AppContainer>
+    </AppContainer></StyledApp>
 )
 }
 export default Register;

@@ -9,7 +9,7 @@ import { Helmet } from 'react-helmet';
  
 
 const StyledApp = styled.div`
-  background-color: whitesmoke;
+  background-color: #F9F9F9;
   color: black;
 font-family: Lexend ;
   border-radius:7px;
@@ -17,7 +17,7 @@ font-family: Lexend ;
     background-color: #222;
     color: white;
   }
-  min-height: 100vh;
+  min-height: 120vh;
   padding: 20px 20px;
 `;
 
@@ -76,7 +76,7 @@ function home(){
                       <img src='https://i.imgur.com/yRr0m7B.png' height='14px' width='14px'/></div><div style={{fontFamily: 'Lexend'}}> <a href='#/register' style={{color:'black', textDecoration:'none'}}> My Account </a></div><div><img src="https://i.imgur.com/0DG5nGo.png" height='14px' width='14px'/>
                     </div>
                     </div><br/>
-                    <div id="showcase" style={{ color: 'white', height:'100px', width: '100%', margin:'auto', marginTop:'5%',marginBottom:'5%',fontFamily: 'Lexend', backgroundImage :'linear-gradient(to  right, #2C3F50, #34495E, #BEC3C7)', borderRadius:'10px'}}><p style={{paddingLeft:'7px',paddingTop:'7px',zoom:'90%'}}>Wallet Balance</p>
+                    <div id="showcase" style={{ color: 'white', height:'150px', width: '100%', margin:'auto', marginTop:'5%',marginBottom:'5%',fontFamily: 'Lexend', backgroundImage :'linear-gradient(to top  right, #00178F, #4B96FF, #CBD8E8)', borderRadius:'10px'}}><p style={{paddingLeft:'7px',paddingTop:'7px',zoom:'90%'}}>Wallet Balance</p>
                     <p style={{paddingLeft:'7px',color:'white' ,fontWeight:'600'}}>{AccountName}</p><br/>
                     <p style={{paddingLeft:'7px', fontWeight:'600'}}>{AccountBalance}</p></div>
 
@@ -100,12 +100,13 @@ function home(){
 <div>
     <div style={{display :'flex', background:"white", alignContent:'center', borderRadius:'7px', width:'fit-content'}}><div style={{padding:'10px',borderRightColor:'red', borderStyle:'groove', borderLeft:'none',borderTop:'none',borderBottom:'none',borderWidth:'1px'}}>Tokens</div><div style={{color:"grey", padding:'10px'}}>NFTs</div></div>
 </div> <br/> <br/>
-<div style={{background:'white',padding:'10px',borderRadius:'7px'}}>
+<div style={{background:'white',padding:'10px',borderRadius:'7px', height:'fit-content',width:'fit-content'}}>
     <Api/>
+    
 </div>
                 </div>
 
-                <div style={{right:'0.1%', bottom:'0%', display:'flex',justifyContent:'space-evenly' ,height:'fit-content',background:'#e8e8e8', width:'100%', paddingBottom:'10px', paddingRight:'10px',position:'fixed', borderRadius:'7px'}}>
+                <div style={{right:'0.1%', bottom:'0%', display:'flex',justifyContent:'space-evenly' ,height:'fit-content',background:'white', width:'100%', paddingBottom:'10px', paddingRight:'10px',position:'fixed', borderRadius:'7px'}}>
             <a href='#/fav' style={{color:'black', textDecoration:'none'}}> 
             <Button  style={{  fontFamily: 'Lexend' ,  marginLeft:'20px',bottom:'0%', marginRight:'27px', background:'none', color:"black"}}><img src='https://i.imgur.com/uxozY7V.png' height='14px' width='14px' />
             <p style={{zoom:'80%'}}>Home</p> </Button></a>
