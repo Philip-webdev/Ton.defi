@@ -46,32 +46,85 @@ const bvndetails = document.getElementById(' bvnDetails')?.nodeValue;
     };
     const handleSubmit = async (e: { preventDefault: () => void; }) => {
         e.preventDefault(); // Prevent the default form submission
-  
-        const apiKey = "MK_TEST_GPRT2H96LH";
-        const clientSecret = "WP1FP56Y8RN58W7RSJFUWAHKCWD6BLD1";
+        interface BVNDetails {
+            bvn: string; // Replace with actual BVN
+            bvnDateOfBirth: string;
+        }
+        
+        interface WalletRequest {
+            walletReference: string;
+            walletName: string;
+            customerName: string;
+            bvnDetails: BVNDetails;
+            customerEmail: string;
+        }
+        
+        // Prepare the request body
+        const requestBody: WalletRequest = {
+            walletReference: "ref16842048425966",
+            walletName: "Staging Wallet - ref16804248425966",
+            customerName: "John Doe",
+            bvnDetails: {
+                bvn: "12345678901", // Replace with actual BVN
+                bvnDateOfBirth: "1997-04-08"
+            },
+            customerEmail: "smekia@gmail.com"
+        };
+        
+        // Create Base64 encoded string for Basic Auth
+        const apiKey = 'YOUR_API_KEY'; // Replace with your actual API key
+        const clientSecret = 'YOUR_CLIENT_SECRET'; // Replace with your actual client secret
         const authString = Buffer.from(`${apiKey}:${clientSecret}`).toString('base64');
+        
+        // Set up fetch options
+        const options = {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Basic ${authString}`
+            },
+            body: JSON.stringify(requestBody) // Convert request body to JSON string
+        };
+        
+        // Make the POST request
+        fetch('https://sandbox.monnify.com/api/v1/disbursements/wallet', options)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                return response.json(); // Parse JSON response
+            })
+            .then(data => {
+                console.log('Success:', data); // Handle success response
+            })
+            .catch(error => {
+                console.error('Error:', error); // Handle error response
+            });
+        // const apiKey = "MK_TEST_GPRT2H96LH";
+        // const clientSecret = "WP1FP56Y8RN58W7RSJFUWAHKCWD6BLD1";
+        // const authString = Buffer.from(`${apiKey}:${clientSecret}`).toString('base64');
            
   
-        try {
-            const url = `https://sandbox.monnify.com/api/v1/disbursements/wallet`;
-            const response = await fetch(url, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                     Authorization: `Basic ${authString}`
-                },
-                body: JSON.stringify(AccountData), // Convert the data to JSON
-            });
+        // try {
+        //     const url = `https://sandbox.monnify.com/api/v1/disbursements/wallet`;
+        //     const response = await fetch(url, {
+        //         method: 'POST',
+        //         headers: {
+        //             'Content-Type': 'application/json',
+        //              Authorization: `Basic ${authString}`
+        //         },
+        //         body: JSON.stringify(AccountData), // Convert the data to JSON
+        //     });
   
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
+        //     if (!response.ok) {
+        //         throw new Error('Network response was not ok');
+        //     }
   
-            const result = await response.json();
-            console.log('Profile saved:', result); // Handle the response as needed
-        } catch (error) {
-            console.error('Error saving profile:', error);
-        }
+        //     const result = await response.json();
+        //     console.log('Profile saved:', result); // Handle the response as needed
+        // } catch (error) {
+        //     console.error('Error saving profile:', error);
+        // }
     };
 return(
     <StyledApp>
