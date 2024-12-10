@@ -45,13 +45,18 @@ const bvndetails = document.getElementById(' bvnDetails')?.nodeValue;
     const handleSubmit = async (e: { preventDefault: () => void; }) => {
         e.preventDefault(); // Prevent the default form submission
   
-      
+        const apiKey = "MK_TEST_GPRT2H96LH";
+        const clientSecret = "WP1FP56Y8RN58W7RSJFUWAHKCWD6BLD1";
+        const authString = Buffer.from(`${apiKey}:${clientSecret}`).toString('base64');
+           
   
         try {
-            const response = await fetch('https://twa-backend-g83o.onrender.com/api/monnify', {
+            const url = `https://sandbox.monnify.com/api/v1/disbursements/wallet`;
+            const response = await fetch(url, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
+                     Authorization: `Basic ${authString}`
                 },
                 body: JSON.stringify(AccountData), // Convert the data to JSON
             });
