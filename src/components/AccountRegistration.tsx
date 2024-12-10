@@ -28,11 +28,17 @@ function Register() {
   const [bvn, setBvn] = useState('Your Bvn Number');
   const [bvnDateOfBirth, setBvnDateOfBirth] = useState('Your Bvn dob');
 const [walletReference, setWalletreference] = useState("ref563464855848565");
+const bvnDetail=  {bvn:bvn, bvnDateOfBirth:bvnDateOfBirth }
+const customer = document.getElementById('customerName')?.nodeValue;
+const walletN = document.getElementById('walletName')?.nodeValue;
+const Email = document.getElementById('customerEmail')?.nodeValue;
+const bvndetails = document.getElementById(' bvnDetails')?.nodeValue;
+
 
     const AccountData = {
-        customerName:customerName,
-        walletNAme: walletName ,
-        customerEmail: customerEmail,
+        customerName:customer,
+        walletNAme: walletN ,
+        customerEmail:  Email,
         bvnDetails: {bvn:bvn, bvnDateOfBirth:bvnDateOfBirth },
         walletReference: walletReference
     };
@@ -66,12 +72,12 @@ return(
     <div style={{margin:'auto', width:'50%'}}><h2 style={{zoom:'90%'}}>Fiat way</h2>
 <form>
 <div className="input-group">
-        <input type="text" id="fromToken" placeholder={customerName} value={customerName}
+        <input type="text" id="customerName" placeholder={customerName} value={customerName}
              onChange={(e) => setCustomerName(e.target.value)}/>
 </div>
     <div className="input-group">
      
-        <input type="text" id="toToken" placeholder={walletName} value={walletName}
+        <input type="text" id="walletName" placeholder={walletName} value={walletName}
              onChange={(e) => setWalletname(e.target.value)}/>
     </div>
     <div className="input-group">
@@ -91,7 +97,7 @@ return(
     </div>
     <div className="input-group">
         
-        <input type="email"  placeholder={customerEmail} value={customerEmail}
+        <input type="email" id="customerEmail" placeholder={customerEmail} value={customerEmail}
              onChange={(e) => setEmail(e.target.value)}/>
     </div>
     <div className="input-group">
