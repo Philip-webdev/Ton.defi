@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import styled from "styled-components";
 import { Button } from "./styled/styled";
+import { StringDecoder } from "string_decoder";
 
 
 const StyledApp = styled.div`
@@ -32,13 +33,14 @@ const bvnDetail=  {bvn:bvn, bvnDateOfBirth:bvnDateOfBirth }
 const customer = document.getElementById('customerName')?.nodeValue;
 const walletN = document.getElementById('walletName')?.nodeValue;
 const Email = document.getElementById('customerEmail')?.nodeValue;
+if(Email != null){ const email = Email;}
 const bvndetails = document.getElementById(' bvnDetails')?.nodeValue;
 
 
     const AccountData = {
-        customerName:customer,
-        walletNAme: walletN ,
-        customerEmail:  Email,
+        customerName:customerName,
+        walletNAme:walletName,
+        customerEmail:  customerEmail,
         bvnDetails: {bvn:bvn, bvnDateOfBirth:bvnDateOfBirth },
         walletReference: walletReference
     };
