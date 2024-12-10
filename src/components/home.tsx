@@ -44,7 +44,7 @@ function home(){
     useEffect(()=>{
        slide();} ,[])
 
-       const [AccountName, setAccountName] = useState('*****');
+       const [AccountName, setAccountName] = useState('Dummy name');
        const [AccountBalance, setAccountBalance] = useState('***')
        useEffect(()=>{
         fetch('https://twa-backend-g83o.onrender.com/walletdetails').then((res) => res.json())

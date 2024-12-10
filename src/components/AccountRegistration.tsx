@@ -22,16 +22,15 @@ const AppContainer = styled.div`
 `;
 function Register() {
    
-    const [Accountname, setAccountName] = useState('Account Name');
+    const [customerName, setCustomerName] = useState('Customer Name');
   const [walletName, setWalletname] = useState(' Wallet Name');
   const [customerEmail, setEmail] = useState('Your Email');
-  const [AccountNo, setAccountNo] = useState('Your Account Number');
   const [bvn, setBvn] = useState('Your Bvn Number');
   const [bvnDateOfBirth, setBvnDateOfBirth] = useState('Your Bvn dob');
 const [walletReference, setWalletreference] = useState("ref"+ Math.floor((Math.random() * 1000000000) + 1));
 
     const AccountData = {
-        Accountname:Accountname,
+        customerName:customerName,
         walletNAme: walletName ,
         customerEmail: customerEmail,
         bvnDetails: {bvn:bvn, bvnDateOfBirth:bvnDateOfBirth },
@@ -67,8 +66,8 @@ return(
     <div style={{margin:'auto', width:'50%'}}><h2 style={{zoom:'90%'}}>Fiat way</h2>
 <form>
 <div className="input-group">
-        <input type="text" id="fromToken" placeholder={Accountname} value={Accountname}
-             onChange={(e) => setAccountName(e.target.value)}/>
+        <input type="text" id="fromToken" placeholder={customerName} value={customerName}
+             onChange={(e) => setCustomerName(e.target.value)}/>
 </div>
     <div className="input-group">
      
