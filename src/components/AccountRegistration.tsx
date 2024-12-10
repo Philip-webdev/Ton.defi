@@ -27,7 +27,7 @@ function Register() {
   const [customerEmail, setEmail] = useState('Your Email');
   const [bvn, setBvn] = useState('Your Bvn Number');
   const [bvnDateOfBirth, setBvnDateOfBirth] = useState('Your Bvn dob');
-const [walletReference, setWalletreference] = useState("ref5664855848565");
+const [walletReference, setWalletreference] = useState("ref563464855848565");
 
     const AccountData = {
         customerName:customerName,
@@ -86,7 +86,7 @@ return(
     </div>
     <div className="input-group">
         
-        <input type="number"   value={walletReference}
+        <input type="text"   value={walletReference}
              onFocus={(e) => setWalletreference(e.target.value)}/>
     </div>
     <div className="input-group">
@@ -95,7 +95,7 @@ return(
              onChange={(e) => setEmail(e.target.value)}/>
     </div>
     <div className="input-group">
-    <button style={{}} type="button" onClick={handleSubmit}>Open Account</button></div>
+    <button  type="button" onClick={handleSubmit}>Open Account</button></div>
     </form>
     </div>
     
