@@ -27,7 +27,7 @@ function Register() {
   const [customerEmail, setEmail] = useState('Your Email');
   const [bvn, setBvn] = useState('Your Bvn Number');
   const [bvnDateOfBirth, setBvnDateOfBirth] = useState('Your Bvn dob');
-const [walletReference, setWalletreference] = useState("ref"+ Math.floor((Math.random() * 1000000000) + 1));
+const [walletReference, setWalletreference] = useState("ref5664855848565");
 
     const AccountData = {
         customerName:customerName,
