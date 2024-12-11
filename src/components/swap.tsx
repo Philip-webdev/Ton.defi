@@ -13,6 +13,7 @@ import   { Web3 } from 'web3';
 const StyledApp = styled.div`
   background-color: #F9F9F9;
   color: black;
+    border-radius: 17px;
 font-family: Lexend ;
   
   @media (prefers-color-scheme: dark) {
@@ -27,6 +28,7 @@ const AppContainer = styled.div`
   width: 100%;
   height:fit-content;
   margin: 0;
+  font-family: Lexend ;
 `;
 
 function swap(){
@@ -122,9 +124,11 @@ const ABI = [
     return(
         <StyledApp><Helmet><script src="https://cdn.jsdelivr.net/npm/web3@1.6.0/dist/web3.min.js"></script></Helmet>
             <AppContainer>
+
+<div style={{margin:'auto', width:'fit-content', justifyContent:'center', borderRadius:'7px', background:'white', padding:'10px'}}>
 <div><h1>Token Swap</h1></div>
-<div style={{margin:'auto', width:'50%'}}>
-<div className="input-group">
+  <form>
+<div className="input-group" >
         <label htmlFor="fromToken">From Token:</label>
         <input type="text" id="fromToken" placeholder="Token Address"/>
     </div>
@@ -137,6 +141,7 @@ const ABI = [
         <input type="number" id="amount" placeholder="Amount"/>
     </div>
     <div style={{margin:'auto', width:'50%'}}> <button id='swapper' type="button" onClick={swapTokens}>Swap Tokens</button></div>
+    </form>
     <div id="result"></div>
     <div id="loader" className="hidden"></div>
     </div>

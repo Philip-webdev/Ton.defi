@@ -1,24 +1,27 @@
 import { useEffect, useState } from "react";
 import styled from "styled-components";
 import { Button } from "./styled/styled";
-
+import '../index.css';
 
 const StyledApp = styled.div`
   background-color: #F9F9F9;
   color: black;
   border-radius: 17px;
     position:  ;
+    font-family: Lexend ;
   @media (prefers-color-scheme: dark) {
     background-color: rgb(29, 40, 58);
     color: white;
   }
-  min-height: 90vh;
+  min-height: 100vh;
   padding: 20px 20px;
 `;
 
 const AppContainer = styled.div`
-  width: fit-content;
+   width: 100%;
+  height:fit-content;
   margin: 0;
+  font-family: Lexend ;
 `;
 function Register() {
    
@@ -69,7 +72,9 @@ const [walletReference, setWalletreference] = useState("ref563464855848565");
 return(
     <StyledApp>
     <AppContainer>
-    <div style={{margin:'auto', width:'50%'}}><h2 style={{zoom:'90%'}}>Fiat way</h2>
+        
+    <div style={{margin:'auto', width:'fit-content', justifyContent:'center', background:'white', borderRadius:'7px', padding:'10px'}}>
+    <div><h1 >Fiat way</h1></div>
 <form>
 <div className="input-group">
         <input type="text" id="customerName" placeholder={customerName} value={customerName}
@@ -101,7 +106,8 @@ return(
              onChange={(e) => setEmail(e.target.value)}/>
     </div>
     <div className="input-group">
-    <button  type="button" onClick={handleSubmit}>Open Account</button></div>
+    <div style={{margin:'auto', width:'50%'}}><button  type="button" onClick={handleSubmit}>Open Account</button></div>
+    </div>
     </form>
     </div>
     

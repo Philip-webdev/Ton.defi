@@ -40,12 +40,25 @@ function home(){
             }
         }
         setInterval(changeSlide, 2000);
+
+        const InfoContents = document.getElementById('InfoContents');
+        const InfoContainer = document.getElementById('InfoContainer');
+        var currentIndex = 0;
+        function swipeInfo(){
+            const slider = ['1', '2'];
+            currentIndex = (currentIndex + 1) % slider.length;
+            if (InfoContents != null){
+            InfoContents.style.transform = 'translateY(' + (currentIndex * -57.0) + 'px)';
+    
+            }
+        }
+        setInterval(swipeInfo, 1000);
        }
     useEffect(()=>{
        slide();} ,[])
 
        const [AccountName, setAccountName] = useState('Dummy name');
-       const [AccountBalance, setAccountBalance] = useState('***')
+       const [AccountBalance, setAccountBalance] = useState('$5,570.45')
        useEffect(()=>{
         fetch('https://twa-backend-g83o.onrender.com/walletdetails').then((res) => res.json())
               .then((result) => {
@@ -77,12 +90,12 @@ function home(){
                     </div>
                     </div><br/>
                     <div id="showcase" style={{ color: 'white', height:'150px', width: '100%', margin:'auto', marginTop:'5%',marginBottom:'5%',fontFamily: 'Lexend', backgroundImage :'linear-gradient(to top  right, #00178F, #4B96FF, #CBD8E8)', borderRadius:'10px'}}><p style={{paddingLeft:'7px',paddingTop:'7px',zoom:'90%'}}>Wallet Balance</p>
-                    <p style={{paddingLeft:'7px',color:'white' ,fontWeight:'600'}}>{AccountName}</p><br/>
-                    <p style={{paddingLeft:'7px', fontWeight:'600'}}>{AccountBalance}</p></div>
+                    <div style={{paddingLeft:'7px',color:'white' ,fontWeight:'500'}}>{AccountName}</div><br/>
+                    <div style={{paddingLeft:'7px', fontWeight:'600'}}>{AccountBalance}</div></div>
 
                 <div style={{fontFamily: 'Lexend',display:'flex',background :'white', justifyContent:'space-around', borderRadius:'7px', borderStyle:'groove', borderColor:'white', borderWidth:'1px'}}>
                     
-                <div style={{borderRadius:'100%',  padding:'10px'}}><a style={{textDecoration:'none'}} href='#/send'><img src="https://i.imgur.com/pEwpEBs.png" height='24px' width='24px'/></a></div>
+                <div style={{borderRadius:'100%',  padding:'10px'}}><a style={{textDecoration:'none'}} href='#/send'><img src="https://i.imgur.com/JwKhVnM.png" height='24px' width='24px'/></a></div>
                 <div style={{borderRadius:'100%',  padding:'10px'}}><a style={{textDecoration:'none'}} href='#/buy'><img src="https://i.imgur.com/gayUD73.png" height='24px' width='24px'/></a></div>
                 <div style={{borderRadius:'100%',  padding:'10px'}}><a style={{textDecoration:'none'}} href='#/swap'><img src="https://i.imgur.com/ajZ5VgY.png" height='24px' width='24px'/></a></div></div>
                    <br/>
@@ -91,12 +104,21 @@ function home(){
     <div  id='slideContainer' style={{zIndex:'0',marginLeft:'10px' , width:'100%', height:'fit-content', overflow:'hidden',  border:'none', borderRadius:'7px', justifySelf:'center'}}>
         <div id='slideContents' style={{height:'fit-content', width:'auto', display:'flex',  transition:'1s ease'}}>
 {/* <img src='src/components/WhatsApp_Image_2024-11-29_at_07.00.35_1f4f8a03-removebg-preview.png' height='500px' width='auto'/> */}
-<img src='https://i.imgur.com/BbaNXnn.png' height='auto' width='auto' style={{borderRadius:'7px'}}/>
-<img src='https://i.imgur.com/UBMXOLK.png' height='auto' width='auto' style={{marginLeft:'7px',borderRadius:'7px'}}/>
+{/* <img src='https://i.imgur.com/BbaNXnn.png' height='auto' width='auto' style={{borderRadius:'7px'}}/> */}
+<img src='https://i.imgur.com/Qh2tttR.png' height='170px' width='350px' style={{marginLeft:'7px',borderRadius:'7px'}}/>
         </div></div>
     
 </div> 
 <br/> <br/>
+<div style={{display:'flex', gap:'20px', borderRadius:'7px', background:'#4B96FF', color:'white'}}>
+  <div id="publicity-logo" style={{padding:'20px'}}><img src='https://i.imgur.com/5d6m9T7.png' height='17px' width='17px'/></div>
+  <div  id='InfoContainer' style={{zIndex:'0',marginLeft:'10px' , width:'100%', height:'40px', overflowY:'hidden',  border:'none', borderRadius:'7px', justifySelf:'center'}}>
+  <div id='InfoContents' style={{height:'fit-content', width:'auto',  transition:'1s ease'}}>
+  <div id="publcity" style={{paddingTop:'17px'}}>Nothing for now</div>
+  <div id="publcity" style={{paddingTop:'35px'}}>Nothing for now</div>
+  </div></div>
+</div>
+<br/>
 <div>
     <div style={{display :'flex', background:"white", alignContent:'center', borderRadius:'7px', width:'fit-content'}}><div style={{padding:'10px',borderRightColor:'red', borderStyle:'groove', borderLeft:'none',borderTop:'none',borderBottom:'none',borderWidth:'1px'}}>Tokens</div><div style={{color:"grey", padding:'10px'}}>NFTs</div></div>
 </div> <br/> <br/>
