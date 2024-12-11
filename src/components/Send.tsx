@@ -18,7 +18,7 @@ const StyledApp = styled.div`
     background-color: #222;
     color: white;
   }
-  min-height: 100vh;
+  min-height: 150vh;
   padding: 20px 20px;
 `;
 

@@ -69,7 +69,7 @@ function Api() {
     return (
       
             <AppContainer>
-                <table>
+                <table style={{margin:'auto', justifyContent:'center'}}>
                     <thead>
                         <tr>
                             <th>Logo</th>

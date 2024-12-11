@@ -1,6 +1,7 @@
  import home from "./components/home";
  import styled from "styled-components";
  import send from "./components/Send";
+ import tools from "./components/tools";
  import "./App.css";
   import Register from "./components/AccountRegistration";
  import "@twa-dev/sdk";
@@ -39,6 +40,7 @@ function App() {
     <Route path="/send" Component={send}/>
     <Route path="/swap" Component={swap}/>
     <Route path="/register" Component={Register}/>
+    <Route path="/tools" Component={tools}/>
     
      
     </Routes>

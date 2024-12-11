@@ -35,7 +35,7 @@ function home(){
             const slidex = ['1', '2'];
             currentIndex = (currentIndex + 1) % slidex.length;
             if (slideContents != null){
-            slideContents.style.transform = 'translateX(' + (currentIndex * -67.5) + 'px)';
+            slideContents.style.transform = 'translateX(' + (currentIndex * -280.0) + 'px)';
     
             }
         }
@@ -86,7 +86,7 @@ function home(){
                 <div>
                     <div  id="header" style={{display:'flex', justifyContent:'space-between', margin:'0',fontFamily: 'Lexend'}}>
                       <div>
-                      <img src='https://i.imgur.com/yRr0m7B.png' height='14px' width='14px'/></div><div style={{fontFamily: 'Lexend'}}> <a href='#/register' style={{color:'black', textDecoration:'none'}}> My Account </a></div><div><img src="https://i.imgur.com/0DG5nGo.png" height='14px' width='14px'/>
+                      <a href='#/tools' style={{color:'black', textDecoration:'none'}}> <img src='https://i.imgur.com/xFizwPR.png' height='14px' width='14px'/></a></div><div style={{fontFamily: 'Lexend'}}> <a href='#/register' style={{color:'black', textDecoration:'none'}}> My Account </a></div><div><img src="https://i.imgur.com/ErnGd8q.png" height='14px' width='14px'/>
                     </div>
                     </div><br/>
                     <div id="showcase" style={{ color: 'white', height:'150px', width: '100%', margin:'auto', marginTop:'5%',marginBottom:'5%',fontFamily: 'Lexend', backgroundImage :'linear-gradient(to top  right, #00178F, #4B96FF, #CBD8E8)', borderRadius:'10px'}}><p style={{paddingLeft:'7px',paddingTop:'7px',zoom:'90%'}}>Wallet Balance</p>
@@ -104,7 +104,7 @@ function home(){
     <div  id='slideContainer' style={{zIndex:'0',marginLeft:'10px' , width:'100%', height:'fit-content', overflow:'hidden',  border:'none', borderRadius:'7px', justifySelf:'center'}}>
         <div id='slideContents' style={{height:'fit-content', width:'auto', display:'flex',  transition:'1s ease'}}>
 {/* <img src='src/components/WhatsApp_Image_2024-11-29_at_07.00.35_1f4f8a03-removebg-preview.png' height='500px' width='auto'/> */}
-{/* <img src='https://i.imgur.com/BbaNXnn.png' height='auto' width='auto' style={{borderRadius:'7px'}}/> */}
+ <img src='https://i.imgur.com/hCdTa9M.png' height='170px' width='350px' style={{borderRadius:'7px'}}/>  
 <img src='https://i.imgur.com/Qh2tttR.png' height='170px' width='350px' style={{marginLeft:'7px',borderRadius:'7px'}}/>
         </div></div>
     
@@ -120,7 +120,10 @@ function home(){
 </div>
 <br/>
 <div>
-    <div style={{display :'flex', background:"white", alignContent:'center', borderRadius:'7px', width:'fit-content'}}><div style={{padding:'10px',borderRightColor:'red', borderStyle:'groove', borderLeft:'none',borderTop:'none',borderBottom:'none',borderWidth:'1px'}}>Tokens</div><div style={{color:"grey", padding:'10px'}}>NFTs</div></div>
+    <div style={{display :'flex', background:"white", alignContent:'center', borderRadius:'7px', width:'fit-content'}}>
+      <div style={{padding:'10px',borderRightColor:'red', borderStyle:'groove', borderLeft:'none',borderTop:'none',borderBottom:'none',borderWidth:'1px'}}>Tokens</div>
+      <div style={{color:"grey", padding:'10px'}}>NFTs</div>
+      </div>
 </div> <br/> <br/>
 <div style={{background:'white',padding:'10px',borderRadius:'7px', height:'fit-content',width:'fit-content'}}>
     <Api/>
