@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import styled from "styled-components";
 import { Button } from "./styled/styled";
 import '../index.css';
+import { BsArrowLeftCircle } from "react-icons/bs";
 
 const StyledApp = styled.div`
   background-color: #F9F9F9;
@@ -27,7 +28,8 @@ const AppContainer = styled.div`
 function tools(){
 return(
     <StyledApp>
-        <AppContainer>
+        <AppContainer> <a href='#/home' style={{ textDecoration:'none'}}><BsArrowLeftCircle style={{color:'#4B96FF', height:'20px', width:'20px'}}/></a>
+        <br/><br/>
             <div style={{  justifyContent:'space-around', background:'white', borderRadius:'10px'}}>
             <a href='#/settings' style={{ textDecoration:'none'}}><div style={{display: 'flex'  , gap:'17px',padding:'20px', borderColor:'whitesmoke', borderBottomStyle:'groove', borderWidth:'2px'}}>
               <div><img src='https://i.imgur.com/xFizwPR.png' height='20px' width='20px'/></div>

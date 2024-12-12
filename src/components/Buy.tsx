@@ -1,7 +1,7 @@
 
 import styled from "styled-components";
 import '../index.css';
-
+import { BsArrowLeftCircle } from "react-icons/bs";
 const StyledApp = styled.div`
   background-color: #F9F9F9;
   color: black;
@@ -27,7 +27,7 @@ function buy(){
 return(
     <StyledApp>
         <AppContainer>
-           
+        <a href='#/home' style={{ textDecoration:'none'}}><BsArrowLeftCircle style={{color:'#4B96FF', height:'20px', width:'20px'}}/> </a>
         </AppContainer>
     </StyledApp>
 )
