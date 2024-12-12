@@ -42,7 +42,7 @@ return(
                 <div style={{lineHeight:'16px', color:'grey'}}>Contact us</div>
                 </div>
                 <div style={{display: 'flex'  , gap:'17px', padding:'20px'}}>
-                <div ><img src='https://i.imgur.com/yRr0m7B.png' height='14px' width='14px'/></div>
+                <div ><img src='https://i.imgur.com/6YJJ2fI.png' height='14px' width='14px'/></div>
                 <div style={{lineHeight:'16px', color:'grey'}}>Agenda</div>
                 </div>
             </div>
