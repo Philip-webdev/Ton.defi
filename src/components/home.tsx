@@ -57,7 +57,7 @@ function home(){
     useEffect(()=>{
        slide();} ,[])
 
-       const [AccountName, setAccountName] = useState('Dummy name');
+       const [AccountName, setAccountName] = useState('Jolah Jemima');
        const [AccountBalance, setAccountBalance] = useState('$5,570.45')
        useEffect(()=>{
         fetch('https://twa-backend-g83o.onrender.com/walletdetails').then((res) => res.json())
@@ -86,7 +86,7 @@ function home(){
                 <div>
                     <div  id="header" style={{display:'flex', justifyContent:'space-between', margin:'0',fontFamily: 'Lexend'}}>
                       <div>
-                      <a href='#/tools' style={{color:'black', textDecoration:'none'}}> <img src='https://i.imgur.com/xFizwPR.png' height='14px' width='14px'/></a></div><div style={{fontFamily: 'Lexend'}}> <a href='#/register' style={{color:'black', textDecoration:'none'}}> My Account </a></div><div><img src="https://i.imgur.com/ErnGd8q.png" height='14px' width='14px'/>
+                      <a href='#/tools' style={{color:'black', textDecoration:'none'}}> <img src='https://i.imgur.com/xFizwPR.png' height='20px' width='20px'/></a></div><div style={{fontFamily: 'Lexend'}}> <a href='#/register' style={{color:'black', textDecoration:'none'}}> My Account </a></div><div><img src="https://i.imgur.com/ErnGd8q.png" height='20px' width='20px'/>
                     </div>
                     </div><br/>
                     <div id="showcase" style={{ color: 'white', height:'150px', width: '100%', margin:'auto', marginTop:'5%',marginBottom:'5%',fontFamily: 'Lexend', backgroundImage :'linear-gradient(to top  right, #00178F, #4B96FF, #CBD8E8)', borderRadius:'10px'}}><p style={{paddingLeft:'7px',paddingTop:'7px',zoom:'90%'}}>Wallet Balance</p>
@@ -104,14 +104,14 @@ function home(){
     <div  id='slideContainer' style={{zIndex:'0',marginLeft:'10px' , width:'100%', height:'fit-content', overflow:'hidden',  border:'none', borderRadius:'7px', justifySelf:'center'}}>
         <div id='slideContents' style={{height:'fit-content', width:'auto', display:'flex',  transition:'1s ease'}}>
 {/* <img src='src/components/WhatsApp_Image_2024-11-29_at_07.00.35_1f4f8a03-removebg-preview.png' height='500px' width='auto'/> */}
- <a href ='#/tokenomics' ><img src='https://i.imgur.com/hCdTa9M.png' height='170px' width='350px' style={{borderRadius:'7px'}}/> </a> 
- <a href ='#/tontools' ><img src='https://i.imgur.com/Qh2tttR.png' height='170px' width='350px' style={{marginLeft:'7px',borderRadius:'7px'}}/> </a> 
+ <a href ='#/tontools' ><img src='https://i.imgur.com/hCdTa9M.png' height='170px' width='350px' style={{borderRadius:'7px'}}/> </a> 
+ <a href ='#/tokenomics' ><img src='https://i.imgur.com/Qh2tttR.png' height='170px' width='350px' style={{marginLeft:'7px',borderRadius:'7px'}}/> </a> 
         </div></div>
     
 </div> 
 <br/> <br/>
 <div style={{display:'flex', gap:'20px', borderRadius:'7px', background:'#4B96FF', color:'white'}}>
-  <div id="publicity-logo" style={{padding:'20px'}}><img src='https://i.imgur.com/5d6m9T7.png' height='17px' width='17px'/></div>
+  <div id="publicity-logo" style={{padding:'20px'}}><img src='https://i.imgur.com/5d6m9T7.png' height='20px' width='20px'/></div>
   <div  id='InfoContainer' style={{zIndex:'0',marginLeft:'10px' , width:'100%', height:'40px', overflowY:'hidden',  border:'none', borderRadius:'7px', justifySelf:'center'}}>
   <div id='InfoContents' style={{height:'fit-content', width:'auto',  transition:'1s ease'}}>
   <div id="publcity" style={{paddingTop:'17px'}}>Nothing for now</div>

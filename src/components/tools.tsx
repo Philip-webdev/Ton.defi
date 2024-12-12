@@ -29,34 +29,37 @@ return(
     <StyledApp>
         <AppContainer>
             <div style={{  justifyContent:'space-around', background:'white', borderRadius:'10px'}}>
-              <div style={{display: 'flex'  , gap:'17px',padding:'20px', borderColor:'whitesmoke', borderBottomStyle:'groove', borderWidth:'2px'}}>
-                <div><img src='https://i.imgur.com/xFizwPR.png' height='14px' width='14px'/></div>
+            <a href='#/settings' style={{ textDecoration:'none'}}><div style={{display: 'flex'  , gap:'17px',padding:'20px', borderColor:'whitesmoke', borderBottomStyle:'groove', borderWidth:'2px'}}>
+              <div><img src='https://i.imgur.com/xFizwPR.png' height='20px' width='20px'/></div>
                 <div style={{lineHeight:'16px', color:'grey'}}>Settings</div>
-                </div>
-                <div style={{display: 'flex'  , gap:'17px', padding:'20px', borderColor:'whitesmoke', borderBottomStyle:'groove', borderWidth:'2px'}}>
-                <div><img src='https://i.imgur.com/LdWdpsV.png' height='14px' width='14px'/></div>
+                </div></a>
+
+                <a href='#/security' style={{ textDecoration:'none'}}><div style={{display: 'flex'  , gap:'17px', padding:'20px', borderColor:'whitesmoke', borderBottomStyle:'groove', borderWidth:'2px'}}>
+                <div><img src='https://i.imgur.com/LdWdpsV.png' height='20px' width='20px'/></div>
                 <div style={{lineHeight:'16px', color:'grey'}}>Security</div>
-                </div>
-                <div style={{display: 'flex'  , gap:'17px', padding:'20px', borderColor:'whitesmoke', borderBottomStyle:'groove', borderWidth:'2px'}}>
-                <div><img src='https://i.imgur.com/pPd4oOS.png' height='14px' width='14px'/></div>
+                </div></a>
+
+              <a href='#/contact' style={{ textDecoration:'none'}}>  <div style={{display: 'flex'  , gap:'17px', padding:'20px', borderColor:'whitesmoke', borderBottomStyle:'groove', borderWidth:'2px'}}>
+                <div><img src='https://i.imgur.com/pPd4oOS.png' height='20px' width='20px'/></div>
                 <div style={{lineHeight:'16px', color:'grey'}}>Contact us</div>
-                </div>
-                <div style={{display: 'flex'  , gap:'17px', padding:'20px'}}>
-                <div ><img src='https://i.imgur.com/6YJJ2fI.png' height='14px' width='14px'/></div>
+                </div></a>
+
+              <a href='#/agenda' style={{ textDecoration:'none'}}>  <div style={{display: 'flex'  , gap:'17px', padding:'20px'}}>
+                <div ><img src='https://i.imgur.com/6YJJ2fI.png' height='20px' width='20px'/></div>
                 <div style={{lineHeight:'16px', color:'grey'}}>Agenda</div>
-                </div>
+                </div></a>
             </div>
 
             <div style={{right:'0.1%', bottom:'0%', display:'flex',justifyContent:'space-evenly' ,height:'fit-content',background:'white', width:'100%', paddingBottom:'10px', paddingRight:'10px',position:'fixed', borderRadius:'7px'}}>
             <a href='#/home' style={{color:'black', textDecoration:'none'}}> 
-            <Button  style={{  fontFamily: 'Lexend' ,  marginLeft:'20px',bottom:'0%', marginRight:'27px', background:'none', color:"black"}}><img src='https://i.imgur.com/uxozY7V.png' height='14px' width='14px' />
+            <Button  style={{  fontFamily: 'Lexend' ,  marginLeft:'20px',bottom:'0%', marginRight:'27px', background:'none', color:"black"}}><img src='https://i.imgur.com/uxozY7V.png' height='20px' width='20px' />
             <p style={{zoom:'80%'}}>Home</p> </Button></a>
-            <a href='#/send' style={{color:'black', textDecoration:'none'}}> <Button  style={{  fontFamily: 'Lexend' ,bottom:'0%', marginRight:'30px', background:'none', color:"black"}}><img src="https://i.imgur.com/hCrmXO1.png" height='14px' width='14px'/>
+            <a href='#/send' style={{color:'black', textDecoration:'none'}}> <Button  style={{  fontFamily: 'Lexend' ,bottom:'0%', marginRight:'30px', background:'none', color:"black"}}><img src="https://i.imgur.com/hCrmXO1.png" height='20px' width='20px'/>
             <p style={{zoom:'80%'}}>wallet</p></Button></a>
-            <a href='#/market' style={{color:'black', textDecoration:'none'}}>  <Button style={{  fontFamily: 'Lexend' ,bottom:'0%', marginRight:'27px', background:'none', color:"black"}}> <img src="https://i.imgur.com/loOhRv0.png" height='14px' width='14px' /> 
+            <a href='#/market' style={{color:'black', textDecoration:'none'}}>  <Button style={{  fontFamily: 'Lexend' ,bottom:'0%', marginRight:'27px', background:'none', color:"black"}}> <img src="https://i.imgur.com/loOhRv0.png" height='20px' width='20px' /> 
               <p style={{zoom:'80%'}}>market</p></Button></a> 
               <a href='#/discover' style={{color:'black', textDecoration:'none'}}>
-              <Button  style={{ fontFamily: 'Lexend' ,bottom:'0%', background:'none', color:"black"}}><img src='https://i.imgur.com/S444rBc.png'height='14px' width='14px'/>
+              <Button  style={{ fontFamily: 'Lexend' ,bottom:'0%', background:'none', color:"black"}}><img src='https://i.imgur.com/S444rBc.png'height='20px' width='20px'/>
               <p style={{zoom:'80%'}}>Discover</p> </Button></a>
             </div>
         </AppContainer>

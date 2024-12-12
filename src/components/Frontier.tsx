@@ -14,7 +14,7 @@ font-family: Lexend ;
     background-color: #222;
     color: white;
   }
-  min-height: 90vh;
+  min-height: 100vh;
   padding: 20px 20px;
 `;
 
@@ -24,20 +24,21 @@ const AppContainer = styled.div`
   color: white;
 font-family: Lexend ;
   border-radius:7px;
+  height: 100vh;
   margin: 0;
 `;
 
 function Welcome(){
 
     return(
-      <div>
+    
         <AppContainer>
-        <div>
-            <div  style={{textAlign: 'center'}}>TON.DEFI</div>
-            <p style={{textAlign: 'center'}}><a href='#/home' style={{textDecoration:'none', color:'white'}}>Start</a></p>
-            </div>
+
+          <p style={{textAlign: 'center',marginTop:'0%'}}>TON.DEFI</p>
+            <p style={{textAlign: 'center', marginTop:'50%'}}><a href='#/home' style={{textDecoration:'none', color:'white'}}>Start</a></p>
+          
         </AppContainer>
-        </div>
+        
     )
 }
 
