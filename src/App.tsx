@@ -7,6 +7,8 @@
  import "@twa-dev/sdk";
  import { HashRouter, Route, Routes} from "react-router-dom";
 import swap from "./components/swap";
+import Welcome from "./components/Frontier";
+
 
  const StyledApp = styled.div`
   background-color: whitesmoke;
@@ -27,7 +29,7 @@ const AppContainer = styled.div`
   height:fit-content;
   margin: 0;
 `;
-const Home = home;
+ 
 function App() {
  
   return (
@@ -36,18 +38,17 @@ function App() {
   
     <HashRouter>
     <Routes>
-    <Route path="/" Component={Home}/>
+    <Route path="/home" Component={home}/>
     <Route path="/send" Component={send}/>
     <Route path="/swap" Component={swap}/>
     <Route path="/register" Component={Register}/>
     <Route path="/tools" Component={tools}/>
-    
-     
     </Routes>
   </HashRouter>
+  
   <StyledApp >
  
-
+<Welcome/>
 
  
   </StyledApp>
