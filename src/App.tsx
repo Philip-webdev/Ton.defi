@@ -23,7 +23,7 @@ import { useEffect, useState } from "react";
   background-color: #4B96FF;
   color: black;
 font-family: Lexend ;
-     
+     position: fixed;
      width:100%;
   @media (prefers-color-scheme: dark) {
     background-color: rgb(29, 40, 58);
@@ -40,6 +40,10 @@ const AppContainer = styled.div`
 `;
  
 function App() {
+
+  const onloadwelcomeScreen = ()=>{
+    window.location.href = '#/'; 
+  }
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -77,10 +81,9 @@ function App() {
     </Routes>
   </HashRouter>
   
-  <StyledApp >
+  <StyledApp onLoad={onloadwelcomeScreen}>
  
- <div style={{textAlign: 'center', marginTop:'50%'}}> <a href='#/' style={{color:'white', textDecoration:'none'}}>open</a></div>
-
+ 
  
   </StyledApp>
     </div>
