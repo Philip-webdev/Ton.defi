@@ -41,9 +41,9 @@ const AppContainer = styled.div`
  
 function App() {
 
-  const onloadwelcomeScreen = ()=>{
+ // const onloadwelcomeScreen = ()=>{
     window.location.href = '#/'; 
-  }
+//  }
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -83,7 +83,7 @@ function App() {
   
   <StyledApp  >
  
-  <Welcome/>
+  <Welcome2/>
  
   </StyledApp>
     </div>
