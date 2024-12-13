@@ -15,7 +15,7 @@ const StyledApp = styled.div`
 font-family: Lexend;
   border-radius:7px;
   @media (prefers-color-scheme: dark) {
-    background-color: #222;
+    background-color: #1B1B1B;
     color: white;
   }
   min-height: 120vh;
@@ -90,15 +90,17 @@ function Home(){
                       <a href='#/tools' style={{color:'black', textDecoration:'none'}}> <img src='https://i.imgur.com/xFizwPR.png' height='20px' width='20px'/></a></div><div style={{fontFamily: 'Lexend'}}> <a href='#/register' style={{color:'black', textDecoration:'none'}}> My Account </a></div><div><img src="https://i.imgur.com/ErnGd8q.png" height='20px' width='20px'/>
                     </div>
                     </div><br/>
-                    <div id="showcase" style={{ color: 'white', height:'150px', width: '100%', margin:'auto', marginTop:'5%',marginBottom:'5%',fontFamily: 'Lexend', backgroundImage :'linear-gradient(to top  right, #00178F, #4B96FF, #CBD8E8)', borderRadius:'10px'}}><p style={{paddingLeft:'7px',paddingTop:'7px',zoom:'90%'}}>Wallet Balance</p>
-                    <div style={{paddingLeft:'7px',color:'white' ,fontWeight:'500'}}>{AccountName}</div><br/>
-                    <div style={{paddingLeft:'7px', fontWeight:'600'}}>{AccountBalance}</div></div>
+                    <div id="showcase"
+                     style={{ color: 'black', height:'150px', width: '100%', margin:'auto', marginTop:'5%',marginBottom:'5%',fontFamily: 'Lexend', background:'white', borderRadius:'10px'}}>
+                      <p style={{paddingLeft:'7px',paddingTop:'7px',zoom:'90%'}}>Wallet Balance</p>
+                    <div style={{paddingLeft:'7px',color:'black' ,fontWeight:'500'}}>{AccountName}</div><br/>
+                    <div style={{paddingLeft:'7px', fontWeight:'500'}}>{AccountBalance}</div></div>
 
-                <div style={{fontFamily: 'Lexend',display:'flex',background :'white', justifyContent:'space-around', borderRadius:'7px', borderStyle:'groove', borderColor:'white', borderWidth:'1px'}}>
+                <div style={{fontFamily: 'Lexend',display:'flex',background :'', justifyContent:'space-around', borderRadius:'7px' }}>
                     
-                <div style={{borderRadius:'100%',  padding:'10px'}}><a style={{textDecoration:'none'}} href='#/send'><img src="https://i.imgur.com/JwKhVnM.png" height='24px' width='24px'/></a></div>
-                <div style={{borderRadius:'100%',  padding:'10px'}}><a style={{textDecoration:'none'}} href='#/buy'><img src="https://i.imgur.com/gayUD73.png" height='24px' width='24px'/></a></div>
-                <div style={{borderRadius:'100%',  padding:'10px'}}><a style={{textDecoration:'none'}} href='#/swap'><img src="https://i.imgur.com/ajZ5VgY.png" height='24px' width='24px'/></a></div></div>
+                <div style={{borderRadius:'100%',  padding:'10px'}}><a style={{textDecoration:'none'}} href='#/send'><img src="https://i.imgur.com/JwKhVnM.png" height='24px' width='24px'style={{marginLeft:'7px'}}/></a><br/>send</div>
+                <div style={{borderRadius:'100%',  padding:'10px'}}><a style={{textDecoration:'none'}} href='#/buy'><img src="https://i.imgur.com/gayUD73.png" height='24px' width='24px' style={{marginLeft:'5px'}}/></a><br/>buy</div>
+                <div style={{borderRadius:'100%',  padding:'10px'}}><a style={{textDecoration:'none'}} href='#/swap'><img src="https://i.imgur.com/ajZ5VgY.png" height='24px' width='24px' style={{marginLeft:'7px'}}/></a><br/>swap</div></div>
                    <br/>
 
                 <div style={{ margin:'0', width:'100%', justifyContent:'center'}}>
@@ -132,7 +134,7 @@ function Home(){
     <Api/>
     
 </div>
-<div style={{background:'blue', height:'100px', width:'300px'}}>Hi</div>
+<div style={{background:'white ', height:'200px', width:'300px',borderRadius:'7px'}}>Hi</div>
 </section>
                 </div>
 
