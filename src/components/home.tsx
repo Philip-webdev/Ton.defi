@@ -90,7 +90,7 @@ function Home(){
                     <div id="showcase"
                      style={{ color: 'white', height:'90px', width: '100%', margin:'auto', marginTop:'5%',marginBottom:'5%',fontFamily: 'Lexend', background:'#87CEEB', borderRadius:'10px'}}>
                       {/* <p style={{paddingLeft:'7px',paddingTop:'7px',zoom:'90%'}}>Wallet Balance</p>#87CEEB #4B96FF*/}
-                    <div style={{paddingLeft:'7px',color:'white' ,fontWeight:'500'}}>{AccountName}</div><br/>
+                    <div style={{paddingLeft:'7px',paddingTop:'9px',color:'white' ,fontWeight:'500'}}>{AccountName}</div><br/>
                     <div style={{paddingLeft:'7px', fontWeight:'500'}}>{AccountBalance}</div></div>
 
                 <div style={{fontFamily: 'Lexend',display:'flex',background :'', justifyContent:'space-around', borderRadius:'7px' }}>
