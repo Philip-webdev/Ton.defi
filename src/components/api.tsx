@@ -36,14 +36,12 @@ interface CryptoData {
 
 const CryptoRow = ({ crypto, logo }: { crypto: CryptoData; logo: string }) => (
     <tr style={{ borderRadius: '7px' }}>
-        <td>
-            <img src={logo} alt={`${crypto.name} logo`} style={{ width: '14px', height: '14px' }} />
-        </td>
-        <td>{crypto.name}</td>
-        <td style={{ paddingRight: '17px' }}>{crypto.symbol}</td>
-        <td style={{ paddingLeft: '20px' }}>${crypto.quote.USD.price.toFixed(2)}</td>
-        <td style={{ paddingLeft: '10px' }}>{crypto.quote.USD.percent_change_24h.toFixed(2)}%</td>
-    </tr>
+            
+            <td style={{display:'flex'}}> <img src={logo} alt={`${crypto.name} logo`} style={{ width: '17px', height: '20px' }} />{crypto.name}</td>
+            <td style={{ paddingRight: '17px' }}>{crypto.symbol}</td>
+            <td style={{ paddingLeft: '20px' }}>${crypto.quote.USD.price.toFixed(2)}</td>
+            <td style={{ paddingLeft: '10px' }}>{crypto.quote.USD.percent_change_24h.toFixed(2)}%</td>
+        </tr>
 );
 
 function Api() {
@@ -79,6 +77,15 @@ function Api() {
     return (
         <AppContainer>
             <table style={{ margin: 'auto', justifyContent: 'center' }}>
+            <thead style={{zoom:'70%',color:'grey'}}>
+                        <tr>
+                            
+                            <th>Name</th>
+                            <th>Symbol</th>
+                            <th>Price</th>
+                            <th>change/price</th>
+                        </tr>
+                    </thead>
                 <tbody>
                     {cryptos.map((crypto, index) => (
                         <CryptoRow key={crypto.id} crypto={crypto} logo={logos[index]} />
