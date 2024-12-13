@@ -79,7 +79,7 @@ function App() {
   
   <StyledApp >
  
-
+  <Welcome/>
 
  
   </StyledApp>
