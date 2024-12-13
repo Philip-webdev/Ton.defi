@@ -22,7 +22,7 @@ const AppContainer = styled.div`
 
 interface CryptoData {
     logo: string;
-    id:  string;
+    id: string;
     cmc_rank: number;
     name: string;
     symbol: string;
@@ -33,20 +33,29 @@ interface CryptoData {
     };
 }
 
-const CryptoRow = ({ crypto }: { crypto: CryptoData }) => (
+const CryptoRow = ({ crypto, logo }: { crypto: CryptoData; logo: string }) => (
     <tr style={{ borderRadius: '7px' }}>
-        <td> 
-        {crypto.logo}
+        <td>
+            <img src={logo} alt={`${crypto.name} logo`} style={{ width: '14px', height: '14px' }} />
         </td>
-        <td style={{ padding: '7px' }}>{crypto.name}</td>
+        <td>{crypto.name}</td>
         <td style={{ paddingRight: '17px' }}>{crypto.symbol}</td>
         <td style={{ paddingLeft: '20px' }}>${crypto.quote.USD.price.toFixed(2)}</td>
     </tr>
 );
 
-
 function Api() {
     const [cryptos, setCryptos] = useState<CryptoData[]>([]);
+    
+    // Array of logos corresponding to the first five cryptocurrencies
+    const logos = [
+        'https://i.imgur.com/sSYmdfQ.png',
+        'https://i.imgur.com/dhJjQcO.png',
+        'https://i.imgur.com/WaJtG67.png',
+        'https://i.imgur.com/qfO2YuU.png',
+        'https://i.imgur.com/rjWW55s.png'
+    ];
+    
 
     useEffect(() => {
         const fetchData = async () => {
@@ -55,7 +64,6 @@ function Api() {
                 const result = await response.json();
                 console.log(result);
 
-          
                 const topCryptos = result.data.slice(0, 5);
                 setCryptos(topCryptos);
             } catch (error) {
@@ -67,25 +75,15 @@ function Api() {
     }, []); // Empty dependency array to run once on mount
 
     return (
-      
-            <AppContainer>
-                <table style={{margin:'auto', justifyContent:'center'}}>
-                    <thead>
-                        <tr>
-                            <th>Logo</th>
-                            <th>Name</th>
-                            <th>Symbol</th>
-                            <th>Price</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {cryptos.map((crypto) => (
-                            <CryptoRow key={crypto.id} crypto={crypto} />
-                        ))}
-                    </tbody>
-                </table>
-            </AppContainer>
-    
+        <AppContainer>
+            <table style={{ margin: 'auto', justifyContent: 'center' }}>
+                <tbody>
+                    {cryptos.map((crypto, index) => (
+                        <CryptoRow key={crypto.id} crypto={crypto} logo={logos[index]} />
+                    ))}
+                </tbody>
+            </table>
+        </AppContainer>
     );
 }
 
