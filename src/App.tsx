@@ -22,7 +22,7 @@ import { useEffect, useState } from "react";
  const StyledApp = styled.div`
   background-color: #4B96FF;
   color: black;
-
+font-family: Lexend ;
      
      width:100%;
   @media (prefers-color-scheme: dark) {
@@ -79,7 +79,7 @@ function App() {
   
   <StyledApp >
  
- <div style={{textAlign: 'center', marginTop:'50%'}}> <a href='#/' style={{color:'black', textDecoration:'none'}}>open</a></div>
+ <div style={{textAlign: 'center', marginTop:'50%'}}> <a href='#/' style={{color:'white', textDecoration:'none'}}>open</a></div>
 
  
   </StyledApp>
