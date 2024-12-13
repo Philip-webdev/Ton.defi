@@ -10,10 +10,7 @@ const StyledApp = styled.div`
   color: white;
 font-family: Lexend ;
   border-radius:7px;
-  @media (prefers-color-scheme: dark) {
-    background-color: #222;
-    color: white;
-  }
+ margin: 0;
   min-height: 100vh;
   padding: 20px 20px;
 `;
@@ -29,15 +26,22 @@ font-family: Lexend ;
 `;
 
 function Welcome(){
-
+  const Loading = () => {
+    return (
+        <div className="loading">
+            <h2>Loading...</h2>
+            <div className="spinner"></div> {/* Optional spinner */}
+        </div>
+    );
+};
     return(
     
-        <AppContainer>
+        <StyledApp>
 
           <p style={{textAlign: 'center',marginTop:'0%'}}>TON.DEFI</p>
-            <p style={{textAlign: 'center', marginTop:'50%'}}><a href='#/home' style={{textDecoration:'none', color:'white'}}>Start</a></p>
-          
-        </AppContainer>
+            
+          <div  style={{textAlign: 'center', marginTop:'50%'}}>{Loading()}</div>
+        </StyledApp>
         
     )
 }

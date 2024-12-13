@@ -28,7 +28,7 @@ const AppContainer = styled.div`
 function tools(){
 return(
     <StyledApp>
-        <AppContainer> <a href='#/home' style={{ textDecoration:'none'}}><BsArrowLeftCircle style={{color:'#4B96FF', height:'20px', width:'20px'}}/></a>
+        <AppContainer> <a href='#/' style={{ textDecoration:'none'}}><BsArrowLeftCircle style={{color:'#4B96FF', height:'20px', width:'20px'}}/></a>
         <br/><br/>
             <div style={{  justifyContent:'space-around', background:'white', borderRadius:'10px'}}>
             <a href='#/settings' style={{ textDecoration:'none'}}><div style={{display: 'flex'  , gap:'17px',padding:'20px', borderColor:'whitesmoke', borderBottomStyle:'groove', borderWidth:'2px'}}>
@@ -46,9 +46,13 @@ return(
                 <div style={{lineHeight:'16px', color:'grey'}}>Contact us</div>
                 </div></a>
 
-              <a href='#/agenda' style={{ textDecoration:'none'}}>  <div style={{display: 'flex'  , gap:'17px', padding:'20px'}}>
+              <a href='#/agenda' style={{ textDecoration:'none'}}>  <div style={{display: 'flex'  , gap:'17px', padding:'20px',borderColor:'whitesmoke', borderBottomStyle:'groove', borderWidth:'2px'}}>
                 <div ><img src='https://i.imgur.com/6YJJ2fI.png' height='20px' width='20px'/></div>
                 <div style={{lineHeight:'16px', color:'grey'}}>Agenda</div>
+                </div></a>
+                <a href='#/organizer' style={{ textDecoration:'none'}}>  <div style={{display: 'flex'  , gap:'17px', padding:'20px'}}>
+                <div ><img src='https://i.imgur.com/33uAtB4.png' height='20px' width='20px'/></div>
+                <div style={{lineHeight:'16px', color:'grey'}}>Airdrop organizer</div>
                 </div></a>
             </div>
 

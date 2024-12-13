@@ -17,11 +17,12 @@ import settings from "./components/settings";
 import security from "./components/security";
 import agenda from "./components/Agenda";
 import contact from "./components/contact";
+import { useEffect, useState } from "react";
 
  const StyledApp = styled.div`
-  background-color: whitesmoke;
+  background-color: #4B96FF;
   color: black;
-  border-radius: 17px;
+
     position: fixed;
      width:100%;
   @media (prefers-color-scheme: dark) {
@@ -39,14 +40,27 @@ const AppContainer = styled.div`
 `;
  
 function App() {
- 
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+
+      const timer = setTimeout(() => {
+          setLoading(false);
+      }, 3000);
+
+      return () => clearTimeout(timer); 
+  }, []);
+
+  if (loading) {
+      return <Welcome/>;
+  }
   return (
-    <div >
+    <div>
    
   
     <HashRouter>
     <Routes>
-    <Route path="/home" Component={home}/>
+    <Route path="/" Component={home}/>
     <Route path="/send" Component={send}/>
     <Route path="/swap" Component={swap}/>
     <Route path="/register" Component={Register}/>
@@ -65,7 +79,7 @@ function App() {
   
   <StyledApp >
  
-<Welcome/>
+
 
  
   </StyledApp>
