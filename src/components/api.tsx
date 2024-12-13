@@ -37,7 +37,7 @@ interface CryptoData {
 const CryptoRow = ({ crypto, logo }: { crypto: CryptoData; logo: string }) => (
     <tr style={{ borderRadius: '7px' }}>
             
-            <td style={{display:'flex'}}> <img src={logo} alt={`${crypto.name} logo`} style={{ width: '17px', height: '20px' }} />{crypto.name}</td>
+            <td style={{display:'flex'}}> <img src={logo} alt={`${crypto.name} logo`} style={{ width: '20px', height: '20px' }} />{crypto.name}</td>
             <td style={{ paddingRight: '17px' }}>{crypto.symbol}</td>
             <td style={{ paddingLeft: '20px' }}>${crypto.quote.USD.price.toFixed(2)}</td>
             <td style={{ paddingLeft: '10px' }}>{crypto.quote.USD.percent_change_24h.toFixed(2)}%</td>
@@ -51,8 +51,8 @@ function Api() {
     const logos = [
         'https://i.imgur.com/sSYmdfQ.png',
         'https://i.imgur.com/dhJjQcO.png',
+        'https://i.imgur.com/WaJtG67.png', 
         'https://i.imgur.com/qfO2YuU.png',
-        'https://i.imgur.com/WaJtG67.png',
         'https://i.imgur.com/rjWW55s.png'
     ];
     
