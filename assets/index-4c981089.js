@@ -1155,10 +1155,7 @@ PERFORMANCE OF THIS SOFTWARE.
   height: fit-content;
   padding: 20px;
 
-  @media (prefers-color-scheme: dark) {
-    background-color: rgb(29, 40, 58);
-    color: white;
-  }
+  
 `;const AppContainer$d=styled.div`
   width: fit-content;
   margin: 0;
@@ -1207,10 +1204,7 @@ PERFORMANCE OF THIS SOFTWARE.
   margin:0;
 font-family: Lexend;
   border-radius:7px;
-  @media (prefers-color-scheme: dark) {
-    background-color: #1B1B1B;
-    color: white;
-  }
+   
   min-height: 150vh;
   padding: 20px 20px;
 `,AppContainer$c=styled.div`
@@ -1230,10 +1224,7 @@ Values:
   background-color: #e8e8e8;
   color: black;
 
-  @media (prefers-color-scheme: dark) {
-    background-color: #222;
-    color: white;
-  }
+   
   min-height: 110vh;
   padding: 20px 20px;
 `,AppContainer$b=styled.div`
@@ -1245,10 +1236,7 @@ Values:
   border-radius: 17px;
     position:  ;
     font-family: Lexend ;
-  @media (prefers-color-scheme: dark) {
-    background-color: rgb(29, 40, 58);
-    color: white;
-  }
+  
   min-height: 100vh;
   padding: 20px 20px;
 `,AppContainer$a=styled.div`
@@ -1296,10 +1284,7 @@ ${nt.byteLength}`)),it=tt?nt:uint8ArrayConcat(ot,nt);return sha3Raw(it)},signMes
     border-radius: 17px;
 font-family: Lexend ;
   
-  @media (prefers-color-scheme: dark) {
-    background-color: #222;
-    color: white;
-  }
+  
   min-height: 100vh;
   padding: 20px 20px;
 `,AppContainer$8=styled.div`
@@ -1346,10 +1331,7 @@ font-family: Lexend ;
   border-radius: 17px;
     position:  ;
     font-family: Lexend ;
-  @media (prefers-color-scheme: dark) {
-    background-color: rgb(29, 40, 58);
-    color: white;
-  }
+  
   min-height: 100vh;
   padding: 20px 20px;
 `,AppContainer$6=styled.div`
@@ -1380,10 +1362,7 @@ font-family: Lexend ;
   border-radius: 17px;
     position:  ;
     font-family: Lexend ;
-  @media (prefers-color-scheme: dark) {
-    background-color: rgb(29, 40, 58);
-    color: white;
-  }
+  
   min-height: 100vh;
   padding: 20px 20px;
 `;styled.div`
@@ -1397,10 +1376,7 @@ font-family: Lexend ;
   border-radius: 17px;
     position:  ;
     font-family: Lexend ;
-  @media (prefers-color-scheme: dark) {
-    background-color: rgb(29, 40, 58);
-    color: white;
-  }
+  
   min-height: 100vh;
   padding: 20px 20px;
 `,AppContainer$4=styled.div`
@@ -1414,10 +1390,7 @@ font-family: Lexend ;
   border-radius: 17px;
     position:  ;
     font-family: Lexend ;
-  @media (prefers-color-scheme: dark) {
-    background-color: rgb(29, 40, 58);
-    color: white;
-  }
+   
   min-height: 100vh;
   padding: 20px 20px;
 `,AppContainer$3=styled.div`
@@ -1431,10 +1404,7 @@ font-family: Lexend ;
   border-radius: 17px;
     position:  ;
     font-family: Lexend ;
-  @media (prefers-color-scheme: dark) {
-    background-color: rgb(29, 40, 58);
-    color: white;
-  }
+  
   min-height: 100vh;
   padding: 20px 20px;
 `,AppContainer$2=styled.div`
@@ -1448,10 +1418,7 @@ font-family: Lexend ;
   border-radius: 17px;
     position:  ;
     font-family: Lexend ;
-  @media (prefers-color-scheme: dark) {
-    background-color: rgb(29, 40, 58);
-    color: white;
-  }
+  
   min-height: 100vh;
   padding: 20px 20px;
 `,AppContainer$1=styled.div`
@@ -1465,10 +1432,7 @@ font-family: Lexend ;
   border-radius: 17px;
     position:  ;
     font-family: Lexend ;
-  @media (prefers-color-scheme: dark) {
-    background-color: rgb(29, 40, 58);
-    color: white;
-  }
+  
   min-height: 100vh;
   padding: 20px 20px;
 `,AppContainer=styled.div`
@@ -1498,10 +1462,7 @@ font-family: Lexend ;
 font-family: Lexend ;
      position: fixed;
      width:100%;
-  @media (prefers-color-scheme: dark) {
-    background-color: rgb(29, 40, 58);
-    color: white;
-  }
+  
   min-height: 90vh;
   padding: 20px 20px;
 `;styled.div`
