@@ -44,6 +44,8 @@ const CryptoRow = ({ crypto, logo }: { crypto: CryptoData; logo: string }) => (
         </tr>
 );
 
+
+
 function Api() {
     const [cryptos, setCryptos] = useState<CryptoData[]>([]);
     
@@ -83,7 +85,7 @@ function Api() {
                             <th>Name</th>
                             <th>Symbol</th>
                             <th>Price</th>
-                            <th>change/price</th>
+                            <th>change/price-24h</th>
                         </tr>
                     </thead>
                 <tbody>

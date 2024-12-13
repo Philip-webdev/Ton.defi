@@ -59,7 +59,7 @@ function Home(){
        slide();} ,[])
 
        const [AccountName, setAccountName] = useState('Jolah Jemima');
-       const [AccountBalance, setAccountBalance] = useState('$5,570.45')
+       const [AccountBalance, setAccountBalance] = useState('5,570.45 USD');
        useEffect(()=>{
         fetch('https://twa-backend-g83o.onrender.com/walletdetails').then((res) => res.json())
               .then((result) => {
@@ -135,17 +135,17 @@ function Home(){
     <Api/>
     
 </div>
-<div style={{marginLeft:'10px', background:'white ', padding:'10px',height:'150px', width:'300px',borderRadius:'7px'}}>NFT NFT NFT NFTNFT NFTNFT NFT NFT NFT NFT NFT</div></div>
+<div style={{marginLeft:'10px', background:'white ', padding:'10px',height:'139.4px', width:'300px',borderRadius:'7px'}}><p>NFT NFT NFT NFT NFT NFT NFT NFT NFT NFT</p>  </div></div>
 </section>
                 </div>
 
                 <div style={{right:'0.1%', bottom:'0%', display:'flex',justifyContent:'space-evenly' ,height:'fit-content',background:'white', width:'100%', paddingBottom:'10px', paddingRight:'10px',position:'fixed', borderRadius:'7px'}}>
             <a href='#/' style={{color:'black', textDecoration:'none'}}> 
-            <Button  style={{  fontFamily: 'Lexend' ,  marginLeft:'20px',bottom:'0%', marginRight:'27px', background:'none', color:"black"}}><img src='https://i.imgur.com/uxozY7V.png' height='14px' width='14px' />
+            <Button  style={{  fontFamily: 'Lexend' ,  marginLeft:'20px',bottom:'0%', marginRight:'20px', background:'none', color:"black"}}><img src='https://i.imgur.com/uxozY7V.png' height='14px' width='14px' />
             <p style={{zoom:'80%'}}>Home</p> </Button></a>
-            <a href='#/send' style={{color:'black', textDecoration:'none'}}> <Button  style={{  fontFamily: 'Lexend' ,bottom:'0%', marginRight:'30px', background:'none', color:"black"}}><img src="https://i.imgur.com/hCrmXO1.png" height='14px' width='14px'/>
+            <a href='#/send' style={{color:'black', textDecoration:'none'}}> <Button  style={{  fontFamily: 'Lexend' ,bottom:'0%', marginRight:'20px', background:'none', color:"black"}}><img src="https://i.imgur.com/hCrmXO1.png" height='14px' width='14px'/>
             <p style={{zoom:'80%'}}>wallet</p></Button></a>
-            <a href='#/market' style={{color:'black', textDecoration:'none'}}>  <Button style={{  fontFamily: 'Lexend' ,bottom:'0%', marginRight:'27px', background:'none', color:"black"}}> <img src="https://i.imgur.com/loOhRv0.png" height='14px' width='14px' /> 
+            <a href='#/market' style={{color:'black', textDecoration:'none'}}>  <Button style={{  fontFamily: 'Lexend' ,bottom:'0%', marginRight:'20px', background:'none', color:"black"}}> <img src="https://i.imgur.com/loOhRv0.png" height='14px' width='14px' /> 
               <p style={{zoom:'80%'}}>market</p></Button></a> 
               <a href='#/discover' style={{color:'black', textDecoration:'none'}}>
               <Button  style={{ fontFamily: 'Lexend' ,bottom:'0%', background:'none', color:"black"}}><img src='https://i.imgur.com/S444rBc.png'height='14px' width='14px'/>
