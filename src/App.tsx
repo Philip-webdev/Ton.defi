@@ -18,7 +18,7 @@ import security from "./components/security";
 import agenda from "./components/Agenda";
 import contact from "./components/contact";
 import { useEffect, useState } from "react";
-
+import Welcome2 from "./components/welcome2";
  const StyledApp = styled.div`
   background-color: #4B96FF;
   color: black;
@@ -83,7 +83,7 @@ function App() {
   
   <StyledApp  >
  
- <Home/>
+  <Welcome/>
  
   </StyledApp>
     </div>
