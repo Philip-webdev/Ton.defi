@@ -23,7 +23,7 @@ import { useEffect, useState } from "react";
   background-color: #4B96FF;
   color: black;
 
-    position: fixed;
+     
      width:100%;
   @media (prefers-color-scheme: dark) {
     background-color: rgb(29, 40, 58);
@@ -79,7 +79,7 @@ function App() {
   
   <StyledApp >
  
-  <Home/>
+ 
 
  
   </StyledApp>
