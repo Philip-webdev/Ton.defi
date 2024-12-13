@@ -79,7 +79,7 @@ function App() {
   
   <StyledApp >
  
- 
+ <div style={{textAlign: 'center', marginTop:'50%'}}> <a href='#/' style={{color:'black', textDecoration:'none'}}>open</a></div>
 
  
   </StyledApp>
