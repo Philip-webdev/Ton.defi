@@ -18,7 +18,7 @@ font-family: Lexend;
     background-color: #1B1B1B;
     color: white;
   }
-  min-height: 120vh;
+  min-height: 150vh;
   padding: 20px 20px;
 `;
 
