@@ -16,10 +16,7 @@ const StyledApp = styled.div`
     border-radius: 17px;
 font-family: Lexend ;
   
-  @media (prefers-color-scheme: dark) {
-    background-color: #222;
-    color: white;
-  }
+  
   min-height: 100vh;
   padding: 20px 20px;
 `;

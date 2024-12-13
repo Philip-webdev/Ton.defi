@@ -9,10 +9,7 @@ const StyledApp = styled.div`
   height: fit-content;
   padding: 20px;
 
-  @media (prefers-color-scheme: dark) {
-    background-color: rgb(29, 40, 58);
-    color: white;
-  }
+  
 `;
 
 const AppContainer = styled.div`
