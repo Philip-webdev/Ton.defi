@@ -34,22 +34,27 @@ interface CryptoData {
     };
 }
 
-const CryptoRow = ({ crypto, logo }: { crypto: CryptoData; logo: string }) => (
-    <tr style={{ borderRadius: '7px' }}>
-            
-            <td style={{margin:'5px',display:'flex'}}> <img src={logo} alt={`${crypto.name} logo`} style={{ width: '20px', height: '20px' }} />{crypto.name}</td>
-            <td style={{margin:'5px', paddingRight: '17px' }}>{crypto.symbol}</td>
-            <td style={{margin:'5px', paddingLeft: '20px' }}>${crypto.quote.USD.price.toFixed(2)}</td>
-            <td style={{margin:'5px', paddingLeft: '10px' }}>{crypto.quote.USD.percent_change_24h.toFixed(2)}%</td>
+const CryptoRow = ({ crypto, logo }: { crypto: CryptoData; logo: string }) => {
+    const percentChangeColor = crypto.quote.USD.percent_change_24h < 0 ? 'red' : 'green';
+
+    return (
+        <tr style={{ borderRadius: '7px' }}>
+            <td style={{ margin:'5px', display:'flex' }}>
+                <img src={logo} alt={`${crypto.name} logo`} style={{ width: '20px', height: '20px' }} />
+                {crypto.name}
+            </td>
+            <td style={{ margin:'5px', paddingRight:'17px' }}>{crypto.symbol}</td>
+            <td style={{ margin:'5px', paddingLeft:'20px' }}>${crypto.quote.USD.price.toFixed(2)}</td>
+            <td style={{ margin:'5px', paddingLeft:'10px', color: percentChangeColor }}>
+                {crypto.quote.USD.percent_change_24h.toFixed(2)}%
+            </td>
         </tr>
-);
-
-
+    );
+};
 
 function Api() {
     const [cryptos, setCryptos] = useState<CryptoData[]>([]);
     
-    // Array of logos corresponding to the first five cryptocurrencies
     const logos = [
         'https://i.imgur.com/sSYmdfQ.png',
         'https://i.imgur.com/dhJjQcO.png',
@@ -57,7 +62,6 @@ function Api() {
         'https://i.imgur.com/qfO2YuU.png',
         'https://i.imgur.com/rjWW55s.png'
     ];
-    
 
     useEffect(() => {
         const fetchData = async () => {
@@ -74,20 +78,19 @@ function Api() {
         };
 
         fetchData();
-    }, []); // Empty dependency array to run once on mount
+    }, []);
 
     return (
         <AppContainer>
-            <table style={{ margin: 'auto', justifyContent: 'center' }}>
-            <thead style={{zoom:'70%',color:'grey'}}>
-                        <tr>
-                            
-                            <th>Name</th>
-                            <th>Symbol</th>
-                            <th>Price</th>
-                            <th>change/price-24h</th>
-                        </tr>
-                    </thead>
+            <table style={{ margin:'auto', justifyContent:'center' }}>
+                <thead style={{ zoom:'70%', color:'grey' }}>
+                    <tr>
+                        <th>Name</th>
+                        <th>Symbol</th>
+                        <th>Price</th>
+                        <th>Change/Price (24h)</th>
+                    </tr>
+                </thead>
                 <tbody>
                     {cryptos.map((crypto, index) => (
                         <CryptoRow key={crypto.id} crypto={crypto} logo={logos[index]} />
