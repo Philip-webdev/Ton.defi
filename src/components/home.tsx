@@ -26,7 +26,7 @@ const AppContainer = styled.div`
   height:fit-content;
   margin: 0;
 `;
-function home(){
+function Home(){
     const slide = ()=>{
         const slideContents = document.getElementById('slideContents');
         const slideContainer = document.getElementById('slideContainer');
@@ -152,4 +152,4 @@ function home(){
     )
 }
 
-export default home;
+export default Home;

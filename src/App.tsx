@@ -1,4 +1,4 @@
- import home from "./components/home";
+ import Home from "./components/home";
  import styled from "styled-components";
  import send from "./components/Send";
  import tools from "./components/tools";
@@ -60,7 +60,7 @@ function App() {
   
     <HashRouter>
     <Routes>
-    <Route path="/" Component={home}/>
+    <Route path="/" Component={Home}/>
     <Route path="/send" Component={send}/>
     <Route path="/swap" Component={swap}/>
     <Route path="/register" Component={Register}/>
@@ -79,7 +79,7 @@ function App() {
   
   <StyledApp >
  
-  <Welcome/>
+  <Home/>
 
  
   </StyledApp>
