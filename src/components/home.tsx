@@ -135,7 +135,7 @@ function Home(){
     <Api/>
     
 </div>
-<div style={{marginLeft:'10px', background:'white ', padding:'10px',height:'139.4px', width:'300px',borderRadius:'7px'}}><p>NFT NFT NFT NFT NFT NFT NFT NFT NFT NFT</p>  </div></div>
+<div style={{marginLeft:'10px', background:'white ', padding:'10px',height:'223.4px', width:'300px',borderRadius:'7px'}}><p>NFT NFT NFT NFT NFT NFT NFT NFT NFT NFT</p>  </div></div>
 </section>
                 </div>
 
