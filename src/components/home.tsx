@@ -126,7 +126,7 @@ function Home(){
       </div>
 </div> <br/> <br/>
 
-<section style={{display: 'flex', overflow: 'scroll'}}>
+<section style={{display: 'flex', overflowX: 'scroll'}}>
 <div style={{background:'white',padding:'10px',borderRadius:'7px', height:'fit-content',width:'fit-content'}}>
     <Api/>
     
