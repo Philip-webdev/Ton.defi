@@ -30,10 +30,11 @@ function Welcome2(){
     return(
     
         <StyledApp>
-
+   
+          <a href='#/' style={{ textDecoration:'none'}}> 
+          <div  style={{textAlign: 'center', marginTop:'50%'}}>Open</div>
           
-            
-          <a href='#/' style={{ textDecoration:'none'}}> <div  style={{textAlign: 'center', marginTop:'50%'}}>Open</div></a>
+          </a>
         </StyledApp>
         
     )
