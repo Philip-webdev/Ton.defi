@@ -91,9 +91,9 @@ function Home(){
                     </div>
                     </div><br/>
                     <div id="showcase"
-                     style={{ color: 'black', height:'150px', width: '100%', margin:'auto', marginTop:'5%',marginBottom:'5%',fontFamily: 'Lexend', background:'white', borderRadius:'10px'}}>
-                      <p style={{paddingLeft:'7px',paddingTop:'7px',zoom:'90%'}}>Wallet Balance</p>
-                    <div style={{paddingLeft:'7px',color:'black' ,fontWeight:'500'}}>{AccountName}</div><br/>
+                     style={{ color: 'white', height:'90px', width: '100%', margin:'auto', marginTop:'5%',marginBottom:'5%',fontFamily: 'Lexend', background:'#87CEEB', borderRadius:'10px'}}>
+                      {/* <p style={{paddingLeft:'7px',paddingTop:'7px',zoom:'90%'}}>Wallet Balance</p>#87CEEB #4B96FF*/}
+                    <div style={{paddingLeft:'7px',color:'white' ,fontWeight:'500'}}>{AccountName}</div><br/>
                     <div style={{paddingLeft:'7px', fontWeight:'500'}}>{AccountBalance}</div></div>
 
                 <div style={{fontFamily: 'Lexend',display:'flex',background :'', justifyContent:'space-around', borderRadius:'7px' }}>
@@ -113,7 +113,7 @@ function Home(){
     
 </div> 
 <br/> <br/>
-<div style={{display:'flex', gap:'20px', borderRadius:'7px', background:'#4B96FF', color:'white'}}>
+<div style={{display:'flex', gap:'20px', borderRadius:'7px', background:'#87CEEB', color:'white'}}>
   <div id="publicity-logo" style={{padding:'20px'}}><img src='https://i.imgur.com/5d6m9T7.png' height='20px' width='20px'/></div>
   <div  id='InfoContainer' style={{zIndex:'0',marginLeft:'10px' , width:'100%', height:'40px', overflowY:'hidden',  border:'none', borderRadius:'7px', justifySelf:'center'}}>
   <div id='InfoContents' style={{height:'fit-content', width:'auto',  transition:'1s ease'}}>
@@ -129,12 +129,13 @@ function Home(){
       </div>
 </div> <br/> <br/>
 
-<section style={{display: 'flex', overflowX: 'scroll'}}>
+<section style={{  overflowX: 'scroll'}}>
+  <div style={{display:'flex'}}>
 <div style={{background:'white',padding:'10px',borderRadius:'7px', height:'fit-content',width:'fit-content'}}>
     <Api/>
     
 </div>
-<div style={{background:'white ', height:'200px', width:'300px',borderRadius:'7px'}}>Hi</div>
+<div style={{marginLeft:'10px', background:'white ', padding:'10px',height:'150px', width:'300px',borderRadius:'7px'}}>NFT NFT NFT NFTNFT NFTNFT NFT NFT NFT NFT NFT</div></div>
 </section>
                 </div>
 
