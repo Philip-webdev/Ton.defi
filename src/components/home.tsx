@@ -11,6 +11,7 @@ import { Helmet } from 'react-helmet';
 const StyledApp = styled.div`
   background-color: #F9F9F9;
   color: black;
+  margin:0;
 font-family: Lexend;
   border-radius:7px;
   @media (prefers-color-scheme: dark) {

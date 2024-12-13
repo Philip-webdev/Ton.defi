@@ -81,9 +81,9 @@ function App() {
     </Routes>
   </HashRouter>
   
-  <StyledApp onLoad={onloadwelcomeScreen}>
+  <StyledApp  >
  
- 
+ <Home/>
  
   </StyledApp>
     </div>
