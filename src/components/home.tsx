@@ -125,10 +125,14 @@ function home(){
       <div style={{color:"grey", padding:'10px'}}>NFTs</div>
       </div>
 </div> <br/> <br/>
+
+<section style={{display: 'flex', overflow: 'scroll'}}>
 <div style={{background:'white',padding:'10px',borderRadius:'7px', height:'fit-content',width:'fit-content'}}>
     <Api/>
     
 </div>
+<div style={{background:'blue', height:'100px', width:'300px'}}>Hi</div>
+</section>
                 </div>
 
                 <div style={{right:'0.1%', bottom:'0%', display:'flex',justifyContent:'space-evenly' ,height:'fit-content',background:'white', width:'100%', paddingBottom:'10px', paddingRight:'10px',position:'fixed', borderRadius:'7px'}}>
