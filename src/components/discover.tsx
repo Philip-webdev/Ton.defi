@@ -54,24 +54,24 @@ return(
       <h1>Discover best blogs on Crypto</h1>
    <div id="blog_container" style={{display:'inline', margin:'auto', width:'50%'}}>
    <a href="https://coinbound.io/best-crypto-blogs">
-     <div style={{background :'white', height:'300px', width:'370px',borderRadius:'10px'}}>
-       <img src ='https://i.imgur.com/p53cFyS.jpeg' height='300px' width='320px' style={{borderRadius:'20px'}}/>
+     <div style={{background :'white', height:'300px', width:'300px',borderRadius:'10px'}}>
+       <img src ='https://i.imgur.com/p53cFyS.jpeg' height='300px' width='300px' style={{borderRadius:'20px'}}/>
 </div></a>
      <p style={{fontSize:'medium',color:'grey'}}>Best crypto blogs</p><br/><br/>
  
 <a href="https://www.cryptoblogs.io/crypto-etf-what-is-it-types-and-working/">
   <div style={{background :'white', height:'300px', width:'300px',borderRadius:'10px'}}>
-  <img src = 'https://i.imgur.com/p53cFyS.jpeg' height='300px' width='320px' style={{borderRadius:'20px'}}/>
+  <img src = 'https://i.imgur.com/p53cFyS.jpeg' height='300px' width='300px' style={{borderRadius:'20px'}}/>
 </div></a>
       <p style={{fontSize:'medium',color:'grey'}}>Crypto ETF</p> <br/><br/>
 <a href="https://www.cryptoblogs.io/cex-vs-dex">
   <div style={{background :'white', height:'300px', width:'300px',borderRadius:'10px'}}> 
-<img src = 'https://i.imgur.com/p53cFyS.jpeg' height='300px' width='320px' style={{borderRadius:'20px'}}/></div></a>
+<img src = 'https://i.imgur.com/p53cFyS.jpeg' height='300px' width='300px' style={{borderRadius:'20px'}}/></div></a>
      <p style={{fontSize:'medium',color:'grey'}}>CEX vs DEX</p><br/><br/>
 <a href="https://www.cryptoblogs.io/crypto-coins-vs-tokens/">
-  <div style={{background :'white', height:'300px', width:'320px',borderRadius:'10px'}}></div></a>
+  <div style={{background :'white', height:'300px', width:'300px',borderRadius:'10px'}}></div></a>
      <p style={{fontSize:'medium',color:'grey'}}>Coin vs Token</p><br/><br/>
-<a href="https://www.cryptoblogs.io/fundamental-analysis-in-cryptocurrencies/"><div style={{background :'white', height:'300px', width:'300px',borderRadius:'10px'}}><img src="https://i.imgur.com/5CB2a87.jpeg" height='300px' width='370px' style={{borderRadius:'20px'}}/> </div></a>
+<a href="https://www.cryptoblogs.io/fundamental-analysis-in-cryptocurrencies/"><div style={{background :'white', height:'300px', width:'300px',borderRadius:'10px'}}><img src="https://i.imgur.com/5CB2a87.jpeg" height='300px' width='300px' style={{borderRadius:'20px'}}/> </div></a>
      <p  style={{fontSize:'medium',color:'grey'}}>Fundamental Analysis in Cryptocurrency</p><br/><br/><br/>
 
    </div>
