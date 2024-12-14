@@ -17,6 +17,7 @@ import settings from "./components/settings";
 import security from "./components/security";
 import agenda from "./components/Agenda";
 import contact from "./components/contact";
+import organizer from "./components/organizer";
 import { useEffect, useState } from "react";
 import Welcome2 from "./components/welcome2";
  const StyledApp = styled.div`
@@ -79,6 +80,7 @@ function App() {
     <Route path="/agenda" Component={agenda}/>
     <Route path="/security" Component={security}/>
     <Route path="/settings" Component={settings}/>
+    <Route path="/organizer" Component={settings}/>
     </Routes>
   </HashRouter>
   
