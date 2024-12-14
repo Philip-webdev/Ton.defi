@@ -52,10 +52,13 @@ return(
     <StyledApp>
     <AppContainer><h1>Discover best blogs on Crypto</h1>
    <div id="blog_container" style={{display:'inline', margin:'auto', width:'50%', justifyContent:'center'}}>
-   <a href="https://coinbound.io/best-crypto-blogs/"><div style={{background :'white', height:'300px', width:'300px',borderRadius:'10px'}}><img src = 'https://i.imgur.com/p53cFyS.jpeg' height='300px', width='300px'/>
+   <a href="https://coinbound.io/best-crypto-blogs">
+     <div style={{background :'white', height:'300px', width:'300px',borderRadius:'10px'}}>
+       <img src = 'https://i.imgur.com/p53cFyS.jpeg' height='300px', width='300px'/>
 </div></a><p>Best crypto blogs</p><br/>
  
-<a href="https://www.cryptoblogs.io/crypto-etf-what-is-it-types-and-working/"><div style={{background :'white', height:'300px', width:'300px',borderRadius:'10px'}}><img src = 'https://i.imgur.com/p53cFyS.jpeg' height='300px', width='300px'/>
+<a href="https://www.cryptoblogs.io/crypto-etf-what-is-it-types-and-working/"><div style={{background :'white', height:'300px', width:'300px',borderRadius:'10px'}}>
+  <img src = 'https://i.imgur.com/p53cFyS.jpeg' height='300px', width='300px'/>
 </div></a><p>Best crypto blogs</p><br/></div></a> <p>Crypto ETF</p> <br/>
 <a href="https://www.cryptoblogs.io/cex-vs-dex/"><div style={{background :'white', height:'300px', width:'300px',borderRadius:'10px'}}> </div></a><p>CEX vs DEX</p><br/>
 <a href="https://www.cryptoblogs.io/crypto-coins-vs-tokens/"><div style={{background :'white', height:'300px', width:'300px',borderRadius:'10px'}}></div></a><p>Coin vs Token</p><br/>
@@ -73,7 +76,8 @@ return(
                <a href='#/discover' style={{color:'black', textDecoration:'none'}}><Button  style={{ fontFamily: 'Lexend' ,bottom:'0%', background:'none', color:"black"}}><img src='https://i.imgur.com/S444rBc.png'height='14px' width='14px'/>
               <p style={{zoom:'80%'}}>Discover</p> </Button></a>
             </div>
-    </AppContainer></StyledApp>
-)
+    </AppContainer>
+  </StyledApp>
+);
 }
 export default discover;
