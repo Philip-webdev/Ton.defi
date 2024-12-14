@@ -18,6 +18,7 @@ import security from "./components/security";
 import agenda from "./components/Agenda";
 import contact from "./components/contact";
 import organizer from "./components/organizer";
+import swaps from "./components/ethEx";
 import { useEffect, useState } from "react";
 import Welcome2 from "./components/welcome2";
  const StyledApp = styled.div`
@@ -81,6 +82,7 @@ function App() {
     <Route path="/security" Component={security}/>
     <Route path="/settings" Component={settings}/>
     <Route path="/organizer" Component={settings}/>
+    <Route path="/ethEx" Component={swaps}/>
     </Routes>
   </HashRouter>
   
