@@ -60,6 +60,20 @@ function Home(){
 
        const [AccountName, setAccountName] = useState('Jolah Jemima');
        const [AccountBalance, setAccountBalance] = useState('5,570.45 USD');
+       const [Nohide, hide] = useState(<img src="https://i.imgur.com/5mz3gKD.png" height='20px' width='20px'/>);
+
+       function Hide(){
+        hide(<img src="https://i.imgur.com/ex7JGsm.png" height='20px' width='20px' />);
+        setAccountBalance('* * *');
+       
+      
+       }
+       function removeHide(){
+       
+          setAccountBalance('5,570.45 USD');
+          hide(<img src="https://i.imgur.com/5mz3gKD.png" height='20px' width='20px'/>)
+        
+       }
        useEffect(()=>{
         fetch('https://twa-backend-g83o.onrender.com/walletdetails').then((res) => res.json())
               .then((result) => {
@@ -94,7 +108,7 @@ function Home(){
                      style={{ color: 'white', height:'90px', width: '100%', margin:'auto', marginTop:'5%',marginBottom:'5%',fontFamily: 'Lexend', background:'#87CEEB', borderRadius:'10px'}}>
                       {/* <p style={{paddingLeft:'7px',paddingTop:'7px',zoom:'90%'}}>Wallet Balance</p>#87CEEB #4B96FF*/}
                     <div style={{paddingLeft:'7px',paddingTop:'9px',color:'white' ,fontWeight:'500'}}>{AccountName}</div><br/>
-                    <div style={{paddingLeft:'7px', fontWeight:'500'}}>{AccountBalance}</div></div>
+                    <div style={{paddingLeft:'7px', fontWeight:'500', display:'flex', gap:'7px'}} onDoubleClick={removeHide} onClick={Hide}>{AccountBalance} {Nohide}</div></div>
 
                 <div style={{fontFamily: 'Lexend',display:'flex',background :'', justifyContent:'space-around', borderRadius:'7px' }}>
                     
