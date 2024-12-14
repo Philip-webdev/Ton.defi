@@ -50,76 +50,8 @@ function ondatainput(){
     }
     
 }
-async function swapTokens(){
-
-    const fromToken = document.getElementById('fromToken') as HTMLInputElement;
-    var fromTokenn = fromToken.value;
-    const toToken = document.getElementById('toToken') as HTMLInputElement;
-    var toTokenn = toToken.value;
-    const amount = document.getElementById('amount') as HTMLInputElement;
-const ABI = [
-    {
-      "constant": true,
-      "inputs": [],
-      "name": "totalSupply",
-      "outputs": [{ "name": "", "type": "uint256" }],
-      "payable": false,
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "constant": false,
-      "inputs": [
-        { "name": "_to", "type": "address" },
-        { "name": "_value", "type": "uint256" }
-      ],
-      "name": "transfer",
-      "outputs": [{ "name": "", "type": "bool" }],
-      "payable": false,
-      "stateMutability": "nonpayable",
-      "type": "function"
-    }
-  ];
-  var routerAddress = 'routeraddresstffjfjfjeh';
-    var amountt = amount.value;
-
-    const web3 = new Web3(window.ethereum);
-    if (window.ethereum) {
-        console.log('Ethereum provider detected:', window.ethereum);
-      } else {
-        console.error('No Ethereum provider found. Install MetaMask!');
-      }
+ 
       
-    const accounts = await web3.eth.getAccounts();
-
-    if (!fromToken || !toToken || !amount ) {
-        var A= document.getElementById('result');
-        if (A != null){
-        A.innerText = 'Please fill in all fields.';
-        return;}
-    }
-
-    try {
-        var B = document.getElementById('loader');
-        if(B != null)
-            B.classList.remove('hidden');
-        const fromTokenContract = new web3.eth.Contract(ABI, fromTokenn);
-        const toTokenContract = new web3.eth.Contract(ABI, toTokenn);
-        await fromTokenContract.methods.approve(routerAddress, amountt).send({from: accounts[0]});
-        await toTokenContract.methods.swapExactTokensForTokens(amountt, 0, [fromTokenn, toTokenn], accounts[0], Date.now() + 1000 * 60 * 10).send({from: accounts[0]});
-       var alertS = document.getElementById('result')
-       if(alertS !=null)
-        alertS.innerText = 'Swap successful!';
-    } catch (error) {
-        var alertE = document.getElementById('result')
-        if(alertE != null)
-            alertE.innerText = 'Swap failed. Please try again.';
-    } finally {
-        var fin = document.getElementById('loader')
-        if (fin != null)
-            fin.classList.add('hidden');
-    }
-}
     return(
         <StyledApp><Helmet><script src="https://cdn.jsdelivr.net/npm/web3@1.6.0/dist/web3.min.js"></script></Helmet>
             <AppContainer>
