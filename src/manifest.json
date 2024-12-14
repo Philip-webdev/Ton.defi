@@ -1,5 +1,6 @@
 {
-    "url": "<app-url>",                    
+    "url": "<app-url>", 
+    "app_name": "ton.defi",                   
     "name": "ton.defi", 
     "short_name": "ton.defi",                   
     "iconUrl": "<app-icon-url>",            
