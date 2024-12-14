@@ -4,7 +4,10 @@ import styled from "styled-components";
 export const Card = styled.div`
   padding: 18px 20px;
   border-radius: 8px;
-  background-color: white;
+  border-style: groove;
+  border-width:1px;
+  border-color:#87CEEB;
+  background-color: whitesmoke;
 font-family: Lexend;
   @media (prefers-color-scheme: dark) {
     background-color: white;
