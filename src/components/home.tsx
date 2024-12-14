@@ -1,4 +1,4 @@
-  weimport { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Api from "./api";
 import '../index.css';
 import styled from "styled-components";
