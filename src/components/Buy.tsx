@@ -29,8 +29,16 @@ return(
     <StyledApp>
         <AppContainer>
 
-          
+
         <a href='#/' style={{ textDecoration:'none'}}><BsArrowLeftCircle style={{color:'#4B96FF', height:'20px', width:'20px'}}/> </a>
+        <br/>
+<h3>Buy & Sell crypto</h3>
+        <div style={{  justifyContent:'space-around', background:'white', borderRadius:'10px'}}>
+<div style={{display: 'flex'  , gap:'17px',padding:'20px', borderColor:'whitesmoke', borderBottomStyle:'groove', borderWidth:'2px'}}><img src='https://i.imgur.com/k5hxjjq.png' height='20px' width='20px' style={{borderRadius:'100%'}} /><div style={{marginLeft:'7px'}}><a href="exchange.mercuryo.io" style={{color:'black', textDecoration:'none'}}>Mercuryo</a></div></div>
+  <div  style={{display: 'flex'  , gap:'17px',padding:'20px', borderColor:'whitesmoke', borderBottomStyle:'groove', borderWidth:'2px'}}><img src='https://i.imgur.com/d5IDxCo.jpeg' height='20px' width='20px' style={{borderRadius:'100%'}} /><div  style={{marginLeft:'7px'}}><a href="global.transak.com" style={{color:'black', textDecoration:'none'}}>Transak</a></div></div>
+  <div  style={{display: 'flex'  , gap:'17px',padding:'20px', borderColor:'whitesmoke', borderBottomStyle:'groove', borderWidth:'2px'}}><img src='https://i.imgur.com/lP16Nne.png' height='20px' width='20px' style={{borderRadius:'100%'}} /><div  style={{marginLeft:'7px'}}><a href="https://ramp.alchemypay.org/#/index" style={{color:'black', textDecoration:'none'}}>Alchemypay</a></div></div>
+  </div>
+
         <div style={{right:'0.1%', bottom:'0%', display:'flex',justifyContent:'space-evenly' ,height:'fit-content',background:'white', width:'100%', paddingBottom:'10px', paddingRight:'10px',position:'fixed', borderRadius:'7px'}}>
                     <a href='#/' style={{color:'black', textDecoration:'none'}}> 
                     <Button  style={{  fontFamily: 'Lexend' ,  marginLeft:'20px',bottom:'0%', marginRight:'20px', background:'none', color:"black"}}><img src='https://i.imgur.com/uxozY7V.png' height='14px' width='14px' />
