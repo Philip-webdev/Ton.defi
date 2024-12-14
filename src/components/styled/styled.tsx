@@ -52,7 +52,7 @@ export const Input = styled("input")`
   border-radius: 10px;
   width: 100%;
   font-family: Lexend;
-  border: 1px solid #c2c2c2;
+  border: 1px solid black;
 
   @media (prefers-color-scheme: dark) {
     border: 1px solid #fefefe;
