@@ -124,7 +124,7 @@ const ABI = [
         <StyledApp><Helmet><script src="https://cdn.jsdelivr.net/npm/web3@1.6.0/dist/web3.min.js"></script></Helmet>
             <AppContainer>
 <div style={{display: 'flex'  , gap:'17px',padding:'20px', background: 'white', borderRadius:'10px'}}>
-  <img src='https://i.imgur.com/w8vihMp.png'  height='20px' width='20px' style={{borderRadius:'100%'}}/><div><a href='https://app zap.africa' style={{color:'black', textDecoration:'none'}}>Zap Exchange</a></div></div>
+  <img src='https://i.imgur.com/w8vihMp.png'  height='20px' width='20px' style={{borderRadius:'100%'}}/><div><a href='https://app.zap.africa/' style={{color:'black', textDecoration:'none'}}>Zap Exchange</a></div></div>
 
 <br/>
 
