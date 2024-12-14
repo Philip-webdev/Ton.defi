@@ -131,8 +131,8 @@ function Home(){
   <div id="publicity-logo" style={{padding:'20px'}}><img src='https://i.imgur.com/5d6m9T7.png' height='20px' width='20px'/></div>
   <div  id='InfoContainer' style={{zIndex:'0',marginLeft:'10px' , width:'100%', height:'40px', overflowY:'hidden',  border:'none', borderRadius:'7px', justifySelf:'center'}}>
   <div id='InfoContents' style={{height:'fit-content', width:'auto',  transition:'1s ease'}}>
-  <div id="publcity" style={{paddingTop:'17px'}}>Nothing for now</div>
-  <div id="publcity" style={{paddingTop:'35px'}}>Nothing for now</div>
+  <div id="publcity" style={{paddingTop:'17px'}}>Our 24/7 support is live</div>
+  <div id="publcity" style={{paddingTop:'35px'}}>Click at the top right corner, host and share your link </div>
   </div></div>
 </div>
 <br/>
