@@ -36,8 +36,7 @@ const [walletReference, setWalletreference] = useState("ref563464855848565");
 // const Email = document.getElementById('customerEmail')?.nodeValue;
 // const bvndetails = document.getElementById(' bvnDetails')?.nodeValue;
 
-
-    const AccountData = {
+   const AccountData = {
         customerName:customerName,
         walletName: walletName,
         customerEmail:  customerEmail,
