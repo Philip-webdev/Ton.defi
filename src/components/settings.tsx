@@ -36,9 +36,9 @@ return(
                    <Button  style={{  fontFamily: 'Lexend' ,  marginLeft:'20px',bottom:'0%', marginRight:'27px', background:'none', color:"black"}}><img src='https://i.imgur.com/uxozY7V.png' height='14px' width='14px' />
                    <p style={{zoom:'80%'}}>Home</p> </Button></a>
                    <a href='#/send' style={{color:'black', textDecoration:'none'}}> <Button  style={{  fontFamily: 'Lexend' ,bottom:'0%', marginRight:'30px', background:'none', color:"black"}}><img src="https://i.imgur.com/hCrmXO1.png" height='14px' width='14px'/>
-                   <p style={{zoom:'80%'}}>wallet</p></Button></a>
+                   <p style={{zoom:'80%'}}>Wallet</p></Button></a>
                    <a href='#/market' style={{color:'black', textDecoration:'none'}}>  <Button style={{  fontFamily: 'Lexend' ,bottom:'0%', marginRight:'27px', background:'none', color:"black"}}> <img src="https://i.imgur.com/loOhRv0.png" height='14px' width='14px' /> 
-                     <p style={{zoom:'80%'}}>market</p></Button></a>
+                     <p style={{zoom:'80%'}}>Market</p></Button></a>
                       <a href='#/discover' style={{color:'black', textDecoration:'none'}}><Button  style={{ fontFamily: 'Lexend' ,bottom:'0%', background:'none', color:"black"}}><img src='https://i.imgur.com/S444rBc.png'height='14px' width='14px'/>
                      <p style={{zoom:'80%'}}>Discover</p> </Button></a>
                    </div>

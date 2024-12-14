@@ -18,7 +18,7 @@ export function Counter() {
     <div className="Container">
       <TonConnectButton />
 
-      <Card style={{width:'90%'}}>
+      <Card>
         <FlexBoxCol>
           <h3>Counter</h3>
           <FlexBoxRow>

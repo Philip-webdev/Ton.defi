@@ -1,12 +1,13 @@
 import styled from "styled-components";
 
+
 export const Card = styled.div`
   padding: 18px 20px;
   border-radius: 8px;
   background-color: white;
-
+font-family: Lexend;
   @media (prefers-color-scheme: dark) {
-    background-color: #111;
+    background-color: white;
   }
 `;
 
@@ -15,6 +16,7 @@ export const FlexBoxRow = styled.div`
   flex-direction: row;
   gap: 10px;
   align-items: center;
+  font-family: Lexend;
 `;
 
 export const FlexBoxCol = styled.div`
@@ -31,6 +33,7 @@ export const Button = styled.button`
   padding: 10px 20px;
   color: var(--tg-theme-button-text-color);
   font-weight: 700;
+  font-family: Lexend;
   cursor: pointer;
   pointer-events: ${(props) => (props.disabled ? "none" : "inherit")};
 `;
@@ -45,6 +48,7 @@ export const Input = styled("input")`
   padding: 10px 20px;
   border-radius: 10px;
   width: 100%;
+  font-family: Lexend;
   border: 1px solid #c2c2c2;
 
   @media (prefers-color-scheme: dark) {
