@@ -28,6 +28,8 @@ function buy(){
 return(
     <StyledApp>
         <AppContainer>
+
+          
         <a href='#/' style={{ textDecoration:'none'}}><BsArrowLeftCircle style={{color:'#4B96FF', height:'20px', width:'20px'}}/> </a>
         <div style={{right:'0.1%', bottom:'0%', display:'flex',justifyContent:'space-evenly' ,height:'fit-content',background:'white', width:'100%', paddingBottom:'10px', paddingRight:'10px',position:'fixed', borderRadius:'7px'}}>
                     <a href='#/' style={{color:'black', textDecoration:'none'}}> 
