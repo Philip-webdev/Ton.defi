@@ -35,7 +35,7 @@ function sendCoin() {
       <AppContainer>
         <FlexBoxCol>
           <FlexBoxRow>
-            <TonConnectButton />
+            
             <Button>
               {network
                 ? network === CHAIN.MAINNET
@@ -43,6 +43,7 @@ function sendCoin() {
                   : "testnet"
                 : "N/A"}
             </Button>
+            <TonConnectButton />
           </FlexBoxRow>
           <Counter />
           <TransferTon />
