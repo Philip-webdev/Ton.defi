@@ -136,27 +136,7 @@ const ABI = [
 
 
 
-<div style={{margin:'auto', width:'fit-content', justifyContent:'center', borderRadius:'7px', background:'white', padding:'10px'}}>
-<div><h1>Token Swap</h1></div>
-  <form>
-<div className="input-group" >
-        <label htmlFor="fromToken">From Token:</label>
-        <input type="text" id="fromToken" placeholder="Token Address"/>
-    </div>
-    <div className="input-group">
-        <label htmlFor="toToken">To Token:</label>
-        <input type="text" id="toToken" placeholder="Token Address"/>
-    </div>
-    <div className="input-group">
-        <label htmlFor="amount">Amount:</label>
-        <input type="number" id="amount" placeholder="Amount"/>
-    </div>
-    <div style={{margin:'auto', width:'50%'}}> <button id='swapper' type="button" onClick={swapTokens}>Swap Tokens</button></div>
-    </form>
-    <div id="result"></div>
-    <div id="loader" className="hidden"></div>
-    </div>
-            
+ 
                 
     <div style={{right:'0.1%', bottom:'0%', display:'flex',justifyContent:'space-evenly' ,height:'fit-content',background:'white', width:'100%', paddingBottom:'10px', paddingRight:'10px',position:'fixed', borderRadius:'7px'}}>
             <a href='#/' style={{color:'black', textDecoration:'none'}}> 
