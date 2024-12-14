@@ -55,23 +55,23 @@ return(
    <div id="blog_container" style={{display:'inline', margin:'auto', width:'50%'}}>
    <a href="https://coinbound.io/best-crypto-blogs">
      <div style={{background :'white', height:'300px', width:'300px',borderRadius:'10px'}}>
-       <img src ='https://i.imgur.com/p53cFyS.jpeg' height='300px' width='300px'/>
+       <img src ='https://i.imgur.com/p53cFyS.jpeg' height='300px' width='300px' style={{borderRadius:'20px'}}/>
 </div></a>
      <p>Best crypto blogs</p><br/>
  
 <a href="https://www.cryptoblogs.io/crypto-etf-what-is-it-types-and-working/">
   <div style={{background :'white', height:'300px', width:'300px',borderRadius:'10px'}}>
-  <img src = 'https://i.imgur.com/p53cFyS.jpeg' height='300px' width='300px'/>
+  <img src = 'https://i.imgur.com/p53cFyS.jpeg' height='300px' width='300px' style={{borderRadius:'20px'}}/>
 </div></a>
       <p>Crypto ETF</p> <br/>
 <a href="https://www.cryptoblogs.io/cex-vs-dex">
   <div style={{background :'white', height:'300px', width:'300px',borderRadius:'10px'}}> 
-<img src = 'https://i.imgur.com/p53cFyS.jpeg' height='300px' width='300px'/></div></a>
+<img src = 'https://i.imgur.com/p53cFyS.jpeg' height='300px' width='300px' style={{borderRadius:'20px'}}/></div></a>
      <p>CEX vs DEX</p><br/>
 <a href="https://www.cryptoblogs.io/crypto-coins-vs-tokens/">
   <div style={{background :'white', height:'300px', width:'300px',borderRadius:'10px'}}></div></a>
      <p>Coin vs Token</p><br/>
-<a href="https://www.cryptoblogs.io/fundamental-analysis-in-cryptocurrencies/"><div style={{background :'white', height:'300px', width:'300px',borderRadius:'10px'}}><img src="https://i.imgur.com/5CB2a87.jpeg" height='300px' width='300px'/> </div></a>
+<a href="https://www.cryptoblogs.io/fundamental-analysis-in-cryptocurrencies/"><div style={{background :'white', height:'300px', width:'300px',borderRadius:'10px'}}><img src="https://i.imgur.com/5CB2a87.jpeg" height='300px' width='300px' style={{borderRadius:'20px'}}/> </div></a>
      <p>Fundamental Analysis in Cryptocurrency</p><br/><br/><br/>
 
    </div>
