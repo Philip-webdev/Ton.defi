@@ -50,8 +50,7 @@ function discover() {
   
 return(
     <StyledApp>
-    <AppContainer>
-      <h1 style={color: 'linear-gradient(to right,#4B96FF, #87CEEB)' }>Discover best blogs on Crypto</h1>
+    <AppContainer><h1>Discover best blogs on Crypto</h1>
    <div id="blog_container" style={{display:'inline', margin:'auto', width:'50%', justifyContent:'center'}}>
    <a href="https://coinbound.io/best-crypto-blogs/"><div style={{background :'white', height:'300px', width:'300px',borderRadius:'10px'}}><img src = 'https://i.imgur.com/p53cFyS.jpeg' height='300px', width='300px'/>
 </div></a><p>Best crypto blogs</p><br/>
