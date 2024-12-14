@@ -50,19 +50,27 @@ function discover() {
   
 return(
     <StyledApp>
-    <AppContainer><h1>Discover best blogs on Crypto</h1>
+    <AppContainer>
+      <h1>Discover best blogs on Crypto</h1>
    <div id="blog_container" style={{display:'inline', margin:'auto', width:'50%', justifyContent:'center'}}>
    <a href="https://coinbound.io/best-crypto-blogs">
      <div style={{background :'white', height:'300px', width:'300px',borderRadius:'10px'}}>
        <img src = 'https://i.imgur.com/p53cFyS.jpeg' height='300px', width='300px'/>
-</div></a><p>Best crypto blogs</p><br/>
+</div></a>
+     <p>Best crypto blogs</p><br/>
  
-<a href="https://www.cryptoblogs.io/crypto-etf-what-is-it-types-and-working/"><div style={{background :'white', height:'300px', width:'300px',borderRadius:'10px'}}>
+<a href="https://www.cryptoblogs.io/crypto-etf-what-is-it-types-and-working/">
+  <div style={{background :'white', height:'300px', width:'300px',borderRadius:'10px'}}>
   <img src = 'https://i.imgur.com/p53cFyS.jpeg' height='300px', width='300px'/>
-</div></a><p>Best crypto blogs</p><br/></div></a> <p>Crypto ETF</p> <br/>
-<a href="https://www.cryptoblogs.io/cex-vs-dex/"><div style={{background :'white', height:'300px', width:'300px',borderRadius:'10px'}}> </div></a><p>CEX vs DEX</p><br/>
-<a href="https://www.cryptoblogs.io/crypto-coins-vs-tokens/"><div style={{background :'white', height:'300px', width:'300px',borderRadius:'10px'}}></div></a><p>Coin vs Token</p><br/>
-<a href="https://www.cryptoblogs.io/fundamental-analysis-in-cryptocurrencies/"><div style={{background :'white', height:'300px', width:'300px',borderRadius:'10px'}}><img src="https://i.imgur.com/5CB2a87.jpeg" height='300px' width='300px'/> </div></a><p>Fundamental Analysis in Cryptocurrency</p><br/><br/><br/>
+</div></a>
+      <p>Crypto ETF</p> <br/>
+<a href="https://www.cryptoblogs.io/cex-vs-dex/"><div style={{background :'white', height:'300px', width:'300px',borderRadius:'10px'}}> </div></a>
+     <p>CEX vs DEX</p><br/>
+<a href="https://www.cryptoblogs.io/crypto-coins-vs-tokens/">
+  <div style={{background :'white', height:'300px', width:'300px',borderRadius:'10px'}}></div></a>
+     <p>Coin vs Token</p><br/>
+<a href="https://www.cryptoblogs.io/fundamental-analysis-in-cryptocurrencies/"><div style={{background :'white', height:'300px', width:'300px',borderRadius:'10px'}}><img src="https://i.imgur.com/5CB2a87.jpeg" height='300px' width='300px'/> </div></a>
+     <p>Fundamental Analysis in Cryptocurrency</p><br/><br/><br/>
 
    </div>
     <div style={{right:'0.1%', bottom:'0%', display:'flex',justifyContent:'space-evenly' ,height:'fit-content',background:'white', width:'100%', paddingBottom:'10px', paddingRight:'10px',position:'fixed', borderRadius:'7px'}}>
