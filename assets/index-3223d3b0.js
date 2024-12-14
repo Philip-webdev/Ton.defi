@@ -1162,7 +1162,10 @@ PERFORMANCE OF THIS SOFTWARE.
 `,CryptoRow=({crypto:et,logo:tt})=>{const rt=et.quote.USD.percent_change_24h<0?"red":"green";return jsxs("tr",{style:{borderRadius:"7px"},children:[jsxs("td",{style:{margin:"5px",display:"flex"},children:[jsx$1("img",{src:tt,alt:`${et.name} logo`,style:{width:"20px",height:"20px"}}),et.name]}),jsx$1("td",{style:{margin:"5px",paddingRight:"17px"},children:et.symbol}),jsxs("td",{style:{margin:"5px",paddingLeft:"20px"},children:["$",et.quote.USD.price.toFixed(2)]}),jsxs("td",{style:{margin:"5px",paddingLeft:"10px",color:rt},children:[et.quote.USD.percent_change_24h.toFixed(2),"%"]})]})};function Api(){const[et,tt]=reactExports.useState([]),rt=["https://i.imgur.com/sSYmdfQ.png","https://i.imgur.com/dhJjQcO.png","https://i.imgur.com/WaJtG67.png","https://i.imgur.com/qfO2YuU.png","https://i.imgur.com/rjWW55s.png"];return reactExports.useEffect(()=>{(async()=>{try{const it=await(await fetch("https://twa-backend-g83o.onrender.com/api/cryptocurrency")).json();console.log(it);const st=it.data.slice(0,5);tt(st)}catch(ot){console.error("Error fetching data:",ot)}})()},[]),jsx$1(AppContainer$d,{children:jsxs("table",{style:{margin:"auto",justifyContent:"center"},children:[jsx$1("thead",{style:{zoom:"70%",color:"grey"},children:jsxs("tr",{children:[jsx$1("th",{children:"Name"}),jsx$1("th",{children:"Symbol"}),jsx$1("th",{children:"Price"}),jsx$1("th",{children:"Change/Price (24h)"})]})}),jsx$1("tbody",{children:et.map((nt,ot)=>jsx$1(CryptoRow,{crypto:nt,logo:rt[ot]},nt.id))})]})})}const index="",Card=styled.div`
   padding: 18px 20px;
   border-radius: 8px;
-  background-color: white;
+  border-style: groove;
+  border-width:1px;
+  border-color:#87CEEB;
+  background-color: whitesmoke;
 font-family: Lexend;
   @media (prefers-color-scheme: dark) {
     background-color: white;
