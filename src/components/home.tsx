@@ -121,8 +121,8 @@ function Home(){
     <div  id='slideContainer' style={{zIndex:'0',marginLeft:'10px' , width:'100%', height:'fit-content', overflow:'hidden',  border:'none', borderRadius:'7px', justifySelf:'center'}}>
         <div id='slideContents' style={{height:'fit-content', width:'auto', display:'flex',  transition:'1s ease'}}>
 {/* <img src='src/components/WhatsApp_Image_2024-11-29_at_07.00.35_1f4f8a03-removebg-preview.png' height='500px' width='auto'/> */}
- <a href ='#/tontools' ><img src='https://i.imgur.com/hCdTa9M.png' height='170px' width='350px' style={{borderRadius:'7px'}}/> </a> 
- <a href ='#/tokenomics' ><img src='https://i.imgur.com/Qh2tttR.png' height='170px' width='350px' style={{marginLeft:'7px',borderRadius:'7px'}}/> </a> 
+ <a href ='#/tokenomics' ><img src='https://i.imgur.com/EfcPkCp.png' height='170px' width='350px' style={{borderRadius:'7px'}}/> </a> 
+ <a href ='#/tontools' ><img src='https://i.imgur.com/RONC6cl.png' height='170px' width='350px' style={{marginLeft:'7px',borderRadius:'7px'}}/> </a> 
         </div></div>
     
 </div> 
