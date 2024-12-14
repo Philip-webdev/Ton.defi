@@ -4,7 +4,7 @@ import ReactDOM from "react-dom/client";
 import App from "./App";
 import "./index.css";
 import './manifest.json';
-// this manifest is used temporarily for development purposes
+
  
 const newurl =  'https://raw.githubusercontent.com/Philip-webdev/Ton.defi/refs/heads/main/src/manifest.json';
 const queryClient = new QueryClient({
