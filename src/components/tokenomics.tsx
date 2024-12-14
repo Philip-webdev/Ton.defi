@@ -10,8 +10,8 @@ const StyledApp = styled.div`
     position:  ;
     font-family: Lexend ;
   @media (prefers-color-scheme: dark) {
-    background-color: rgb(29, 40, 58);
-    color: white;
+    background-color:  #F9F9F9;
+  
   }
   min-height: 100vh;
   padding: 20px 20px;

@@ -25,7 +25,10 @@ import Welcome2 from "./components/welcome2";
 font-family: Lexend ;
      position: fixed;
      width:100%;
-  
+  @media (prefers-color-scheme: dark) {
+    background-color:  #F9F9F9;
+    
+  }
   min-height: 90vh;
   padding: 20px 20px;
 `;
