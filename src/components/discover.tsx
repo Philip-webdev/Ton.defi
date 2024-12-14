@@ -2,6 +2,7 @@
 import styled from "styled-components";
 import { Button } from "./styled/styled";
 import '../index.css';
+import { useEffect, useState } from "react";
 
 const StyledApp = styled.div`
   background-color: #F9F9F9;
@@ -13,7 +14,7 @@ const StyledApp = styled.div`
     background-color:  #F9F9F9;
     
   }
-  min-height: 100vh;
+  min-height: 170vh;
   padding: 20px 20px;
 `;
 
@@ -24,12 +25,42 @@ const AppContainer = styled.div`
   font-family: Lexend ;
 `;
 function discover() {
+
+  
    
+
+    const [cryptoBlogs, setBlogs] = useState('');
+      
+    useEffect(() => {
+           const fetchData = async () => {
+               try {
+                   const response = await fetch('https://twa-backend-g83o.onrender.com/api/cryptoblogs');
+                   const result = await response.json();
+                   console.log(result);
+   
+                   const blogCryptos = result.data.slice(0, 5);
+                   setBlogs(blogCryptos);
+               } catch (error) {
+                   console.error('Error fetching data:', error);
+               }
+           };
+   
+           fetchData();
+       }, []);
   
 return(
     <StyledApp>
     <AppContainer>
-   
+   <div id="blog_container" style={{display:'inline', margin:'auto', width:'50%', justifyContent:'center'}}>
+   <a href="https://coinbound.io/best-crypto-blogs/"><div style={{background :'white', height:'300px', width:'300px',borderRadius:'10px'}}>
+</div></a><p>Best crypto blogs</p><br/>
+ 
+<a href="https://www.cryptoblogs.io/crypto-etf-what-is-it-types-and-working/"><div style={{background :'white', height:'300px', width:'300px',borderRadius:'10px'}}></div></a> <p>Crypto ETF</p> <br/>
+<a href="https://www.cryptoblogs.io/cex-vs-dex/"><div style={{background :'white', height:'300px', width:'300px',borderRadius:'10px'}}> </div></a><p>CEX vs DEX</p><br/>
+<a href="https://www.cryptoblogs.io/crypto-coins-vs-tokens/"><div style={{background :'white', height:'300px', width:'300px',borderRadius:'10px'}}></div></a><p>Coin vs Token</p><br/>
+<a href="https://www.cryptoblogs.io/fundamental-analysis-in-cryptocurrencies/"><div style={{background :'white', height:'300px', width:'300px',borderRadius:'10px'}}><img src="https://i.imgur.com/IzkDm9N.jpeg" height='300px' width='300px'/> </div></a><p>Fundamental Analysis in Cryptocurrency</p><br/><br/><br/>
+
+   </div>
     <div style={{right:'0.1%', bottom:'0%', display:'flex',justifyContent:'space-evenly' ,height:'fit-content',background:'white', width:'100%', paddingBottom:'10px', paddingRight:'10px',position:'fixed', borderRadius:'7px'}}>
             <a href='#/' style={{color:'black', textDecoration:'none'}}> 
             <Button  style={{  fontFamily: 'Lexend' ,  marginLeft:'20px',bottom:'0%', marginRight:'20px', background:'none', color:"black"}}><img src='https://i.imgur.com/uxozY7V.png' height='14px' width='14px' />

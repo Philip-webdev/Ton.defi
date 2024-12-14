@@ -18,7 +18,7 @@ font-family: Lexend;
     background-color: #F9F9F9;
     
   }
-  min-height: 150vh;
+  min-height: 120vh;
   padding: 20px 20px;
 `;
 
@@ -101,7 +101,7 @@ function Home(){
                 <div>
                     <div  id="header" style={{display:'flex', justifyContent:'space-between', margin:'0',fontFamily: 'Lexend'}}>
                       <div>
-                      <a href='#/tools' style={{color:'black', textDecoration:'none'}}> <img src='https://i.imgur.com/xFizwPR.png' height='20px' width='20px'/></a></div><div style={{fontFamily: 'Lexend'}}> <a href='#/register' style={{color:'black', textDecoration:'none'}}> My Account </a></div><div><img src="https://i.imgur.com/ErnGd8q.png" height='20px' width='20px'/>
+                      <a href='#/tools' style={{color:'black', textDecoration:'none'}}> <img src='https://i.imgur.com/xFizwPR.png' height='20px' width='20px'/></a></div><div style={{fontFamily: 'Lexend'}}> <a href='#/register' style={{color:'black', textDecoration:'none'}}> My Account </a></div><div><a href="https://deebest22.github.io/Video-Website/Video%20Copy/Website%20Design/"><img src="https://i.imgur.com/ErnGd8q.png" height='20px' width='20px'/></a>
                     </div>
                     </div><br/>
                     <div id="showcase"
