@@ -100,8 +100,8 @@ function Home(){
             <AppContainer>
                 <div>
                     <div  id="header" style={{display:'flex', justifyContent:'space-between', margin:'0',fontFamily: 'Lexend'}}>
-                      <div>
-                      <a href='#/tools' style={{color:'black', textDecoration:'none'}}> <img src='https://i.imgur.com/xFizwPR.png' height='20px' width='20px'/></a></div><div style={{fontFamily: 'Lexend'}}> <a href='#/register' style={{color:'black', textDecoration:'none'}}> My Account </a></div><div><a href="https://deebest22.github.io/Video-Website/Video%20Copy/Website%20Design/"><img src="https://i.imgur.com/ErnGd8q.png" height='20px' width='20px'/></a>
+                  <div >
+                      <a href='#/tools' style={{color:'black', textDecoration:'none'}}> <img src='https://i.imgur.com/xFizwPR.png' height='20px' width='20px' style={{borderRadius:'100%', padding:'4px', background:'white',height:'fit-content'}}/></a></div><div style={{fontFamily: 'Lexend'}}> <a href='#/register' style={{color:'black', textDecoration:'none'}}> My Account </a></div><div><a href="https://deebest22.github.io/Video-Website/Video%20Copy/Website%20Design/"><img src="https://i.imgur.com/ErnGd8q.png" height='20px' width='20px' style={{borderRadius:'100%', padding:'4px', background:'white',height:'fit-content'}}/></a>
                     </div>
                     </div><br/>
                     <div id="showcase"
@@ -112,7 +112,7 @@ function Home(){
 
                 <div style={{fontFamily: 'Lexend',display:'flex',background :'', justifyContent:'space-around', borderRadius:'7px' }}>
                     
-                <div style={{borderRadius:'100%',  padding:'10px'}}><a style={{textDecoration:'none'}} href='#/send'><img src="https://i.imgur.com/JwKhVnM.png" height='24px' width='24px'style={{marginLeft:'7px'}}/></a><br/>send</div>
+                <div style={{borderRadius:'100%',  padding:'10px'}}><a style={{textDecoration:'none'}} href='#/send'><img src="https://i.imgur.com/JwKhVnM.png" height='24px' width='24px'style={{marginLeft:'7px'}} /></a><br/>send</div>
                 <div style={{borderRadius:'100%',  padding:'10px'}}><a style={{textDecoration:'none'}} href='#/buy'><img src="https://i.imgur.com/gayUD73.png" height='24px' width='24px' style={{marginLeft:'5px'}}/></a><br/>buy</div>
                 <div style={{borderRadius:'100%',  padding:'10px'}}><a style={{textDecoration:'none'}} href='#/swap'><img src="https://i.imgur.com/ajZ5VgY.png" height='24px' width='24px' style={{marginLeft:'7px'}}/></a><br/>swap</div></div>
                    <br/>
