@@ -18,7 +18,7 @@ font-family: Lexend;
     background-color: #F9F9F9;
     
   }
-  min-height: 120vh;
+  min-height: 130vh;
   padding: 20px 20px;
 `;
 
@@ -69,7 +69,7 @@ function Home(){
       
        }
        function removeHide(){
-       
+      //  This is a prototype, original is actually gotten from the toncenter API
           setAccountBalance('5,570.45 USD');
           hide(<img src="https://i.imgur.com/5mz3gKD.png" height='20px' width='20px'/>)
         
@@ -101,38 +101,52 @@ function Home(){
                 <div>
                     <div  id="header" style={{display:'flex', justifyContent:'space-between', margin:'0',fontFamily: 'Lexend'}}>
                   <div >
-                      <a href='#/tools' style={{color:'black', textDecoration:'none'}}> <img src='https://i.imgur.com/xFizwPR.png' height='20px' width='20px' style={{borderRadius:'100%', padding:'4px', background:'white',height:'fit-content'}}/></a></div><div style={{fontFamily: 'Lexend'}}> <a href='#/register' style={{color:'black', textDecoration:'none'}}> My Account </a></div><div><a href="https://deebest22.github.io/Video-Website/Video%20Copy/Website%20Design/"><img src="https://i.imgur.com/ErnGd8q.png" height='20px' width='20px' style={{borderRadius:'100%', padding:'4px', background:'white',height:'fit-content'}}/></a>
+                      <a href='#/tools' style={{color:'black', textDecoration:'none'}}>
+                       <img src='https://i.imgur.com/xFizwPR.png' height='20px' width='20px' style={{borderRadius:'100%', padding:'4px', background:'white',height:'fit-content'}}/></a>
+                       </div><div style={{fontFamily: 'Lexend'}}> 
+                        
+                        <a href='#/register' style={{color:'black', textDecoration:'none'}}> My Account </a>
+                        </div><div><a href="https://deebest22.github.io/Video-Website/Video%20Copy/Website%20Design/">
+                        <img src="https://i.imgur.com/ErnGd8q.png" height='20px' width='20px' style={{borderRadius:'100%', padding:'4px', background:'white',height:'fit-content'}}/></a>
                     </div>
                     </div><br/>
-                    <div id="showcase"
-                     style={{ color: 'black', height:'100px', width: '100%', margin:'auto',justifyContent:'center', marginTop:'5%',marginBottom:'5%',fontFamily: 'Lexend',  borderRadius:'10px'}}>
+                    <div id="showcase" style={{ color: 'black', height:'100px', width: '100%', margin:'auto',justifyContent:'center', marginTop:'5%',marginBottom:'5%',fontFamily: 'Lexend',  borderRadius:'10px'}}>
                       <p style={{margin:'7px',textAlign:'center', color:'grey'}}>Wallet Balance</p>  
-                    {/* <div style={{paddingLeft:'7px',paddingTop:'9px',color:'white' ,fontWeight:'500'}}>{AccountName}</div><br/> */}
-                    <div style={{margin:'auto',justifyContent:'center',textAlign:'center', fontWeight:'500', display:'flex', fontSize:'27px'}} onDoubleClick={removeHide} onClick={Hide}>{AccountBalance} <div style={{margin:'2px' }}>{Nohide}</div></div></div>
+                     
+                    <div style={{margin:'auto',justifyContent:'center',textAlign:'center', fontWeight:'500', display:'flex', fontSize:'27px'}} onDoubleClick={removeHide} onClick={Hide}>{AccountBalance} <div style={{margin:'2px' }}>{Nohide}</div>
+                    </div></div>
 
                 <div style={{fontFamily: 'Lexend',display:'flex',background :'', justifyContent:'space-around', borderRadius:'7px' }}>
                     
-                <div style={{borderRadius:'100%',  padding:'10px'}}><a style={{textDecoration:'none'}} href='#/send'><img src="https://i.imgur.com/JwKhVnM.png" height='24px' width='24px'style={{marginLeft:'7px'}} /></a><br/>send</div>
-                <div style={{borderRadius:'100%',  padding:'10px'}}><a style={{textDecoration:'none'}} href='#/buy'><img src="https://i.imgur.com/gayUD73.png" height='24px' width='24px' style={{marginLeft:'5px'}}/></a><br/>buy</div>
-                <div style={{borderRadius:'100%',  padding:'10px'}}><a style={{textDecoration:'none'}} href='#/swap'><img src="https://i.imgur.com/ajZ5VgY.png" height='24px' width='24px' style={{marginLeft:'7px'}}/></a><br/>swap</div></div>
+                <div style={{borderRadius:'100%',  padding:'10px'}}><a style={{textDecoration:'none'}} href='#/send'>
+                <img src="https://i.imgur.com/JwKhVnM.png" height='24px' width='24px'style={{marginLeft:'7px'}} /></a>
+                <br/>send</div>
+                <div style={{borderRadius:'100%',  padding:'10px'}}><a style={{textDecoration:'none'}} href='#/buy'>
+                <img src="https://i.imgur.com/gayUD73.png" height='24px' width='24px' style={{marginLeft:'5px'}}/></a>
+                <br/>buy</div>
+                <div style={{borderRadius:'100%',  padding:'10px'}}><a style={{textDecoration:'none'}} href='#/swap'>
+                <img src="https://i.imgur.com/ajZ5VgY.png" height='24px' width='24px' style={{marginLeft:'7px'}}/></a>
+                <br/>swap</div></div>
                    <br/>
 
                 <div style={{ margin:'0', width:'100%', justifyContent:'center'}}>
     <div  id='slideContainer' style={{zIndex:'0',marginLeft:'10px' , width:'100%', height:'fit-content', overflow:'hidden',  border:'none', borderRadius:'7px', justifySelf:'center'}}>
         <div id='slideContents' style={{height:'fit-content', width:'auto', display:'flex',  transition:'1s ease'}}>
-{/* <img src='src/components/WhatsApp_Image_2024-11-29_at_07.00.35_1f4f8a03-removebg-preview.png' height='500px' width='auto'/> */}
+ 
  <a href ='#/tokenomics' ><img src='https://i.imgur.com/EfcPkCp.png' height='170px' width='350px' style={{borderRadius:'7px'}}/> </a> 
  <a href ='#/tontools' ><img src='https://i.imgur.com/RONC6cl.png' height='170px' width='350px' style={{marginLeft:'7px',borderRadius:'7px'}}/> </a> 
         </div></div>
     
 </div> 
 <br/> <br/>
+
+{/* the announcement panel// */}
 <div style={{display:'flex', gap:'20px', borderRadius:'7px', background:'#87CEEB', color:'white'}}>
   <div id="publicity-logo" style={{padding:'20px'}}><img src='https://i.imgur.com/5d6m9T7.png' height='20px' width='20px'/></div>
   <div  id='InfoContainer' style={{zIndex:'0',marginLeft:'10px' , width:'100%', height:'40px', overflowY:'hidden',  border:'none', borderRadius:'7px', justifySelf:'center'}}>
   <div id='InfoContents' style={{height:'fit-content', width:'auto',  transition:'1s ease'}}>
   <div id="publcity" style={{paddingTop:'17px'}}>Our 24/7 support is live</div>
-  <div id="publcity" style={{paddingTop:'35px'}}>Click at the top right corner, host and share your link </div>
+  <div id="publcity" style={{paddingTop:'35px'}}>use zap exchange to swap </div>
   </div></div>
 </div>
 <br/>
@@ -142,7 +156,7 @@ function Home(){
       <div style={{color:"grey", padding:'10px'}}>NFTs</div>
       </div>
 </div> <br/> <br/>
-
+{/* this section loads the API */}
 <section style={{  overflowX: 'scroll'}}>
   <div style={{display:'flex'}}>
 <div style={{background:'white',padding:'10px',borderRadius:'7px', height:'fit-content',width:'fit-content'}}>
@@ -153,6 +167,8 @@ function Home(){
 </section>
                 </div>
 
+{/* 
+the bottom navigation */}
                 <div style={{right:'0.1%', bottom:'0%', display:'flex',justifyContent:'space-evenly' ,height:'fit-content',background:'white', width:'100%', paddingBottom:'10px', paddingRight:'10px',position:'fixed', borderRadius:'7px'}}>
             <a href='#/' style={{color:'black', textDecoration:'none'}}> 
             <Button  style={{  fontFamily: 'Lexend' ,  marginLeft:'20px',bottom:'0%', marginRight:'20px', background:'none', color:"black"}}><img src='https://i.imgur.com/uxozY7V.png' height='14px' width='14px' />
