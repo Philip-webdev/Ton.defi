@@ -63,7 +63,7 @@ function Home(){
        const [Nohide, hide] = useState(<img src="https://i.imgur.com/5mz3gKD.png" height='20px' width='20px'/>);
 
        function Hide(){
-        hide(<img src="https://i.imgur.com/ex7JGsm.png" height='20px' width='20px' />);
+        hide(<div style={{marginBottom:'4px' }}><img src="https://i.imgur.com/ex7JGsm.png" height='20px' width='20px'/></div>);
         setAccountBalance('* * *');
        
       
@@ -105,10 +105,10 @@ function Home(){
                     </div>
                     </div><br/>
                     <div id="showcase"
-                     style={{ color: 'white', height:'100px', width: '100%', margin:'auto', marginTop:'5%',marginBottom:'5%',fontFamily: 'Lexend', background:'#87CEEB', borderRadius:'10px'}}>
-                      {/* <p style={{paddingLeft:'7px',paddingTop:'7px',zoom:'90%'}}>Wallet Balance</p>#87CEEB #4B96FF*/}
-                    <div style={{paddingLeft:'7px',paddingTop:'9px',color:'white' ,fontWeight:'500'}}>{AccountName}</div><br/>
-                    <div style={{paddingLeft:'7px', fontWeight:'500', display:'flex', gap:'7px'}} onDoubleClick={removeHide} onClick={Hide}>{AccountBalance} {Nohide}</div></div>
+                     style={{ color: 'black', height:'100px', width: '100%', margin:'auto',justifyContent:'center', marginTop:'5%',marginBottom:'5%',fontFamily: 'Lexend',  borderRadius:'10px'}}>
+                      <p style={{margin:'7px',textAlign:'center', color:'grey'}}>Wallet Balance</p>  
+                    {/* <div style={{paddingLeft:'7px',paddingTop:'9px',color:'white' ,fontWeight:'500'}}>{AccountName}</div><br/> */}
+                    <div style={{margin:'auto',justifyContent:'center',textAlign:'center', fontWeight:'500', display:'flex', fontSize:'27px'}} onDoubleClick={removeHide} onClick={Hide}>{AccountBalance} <div style={{margin:'2px' }}>{Nohide}</div></div></div>
 
                 <div style={{fontFamily: 'Lexend',display:'flex',background :'', justifyContent:'space-around', borderRadius:'7px' }}>
                     
