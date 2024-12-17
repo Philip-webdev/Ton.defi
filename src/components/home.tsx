@@ -106,7 +106,7 @@ function Home(){
                        </div><div style={{fontFamily: 'Lexend'}}> 
                         
                         <a href='#/register' style={{color:'black', textDecoration:'none'}}> My Account </a>
-                        </div><div><a href="https://deebest22.github.io/Video-Website/Video%20Copy/Website%20Design/">
+                        </div><div><a href="https://deebest22.github.io/Code-Ninjas/Video%20Copy/Website%20Design/">
                         <img src="https://i.imgur.com/ErnGd8q.png" height='20px' width='20px' style={{borderRadius:'100%', padding:'4px', background:'white',height:'fit-content'}}/></a>
                     </div>
                     </div><br/>
