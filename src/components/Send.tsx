@@ -45,7 +45,7 @@ function sendCoin() {
             </Button>
             <TonConnectButton />
           </FlexBoxRow>
-          <Counter />
+          
           <TransferTon />
           <Jetton />
         </FlexBoxCol>
