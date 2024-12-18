@@ -59,7 +59,7 @@ function Home(){
        slide();} ,[])
 
        const [AccountName, setAccountName] = useState('Jolah Jemima');
-       const [AccountBalance, setAccountBalance] = useState('5,570.45 USD');
+       const [AccountBalance, setAccountBalance] = useState('0.00 USD');
        const [Nohide, hide] = useState(<img src="https://i.imgur.com/5mz3gKD.png" height='20px' width='20px'/>);
 
        function Hide(){
