@@ -11,7 +11,9 @@
 - Github actions set to deploy app to github pages
 - A script to connect a telegram bot to the deployed app
 
- 
+- A defi wallet UI
+- An API
+- A NodeJs based backend hosted on render
 
  
  
