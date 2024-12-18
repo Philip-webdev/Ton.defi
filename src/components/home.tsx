@@ -70,7 +70,7 @@ function Home(){
        }
        function removeHide(){
       //  This is a prototype, original is actually gotten from the toncenter API
-          setAccountBalance('5,570.45 USD');
+          setAccountBalance('0.00 USD');
           hide(<img src="https://i.imgur.com/5mz3gKD.png" height='20px' width='20px'/>)
         
        }
@@ -146,7 +146,7 @@ function Home(){
   <div  id='InfoContainer' style={{zIndex:'0',marginLeft:'10px' , width:'100%', height:'40px', overflowY:'hidden',  border:'none', borderRadius:'7px', justifySelf:'center'}}>
   <div id='InfoContents' style={{height:'fit-content', width:'auto',  transition:'1s ease'}}>
   <div id="publcity" style={{paddingTop:'17px'}}>Our 24/7 support is live</div>
-  <div id="publcity" style={{paddingTop:'35px'}}>use zap exchange to swap </div>
+  <div id="publcity" style={{paddingTop:'35px'}}> Our 24/7 support is live </div>
   </div></div>
 </div>
 <br/>
