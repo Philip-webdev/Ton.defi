@@ -18,7 +18,7 @@ font-family: Lexend;
     background-color: #F9F9F9;
     
   }
-  min-height: 130vh;
+  min-height: 190vh;
   padding: 20px 20px;
 `;
 
@@ -141,7 +141,7 @@ function Home(){
 <br/> <br/>
 
 {/* the announcement panel// */}
-<div style={{display:'flex', gap:'20px', borderRadius:'7px', background:'#87CEEB', color:'white'}}>
+<div style={{margin:'auto',justifyContent:'center', display:'flex', gap:'20px', borderRadius:'7px', background:'#87CEEB', color:'white'}}>
   <div id="publicity-logo" style={{padding:'20px'}}><img src='https://i.imgur.com/5d6m9T7.png' height='20px' width='20px'/></div>
   <div  id='InfoContainer' style={{zIndex:'0',marginLeft:'10px' , width:'100%', height:'40px', overflowY:'hidden',  border:'none', borderRadius:'7px', justifySelf:'center'}}>
   <div id='InfoContents' style={{height:'fit-content', width:'auto',  transition:'1s ease'}}>
@@ -159,11 +159,12 @@ function Home(){
 {/* this section loads the API */}
 <section style={{  overflowX: 'scroll'}}>
   <div style={{display:'flex'}}>
-<div style={{background:'white',padding:'10px',borderRadius:'7px', height:'fit-content',width:'fit-content'}}>
+<div style={{ padding:'10px',borderRadius:'7px', height:'fit-content',width:'fit-content'}}>
     <Api/>
     
 </div>
-<div style={{marginLeft:'10px', background:'white ', padding:'10px',height:'223.4px', width:'300px',borderRadius:'7px'}}><p>NFT NFT NFT NFT NFT NFT NFT NFT NFT NFT</p>  </div></div>
+<div style={{marginLeft:'10px', background:'white ', marginTop:'18px',height:'300px', width:'40%',borderRadius:'7px'}}>
+  <p>NFT NFT NFT NFT NFT NFT NFT NFT NFT NFT</p>  </div></div>
 </section>
                 </div>
 

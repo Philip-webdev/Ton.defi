@@ -1,19 +1,10 @@
 import { useEffect, useState } from "react";
 import styled from "styled-components";
 
-const StyledApp = styled.div`
-  background-color: whitesmoke;
-  color: black;
-  border-radius: 17px;
-  position: fixed;
-  height: fit-content;
-  padding: 20px;
-
-  
-`;
+ 
 
 const AppContainer = styled.div`
-  width: fit-content;
+  width: 300px;
   margin: 0;
 `;
 
@@ -35,17 +26,17 @@ const CryptoRow = ({ crypto, logo }: { crypto: CryptoData; logo: string }) => {
     const percentChangeColor = crypto.quote.USD.percent_change_24h < 0 ? 'red' : 'green';
 
     return (
-        <tr style={{ borderRadius: '7px' }}>
-            <td style={{ margin:'5px', display:'flex' }}>
-                <img src={logo} alt={`${crypto.name} logo`} style={{ width: '20px', height: '20px' }} />
-                {crypto.name}
-            </td>
-            <td style={{ margin:'5px', paddingRight:'17px' }}>{crypto.symbol}</td>
-            <td style={{ margin:'5px', paddingLeft:'20px' }}>${crypto.quote.USD.price.toFixed(2)}</td>
-            <td style={{ margin:'5px', paddingLeft:'10px', color: percentChangeColor }}>
+        <div style={{  borderRadius: '7px' ,  background:'white',margin:'7px' ,display:'flex'   }}>
+            <div  style={{   display:'flex'  }}>
+              <div><img src={logo} alt={`${crypto.name} logo`} style={{ width: '40px', height: '40px' }} /></div>
+               <div style={{   margin:'5px' }}>{crypto.symbol}</div></div> 
+            <div style={{marginLeft:'10px', fontSize:'12px',display:'flex'}}>
+           
+            <div style={{    margin:'7px' }}>${crypto.quote.USD.price.toFixed(2)}</div>
+            <div style={{    margin:'7px', color: percentChangeColor }}>
                 {crypto.quote.USD.percent_change_24h.toFixed(2)}%
-            </td>
-        </tr>
+            </div>
+        </div></div>
     );
 };
 
@@ -79,21 +70,21 @@ function Api() {
 
     return (
         <AppContainer>
-            <table style={{ margin:'auto', justifyContent:'center' }}>
-                <thead style={{ zoom:'70%', color:'grey' }}>
-                    <tr>
+            <section  style={{ margin:'auto', justifyContent:'center' , display:'inline'}}>
+                {/* <thead style={{ zoom:'70%', color:'grey' }}> */}
+                    {/* <tr>
                         <th>Name</th>
                         <th>Symbol</th>
                         <th>Price</th>
                         <th>Change/Price (24h)</th>
                     </tr>
-                </thead>
-                <tbody>
+                </thead> */}
+                <div >
                     {cryptos.map((crypto, index) => (
                         <CryptoRow key={crypto.id} crypto={crypto} logo={logos[index]} />
                     ))}
-                </tbody>
-            </table>
+                </div>
+            </section>
         </AppContainer>
     );
 }
