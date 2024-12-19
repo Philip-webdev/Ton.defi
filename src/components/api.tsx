@@ -4,7 +4,7 @@ import styled from "styled-components";
  
 
 const AppContainer = styled.div`
-  width: 300px;
+  width: 100%;
   margin: 0;
 `;
 
