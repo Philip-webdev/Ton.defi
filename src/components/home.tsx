@@ -159,12 +159,12 @@ function Home(){
 {/* this section loads the API */}
 <section style={{  overflowX: 'scroll'}}>
   <div style={{display:'flex'}}>
-<div style={{ padding:'10px',borderRadius:'7px', height:'fit-content',width:'fit-content'}}>
+<div style={{ padding:'10px',borderRadius:'7px', height:'fit-content',width:'100%'}}>
     <Api/>
     
 </div>
-<div style={{marginLeft:'10px', background:'white ', marginTop:'18px',height:'300px', width:'40%',borderRadius:'7px'}}>
-  <p>NFT NFT NFT NFT NFT NFT NFT NFT NFT NFT</p>  </div></div>
+{/* <div style={{marginLeft:'10px', background:'white ', marginTop:'18px',height:'300px', width:'100%',borderRadius:'7px'}}>
+  <p>NFT NFT NFT NFT NFT NFT NFT NFT NFT NFT</p>  </div>*/}</div> 
 </section>
                 </div>
 
