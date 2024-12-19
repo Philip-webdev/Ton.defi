@@ -6,6 +6,7 @@ import styled from "styled-components";
 const AppContainer = styled.div`
   width: 100%;
   margin-bottom : 70px;
+  font-size: 50px;
 `;
 
 interface CryptoData {
@@ -26,7 +27,7 @@ const CryptoRow = ({ crypto, logo }: { crypto: CryptoData; logo: string }) => {
     const percentChangeColor = crypto.quote.USD.percent_change_24h < 0 ? 'red' : 'green';
 
     return (
-        <div style={{  borderRadius: '7px' ,  background:'white',margin:'7px' ,display:'flex'   }}>
+        <div style={{  borderRadius: '7px' ,  background:'white',margin:'7px' ,display:'flex' ,padding:'15px'  }}>
             <div  style={{   display:'flex'  }}>
               <div><img src={logo} alt={`${crypto.name} logo`} style={{ width: '40px', height: '40px' }} /></div>
                <div style={{   margin:'5px' }}>{crypto.symbol}</div></div> 
@@ -70,7 +71,7 @@ function Api() {
 
     return (
         <AppContainer>
-            <section  style={{ margin:'auto', justifyContent:'center' , display:'inline'}}>
+            <section  style={{ margin:'0', justifyContent:'center' , display:'inline'}}>
                 {/* <thead style={{ zoom:'70%', color:'grey' }}> */}
                     {/* <tr>
                         <th>Name</th>
@@ -79,7 +80,7 @@ function Api() {
                         <th>Change/Price (24h)</th>
                     </tr>
                 </thead> */}
-                <div >
+                <div style={{fontSize:'15px'}}>
                     {cryptos.map((crypto, index) => (
                         <CryptoRow key={crypto.id} crypto={crypto} logo={logos[index]} />
                     ))}
