@@ -159,7 +159,7 @@ function Home(){
 {/* this section loads the API */}
 <section style={{  overflowX: 'scroll'}}>
   <div style={{display:'flex'}}>
-<div style={{ padding:'10px',borderRadius:'7px', height:'fit-content',width:'100%'}}>
+<div style={{ padding:'10px',borderRadius:'7px', height:'100%',width:'100%'}}>
     <Api/>
     
 </div>
