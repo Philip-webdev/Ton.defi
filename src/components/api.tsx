@@ -5,7 +5,7 @@ import styled from "styled-components";
 
 const AppContainer = styled.div`
   width: 100%;
-  margin: 0;
+  margin-bottom : 70px;
 `;
 
 interface CryptoData {
