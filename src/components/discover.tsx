@@ -58,7 +58,7 @@ return(
      <div style={{background :'white', borderRadius:'10px', display:'flex', gap:'10px', padding:'7px'}}>
       <div>
      <a href="https://coinbound.io/best-crypto-blogs">
-       <img src ='https://i.imgur.com/p53cFyS.jpeg' height='100px' width='100px' style={{borderRadius:'20px'}}/>
+       <img src ='https://i.imgur.com/p53cFyS.jpeg' height='100px' width='100px'  />
        </a></div>
 
      <div style={{fontSize:'medium',color:'grey'}}>Best crypto blogs</div></div>
@@ -66,7 +66,7 @@ return(
 
      <div style={{background :'white', margin:'7px', borderRadius:'10px', display:'flex', gap:'10px', padding:'7px'}}>
   <div style={{background :'white'}}>
-  <img src = 'https://i.imgur.com/p53cFyS.jpeg' height='100px' width='100px' style={{borderRadius:'20px'}}/>
+  <img src = 'https://i.imgur.com/p53cFyS.jpeg' height='100px' width='100px'  />
   <a href="https://www.cryptoblogs.io/crypto-etf-what-is-it-types-and-working/">
 </a></div>
       <div style={{fontSize:'medium',color:'grey'}}>Crypto ETF</div> </div>
@@ -75,7 +75,7 @@ return(
 
       <div style={{background :'white', margin:'7px', borderRadius:'10px', display:'flex', gap:'10px', padding:'7px'}}>
   <div> 
-<img src = 'https://i.imgur.com/p53cFyS.jpeg' height='100px' width='100px' style={{borderRadius:'20px'}}/>
+<img src = 'https://i.imgur.com/p53cFyS.jpeg' height='100px' width='100px'  />
 <a href="https://www.cryptoblogs.io/cex-vs-dex"></a></div>
      <div style={{fontSize:'medium',color:'grey'}}>CEX vs DEX</div></div>
 
@@ -84,7 +84,7 @@ return(
      <div style={{background :'white', borderRadius:'10px', margin:'7px', display:'flex', gap:'10px', padding:'7px'}}>
 <div>
 <a href="https://www.cryptoblogs.io/fundamental-analysis-in-cryptocurrencies/">
-  <img src="https://i.imgur.com/5CB2a87.jpeg" height='100px' width='100px' style={{borderRadius:'20px'}}/></a>
+  <img src="https://i.imgur.com/5CB2a87.jpeg" height='100px' width='100px'  /></a>
    </div>
      <div  style={{fontSize:'medium',color:'grey'}}>Fundamental Analysis in Cryptocurrency</div></div>
 
