@@ -6,6 +6,7 @@ import { Button } from "./styled/styled";
 import 'react-icons/bs';
 import 'react-icons/fa';
 import { Helmet } from 'react-helmet';
+import { BsEye, BsEyeSlash } from "react-icons/bs";
  
 
 const StyledApp = styled.div`
@@ -15,8 +16,12 @@ const StyledApp = styled.div`
 font-family: Lexend;
   border-radius:7px;
   @media (prefers-color-scheme: dark) {
-    background-color: #F9F9F9;
+    background-color: rgb(15,15,15);
+    color: white;
     
+    .buddies{
+    background:rgb(33,33,33);
+    }
   }
   min-height: fit-content ;
   padding: 20px 20px;
@@ -58,12 +63,12 @@ function Home(){
     useEffect(()=>{
        slide();} ,[])
 
-       const [AccountName, setAccountName] = useState('Jolah Jemima');
+    
        const [AccountBalance, setAccountBalance] = useState('0.00 USD');
-       const [Nohide, hide] = useState(<img src="https://i.imgur.com/5mz3gKD.png" height='20px' width='20px'/>);
+       const [Nohide, hide] = useState(<BsEye/>);
 
        function Hide(){
-        hide(<div style={{marginBottom:'4px' }}><img src="https://i.imgur.com/ex7JGsm.png" height='20px' width='20px'/></div>);
+        hide( <BsEyeSlash/>);
         setAccountBalance('* * *');
        
       
@@ -71,14 +76,14 @@ function Home(){
        function removeHide(){
       //  This is a prototype, original is actually gotten from the toncenter API
           setAccountBalance('0.00 USD');
-          hide(<img src="https://i.imgur.com/5mz3gKD.png" height='20px' width='20px'/>)
+          hide(<BsEye/>) 
         
        }
        useEffect(()=>{
         fetch('https://twa-backend-g83o.onrender.com/walletdetails').then((res) => res.json())
               .then((result) => {
                 console.log(result);
-                setAccountName(result.walletName);
+               // setAccountName(result.walletName);
                 })
                 
                 .catch((error) => console.log(error));
@@ -102,15 +107,15 @@ function Home(){
                     <div  id="header" style={{display:'flex', justifyContent:'space-between', margin:'0',fontFamily: 'Lexend'}}>
                   <div >
                       <a href='#/tools' style={{color:'black', textDecoration:'none'}}>
-                       <img src='https://i.imgur.com/xFizwPR.png' height='20px' width='20px' style={{borderRadius:'100%', padding:'4px', background:'white',height:'fit-content'}}/></a>
+                       <img src='https://i.imgur.com/xFizwPR.png' className="buddies" height='20px' width='20px' style={{borderRadius:'100%', padding:'4px', background:'white',height:'fit-content'}}/></a>
                        </div><div style={{fontFamily: 'Lexend'}}> 
                         
-                        <a href='#/register' style={{color:'black', textDecoration:'none'}}> My Account </a>
+                        <div><a href='#/register' style={{color:'grey' , textDecoration:'none'}}> My Account</a></div> 
                         </div><div><a href="https://deebest22.github.io/Code-Ninjas/Video%20Copy/Website%20Design/">
-                        <img src="https://i.imgur.com/ErnGd8q.png" height='20px' width='20px' style={{borderRadius:'100%', padding:'4px', background:'white',height:'fit-content'}}/></a>
+                        <img src="https://i.imgur.com/ErnGd8q.png" className="buddies" height='20px' width='20px' style={{borderRadius:'100%', padding:'4px', background:'white',height:'fit-content'}}/></a>
                     </div>
                     </div><br/>
-                    <div id="showcase" style={{ color: 'black', height:'100px', width: '100%', margin:'auto',justifyContent:'center', marginTop:'5%',marginBottom:'5%',fontFamily: 'Lexend',  borderRadius:'10px'}}>
+                    <div id="showcase" style={{  height:'100px', width: '100%', margin:'auto',justifyContent:'center', marginTop:'5%',marginBottom:'5%',fontFamily: 'Lexend',  borderRadius:'10px'}}>
                       <p style={{margin:'7px',textAlign:'center', color:'grey'}}>Wallet Balance</p>  
                      
                     <div style={{margin:'auto',justifyContent:'center',textAlign:'center', fontWeight:'500', display:'flex', fontSize:'27px'}} onDoubleClick={removeHide} onClick={Hide}>{AccountBalance} <div style={{margin:'2px' }}>{Nohide}</div>
@@ -152,7 +157,7 @@ function Home(){
 <br/>
 <div>
     <div style={{display :'flex', background:"white", alignContent:'center', borderRadius:'7px', width:'fit-content'}}>
-      <div style={{padding:'10px',borderRightColor:'red', borderStyle:'groove', borderLeft:'none',borderTop:'none',borderBottom:'none',borderWidth:'1px'}}>Tokens</div>
+      <div style={{color:"black",padding:'10px',borderRightColor:'red', borderStyle:'groove', borderLeft:'none',borderTop:'none',borderBottom:'none',borderWidth:'1px'}}>Tokens</div>
       <div style={{color:"grey", padding:'10px'}}>NFTs</div>
       </div>
 </div> <br/> <br/>

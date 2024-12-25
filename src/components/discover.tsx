@@ -11,7 +11,7 @@ const StyledApp = styled.div`
     position:  ;
     font-family: Lexend ;
   @media (prefers-color-scheme: dark) {
-    background-color:  #F9F9F9;
+    background-color: rgb(15,15,15);
     
   }
   min-height: 100vh;
