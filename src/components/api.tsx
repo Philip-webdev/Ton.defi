@@ -81,7 +81,7 @@ function Api() {
 
     return (
         <AppContainer>
-            <section  style={{ margin:'0', justifyContent:'center' , display:'inline'}}>
+            <section  style={{ margin:'0', justifyContent:'center' , display:'inline', width:innerWidth}}>
                 {/* <thead style={{ zoom:'70%', color:'grey' }}> */}
                     {/* <tr>
                         <th>Name</th>
