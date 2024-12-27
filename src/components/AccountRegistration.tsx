@@ -9,13 +9,21 @@ const StyledApp = styled.div`
   border-radius: 17px;
     position:  ;
     font-family: Lexend ;
-  @media (prefers-color-scheme: dark) {
-    background-color: #F9F9F9;
+   @media (prefers-color-scheme: dark) {
+     background-color: rgb(33,33,33);
+      color: white ;
   }
   min-height: 100vh;
   padding: 20px 20px;
 `;
-
+const ExPanel = styled.div`
+background-color: white;
+ color:black;
+ @media (prefers-color-scheme: dark) {
+     background-color: rgb(15,15,15);
+       color:grey;
+  }
+`;
 const AppContainer = styled.div`
    width: 100%;
   height:fit-content;
@@ -99,18 +107,18 @@ return(
     <StyledApp onLoad={cleaner}> 
     <AppContainer>
         <div >
-    <div onClick={() => setEthereumWalletAddress(EthereumWallet.address)} style={{display: 'flex',  background:'white', padding:'10px',borderRadius: '7px' }}>
+    <ExPanel onClick={() => setEthereumWalletAddress(EthereumWallet.address)} style={{display: 'flex',   padding:'10px',borderRadius: '7px' }}>
     <div><img src='https://i.imgur.com/dhJjQcO.png' alt=' ' style={{ width: '40px', height: '40px' }} /></div>
      <div style={{display:'inline', pointerEvents:'painted'}}>
         
     <div style={{zoom:'90%', marginLeft:'7px'}}>Ethereum wallet </div> 
-        <div style={{zoom:'70%', marginLeft:'8px'}}>{EthereumWalletAddress}</div></div></div>
+        <div style={{zoom:'70%', marginLeft:'8px'}}>{EthereumWalletAddress}</div></div></ExPanel>
 <br/> 
-    <div onClick={() => setSolanaWalletAddress(solanaWallet.address)} style={{display: 'flex',    background:'white', padding:'10px',borderRadius: '7px'}}>
+    <ExPanel onClick={() => setSolanaWalletAddress(solanaWallet.address)} style={{display: 'flex',     padding:'10px',borderRadius: '7px'}}>
     <div><img src='https://i.imgur.com/rjWW55s.png' alt=' ' style={{ width: '40px', height: '40px' }} /></div> <div style={{display:'inline'}}>  
         <div style={{zoom:'90%',marginLeft:'7px'}}>Solana wallet  </div>
         <div style={{zoom:'70%', marginLeft:'8px'}}>{SolanaWalletAddress}</div></div>
-         </div> 
+         </ExPanel> 
     {/* <div style={{margin:'auto', width:'fit-content', justifyContent:'center', background:'white', borderRadius:'7px', padding:'10px'}}>
     <div><h1 >Fiat way</h1></div>
 <form>

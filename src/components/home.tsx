@@ -23,6 +23,15 @@ font-family: Lexend;
   padding: 20px 20px;
 `;
 
+const Announcement = styled.div`
+background-color: white;
+ color:black;
+ @media (prefers-color-scheme: dark) {
+     background-color: rgb(15,15,15);
+       color:grey;
+  }
+`;
+
 const AppContainer = styled.div`
   width: 100%;
   height:fit-content;
@@ -142,14 +151,14 @@ function Home(){
 <br/> <br/>
 
 {/* the announcement panel#87CEEB// */}
-<div style={{margin:'auto',justifyContent:'center', display:'flex', gap:'20px', borderRadius:'7px', background:'white', color:'black '}}>
-  <div id="publicity-logo" style={{padding:'20px'}}><img src='https://i.imgur.com/5d6m9T7.png' height='20px' width='20px'/></div>
+<Announcement style={{margin:'auto',justifyContent:'center', display:'flex', gap:'20px', borderRadius:'7px'}}>
+  <div id="publicity-logo" style={{padding:'20px', background:'whitesmoke', borderRadius:'7px'}}><img src='https://i.imgur.com/5d6m9T7.png' height='20px' width='20px'/></div>
   <div  id='InfoContainer' style={{zIndex:'0',marginLeft:'10px' , width:'100%', height:'40px', overflowY:'hidden',  border:'none', borderRadius:'7px', justifySelf:'center'}}>
   <div id='InfoContents' style={{height:'fit-content', width:'auto',  transition:'1s ease'}}>
   <div id="publcity" style={{paddingTop:'17px'}}>Our 24/7 support is live</div>
   <div id="publcity" style={{paddingTop:'35px'}}> Our 24/7 support is live </div>
   </div></div>
-</div>
+</Announcement>
 <br/>
 <div>
     <div style={{display :'flex', background:"white", alignContent:'center', borderRadius:'7px', width:'fit-content'}}>
@@ -161,7 +170,7 @@ function Home(){
 <section style={{  overflowX: 'scroll'}}>
   <div style={{display:'flex'}}>
 <div style={{ padding:'10px',borderRadius:'7px', height:'100%',width:'100%'}}>
-    <Api/>
+  <Api/> 
     
 </div>
 {/* <div style={{marginLeft:'10px', background:'white ', marginTop:'18px',height:'300px', width:'100%',borderRadius:'7px'}}>
