@@ -3,7 +3,7 @@
  import send from "./components/Send";
  import tools from "./components/tools";
  import "./App.css";
-  import Register from "./components/AccountRegistration";
+import Register from "./components/AccountRegistration";
  import "@twa-dev/sdk";
  import { HashRouter, Route, Routes} from "react-router-dom";
 import swap from "./components/swap";

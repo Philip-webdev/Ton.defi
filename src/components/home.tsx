@@ -15,8 +15,9 @@ const StyledApp = styled.div`
   margin:0;
 font-family: Lexend;
   border-radius:7px;
-  @media (prefers-color-scheme: dark) {
-     
+   @media (prefers-color-scheme: dark) {
+     background-color: rgb(33,33,33);
+      color: white ;
   }
   min-height: fit-content ;
   padding: 20px 20px;
@@ -140,8 +141,8 @@ function Home(){
 </div> 
 <br/> <br/>
 
-{/* the announcement panel// */}
-<div style={{margin:'auto',justifyContent:'center', display:'flex', gap:'20px', borderRadius:'7px', background:'#87CEEB', color:'white'}}>
+{/* the announcement panel#87CEEB// */}
+<div style={{margin:'auto',justifyContent:'center', display:'flex', gap:'20px', borderRadius:'7px', background:'white', color:'black '}}>
   <div id="publicity-logo" style={{padding:'20px'}}><img src='https://i.imgur.com/5d6m9T7.png' height='20px' width='20px'/></div>
   <div  id='InfoContainer' style={{zIndex:'0',marginLeft:'10px' , width:'100%', height:'40px', overflowY:'hidden',  border:'none', borderRadius:'7px', justifySelf:'center'}}>
   <div id='InfoContents' style={{height:'fit-content', width:'auto',  transition:'1s ease'}}>
@@ -170,7 +171,7 @@ function Home(){
 
 {/* 
 the bottom navigation */}
-                <div style={{right:'0.1%', bottom:'0%', display:'flex',justifyContent:'space-evenly' ,height:'fit-content',background:'white', width:'100%', paddingBottom:'10px', paddingRight:'10px',position:'fixed', borderRadius:'7px'}}>
+                <div className="nav" style={{right:'0.1%', bottom:'0%', display:'flex',justifyContent:'space-evenly' ,height:'fit-content',background:'white', width:'100%', paddingBottom:'10px', paddingRight:'10px',position:'fixed', borderRadius:'7px'}}>
             <a href='#/' style={{color:'black', textDecoration:'none'}}> 
             <Button  style={{  fontFamily: 'Lexend' ,  marginLeft:'20px',bottom:'0%', marginRight:'20px', background:'none', color:"black"}}><img src='https://i.imgur.com/uxozY7V.png' height='14px' width='14px' />
             <p style={{zoom:'80%'}}>Home</p> </Button></a>
