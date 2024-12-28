@@ -29,7 +29,7 @@ background-color: white;
  color:black;
  @media (prefers-color-scheme: dark) {
      background-color: rgb(33,33,33);
-       color:grey;
+       color: white ;
   }
 `;
 
