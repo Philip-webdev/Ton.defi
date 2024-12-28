@@ -179,7 +179,7 @@ return(
                  <a href='#/discover' style={{color:'grey', textDecoration:'none'}}>
                  <Button  style={{ fontFamily: 'Lexend' ,bottom:'0%', background:'none', color:"grey"}}><BsLightningCharge/>{/*<img src='https://i.imgur.com/S444rBc.png'height='14px' width='14px'/>*/}
                  <p style={{zoom:'80%'}}>Discover</p> </Button></a>
-               </Icon> 
+               </Icon> </div>
     </AppContainer></StyledApp>
 )
 }
