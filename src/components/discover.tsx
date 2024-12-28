@@ -15,8 +15,8 @@ const StyledApp = styled.div`
     background-color: rgb(15,15,15);
     
   }
-  min-height: 100vh;
-  padding: 20px 20px;
+  min-height: 90vh;
+  padding: 10px 10px;
 `;
 const Icon = styled.div`
 background-color: white;
@@ -27,11 +27,18 @@ background-color: white;
         color:grey;
   }
 `;
+const H1 = styled.div`
+@media (prefers-color-scheme: dark) {
+      
+        color:white ;
+  }
+`;
+
 const AppContainer = styled.div`
-   width: fit-content;
+   width:   100%;
   height:fit-content;
   margin: auto;
-  justify-content: center;
+  
   font-family: Lexend ;
 `;
 function discover() {
@@ -61,10 +68,10 @@ function discover() {
 return(
     <StyledApp>
     <AppContainer>
-      <h1>Discover best blogs on Crypto</h1>
-   <div id="blog_container" style={{ margin:'10px'}}>
+      <H1 ><h1>Discover best blogs on Crypto</h1></H1>
+   <div id="blog_container" style={{ margin:'2px'}}>
    
-     <Icon style={{  borderRadius:'10px', display:'flex', gap:'10px', padding:'7px'}}>
+     <Icon style={{  margin:'7px', borderRadius:'10px', display:'flex', gap:'10px', padding:'7px'}}>
       <div>
      <a href="https://coinbound.io/best-crypto-blogs">
        <img src ='https://i.imgur.com/p53cFyS.jpeg' height='100px' width='100px'  />
@@ -74,7 +81,7 @@ return(
  
 
      <Icon style={{  margin:'7px', borderRadius:'10px', display:'flex', gap:'10px', padding:'7px'}}>
-  <div style={{background :'white'}}>
+  <div  >
   <img src = 'https://i.imgur.com/p53cFyS.jpeg' height='100px' width='100px'  />
   <a href="https://www.cryptoblogs.io/crypto-etf-what-is-it-types-and-working/">
 </a></div>
