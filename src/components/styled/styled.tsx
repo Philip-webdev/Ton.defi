@@ -10,7 +10,7 @@ export const Card = styled.div`
   background-color: whitesmoke;
 font-family: Lexend;
   @media (prefers-color-scheme: dark) {
-    background-color: white;
+    background-color: rgb(15,15,15);
   }
 `;
 

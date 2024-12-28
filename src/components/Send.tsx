@@ -1,7 +1,7 @@
 import "../App.css";
 import '../index.css';
 import { TonConnectButton } from "@tonconnect/ui-react";
-import { Counter } from "../components/Counter";
+ 
 import { Jetton } from "../components/Jetton";
 import { TransferTon } from "../components/TransferTon";
 import styled from "styled-components";
@@ -16,8 +16,8 @@ const StyledApp = styled.div`
   color: black;
   font-family: Lexend;
   @media (prefers-color-scheme: dark) {
-    background-color:  #F9F9F9;
-    
+     background-color: rgb(15,15,15);;
+      color: white ;
   }
   min-height: 110vh;
   padding: 20px 20px;
