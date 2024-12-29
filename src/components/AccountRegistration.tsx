@@ -47,23 +47,28 @@ const Icon = styled.div`
 
 function Register() {
     const [EthereumWalletAddress, setEthereumWalletAddress] = useState('');
+    const [BitcoinWalletAddress, setBitcoinWalletAddress] = useState('');
     const [SolanaWalletAddress, setSolanaWalletAddress] = useState('');
 
     const createWallets = () => {
+      const bitcoinWallet = multichainWallet.createWallet({ network: 'bitcoin' });
         const ethereumWallet = multichainWallet.createWallet({ network: "ethereum" });
         const solanaWallet = multichainWallet.createWallet({ network: "solana" });
 
+        setBitcoinWalletAddress(bitcoinWallet.address);
         setEthereumWalletAddress(ethereumWallet.address);
         setSolanaWalletAddress(solanaWallet.address);
 
         // Save wallet addresses to local storage as a fallback
         localStorage.setItem('ethereumWallet', ethereumWallet.address);
+        localStorage.setItem('bitcoinWallet', bitcoinWallet.address);
         localStorage.setItem('solanaWallet', solanaWallet.address);
     };
 
     useEffect(() => {
         // Load wallet addresses from local storage
         const ethAddress = localStorage.getItem('ethereumWallet');
+        const bitAddress = localStorage.getItem('bitcoinWallet');
         const solAddress = localStorage.getItem('solanaWallet');
 
         if (ethAddress) {
@@ -71,7 +76,11 @@ function Register() {
         } else {
             createWallets(); // Create wallets only if they do not exist in storage
         }
-
+        if (bitAddress ) {
+          setBitcoinWalletAddress(bitAddress);
+      } else {
+          createWallets(); // Create wallets only if they do not exist in storage
+      }
         if (solAddress) {
             setSolanaWalletAddress(solAddress);
         } else {
@@ -82,6 +91,16 @@ function Register() {
     return (
         <StyledApp>
             <AppContainer>
+            <ExPanel style={{ display: 'flex', padding:'10px', borderRadius: '7px' }}>
+                    <div>
+                        <img src='https://i.imgur.com/sSYmdfQ.png' alt='bitcoin' style={{ width: '40px', height: '40px' }} />
+                    </div>
+                    <div style={{ display:'inline', pointerEvents:'painted' }}>
+                        <div style={{ zoom:'90%', marginLeft:'7px' }}>Bitcoin wallet</div> 
+                        <div style={{ zoom:'57%', marginLeft:'8px', width:'fit-content' }}>{BitcoinWalletAddress}</div>
+                    </div>
+                </ExPanel>
+                <br/> 
                 <ExPanel style={{ display: 'flex', padding:'10px', borderRadius: '7px' }}>
                     <div>
                         <img src='https://i.imgur.com/dhJjQcO.png' alt='Ethereum' style={{ width: '40px', height: '40px' }} />
