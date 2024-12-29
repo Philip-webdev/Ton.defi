@@ -1293,6 +1293,11 @@
     magic-string "^0.27.0"
     react-refresh "^0.14.0"
 
+"@vkruglikov/react-telegram-web-app@^2.1.9":
+  version "2.1.9"
+  resolved "https://registry.npmjs.org/@vkruglikov/react-telegram-web-app/-/react-telegram-web-app-2.1.9.tgz"
+  integrity sha512-m8D5oUuSQN1z8xiG3ufh7tBbWpmp4zLtZv2rNsC2LP0Rp5vJI/hwZNk65h7wLDE740wPlE2R6bOSikm6FdUTtQ==
+
 "@waves/bignumber@^1.1.1":
   version "1.2.0"
   resolved "https://registry.npmjs.org/@waves/bignumber/-/bignumber-1.2.0.tgz"
@@ -4847,7 +4852,7 @@ raw-body@2.5.2:
     iconv-lite "0.4.24"
     unpipe "1.0.0"
 
-"react-dom@^16.8.0 || ^17.0.0 || ^18.0.0", react-dom@^18.2.0, "react-dom@>= 16.8.0", react-dom@>=17.0.0, react-dom@>=18:
+"react-dom@^16.8.0 || ^17.0.0 || ^18.0.0", react-dom@^18, react-dom@^18.2.0, "react-dom@>= 16.8.0", react-dom@>=17.0.0, react-dom@>=18:
   version "18.3.1"
   resolved "https://registry.npmjs.org/react-dom/-/react-dom-18.3.1.tgz"
   integrity sha512-5m4nQKp+rZRb09LNH59GM4BxTh9251/ylbKIbpe7TpGxfJ+9kv6BLkLBXIjjspbgbnIBNqlI23tRnTWT0snUIw==
@@ -4917,7 +4922,7 @@ react-side-effect@^2.1.0:
   resolved "https://registry.npmjs.org/react-side-effect/-/react-side-effect-2.1.2.tgz"
   integrity sha512-PVjOcvVOyIILrYoyGEpDN3vmYNLdy1CajSFNt4TDsVQC5KpTijDvWVoR+/7Rz2xT978D8/ZtFceXxzsPwZEDvw==
 
-react@*, "react@^16.3.0 || ^17.0.0 || ^18.0.0", "react@^16.8.0 || ^17.0.0 || ^18.0.0", react@^18.2.0, react@^18.3.1, "react@>= 16.8.0", react@>=16.0.0, react@>=16.3.0, react@>=16.8.1, react@>=17.0.0, react@>=18:
+react@*, "react@^16.3.0 || ^17.0.0 || ^18.0.0", "react@^16.8.0 || ^17.0.0 || ^18.0.0", react@^18, react@^18.2.0, react@^18.3.1, "react@>= 16.8.0", react@>=16.0.0, react@>=16.3.0, react@>=16.8.1, react@>=17.0.0, react@>=18:
   version "18.3.1"
   resolved "https://registry.npmjs.org/react/-/react-18.3.1.tgz"
   integrity sha512-wS+hAgJShR0KhEvPJArfuPVN1+Hz1t0Y6n5jLrGQbkb4urgPE/0Rve+1kMB1v/oWgHgm4WIcV+i7F2pTVj+2iQ==
