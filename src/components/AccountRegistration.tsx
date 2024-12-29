@@ -4,7 +4,6 @@ import { Button } from "./styled/styled";
 import '../index.css';
 import * as multichainWallet from 'multichain-crypto-wallet';
 import { BsHouse, BsWallet2, BsShop, BsLightningCharge } from "react-icons/bs";
-import { useCloudStorage } from '@vkruglikov/react-telegram-web-app'; // Importing the hook
 
 const StyledApp = styled.div`
   background-color: #F9F9F9;
@@ -47,47 +46,38 @@ const Icon = styled.div`
 `;
 
 function Register() {
-    const storage = useCloudStorage(); // Initialize cloud storage hook
     const [EthereumWalletAddress, setEthereumWalletAddress] = useState('');
     const [SolanaWalletAddress, setSolanaWalletAddress] = useState('');
 
-    // Function to create wallets
     const createWallets = () => {
         const ethereumWallet = multichainWallet.createWallet({ network: "ethereum" });
         const solanaWallet = multichainWallet.createWallet({ network: "solana" });
 
-        // Save wallet addresses to Telegram Cloud Storage
-        storage.setItem('ethereumWallet', ethereumWallet.address);
-        storage.setItem('solanaWallet', solanaWallet.address);
-
-        // Set the state with the new addresses
         setEthereumWalletAddress(ethereumWallet.address);
         setSolanaWalletAddress(solanaWallet.address);
+
+        // Save wallet addresses to local storage as a fallback
+        localStorage.setItem('ethereumWallet', ethereumWallet.address);
+        localStorage.setItem('solanaWallet', solanaWallet.address);
     };
 
-    // Load wallet addresses from Telegram Cloud Storage on mount
     useEffect(() => {
-        const loadWallets = async () => {
-            const ethAddress = await storage.getItem('ethereumWallet');
-            const solAddress = await storage.getItem('solanaWallet');
+        // Load wallet addresses from local storage
+        const ethAddress = localStorage.getItem('ethereumWallet');
+        const solAddress = localStorage.getItem('solanaWallet');
 
-            if (ethAddress) {
-                setEthereumWalletAddress(ethAddress);
-            } else {
-                // Create wallets only if they do not exist in storage
-                createWallets();
-            }
+        if (ethAddress) {
+            setEthereumWalletAddress(ethAddress);
+        } else {
+            createWallets(); // Create wallets only if they do not exist in storage
+        }
 
-            if (solAddress) {
-                setSolanaWalletAddress(solAddress);
-            } else {
-                // Create wallets only if they do not exist in storage
-                createWallets();
-            }
-        };
-
-        loadWallets();
-    }, [storage]); // Run this effect only once
+        if (solAddress) {
+            setSolanaWalletAddress(solAddress);
+        } else {
+            createWallets(); // Create wallets only if they do not exist in storage
+        }
+    }, []); // Run this effect only once
 
     return (
         <StyledApp>
