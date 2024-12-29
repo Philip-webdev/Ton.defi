@@ -15,7 +15,7 @@ const StyledApp = styled.div`
     background-color: rgb(15,15,15);
     
   }
-  min-height: 90vh;
+  min-height: 100vh;
   padding: 10px 10px;
 `;
 const Icon = styled.div`
