@@ -88,7 +88,7 @@ function Register() {
                     </div>
                     <div style={{ display:'inline', pointerEvents:'painted' }}>
                         <div style={{ zoom:'90%', marginLeft:'7px' }}>Ethereum wallet</div> 
-                        <div style={{ zoom:'70%', marginLeft:'8px' }}>{EthereumWalletAddress}</div>
+                        <div style={{ zoom:'57%', marginLeft:'8px', width:'fit-content' }}>{EthereumWalletAddress}</div>
                     </div>
                 </ExPanel>
                 <br/> 
@@ -98,7 +98,7 @@ function Register() {
                     </div> 
                     <div style={{ display:'inline' }}>  
                         <div style={{ zoom:'90%', marginLeft:'7px' }}>Solana wallet</div>
-                        <div style={{ zoom:'70%', marginLeft:'8px' }}>{SolanaWalletAddress}</div>
+                        <div style={{ zoom:'57%', marginLeft:'8px', width:'fit-content' }}>{SolanaWalletAddress}</div>
                     </div>
                 </ExPanel>
 
