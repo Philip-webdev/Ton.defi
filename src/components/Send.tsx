@@ -89,11 +89,11 @@ function sendCoin() {
             </Button>
             <TonConnectButton />
           </FlexBoxRow>
-         <div onClick={dropdown} style={{cursor:'pointer'}}><Icon style={{borderRadius:'7px', width:'fit-content',padding:'10px'}}><b>TON</b></Icon></div> 
+         <div onClick={dropdown} style={{cursor:'pointer'}}><Icon style={{borderRadius:'7px', width:'fit-content',padding:'10px'}}> TON</Icon></div> 
           <div id='ton' style={{display:'none'}}>
           <TransferTon />
           </div>
-          <div onClick={dropdown2} style={{cursor:'pointer'}}><Icon style={{borderRadius:'7px', width:'fit-content',padding:'8px', paddingRight:'6px'}} ><b>Jetton</b></Icon></div>
+          <div onClick={dropdown2} style={{cursor:'pointer'}}><Icon style={{borderRadius:'7px', width:'fit-content',padding:'8px', paddingRight:'6px'}} >Jetton</Icon></div>
           <div id='jetton' style={{display:'none'}}>
           <Jetton />
           </div>
