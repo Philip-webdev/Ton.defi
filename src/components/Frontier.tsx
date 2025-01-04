@@ -6,7 +6,7 @@ import styled from "styled-components";
  
 
 const StyledApp = styled.div`
-  background-color: #87CEEB;
+  background-color: white;
   color: white;
 font-family: Lexend ;
   border-radius:7px;
@@ -14,7 +14,15 @@ font-family: Lexend ;
   min-height: 100vh;
   padding: 20px 20px;
 `;
-
+const Icon = styled.div`
+color:black;
+ border-radius:7px;  
+  
+ @media (prefers-color-scheme: dark) {
+    
+        color:white;
+  }
+`;
 const AppContainer = styled.div`
   width: 100%;
    background-color: #4B96FF;
@@ -29,7 +37,7 @@ function Welcome(){
   const Loading = () => {
     return (
         <div className="loading">
-            <h2>Loading...</h2>
+            <Icon>Loading...</Icon>
             <div className="spinner"></div> {/* Optional spinner */}
         </div>
     );
@@ -38,9 +46,11 @@ function Welcome(){
     
         <StyledApp>
 
-          <p style={{textAlign: 'center',marginTop:'0%'}}>TON.DEFI</p>
+<p style={{textAlign: 'center'}}>{Loading()}</p>
             
-          <div  style={{textAlign: 'center', marginTop:'50%'}}>{Loading()}</div>
+          <div  style={{textAlign: 'center', marginTop:'50%'}}><img src='https://i.imgur.com/Iz6I3ZJ.jpeg' style={{ zoom:'20%' }}/><br></br>
+          {Loading()}</div>
+         
         </StyledApp>
         
     )
