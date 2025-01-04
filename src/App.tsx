@@ -88,7 +88,7 @@ function App() {
   
   <StyledApp  >
  
-  <Welcome2/>
+ 
  
   </StyledApp>
     </div>

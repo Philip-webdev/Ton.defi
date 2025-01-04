@@ -45,7 +45,10 @@ const Icon = styled.div`
   }
 `;
 
+
 function Register() {
+
+  
     const [EthereumWalletAddress, setEthereumWalletAddress] = useState('');
     const [BitcoinWalletAddress, setBitcoinWalletAddress] = useState('');
     const [SolanaWalletAddress, setSolanaWalletAddress] = useState('');
@@ -64,6 +67,8 @@ function Register() {
         localStorage.setItem('bitcoinWallet', bitcoinWallet.address);
         localStorage.setItem('solanaWallet', solanaWallet.address);
     };
+   
+
 
     useEffect(() => {
         // Load wallet addresses from local storage
@@ -87,10 +92,12 @@ function Register() {
             createWallets(); // Create wallets only if they do not exist in storage
         }
     }, []); // Run this effect only once
+    
+     
 
     return (
         <StyledApp>
-            <AppContainer>
+            <AppContainer> 
             <ExPanel style={{ display: 'flex', padding:'10px', borderRadius: '7px' }}>
                     <div>
                         <img src='https://i.imgur.com/sSYmdfQ.png' alt='bitcoin' style={{ width: '40px', height: '40px' }} />
@@ -151,6 +158,7 @@ function Register() {
             </AppContainer>
         </StyledApp>
     );
+    
 }
-
+ 
 export default Register;

@@ -5,10 +5,9 @@ import styled from "styled-components";
 import { Button } from "./styled/styled";
 import 'react-icons/bs';
 import 'react-icons/fa';
-import { Helmet } from 'react-helmet';
-import { BsBrowserChrome, BsBrowserSafari, BsEye, BsEyeSlash, BsHouse, BsLightningCharge, BsShop, BsWallet, BsWallet2, BsWalletFill } from "react-icons/bs";
-import { FaBroadcastTower, FaCcDiscover, FaGoogleWallet, FaHome, FaHouseUser, FaShopify, FaShopware, FaWallet } from "react-icons/fa";
- 
+import {  BsEye, BsEyeSlash, BsHouse, BsLightningCharge, BsShop,   BsWallet2 } from "react-icons/bs";
+import * as multichainWallet from 'multichain-crypto-wallet';
+  
 
 const StyledApp = styled.div`
   background-color: #F9F9F9;
@@ -48,6 +47,27 @@ const AppContainer = styled.div`
   height:fit-content;
   margin: 0;
 `;
+
+function TotalBalance  ()  {  const ethAddress = localStorage.getItem('ethereumWallet');
+  const solAddress = localStorage.getItem('solanaWallet');
+  var  [AccountBalanceEth] = useState(Object) ;
+  var  [AccountBalanceSol]  = useState(Object) ;
+if (ethAddress != null){
+    AccountBalanceEth =   multichainWallet.getBalance({
+    address: ethAddress,
+    network: 'ethereum',
+    rpcUrl: 'https://rpc.ankr.com/eth_goerli',
+     
+  });}
+  if (solAddress != null){
+   AccountBalanceSol =   multichainWallet.getBalance({
+    address: solAddress,
+    network: 'solana',
+    rpcUrl: 'https://api.devnet.solana.com',
+  });
+}
+ return (AccountBalanceEth) + (AccountBalanceSol);
+}
 function Home(){
     const slide = ()=>{
         const slideContents = document.getElementById('slideContents');

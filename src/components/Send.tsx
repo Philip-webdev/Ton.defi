@@ -36,12 +36,47 @@ background-color: white;
         color:grey;
   }
 `;
+
+const dropdown = () => {
+   
+  const section = document.getElementById('ton') as HTMLElement | null;
+
+  if (section != null && section.style.display == 'block') {
+      section.style.display = 'none'; 
+  } else if(section != null) {
+    section.style.display = 'block';
+  }
+};
+ 
+const dropdown2 = () => {
+   
+  const section = document.getElementById('jetton') as HTMLElement | null;
+
+  if (section != null && section.style.display == 'block') {
+      section.style.display = 'none'; 
+  } else if(section != null) {
+    section.style.display = 'block';
+  }
+};
+ 
+
 function sendCoin() {
+
+  const hidden = () => {
+   
+    const Section = document.getElementById('section');
+    if (Section != null) {
+       Section.style.display = ' ';
+         
+    }
+  };
   const { network } = useTonConnect();
 
   return (
-    <StyledApp>
+    <StyledApp >
+
       <AppContainer>
+      <div onLoadedData={hidden}>
         <FlexBoxCol>
           <FlexBoxRow>
             
@@ -54,11 +89,16 @@ function sendCoin() {
             </Button>
             <TonConnectButton />
           </FlexBoxRow>
-          
+         <div onClick={dropdown} style={{cursor:'pointer'}}><Icon style={{borderRadius:'7px', width:'fit-content',padding:'10px'}}><b>TON</b></Icon></div> 
+          <div id='ton' style={{display:'none'}}>
           <TransferTon />
+          </div>
+          <div onClick={dropdown2} style={{cursor:'pointer'}}><Icon style={{borderRadius:'7px', width:'fit-content',padding:'8px', paddingRight:'6px'}} ><b>Jetton</b></Icon></div>
+          <div id='jetton' style={{display:'none'}}>
           <Jetton />
+          </div>
         </FlexBoxCol>
-
+        
 
         <Icon className="nav" style={{right:'0.1%', bottom:'0%', display:'flex',justifyContent:'space-evenly' ,height:'fit-content',  width:'100%', paddingBottom:'10px', paddingRight:'10px',position:'fixed' }}>
                        <a href='#/' style={{color:'grey', textDecoration:'none'}}> 
@@ -71,7 +111,7 @@ function sendCoin() {
                          <a href='#/discover' style={{color:'grey', textDecoration:'none'}}>
                          <Button  style={{ fontFamily: 'Lexend' ,bottom:'0%', background:'none', color:"grey"}}><BsLightningCharge/>{/*<img src='https://i.imgur.com/S444rBc.png'height='14px' width='14px'/>*/}
                          <p style={{zoom:'80%'}}>Discover</p> </Button></a>
-                       </Icon> 
+                       </Icon> </div>
       </AppContainer>
     </StyledApp>
   );
