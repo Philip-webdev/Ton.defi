@@ -143,30 +143,30 @@ function Home(){
                     <div  id="header" style={{display:'flex', justifyContent:'space-between', margin:'0',fontFamily: 'Lexend'}}>
                   <div >
                       <a href='#/tools' style={{color:'black', textDecoration:'none'}}>
-                      <Icon> <img src='https://i.imgur.com/xFizwPR.png' className="buddies" height='20px' width='20px' style={{borderRadius:'100%', padding:'7px',  height:'fit-content'}}/></Icon> </a>
+                      <Icon> <img src='https://i.imgur.com/xFizwPR.png' className="buddies" height='17px' width='17px' style={{borderRadius:'100%', padding:'7px',  height:'fit-content'}}/></Icon> </a>
                        </div><div style={{fontFamily: 'Lexend'}}> 
                         
                         <div><a href='#/register' style={{color:'grey' , textDecoration:'none'}}> My Account</a></div> 
                         </div><div><a href="https://deebest22.github.io/Code-Ninjas/Video%20Copy/Website%20Design/">
-                        <Icon> <img src="https://i.imgur.com/ErnGd8q.png" className="buddies" height='20px' width='20px' style={{borderRadius:'100%', padding:'7px', height:'fit-content'}}/></Icon></a>
+                        <Icon> <img src="https://i.imgur.com/ErnGd8q.png" className="buddies" height='17px' width='17px' style={{borderRadius:'100%', padding:'7px', height:'fit-content'}}/></Icon></a>
                     </div>
                     </div><br/>
                     <div id="showcase" style={{  height:'100px', width: '100%', margin:'auto',justifyContent:'center', marginTop:'5%',marginBottom:'5%',fontFamily: 'Lexend',  borderRadius:'10px'}}>
                       <p style={{margin:'7px',textAlign:'center', color:'grey'}}>Wallet Balance</p>  
                      
-                    <div style={{margin:'auto',justifyContent:'center',textAlign:'center', fontWeight:'500', display:'flex', fontSize:'27px'}} onDoubleClick={removeHide} onClick={Hide}>{AccountBalance} <div style={{margin:'2px' }}>{Nohide}</div>
+                    <div style={{margin:'auto',justifyContent:'center',textAlign:'center', fontWeight:'500', display:'flex', fontSize:'20px'}} onDoubleClick={removeHide} onClick={Hide}>{AccountBalance} <div style={{margin:'2px' }}>{Nohide}</div>
                     </div></div>
 
                 <div style={{fontFamily: 'Lexend',display:'flex',background :'', justifyContent:'space-around', borderRadius:'7px' }}>
                     
                 <div style={{borderRadius:'100%',  padding:'10px'}}><a style={{textDecoration:'none'}} href='#/send'>
-                <img src="https://i.imgur.com/JwKhVnM.png" height='24px' width='24px'style={{marginLeft:'7px'}} /></a>
+                <img src="https://i.imgur.com/JwKhVnM.png" height='20px' width='20px'style={{marginLeft:'7px'}} /></a>
                 <br/>send</div>
                 <div style={{borderRadius:'100%',  padding:'10px'}}><a style={{textDecoration:'none'}} href='#/buy'>
-                <img src="https://i.imgur.com/gayUD73.png" height='24px' width='24px' style={{marginLeft:'5px'}}/></a>
+                <img src="https://i.imgur.com/gayUD73.png" height='20px' width='20px' style={{marginLeft:'5px'}}/></a>
                 <br/>buy</div>
                 <div style={{borderRadius:'100%',  padding:'10px'}}><a style={{textDecoration:'none'}} href='#/swap'>
-                <img src="https://i.imgur.com/ajZ5VgY.png" height='24px' width='24px' style={{marginLeft:'7px'}}/></a>
+                <img src="https://i.imgur.com/ajZ5VgY.png" height='20px' width='20px' style={{marginLeft:'7px'}}/></a>
                 <br/>swap</div></div>
                    <br/>
 
