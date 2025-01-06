@@ -37,7 +37,7 @@ background-color: white;
  border-radius:7px;  
   
  @media (prefers-color-scheme: dark) {
-     background-color: rgb(33,33,33);
+     background-color: rgb(15,15,15);
         color:grey;
   }
 `;
