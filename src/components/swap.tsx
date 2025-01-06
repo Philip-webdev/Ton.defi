@@ -11,18 +11,24 @@ import { Helmet } from 'react-helmet';
 import   { Web3 } from 'web3';
 
 const StyledApp = styled.div`
-  background-color: #F9F9F9;
+  background-color:  #F9F9F9;
   color: black;
-    border-radius: 17px;
-font-family: Lexend ;
-  
+  font-family: Lexend;
   @media (prefers-color-scheme: dark) {
-     background-color:  #F9F9F9;
+     background-color: rgb(33,33,33);
+      color: white ;
   }
-  min-height: 100vh;
+  min-height: 110vh;
   padding: 20px 20px;
 `;
-
+const ExPanel = styled.div`
+background-color: white;
+ color:black;
+ @media (prefers-color-scheme: dark) {
+     background-color: rgb(15,15,15);
+       color:grey;
+  }
+`;
 const AppContainer = styled.div`
   width: 100%;
   height:fit-content;
@@ -55,14 +61,14 @@ function ondatainput(){
     return(
         <StyledApp><Helmet><script src="https://cdn.jsdelivr.net/npm/web3@1.6.0/dist/web3.min.js"></script></Helmet>
             <AppContainer>
-<div style={{display: 'flex'  , gap:'17px',padding:'20px', background: 'white', borderRadius:'10px'}}>
-  <img src='https://i.imgur.com/w8vihMp.png'  height='20px' width='20px' style={{borderRadius:'100%'}}/><div><a href='https://app.zap.africa/' style={{color:'black', textDecoration:'none'}}>Zap Exchange</a></div></div>
+<ExPanel><div style={{display: 'flex'  , gap:'17px',padding:'20px',  borderRadius:'10px'}}>
+  <img src='https://i.imgur.com/w8vihMp.png'  height='20px' width='20px' style={{borderRadius:'100%'}}/><div><a href='https://app.zap.africa/' style={{ textDecoration:'none'}}>Zap Exchange</a></div></div></ExPanel>
 
 <br/>
 
-<div style={{display: 'flex'  , gap:'17px',padding:'20px', background: 'white', borderRadius:'10px'}}>
+<ExPanel><div style={{display: 'flex'  , gap:'17px',padding:'20px',  borderRadius:'10px'}}>
   <img src='https://i.imgur.com/w8vihMp.png'  height='20px' width='20px' style={{borderRadius:'100%'}}/>
-  <div><a href='#/ethEx' style={{color:'black', textDecoration:'none'}}>Ton.defi Exchange</a></div></div>
+  <div><a href='#/ethEx' style={{ textDecoration:'none'}}>Ton.defi Exchange</a></div></div></ExPanel>
 
 <br/>
 
