@@ -62,21 +62,14 @@ const dropdown2 = () => {
 
 function sendCoin() {
 
-  const hidden = () => {
-   
-    const Section = document.getElementById('section');
-    if (Section != null) {
-       Section.style.display = ' ';
-         
-    }
-  };
+  
   const { network } = useTonConnect();
 
   return (
     <StyledApp >
 
       <AppContainer>
-      <div onLoadedData={hidden}>
+      
         <FlexBoxCol>
           <FlexBoxRow>
             
@@ -111,7 +104,7 @@ function sendCoin() {
                          <a href='#/discover' style={{color:'grey', textDecoration:'none'}}>
                          <Button  style={{ fontFamily: 'Lexend' ,bottom:'0%', background:'none', color:"grey"}}><BsLightningCharge/>{/*<img src='https://i.imgur.com/S444rBc.png'height='14px' width='14px'/>*/}
                          <p style={{zoom:'80%'}}>Discover</p> </Button></a>
-                       </Icon> </div>
+                       </Icon> 
       </AppContainer>
     </StyledApp>
   );
