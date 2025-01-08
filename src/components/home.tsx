@@ -160,13 +160,16 @@ function Home(){
                 <div style={{fontFamily: 'Lexend',display:'flex',background :'', justifyContent:'space-around', borderRadius:'7px' }}>
                     
                 <div style={{borderRadius:'100%',  padding:'10px'}}><a style={{textDecoration:'none'}} href='#/send'>
-                <img src="https://i.imgur.com/JwKhVnM.png" height='20px' width='20px'style={{marginLeft:'7px'}} /></a>
+                <img src="https://i.imgur.com/PjKRm1R.png" height='20px' width='20px'style={{marginLeft:'7px'}} /></a>
                 <br/>send</div>
+                <div style={{borderRadius:'100%',  padding:'10px'}}><a style={{textDecoration:'none'}} href='#/send'>
+                <img src="https://i.imgur.com/L3iZQca.png" height='20px' width='20px' style={{marginLeft:'17px'}}/></a>
+                <br/><div style={{}}>receive</div></div>
                 <div style={{borderRadius:'100%',  padding:'10px'}}><a style={{textDecoration:'none'}} href='#/buy'>
                 <img src="https://i.imgur.com/gayUD73.png" height='20px' width='20px' style={{marginLeft:'5px'}}/></a>
                 <br/>buy</div>
                 <div style={{borderRadius:'100%',  padding:'10px'}}><a style={{textDecoration:'none'}} href='#/swap'>
-                <img src="https://i.imgur.com/ajZ5VgY.png" height='20px' width='20px' style={{marginLeft:'7px'}}/></a>
+                <img src="https://i.imgur.com/FRi5bbx.png" height='20px' width='20px' style={{marginLeft:'7px'}}/></a>
                 <br/>swap</div></div>
                    <br/>
 
