@@ -41,7 +41,26 @@ background-color: white;
         color:grey;
   }
 `;
+const Icn = styled.div`
+background-color: white;
+ border-radius:7px;  
+ justify-content:center;
+  padding:7px;
+ @media (prefers-color-scheme: dark) {
+     background-color: rgb(15,15,15);
+        padding:7px;
+  }
+`;
+const Icns = styled.div`
+background-color: white;
+ border-radius:7px;  
+ padding:7px;
 
+ @media (prefers-color-scheme: dark) {
+     background-color: rgb(15,15,15);
+        padding:7px;
+  }
+`;
 const AppContainer = styled.div`
   width: 100%;
   height:fit-content;
@@ -105,7 +124,7 @@ function Home(){
 
        function Hide(){
         hide( <BsEyeSlash/>);
-        setAccountBalance('* * *');
+        setAccountBalance('* * * *');
        
       
        }
@@ -154,22 +173,22 @@ function Home(){
                     <div id="showcase" style={{  height:'100px', width: '100%', margin:'auto',justifyContent:'center', marginTop:'5%',marginBottom:'5%',fontFamily: 'Lexend',  borderRadius:'10px'}}>
                       <p style={{margin:'7px',textAlign:'center', color:'grey'}}>Wallet Balance</p>  
                      
-                    <div style={{margin:'auto',justifyContent:'center',textAlign:'center', fontWeight:'500', display:'flex', fontSize:'20px'}} onDoubleClick={removeHide} onClick={Hide}>{AccountBalance} <div style={{margin:'2px' }}>{Nohide}</div>
+                    <div style={{margin:'auto',justifyContent:'center',textAlign:'center', fontWeight:'500', display:'flex', fontSize:'27px'}} onDoubleClick={removeHide} onClick={Hide}>{AccountBalance} <div style={{margin:'2px' }}>{Nohide}</div>
                     </div></div>
 
-                <div style={{fontFamily: 'Lexend',display:'flex',background :'', justifyContent:'space-around', borderRadius:'7px' }}>
+                <div style={{fontFamily: 'Lexend',display:'flex',background :'', justifyContent:'space-evenly', borderRadius:'7px' }}>
                     
                 <div style={{borderRadius:'100%',  padding:'10px'}}><a style={{textDecoration:'none'}} href='#/send'>
-                <img src="https://i.imgur.com/PjKRm1R.png" height='20px' width='20px'style={{marginLeft:'7px'}} /></a>
+                <Icn style={{width:'fit-content'}}><img src="https://i.imgur.com/PjKRm1R.png" height='20px' width='20px' /></Icn></a>
                 <br/>send</div>
-                <div style={{borderRadius:'100%',  padding:'10px'}}><a style={{textDecoration:'none'}} href='#/send'>
-                <img src="https://i.imgur.com/L3iZQca.png" height='20px' width='20px' style={{marginLeft:'17px'}}/></a>
-                <br/><div style={{}}>receive</div></div>
+                <div style={{borderRadius:'100%',  padding:'10px',}}><Icn style={{width:'fit-content', marginLeft:'7px'}}><a style={{textDecoration:'none'}} href='#/send'>
+                <img src="https://i.imgur.com/L3iZQca.png" height='20px' width='20px' /></a></Icn>
+                <br/>receive</div>
                 <div style={{borderRadius:'100%',  padding:'10px'}}><a style={{textDecoration:'none'}} href='#/buy'>
-                <img src="https://i.imgur.com/gayUD73.png" height='20px' width='20px' style={{marginLeft:'5px'}}/></a>
+                <Icn style={{width:'fit-content'}}><img src="https://i.imgur.com/gayUD73.png" height='20px' width='20px'/></Icn></a>
                 <br/>buy</div>
                 <div style={{borderRadius:'100%',  padding:'10px'}}><a style={{textDecoration:'none'}} href='#/swap'>
-                <img src="https://i.imgur.com/FRi5bbx.png" height='20px' width='20px' style={{marginLeft:'7px'}}/></a>
+                <Icn style={{width:'fit-content'}}><img src="https://i.imgur.com/FRi5bbx.png" height='20px' width='20px' /></Icn></a>
                 <br/>swap</div></div>
                    <br/>
 
