@@ -38,13 +38,13 @@ const CryptoRow = ({ crypto, logo }: { crypto: CryptoData; logo: string }) => {
 
     return (
         <API style={{  borderRadius: '7px' ,   margin:'7px' ,display:'flex' ,padding:'15px'  }}>
-            <div  style={{   display:'flex'  }}>
+            <div  style={{   display:'flex' , width:innerWidth }}>
               <div><img src={logo} alt={`${crypto.name} logo`} style={{ width: '40px', height: '40px' }} /></div>
                <div style={{   margin:'5px' }}>{crypto.symbol}</div></div> 
             <div style={{marginLeft:'10px', fontSize:'12px',display:'flex'}}>
            
-            <div style={{    margin:'7px' }}>${crypto.quote.USD.price.toFixed(2)}</div>
-            <div style={{    margin:'7px', color: percentChangeColor }}>
+            <div style={{    left:'7' }}>${crypto.quote.USD.price.toFixed(2)}</div>
+            <div style={{    left:'7', color: percentChangeColor }}>
                 {crypto.quote.USD.percent_change_24h.toFixed(2)}%
             </div>
         </div></API>
