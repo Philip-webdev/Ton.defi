@@ -32,6 +32,7 @@ background-color: white;
   }
 `;
 
+
 const Icon = styled.div`
 background-color: white;
  border-radius:7px;  
@@ -181,7 +182,7 @@ function Home(){
                 <div style={{borderRadius:'100%',  padding:'10px'}}><a style={{textDecoration:'none'}} href='#/send'>
                 <Icn style={{width:'fit-content'}}><img src="https://i.imgur.com/PjKRm1R.png" height='20px' width='20px' /></Icn></a>
                 <br/>send</div>
-                <div style={{borderRadius:'100%',  padding:'10px',}}><Icn style={{width:'fit-content', marginLeft:'7px'}}><a style={{textDecoration:'none'}} href='#/send'>
+                <div style={{borderRadius:'100%',  padding:'10px',}}><Icn style={{width:'fit-content', marginLeft:'7px'}}><a style={{textDecoration:'none'}} href='#/register'>
                 <img src="https://i.imgur.com/L3iZQca.png" height='20px' width='20px' /></a></Icn>
                 <br/>receive</div>
                 <div style={{borderRadius:'100%',  padding:'10px'}}><a style={{textDecoration:'none'}} href='#/buy'>
