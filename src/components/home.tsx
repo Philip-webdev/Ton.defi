@@ -28,7 +28,7 @@ background-color: white;
  color:black;
  @media (prefers-color-scheme: dark) {
      background-color: rgb(15,15,15);
-       color: rgb(2, 102, 204);
+       color: rgb(36, 172, 242);
   }
 `;
 
@@ -205,7 +205,7 @@ function Home(){
 
 {/* the announcement panel#87CEEB// */}
 <Announcement style={{margin:'auto',justifyContent:'center', display:'flex', gap:'20px', borderRadius:'7px', height:'37px'}}>
-  <div id="publicity-logo" style={{padding:'10px', background:'rgb(2, 102, 204)', borderRadius:'7px'}}><img src='https://i.imgur.com/5d6m9T7.png' height='20px' width='20px'/></div>
+  <div id="publicity-logo" style={{padding:'10px', background:'rgb(36, 172, 242)', borderRadius:'7px'}}><img src='https://i.imgur.com/5d6m9T7.png' height='20px' width='20px'/></div>
   <div  id='InfoContainer' style={{zIndex:'0',marginLeft:'10px' , width:'100%', height:'30px', overflowY:'hidden',  border:'none', borderRadius:'7px', justifySelf:'center'}}>
   <div id='InfoContents' style={{height:'fit-content', width:'auto',  transition:'1s ease'}}>
   <div id="publcity" style={{marginTop:'7px'}}>Our 24/7 support is live</div>
