@@ -1,15 +1,17 @@
 import "../App.css";
 import '../index.css';
 import { TonConnectButton } from "@tonconnect/ui-react";
- 
 import { Jetton } from "../components/Jetton";
 import { TransferTon } from "../components/TransferTon";
 import styled from "styled-components";
-import { Button, FlexBoxCol, FlexBoxRow } from "../components/styled/styled";
+import { Button, FlexBoxCol, FlexBoxRow, Input, Card} from "../components/styled/styled";
 import { useTonConnect } from "../hooks/useTonConnect";
 import { CHAIN } from "@tonconnect/protocol";
 import "@twa-dev/sdk";
 import { BsHouse, BsWallet2, BsShop, BsLightningCharge } from "react-icons/bs";
+import { TransferBTC } from "./transferBTC";
+import { TransferETH } from "./transferETH";
+import { TransferSOL } from "./transferSOL";
 
 const StyledApp = styled.div`
   background-color:  #F9F9F9;
@@ -19,7 +21,7 @@ const StyledApp = styled.div`
      background-color: rgb(33,33,33);
       color: white ;
   }
-  min-height: 110vh;
+  min-height: 250vh;
   padding: 20px 20px;
 `;
 
@@ -58,11 +60,43 @@ const dropdown2 = () => {
     section.style.display = 'block';
   }
 };
- 
 
-function sendCoin() {
+const dropdown3 = () => {
+   
+  const section = document.getElementById('btc') as HTMLElement | null;
 
+  if (section != null && section.style.display == 'block') {
+      section.style.display = 'none'; 
+  } else if(section != null) {
+    section.style.display = 'block';
+  }
+};
+
+const dropdown4 = () => {
+   
+  const section = document.getElementById('sol') as HTMLElement | null;
+
+  if (section != null && section.style.display == 'block') {
+      section.style.display = 'none'; 
+  } else if(section != null) {
+    section.style.display = 'block';
+  }
+};
+
+const dropdown5 = () => {
+   
+  const section = document.getElementById('eth') as HTMLElement | null;
+
+  if (section != null && section.style.display == 'block') {
+      section.style.display = 'none'; 
+  } else if(section != null) {
+    section.style.display = 'block';
+  }
+};
+
+ function sendCoin() {
   
+
   const { network } = useTonConnect();
 
   return (
@@ -82,11 +116,23 @@ function sendCoin() {
             </Button>
             <TonConnectButton />
           </FlexBoxRow>
-         <div onClick={dropdown} style={{cursor:'pointer'}}><Icon style={{borderRadius:'7px', width:'fit-content',padding:'10px'}}> TON</Icon></div> 
+         <div onClick={dropdown} style={{cursor:'pointer'}}><Icon style={{borderRadius:'7px', width:'fit-content',padding:'10px', display:'flex', lineHeight:'17px', fontSize:'larger'}}><img src="https://i.imgur.com/JlK5oxR.png" height='17px' width='17px'/>TON</Icon></div> 
           <div id='ton' style={{display:'none'}}>
           <TransferTon />
           </div>
-          <div onClick={dropdown2} style={{cursor:'pointer'}}><Icon style={{borderRadius:'7px', width:'fit-content',padding:'8px', paddingRight:'6px'}} >Jetton</Icon></div>
+          <div onClick={dropdown3} style={{cursor:'pointer'}}><Icon style={{borderRadius:'7px', width:'fit-content',padding:'10px', display:'flex', lineHeight:'17px', fontSize:'larger'}}><img src="https://i.imgur.com/sSYmdfQ.png" height='17px' width='17px'/>BTC</Icon></div> 
+          <div id='btc' style={{display:'none'}}>
+          <TransferBTC />
+          </div>
+          <div onClick={dropdown4} style={{cursor:'pointer'}}><Icon style={{borderRadius:'7px', width:'fit-content',padding:'10px', display:'flex', lineHeight:'17px', fontSize:'larger'}}><img src="https://i.imgur.com/rjWW55s.png" height='17px' width='17px'/>SOL</Icon></div> 
+          <div id='sol' style={{display:'none'}}>
+          <TransferSOL />
+          </div>
+          <div onClick={dropdown5} style={{cursor:'pointer'}}><Icon style={{borderRadius:'7px', width:'fit-content',padding:'10px', display:'flex', lineHeight:'17px', fontSize:'larger'}}><img src="https://i.imgur.com/dhJjQcO.png" height='17px' width='17px'/>ETH</Icon></div> 
+          <div id='eth' style={{display:'none'}}>
+          <TransferETH />
+          </div>
+          <div onClick={dropdown2} style={{cursor:'pointer'}}><Icon style={{borderRadius:'7px', width:'fit-content',padding:'8px', paddingRight:'6px', fontSize:'larger'}} >Jetton</Icon></div>
           <div id='jetton' style={{display:'none'}}>
           <Jetton />
           </div>

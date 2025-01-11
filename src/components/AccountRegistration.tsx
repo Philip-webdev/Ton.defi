@@ -66,6 +66,11 @@ function Register() {
         localStorage.setItem('ethereumWallet', ethereumWallet.address);
         localStorage.setItem('bitcoinWallet', bitcoinWallet.address);
         localStorage.setItem('solanaWallet', solanaWallet.address);
+
+        //private keys
+        localStorage.setItem('ethereumWalletkey', ethereumWallet.privateKey);
+        localStorage.setItem('bitcoinWalletkey', bitcoinWallet.privateKey);
+        localStorage.setItem('solanaWalletkey', solanaWallet.privateKey);
     };
    
 
