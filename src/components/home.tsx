@@ -7,6 +7,7 @@ import 'react-icons/bs';
 import 'react-icons/fa';
 import {  BsEye, BsEyeSlash, BsHouse, BsLightningCharge, BsShop,   BsWallet2 } from "react-icons/bs";
 import * as multichainWallet from 'multichain-crypto-wallet';
+import { IResponse } from "multichain-crypto-wallet/dist/common/utils/types";
   
 
 const StyledApp = styled.div`
@@ -67,28 +68,57 @@ const AppContainer = styled.div`
   height:fit-content;
   margin: 0;
 `;
-
-function TotalBalance  ()  {  const ethAddress = localStorage.getItem('ethereumWallet');
+async function getTotalBalance() {
+  const ethAddress = localStorage.getItem('ethereumWallet');
   const solAddress = localStorage.getItem('solanaWallet');
-  var  [AccountBalanceEth] = useState(Object) ;
-  var  [AccountBalanceSol]  = useState(Object) ;
-if (ethAddress != null){
-    AccountBalanceEth =   multichainWallet.getBalance({
-    address: ethAddress,
-    network: 'ethereum',
-    rpcUrl: 'https://rpc.ankr.com/eth_goerli',
-     
-  });}
-  if (solAddress != null){
-   AccountBalanceSol =   multichainWallet.getBalance({
-    address: solAddress,
-    network: 'solana',
-    rpcUrl: 'https://api.devnet.solana.com',
-  });
+  let accountBalanceEth = 0; // Initialize to zero
+  let accountBalanceSol = 0; // Initialize to zero
+
+  if (ethAddress) {
+      try {
+          const ethBalanceResponse: IResponse = await multichainWallet.getBalance({
+              address: ethAddress,
+              network: 'ethereum',
+              rpcUrl: 'https://rpc.ankr.com/eth_goerli',
+          });
+          accountBalanceEth = ethBalanceResponse.balance; // Adjust based on actual response structure
+      } catch (error) {
+          console.error('Error fetching Ethereum balance:', error);
+      }
+  }
+
+  if (solAddress) {
+      try {
+          const solBalanceResponse: IResponse = await multichainWallet.getBalance({
+              address: solAddress,
+              network: 'solana',
+              rpcUrl: 'https://api.devnet.solana.com',
+          });
+          accountBalanceSol = solBalanceResponse.balance; // Adjust based on actual response structure
+      } catch (error) {
+          console.error('Error fetching Solana balance:', error);
+      }
+  }
+
+  return accountBalanceEth + accountBalanceSol; // Return total balance
 }
- return (AccountBalanceEth) + (AccountBalanceSol);
-}
+
+
+
 function Home(){
+
+  const [totalBalance, setTotalBalance] = useState<number>(0); // Initialize total balance state
+
+  useEffect(() => {
+      const fetchTotalBalance = async () => {
+          const balance = await getTotalBalance(); // Call async function to get total balance
+          setTotalBalance(balance); // Update state with total balance
+      };
+
+      fetchTotalBalance(); // Fetch total balance on component mount
+  }, []);
+
+
     const slide = ()=>{
         const slideContents = document.getElementById('slideContents');
         const slideContainer = document.getElementById('slideContainer');
@@ -120,21 +150,26 @@ function Home(){
        slide();} ,[])
 
     
-       const [AccountBalance, setAccountBalance] = useState('0.00 USD');
+      //  const [AccountBalance, setAccountBalance] = useState({totalBalance});
        const [Nohide, hide] = useState(<BsEye/>);
 
-       function Hide(){
-        hide( <BsEyeSlash/>);
-        setAccountBalance('* * * *');
-       
+        function Hide(){
+       hide( <BsEyeSlash/>);
+       const balanceArea = document.getElementById('balance') as HTMLElement | null;
+       if(balanceArea != null &&  balanceArea.style.display == 'block'){
+        balanceArea.style.display = 'none'; 
+      } else if(balanceArea != null) {
+        balanceArea.style.display = 'block';
+      }
+       }
+    
       
-       }
-       function removeHide(){
-      //  This is a prototype, original is actually gotten from the toncenter API
-          setAccountBalance('0.00 USD');
-          hide(<BsEye/>) 
+      //  function removeHide(){
+      // //  This is a prototype, original is actually gotten from the toncenter API
+      //     // setAccountBalance('0.00 USD');
+      //     hide(<BsEye/>) 
         
-       }
+      //  }
        useEffect(()=>{
         fetch('https://twa-backend-g83o.onrender.com/walletdetails').then((res) => res.json())
               .then((result) => {
@@ -149,7 +184,7 @@ function Home(){
         fetch('https://twa-backend-g83o.onrender.com/AccBalance').then((res) => res.json())
               .then((result) => {
                 console.log(result);
-                setAccountBalance(result.responseBody.availableBalance);
+                // setAccountBalance(result.responseBody.availableBalance);
                 })
                 
                 .catch((error) => console.log(error));
@@ -174,7 +209,7 @@ function Home(){
                     <div id="showcase" style={{  height:'100px', width: '100%', margin:'auto',justifyContent:'center', marginTop:'5%',marginBottom:'5%',fontFamily: 'Lexend',  borderRadius:'10px'}}>
                       <p style={{margin:'7px',textAlign:'center', color:'grey'}}>Wallet Balance</p>  
                      
-                    <div style={{margin:'auto',justifyContent:'center',textAlign:'center', fontWeight:'500', display:'flex', fontSize:'27px'}} onDoubleClick={removeHide} onClick={Hide}>{AccountBalance} <div style={{margin:'2px' }}>{Nohide}</div>
+                    <div style={{margin:'auto',justifyContent:'center',textAlign:'center', fontWeight:'500', display:'flex', fontSize:'27px'}}  onClick={Hide}><div id="balance">{totalBalance}.00 USD</div><div style={{margin:'2px' }}>{Nohide}</div>
                     </div></div>
 
                 <div style={{fontFamily: 'Lexend',display:'flex',background :'', justifyContent:'space-evenly', borderRadius:'7px' }}>
