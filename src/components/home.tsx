@@ -154,12 +154,14 @@ function Home(){
        const [Nohide, hide] = useState(<BsEye/>);
 
         function Hide(){
-       hide( <BsEyeSlash/>);
+       
        const balanceArea = document.getElementById('balance') as HTMLElement | null;
        if(balanceArea != null &&  balanceArea.style.display == 'block'){
+        hide( <BsEyeSlash/>);
         balanceArea.style.display = 'none'; 
       } else if(balanceArea != null) {
         balanceArea.style.display = 'block';
+        hide( <BsEye/>);
       }
        }
     
