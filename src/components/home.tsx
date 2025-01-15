@@ -211,7 +211,7 @@ function Home(){
                     <div id="showcase" style={{  height:'100px', width: '100%', margin:'auto',justifyContent:'center', marginTop:'5%',marginBottom:'5%',fontFamily: 'Lexend',  borderRadius:'10px'}}>
                       <p style={{margin:'7px',textAlign:'center', color:'grey'}}>Wallet Balance</p>  
                      
-                    <div style={{margin:'auto',justifyContent:'center',textAlign:'center', fontWeight:'700', display:'flex', fontSize:'30px',fontFamily:'helvetica'}}  onClick={Hide}><div id="balance"> ${totalBalance} .00  </div><div style={{margin:'2px',marginTop:'7px', zoom:'70%'}}>{Nohide}</div>
+                    <div style={{margin:'auto',justifyContent:'center',textAlign:'center', fontWeight:'700', display:'flex', fontSize:'30px',fontFamily:'helvetica'}}  onClick={Hide}><div id="balance"> ${totalBalance}.00  </div><div style={{margin:'2px',marginTop:'7px', zoom:'70%'}}>{Nohide}</div>
                     </div></div>
 
                 <div style={{fontFamily: 'Lexend',display:'flex',background :'', justifyContent:'space-evenly', borderRadius:'7px' }}>
