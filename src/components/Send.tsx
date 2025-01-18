@@ -116,25 +116,27 @@ const dropdown5 = () => {
             </Button>
             <TonConnectButton />
           </FlexBoxRow>
-         <div onClick={dropdown} style={{cursor:'pointer'}}><Icon style={{borderRadius:'7px', width:'fit-content',padding:'10px', display:'flex', lineHeight:'17px', fontSize:'larger'}}><img src="https://i.imgur.com/JlK5oxR.png" height='17px' width='17px'/>TON</Icon></div> 
+          <div style={{justifyContent:"space-evenly"}}>
+         <div onClick={dropdown} style={{cursor:'pointer'}}><Icon style={{borderRadius:'7px', width:'90%', padding:'7px', display:'flex', lineHeight:'17px', margin:'7px', fontSize:'larger'}}><img src="https://i.imgur.com/JlK5oxR.png" height='17px' width='17px'/>TON</Icon></div> 
           <div id='ton' style={{display:'none'}}>
           <TransferTon />
           </div>
-          <div onClick={dropdown3} style={{cursor:'pointer'}}><Icon style={{borderRadius:'7px', width:'fit-content',padding:'10px', display:'flex', lineHeight:'17px', fontSize:'larger'}}><img src="https://i.imgur.com/sSYmdfQ.png" height='17px' width='17px'/>BTC</Icon></div> 
+          <div onClick={dropdown3} style={{cursor:'pointer'}}><Icon style={{borderRadius:'7px', width:'90%', padding:'7px', display:'flex', lineHeight:'17px',  margin:'7px',fontSize:'larger'}}><img src="https://i.imgur.com/sSYmdfQ.png" height='17px' width='17px'/>BTC</Icon></div> 
           <div id='btc' style={{display:'none'}}>
           <TransferBTC />
           </div>
-          <div onClick={dropdown4} style={{cursor:'pointer'}}><Icon style={{borderRadius:'7px', width:'fit-content',padding:'10px', display:'flex', lineHeight:'17px', fontSize:'larger'}}><img src="https://i.imgur.com/rjWW55s.png" height='17px' width='17px'/>SOL</Icon></div> 
+          <div onClick={dropdown4} style={{cursor:'pointer'}}><Icon style={{borderRadius:'7px', width:'90%', padding:'7px', display:'flex', lineHeight:'17px',  margin:'7px',fontSize:'larger'}}><img src="https://i.imgur.com/rjWW55s.png" height='17px' width='17px'/>SOL</Icon></div> 
           <div id='sol' style={{display:'none'}}>
           <TransferSOL />
           </div>
-          <div onClick={dropdown5} style={{cursor:'pointer'}}><Icon style={{borderRadius:'7px', width:'fit-content',padding:'10px', display:'flex', lineHeight:'17px', fontSize:'larger'}}><img src="https://i.imgur.com/dhJjQcO.png" height='17px' width='17px'/>ETH</Icon></div> 
+          <div onClick={dropdown5} style={{cursor:'pointer'}}><Icon style={{borderRadius:'7px', width:'90%', padding:'7px', display:'flex', lineHeight:'17px',  margin:'7px',fontSize:'larger'}}><img src="https://i.imgur.com/dhJjQcO.png" height='17px' width='17px'/>ETH</Icon></div> 
           <div id='eth' style={{display:'none'}}>
           <TransferETH />
           </div>
-          <div onClick={dropdown2} style={{cursor:'pointer'}}><Icon style={{borderRadius:'7px', width:'fit-content',padding:'8px', paddingRight:'6px', fontSize:'larger'}} >Jetton</Icon></div>
+          <div onClick={dropdown2} style={{cursor:'pointer'}}><Icon style={{borderRadius:'7px', margin:'7px', width:'90%', padding:'7px', paddingRight:'6px', fontSize:'larger'}} >Jetton</Icon></div>
           <div id='jetton' style={{display:'none'}}>
           <Jetton />
+          </div>
           </div>
         </FlexBoxCol>
         
