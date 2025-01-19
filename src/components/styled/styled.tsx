@@ -25,8 +25,8 @@ export const FlexBoxRow = styled.div`
 export const FlexBoxCol = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 20px;
-  margin-left:10px;
+  left:0;
+    gap: 20px;
 `;
 
 export const Button = styled.button`

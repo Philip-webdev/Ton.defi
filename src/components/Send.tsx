@@ -23,11 +23,13 @@ const StyledApp = styled.div`
   }
   min-height: 250vh;
   padding: 20px 20px;
+  margin:0;
+  left:0;
 `;
 
 const AppContainer = styled.div`
   max-width: 900px;
-  margin: 0 auto;
+  margin: 0;
 `;
 const Icon = styled.div`
 background-color: white;
@@ -117,23 +119,23 @@ const dropdown5 = () => {
             <TonConnectButton />
           </FlexBoxRow>
           <div style={{justifyContent:"space-evenly"}}>
-         <div onClick={dropdown} style={{cursor:'pointer'}}><Icon style={{borderRadius:'7px', width:'90%', padding:'20px', display:'flex', lineHeight:'17px', margin:'7px', fontSize:'larger'}}><img src="https://i.imgur.com/JlK5oxR.png" height='17px' width='17px'/>TON</Icon></div> 
+         <div onClick={dropdown} style={{cursor:'pointer', left:'0'}}><Icon style={{borderRadius:'7px', width:'85.9%', padding:'20px',  lineHeight:'17px', margin:'7px', fontSize:'larger'}}><img src="https://i.imgur.com/JlK5oxR.png" height='17px' width='17px'/>TON</Icon></div> 
           <div id='ton' style={{display:'none'}}>
           <TransferTon />
           </div>
-          <div onClick={dropdown3} style={{cursor:'pointer'}}><Icon style={{borderRadius:'7px', width:'90%', padding:'20px', display:'flex', lineHeight:'17px',  margin:'7px',fontSize:'larger'}}><img src="https://i.imgur.com/sSYmdfQ.png" height='17px' width='17px'/>BTC</Icon></div> 
+          <div onClick={dropdown3} style={{cursor:'pointer'}}><Icon style={{borderRadius:'7px', width:'85.9%', padding:'20px',  lineHeight:'17px',  margin:'7px',fontSize:'larger'}}><img src="https://i.imgur.com/sSYmdfQ.png" height='17px' width='17px'/>BTC</Icon></div> 
           <div id='btc' style={{display:'none'}}>
           <TransferBTC />
           </div>
-          <div onClick={dropdown4} style={{cursor:'pointer'}}><Icon style={{borderRadius:'7px', width:'90%', padding:'20px', display:'flex', lineHeight:'17px',  margin:'7px',fontSize:'larger'}}><img src="https://i.imgur.com/rjWW55s.png" height='17px' width='17px'/>SOL</Icon></div> 
+          <div onClick={dropdown4} style={{cursor:'pointer'}}><Icon style={{borderRadius:'7px', width:'85.9%', padding:'20px',  lineHeight:'17px',  margin:'7px',fontSize:'larger'}}><img src="https://i.imgur.com/rjWW55s.png" height='17px' width='17px'/>SOL</Icon></div> 
           <div id='sol' style={{display:'none'}}>
           <TransferSOL />
           </div>
-          <div onClick={dropdown5} style={{cursor:'pointer'}}><Icon style={{borderRadius:'7px', width:'90%', padding:'20px', display:'flex', lineHeight:'17px',  margin:'7px',fontSize:'larger'}}><img src="https://i.imgur.com/dhJjQcO.png" height='17px' width='17px'/>ETH</Icon></div> 
+          <div onClick={dropdown5} style={{cursor:'pointer'}}><Icon style={{borderRadius:'7px', width:'85.9%', padding:'20px',  lineHeight:'17px',  margin:'7px',fontSize:'larger'}}><img src="https://i.imgur.com/dhJjQcO.png" height='17px' width='17px'/>ETH</Icon></div> 
           <div id='eth' style={{display:'none'}}>
           <TransferETH />
           </div>
-          <div onClick={dropdown2} style={{cursor:'pointer'}}><Icon style={{borderRadius:'7px', margin:'7px', width:'90%', padding:'20px', paddingRight:'4px', fontSize:'larger'}} >Jetton</Icon></div>
+          <div onClick={dropdown2} style={{cursor:'pointer'}}><Icon style={{borderRadius:'7px', margin:'7px', width:'85.9%', padding:'20px', paddingRight:'4px', fontSize:'larger'}} >Jetton</Icon></div>
           <div id='jetton' style={{display:'none'}}>
           <Jetton />
           </div>
@@ -142,17 +144,17 @@ const dropdown5 = () => {
         
 
         <Icon className="nav" style={{right:'0.1%', bottom:'0%', display:'flex',justifyContent:'space-evenly' ,height:'fit-content',  width:'100%', paddingBottom:'10px', paddingRight:'10px',position:'fixed' }}>
-                       <a href='#/' style={{color:'grey', textDecoration:'none'}}> 
-                       <Button  style={{  fontFamily: 'Lexend' ,  marginLeft:'20px',bottom:'0%', marginRight:'20px', background:'none', color:"grey"}}><BsHouse/>{/*<img src='https://i.imgur.com/uxozY7V.png' height='14px' width='14px' />*/}
-                       <p style={{zoom:'100%'}}>Home</p> </Button></a>
-                        <a href='#/send' style={{color:'grey', textDecoration:'none'}}> <Button  style={{  fontFamily: 'Lexend' ,bottom:'0%', marginRight:'20px', background:'none', color:"grey"}}><BsWallet2/>{/*<img src="https://i.imgur.com/hCrmXO1.png" height='14px' width='14px'/> */}
-                       <p style={{zoom:'100%'}}>Wallet</p></Button></a>
-                       <a href='#/market' style={{color:'grey', textDecoration:'none'}}>  <Button style={{  fontFamily: 'Lexend' ,bottom:'0%', marginRight:'20px', background:'none', color:"grey"}}><BsShop/> {/*<img src="https://i.imgur.com/loOhRv0.png" height='14px' width='14px' /> */}
-                         <p style={{zoom:'100%'}}>Market</p></Button></a> 
-                         <a href='#/discover' style={{color:'grey', textDecoration:'none'}}>
-                         <Button  style={{ fontFamily: 'Lexend' ,bottom:'0%', background:'none', color:"grey"}}><BsLightningCharge/>{/*<img src='https://i.imgur.com/S444rBc.png'height='14px' width='14px'/>*/}
-                         <p style={{zoom:'100%'}}>Discover</p> </Button></a>
-                       </Icon> 
+                  <a href='#/' style={{color:'grey', textDecoration:'none'}}> 
+                  <Button  style={{  fontFamily: 'Lexend' , bottom:'0%',  background:'none', color:"grey"}}><BsHouse/>{/*<img src='https://i.imgur.com/uxozY7V.png' height='14px' width='14px' />*/}
+                  <p style={{zoom:'100%'}}>Home</p> </Button></a>
+                   <a href='#/send' style={{color:'grey', textDecoration:'none'}}> <Button  style={{  fontFamily: 'Lexend' ,bottom:'0%',  background:'none', color:"grey"}}><BsWallet2/>{/*<img src="https://i.imgur.com/hCrmXO1.png" height='14px' width='14px'/> */}
+                  <p style={{zoom:'100%'}}>Wallet</p></Button></a>
+                  <a href='#/market' style={{color:'grey', textDecoration:'none'}}>  <Button style={{  fontFamily: 'Lexend' ,bottom:'0%',  background:'none', color:"grey"}}><BsShop/> {/*<img src="https://i.imgur.com/loOhRv0.png" height='14px' width='14px' /> */}
+                    <p style={{zoom:'100%'}}>Market</p></Button></a> 
+                    <a href='#/discover' style={{color:'grey', textDecoration:'none'}}>
+                    <Button  style={{ fontFamily: 'Lexend' ,bottom:'0%', background:'none', color:"grey"}}><BsLightningCharge/>{/*<img src='https://i.imgur.com/S444rBc.png'height='14px' width='14px'/>*/}
+                    <p style={{zoom:'100%'}}>Discover</p> </Button></a>
+                  </Icon> 
       </AppContainer>
     </StyledApp>
   );
