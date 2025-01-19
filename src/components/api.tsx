@@ -43,7 +43,7 @@ const CryptoRow = ({ crypto, logo }: { crypto: CryptoData; logo: string }) => {
                <div style={{   margin:'10px' }}>{crypto.symbol}</div></div> 
             <div style={{marginLeft:'10px', margin:'10px', fontSize:'12px',display:'flex'}}>
            
-            <div style={{  left:'7', paddingRight:'17px' }}>${crypto.quote.USD.price.toFixed(2)}</div>
+            <div style={{  left:'7', paddingRight:'17px' }}>{crypto.quote.USD.price.toFixed(2)}</div>
             <div style={{    left:'7', color: percentChangeColor }}>
                 {crypto.quote.USD.percent_change_24h.toFixed(2)}%
             </div>
