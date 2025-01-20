@@ -17,7 +17,7 @@ const StyledApp = styled.div`
 font-family: Lexend;
   border-radius:7px;
    @media (prefers-color-scheme: dark) {
-     background-color: rgb(33,33,33);
+     background-color: rgb(15,15,15);
       color: white ;
   }
   min-height: fit-content ;
@@ -28,7 +28,7 @@ const Announcement = styled.div`
 background-color: white;
  color:black;
  @media (prefers-color-scheme: dark) {
-     background-color: rgb(15,15,15);
+     background-color:rgb(33,33,33) ;
        color: rgb(36, 172, 242);
   }
 `;
@@ -49,7 +49,7 @@ background-color: white;
  justify-content:center;
   padding:7px;
  @media (prefers-color-scheme: dark) {
-     background-color: rgb(15,15,15);
+     background-color: rgb(33,33,33);
         padding:7px;
   }
 `;
@@ -59,7 +59,7 @@ background-color: white;
  padding:7px;
 
  @media (prefers-color-scheme: dark) {
-     background-color: rgb(15,15,15);
+     background-color: rgb(33,33,33);
         padding:7px;
   }
 `;
