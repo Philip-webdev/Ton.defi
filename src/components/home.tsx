@@ -191,12 +191,12 @@ function Home(){
                     <div  id="header" style={{display:'flex', justifyContent:'space-between', margin:'0',fontFamily: 'Lexend'}}>
                   <div >
                       <a href='#/tools' style={{color:'black', textDecoration:'none'}}>
-                      <Icon> <img src='https://i.imgur.com/xFizwPR.png' className="buddies" height='17px' width='17px' style={{borderRadius:'100%', padding:'7px',  height:'fit-content'}}/></Icon> </a>
+                      <Icon> <img src='https://i.imgur.com/xFizwPR.png' className="buddies" height='25px' width='25px' style={{borderRadius:'100%', padding:'7px',  height:'fit-content'}}/></Icon> </a>
                        </div><div style={{fontFamily: 'Lexend'}}> 
                         
                         <div><a href='#/register' style={{color:'grey' , textDecoration:'none'}}> My Account</a></div> 
                         </div><div><a href="https://deebest22.github.io/Code-Ninjas/Video%20Copy/Website%20Design/">
-                        <Icon> <img src="https://i.imgur.com/ErnGd8q.png" className="buddies" height='17px' width='17px' style={{borderRadius:'100%', padding:'7px', height:'fit-content'}}/></Icon></a>
+                        <Icon> <img src="https://i.imgur.com/ErnGd8q.png" className="buddies" height='25px' width='25px' style={{borderRadius:'100%', padding:'7px', height:'fit-content'}}/></Icon></a>
                     </div>
                     </div><br/>
                     <div id="showcase" style={{  height:'100px', width: '100%', margin:'auto',justifyContent:'center', marginTop:'5%',marginBottom:'5%',fontFamily: 'Lexend',  borderRadius:'10px'}}>
