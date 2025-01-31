@@ -53,16 +53,7 @@ background-color: white;
         padding:7px;
   }
 `;
-const Icns = styled.div`
-background-color: white;
- border-radius:7px;  
- padding:7px;
-
- @media (prefers-color-scheme: dark) {
-     background-color: rgb(33,33,33);
-        padding:7px;
-  }
-`;
+ 
 const AppContainer = styled.div`
   width: 100%;
   height:fit-content;
@@ -271,7 +262,7 @@ function Home(){
 
 {/* 
 the bottom navigation */}
-                   <Icon className="nav" style={{right:'0.7%', bottom:'0%', display:'flex',justifyContent:'space-evenly' ,height:'fit-content',  width:'100%', paddingBottom:'10px', paddingRight:'10px',position:'fixed' }}>
+                   <Icon className="nav" style={{left:'0',  bottom:'0%', display:'flex',justifyContent:'space-evenly' ,height:'fit-content',  width:'100%', paddingBottom:'10px', paddingRight:'10px',position:'fixed' }}>
                                       <a href='#/' style={{color:'grey', textDecoration:'none'}}> 
                                       <Button  style={{  fontFamily: 'Lexend' , bottom:'0%',  background:'none', color:"grey"}}><BsHouse/>{/*<img src='https://i.imgur.com/uxozY7V.png' height='14px' width='14px' />*/}
                                       <p style={{zoom:'100%'}}>Home</p> </Button></a>
