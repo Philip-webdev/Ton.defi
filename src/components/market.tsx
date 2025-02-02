@@ -7,16 +7,17 @@ import { BsHouse, BsWallet2, BsShop, BsLightningCharge } from "react-icons/bs";
 const StyledApp = styled.div`
   background-color: #F9F9F9;
   color: black;
-  border-radius: 17px;
-    position:  ;
-    font-family: Lexend ;
-  @media (prefers-color-scheme: dark) {
-    background-color: #F9F9F9;
-   
+  margin:0;
+font-family: Lexend;
+  border-radius:7px;
+   @media (prefers-color-scheme: dark) {
+     background-color: rgb(15,15,15);
+      color: white ;
   }
-  min-height: 100vh;
+  min-height: fit-content ;
   padding: 20px 20px;
 `;
+
 const Icon = styled.div`
 background-color: white;
    border-radius:7px; 
