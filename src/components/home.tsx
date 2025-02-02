@@ -208,16 +208,16 @@ function Home(){
                 <div style={{fontFamily: 'Lexend',display:'flex',background :'', justifyContent:'space-evenly', borderRadius:'7px' }}>
                     
                 <div style={{borderRadius:'100%',  padding:'10px'}}><a style={{textDecoration:'none'}} href='#/send'>
-                <Icn style={{width:'fit-content'}}><img src="https://i.imgur.com/PjKRm1R.png" height='20px' width='20px' /></Icn></a>
+                <Icn style={{width:'fit-content'}}><img src="https://i.imgur.com/PjKRm1R.png" height='25px' width='25px' /></Icn></a>
                 <br/>send</div>
                 <div style={{borderRadius:'100%',  padding:'10px',}}><Icn style={{width:'fit-content', marginLeft:'7px'}}><a style={{textDecoration:'none'}} href='#/register'>
-                <img src="https://i.imgur.com/L3iZQca.png" height='20px' width='20px' /></a></Icn>
+                <img src="https://i.imgur.com/L3iZQca.png" height='25px' width='25px' /></a></Icn>
                 <br/>receive</div>
                 <div style={{borderRadius:'100%',  padding:'10px'}}><a style={{textDecoration:'none'}} href='#/buy'>
-                <Icn style={{width:'fit-content'}}><img src="https://i.imgur.com/gayUD73.png" height='20px' width='20px'/></Icn></a>
+                <Icn style={{width:'fit-content'}}><img src="https://i.imgur.com/gayUD73.png" height='25px' width='25px'/></Icn></a>
                 <br/>buy</div>
                 <div style={{borderRadius:'100%',  padding:'10px'}}><a style={{textDecoration:'none'}} href='#/swap'>
-                <Icn style={{width:'fit-content'}}><img src="https://i.imgur.com/FRi5bbx.png" height='20px' width='20px' /></Icn></a>
+                <Icn style={{width:'fit-content'}}><img src="https://i.imgur.com/FRi5bbx.png" height='25px' width='25px' /></Icn></a>
                 <br/>swap</div></div>
                    <br/>
 
