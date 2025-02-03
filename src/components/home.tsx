@@ -5,7 +5,7 @@ import styled from "styled-components";
 import { Button } from "./styled/styled";
 import 'react-icons/bs';
 import 'react-icons/fa';
-import {  BsEye, BsEyeSlash, BsHouse, BsLightningCharge, BsShop,   BsWallet2 } from "react-icons/bs";
+import {  BsEye, BsEyeSlash, BsGear, BsHeadset, BsHouse, BsLightningCharge, BsShop,   BsWallet2 } from "react-icons/bs";
 import * as multichainWallet from 'multichain-crypto-wallet';
 import { IResponse } from "multichain-crypto-wallet/dist/common/utils/types";
   
@@ -184,19 +184,19 @@ function Home(){
       });
       
     return(
-        <StyledApp>
+        <StyledApp style={{fontWeight:'100'}}>
             
             <AppContainer>
                 <div>
                     <div  id="header" style={{display:'flex', justifyContent:'space-between', margin:'0',fontFamily: 'Lexend'}}>
                   <div >
                       <a href='#/tools' style={{color:'black', textDecoration:'none'}}>
-                      <Icon> <img src='https://i.imgur.com/xFizwPR.png' className="buddies" height='25px' width='25px' style={{borderRadius:'100%', padding:'7px',  height:'fit-content'}}/></Icon> </a>
+                      <Icon> <BsGear style={{height: '25px',  width:'25px'}}/></Icon> </a>
                        </div><div style={{fontFamily: 'Lexend'}}> 
                         
                         <div><a href='#/register' style={{color:'grey' , textDecoration:'none'}}> My Account</a></div> 
-                        </div><div><a href="https://deebest22.github.io/Code-Ninjas/Video%20Copy/Website%20Design/">
-                        <Icon> <img src="https://i.imgur.com/ErnGd8q.png" className="buddies" height='25px' width='25px' style={{borderRadius:'100%', padding:'7px', height:'fit-content'}}/></Icon></a>
+                        </div><div><a href="https://deebest22.github.io/Code-Ninjas/Video%20Copy/Website%20Design/" style={{color:'black'}}>
+                        <Icon><BsHeadset style={{height: '25px',  width:'25px'}}/></Icon></a>
                     </div>
                     </div><br/>
                     <div id="showcase" style={{  height:'100px', width: '100%', margin:'auto',justifyContent:'center', marginTop:'5%',marginBottom:'5%',fontFamily: 'Lexend',  borderRadius:'10px'}}>
