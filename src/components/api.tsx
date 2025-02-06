@@ -78,8 +78,21 @@ function Api() {
 
         fetchData();
     }, []);
+ const [preText, setPretext] =  useState(<div style={{fontSize:'15px', color: 'grey'}}>Loading tokens...</div>)
+ 
+ useEffect(() => {
 
-    return (
+    const timer = setTimeout(() => {
+        setPretext(<div style={{fontSize:'15px', color: 'grey'}}>
+            {cryptos.map((crypto, index) => (
+                <CryptoRow key={crypto.id} crypto={crypto} logo={logos[index]} />
+            ))}
+           </div>);
+    }, 3500);
+
+    return () => clearTimeout(timer); 
+}, []);
+ return (
         <AppContainer>
             <section  style={{ margin:'0', justifyContent:'center' , display:'inline', width:innerWidth}}>
                 {/* <thead style={{ zoom:'70%', color:'grey' }}> */}
@@ -89,12 +102,8 @@ function Api() {
                         <th>Price</th>
                         <th>Change/Price (24h)</th>
                     </tr>
-                </thead> */}
-                <div style={{fontSize:'15px', color: 'grey'}}>
-                    {cryptos.map((crypto, index) => (
-                        <CryptoRow key={crypto.id} crypto={crypto} logo={logos[index]} />
-                    ))}
-                </div>
+                </thead> */}{preText}
+                
             </section>
         </AppContainer>
     );

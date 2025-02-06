@@ -5,7 +5,7 @@ import styled from "styled-components";
 import { Button } from "./styled/styled";
 import 'react-icons/bs';
 import 'react-icons/fa';
-import {  BsEye, BsEyeSlash, BsGear, BsHeadset, BsHouse, BsLightningCharge, BsShop,   BsWallet2 } from "react-icons/bs";
+import {  BsCashStack, BsEye, BsEyeSlash, BsGear, BsHeadset, BsHouse, BsLightningCharge, BsShop,   BsWallet2 } from "react-icons/bs";
 import * as multichainWallet from 'multichain-crypto-wallet';
 import { IResponse } from "multichain-crypto-wallet/dist/common/utils/types";
   
@@ -222,7 +222,7 @@ function Home(){
                    <br/>
 
                 <div style={{ margin:'0', width:'100%', justifyContent:'center'}}>
-    <div  id='slideContainer' style={{zIndex:'0',marginLeft:'10px' , width:'100%', height:'fit-content', overflow:'hidden',  border:'none', borderRadius:'7px', justifySelf:'center'}}>
+    <div  id='slideContainer' style={{zIndex:'0',marginLeft:'10px' , width:'100%', height:'fit-content', overflow:'scroll',  border:'none', borderRadius:'7px', justifySelf:'center'}}>
         <div id='slideContents' style={{height:'fit-content', width:'auto', display:'flex',  transition:'1s ease'}}>
  
  <a href ='#/tokenomics' ><img src='https://i.imgur.com/EfcPkCp.png' height='170px' width='350px' style={{borderRadius:'7px'}}/> </a> 
@@ -247,7 +247,7 @@ function Home(){
       <div style={{color:"black",padding:'10px',borderRightColor:'red', borderStyle:'groove', borderLeft:'none',borderTop:'none',borderBottom:'none',borderWidth:'1px'}}>Tokens</div>
       <div style={{color:"grey", padding:'10px'}}>NFTs</div>
       </div>
-</div> <br/> <br/>
+</div> <br/>  
 {/* this section loads the API */}
 <section style={{  overflowX: 'scroll'}}>
   <div style={{display:'flex',width: '100%'}}>
@@ -268,8 +268,8 @@ the bottom navigation */}
                                       <p style={{zoom:'100%'}}>Home</p> </Button></a>
                                        <a href='#/send' style={{color:'grey', textDecoration:'none'}}> <Button  style={{  fontFamily: 'Lexend' ,bottom:'0%',  background:'none', color:"grey"}}><BsWallet2/>{/*<img src="https://i.imgur.com/hCrmXO1.png" height='14px' width='14px'/> */}
                                       <p style={{zoom:'100%'}}>Wallet</p></Button></a>
-                                      <a href='#/market' style={{color:'grey', textDecoration:'none'}}>  <Button style={{  fontFamily: 'Lexend' ,bottom:'0%',  background:'none', color:"grey"}}><BsShop/> {/*<img src="https://i.imgur.com/loOhRv0.png" height='14px' width='14px' /> */}
-                                        <p style={{zoom:'100%'}}>Market</p></Button></a> 
+                                      <a href='#/market' style={{color:'grey', textDecoration:'none'}}>  <Button style={{  fontFamily: 'Lexend' ,bottom:'0%',  background:'none', color:"grey"}}><BsCashStack/> {/*<img src="https://i.imgur.com/loOhRv0.png" height='14px' width='14px' /> */}
+                                        <p style={{zoom:'100%'}}>Finance</p></Button></a> 
                                         <a href='#/discover' style={{color:'grey', textDecoration:'none'}}>
                                         <Button  style={{ fontFamily: 'Lexend' ,bottom:'0%', background:'none', color:"grey"}}><BsLightningCharge/>{/*<img src='https://i.imgur.com/S444rBc.png'height='14px' width='14px'/>*/}
                                         <p style={{zoom:'100%'}}>Discover</p> </Button></a>

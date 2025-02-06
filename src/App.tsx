@@ -8,7 +8,7 @@ import Register from "./components/AccountRegistration";
  import { HashRouter, Route, Routes} from "react-router-dom";
 import swap from "./components/swap";
 import Welcome from "./components/Frontier";
-import market from "./components/market";
+import market from "./components/finance";
 import discover from "./components/discover";
 import tokenomics from "./components/tokenomics";
 import tontools from "./components/tontools";
