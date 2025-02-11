@@ -22,14 +22,14 @@ import swaps from "./components/ethEx";
 import { useEffect, useState } from "react";
 import Welcome2 from "./components/welcome2";
  const StyledApp = styled.div`
-  background-color: #4B96FF;
+  background-color:  #F9F9F9;
   color: black;
 font-family: Lexend ;
      position: fixed;
      width:100%;
-  @media (prefers-color-scheme: dark) {
-    background-color:  #F9F9F9;
-    
+ @media (prefers-color-scheme: dark) {
+     background-color: rgb(15,15,15);
+      color: white ;
   }
   min-height: 90vh;
   padding: 20px 20px;

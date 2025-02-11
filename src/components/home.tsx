@@ -188,9 +188,9 @@ const load = ()=>{
       });
       
     return(
-        <StyledApp style={{fontWeight:'100'}}>
+        <StyledApp style={{fontWeight:'100'}} >
             
-            <AppContainer onLoad={load}>
+            <AppContainer onLoadedData={load}>
                 <div>
                     <div  id="header" style={{display:'flex', justifyContent:'space-between', margin:'0',fontFamily: 'Lexend'}}>
                   <div >
@@ -253,7 +253,7 @@ const load = ()=>{
       </div>
 </div> <br/>  
 {/* this section loads the API */}
-<section style={{  overflowX: 'scroll'}}>
+<section style={{  overflowX: 'scroll'}} >
   <div style={{display:'flex',width: '100%'}}>
 <div style={{ padding:'2px',borderRadius:'7px', height:'100%', width:'100%'}}>
 {pretext} 
