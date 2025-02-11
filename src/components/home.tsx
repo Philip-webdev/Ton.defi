@@ -99,7 +99,11 @@ async function getTotalBalance() {
 function Home(){
 
   const [totalBalance, setTotalBalance] = useState<number>(0); // Initialize total balance state
+const [pretext, setText] = useState(<div>Loading tokens...</div>);
 
+const load = ()=>{
+  setText(<div><Api/></div>)
+}
   useEffect(() => {
       const fetchTotalBalance = async () => {
           const balance = await getTotalBalance(); // Call async function to get total balance
@@ -186,7 +190,7 @@ function Home(){
     return(
         <StyledApp style={{fontWeight:'100'}}>
             
-            <AppContainer>
+            <AppContainer onLoad={load}>
                 <div>
                     <div  id="header" style={{display:'flex', justifyContent:'space-between', margin:'0',fontFamily: 'Lexend'}}>
                   <div >
@@ -252,7 +256,7 @@ function Home(){
 <section style={{  overflowX: 'scroll'}}>
   <div style={{display:'flex',width: '100%'}}>
 <div style={{ padding:'2px',borderRadius:'7px', height:'100%', width:'100%'}}>
-  <Api/> 
+{pretext} 
     
 </div>
 {/* <div style={{marginLeft:'10px', background:'white ', marginTop:'18px',height:'300px', width:'100%',borderRadius:'7px'}}>

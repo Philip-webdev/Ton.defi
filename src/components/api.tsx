@@ -33,13 +33,25 @@ interface CryptoData {
     };
 }
 
-const CryptoRow = ({ crypto, logo }: { crypto: CryptoData; logo: string }) => {
+const CryptoRow = ({ crypto  }: { crypto: CryptoData;   }) => {
     const percentChangeColor = crypto.quote.USD.percent_change_24h < 0 ? 'red' : 'green';
-
+    const getCryptoImage = (symbol: string) => {
+        return symbol === 'BTC'
+          ? 'https://i.imgur.com/sSYmdfQ.png'
+          : symbol === 'ETH'
+          ? 'https://i.imgur.com/dhJjQcO.png'
+          : symbol === 'USDT'
+          ? 'https://i.imgur.com/WaJtG67.png'
+          : symbol === 'XRP'
+          ? 'https://i.imgur.com/qfO2YuU.png'
+          : symbol === 'SOL'
+          ? 'https://i.imgur.com/rjWW55s.png'
+          : 'https://i.imgur.com/default.png';
+      };
     return (
         <API style={{  borderRadius: '7px' ,   margin:'7px' ,display:'flex' ,padding:'15px'  }}>
             <div  style={{   display:'flex' , width:innerWidth }}>
-              <div><img src={logo} alt={`${crypto.name} logo`} style={{ width: '40px', height: '40px' }} /></div>
+              <div><img src={getCryptoImage(crypto.symbol)} alt={`${crypto.name} logo`} style={{ width: '40px', height: '40px' }} /></div>
                <div style={{   margin:'10px' }}>{crypto.symbol}</div></div> 
             <div style={{marginLeft:'10px', margin:'10px', fontSize:'12px',display:'flex'}}>
            
@@ -87,7 +99,7 @@ function Api() {
             <section  style={{ margin:'0', justifyContent:'center' , display:'inline', width:innerWidth}}>
             <div style={{fontSize:'15px', color: 'grey'}}>
        {cryptos.map((crypto, index) => (
-           <CryptoRow key={crypto.id} crypto={crypto} logo={logos[index]} />
+           <CryptoRow key={crypto.id} crypto={crypto}   />
        ))}
       </div> 
                 
