@@ -190,7 +190,7 @@ const load = ()=>{
     return(
         <StyledApp style={{fontWeight:'100'}} >
             
-            <AppContainer onLoadedData={load}>
+            <AppContainer onLoad={load}>
                 <div>
                     <div  id="header" style={{display:'flex', justifyContent:'space-between', margin:'0',fontFamily: 'Lexend'}}>
                   <div >
