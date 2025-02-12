@@ -6,8 +6,8 @@ import styled from "styled-components";
  
 
 const StyledApp = styled.div`
-  background-color: white;
-  color: white;
+  background-color: black;
+   
 font-family: Lexend ;
   border-radius:7px;
  margin: 0;
@@ -48,7 +48,7 @@ function Welcome(){
 
  
             
-          <div  style={{textAlign: 'center', marginTop:'30%'}}><img src='https://i.imgur.com/Iz6I3ZJ.jpeg' style={{ zoom:'20%' }}/><br></br>
+          <div  style={{textAlign: 'center', marginTop:'30%'}}><img src='https://i.imgur.com/PZlLQcl.png' style={{ zoom:'20%' }}/><br></br>
           {Loading()}</div>
          
         </StyledApp>
