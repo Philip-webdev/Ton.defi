@@ -62,15 +62,17 @@ const AppContainer = styled.div`
 async function getTotalBalance() {
   const ethAddress = localStorage.getItem('ethereumWallet');
   const solAddress = localStorage.getItem('solanaWallet');
+  const bitAddress = localStorage.getItem('bitcoinWallet');
   let accountBalanceEth = 0; // Initialize to zero
   let accountBalanceSol = 0; // Initialize to zero
+  let accountBalanceBit = 0; // Initialize to zero
 
   if (ethAddress) {
       try {
           const ethBalanceResponse: IResponse = await multichainWallet.getBalance({
               address: ethAddress,
               network: 'ethereum',
-              rpcUrl: 'https://rpc.ankr.com/eth_goerli',
+              rpcUrl: 'https://rpc.ankr.com/eth',
           });
           accountBalanceEth = ethBalanceResponse.balance; // Adjust based on actual response structure
       } catch (error) {
@@ -83,7 +85,7 @@ async function getTotalBalance() {
           const solBalanceResponse: IResponse = await multichainWallet.getBalance({
               address: solAddress,
               network: 'solana',
-              rpcUrl: 'https://api.devnet.solana.com',
+              rpcUrl: 'https://api.mainnet-beta.solana.com',
           });
           accountBalanceSol = solBalanceResponse.balance; // Adjust based on actual response structure
       } catch (error) {
@@ -91,7 +93,20 @@ async function getTotalBalance() {
       }
   }
 
-  return accountBalanceEth + accountBalanceSol; // Return total balance
+  if(bitAddress){
+    try {
+      const bitBalanceResponse: IResponse = await multichainWallet.getBalance({
+          address: bitAddress,
+          network: 'bitcoin',
+           
+      });
+      accountBalanceBit = bitBalanceResponse.balance; // Adjust based on actual response structure
+  } catch (error) {
+      console.error('Error fetching Bitcoin balance:', error);
+  }
+  }
+
+  return accountBalanceEth + accountBalanceSol + accountBalanceBit; // Return total balance
 }
 
 
