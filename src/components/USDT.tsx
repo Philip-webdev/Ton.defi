@@ -14,8 +14,7 @@ const StyledApp = styled.div`
   color: black;
   border-radius: 17px;
   font-family: Lexend;
-  min-height: 100vh;
-  padding: 20px;
+
 
   @media (prefers-color-scheme: dark) {
     background-color: rgb(33,33,33);
@@ -23,15 +22,7 @@ const StyledApp = styled.div`
   }
 `;
 
-const ExPanel = styled.div`
-  background-color: white;
-  color: black;
 
-  @media (prefers-color-scheme: dark) {
-    background-color: rgb(15,15,15);
-    color: grey;
-  }
-`;
 
 const AppContainer = styled.div`
    width: 100%;
@@ -177,12 +168,11 @@ function usdt() {
     fetchTrcBalance(); // Fetch TRC20 balance on component mount
   }, []);
 return(
-  <StyledApp>
     <AppContainer>
     <img src='https://i.imgur.com/dhJjQcO.png' alt='Ethereum' style={{ width: '15px', height: '15px' }} /> ERC 20 USDT
      <div style={{display:'inline',  justifyContent:'space-between',  margin:'10px'}}>
      
-     <div>Token Address: {tokenAddress}</div>
+     <div style={{zoom:'50%'}}>Token Address: {tokenAddress}</div>
      <div>Balance: {ercBalance}</div>
      </div>
        <br></br>
@@ -190,7 +180,7 @@ return(
        <img src='https://i.imgur.com/ywfZokP.png' alt='Tron' style={{ width: '15px', height: '15px' }} /> TRC 20 USDT
      <div style={{display:'inline',  justifyContent:'space-between',  margin:'10px'}}>
      
-     <div>Token Address: {trc20Address} </div>
+     <div style={{zoom:'50%'}}>Token Address: {trc20Address} </div>
 
      <div>Balance: {trcBalance}</div>
      </div>
@@ -200,7 +190,7 @@ return(
        <div onClick={dropdown} style={{cursor:'pointer', left:'0'}}><Icon style={{borderRadius:'7px', padding:'20px',  lineHeight:'17px', margin:'7px', fontSize:'larger'}}>Send TRC-20</Icon></div>
            <div id="elem" style={{display:'none'}}>
             <Icon style={{borderRadius:'7px', padding:'20px',  lineHeight:'17px', margin:'7px', fontSize:'larger'}}> <input id="toAddress" placeholder="Recipient Address"  style={{color: 'grey',height:'40px', background:'transparent', width:'200px', borderColor:"grey",  borderWidth:'1px',  borderRadius:'7px'}} /></Icon>
-<br /><br />
+<br />
            <Icon style={{borderRadius:'7px', padding:'20px',  lineHeight:'17px', margin:'7px', fontSize:'larger'}}> <input id="amount" placeholder="Amount"  type="number" style={{color: 'grey',  height:'30px', background:'transparent',  width:'185px',  borderColor:"grey",  borderWidth:'1px'}} />  </Icon><br /><br />
             <Button onClick={() => sendTRC20Token('', 0)}>Send</Button><br /><br />
            </div>
@@ -208,7 +198,7 @@ return(
          
       </Icon>
     </AppContainer>
-  </StyledApp>
+
 )
 
 }
