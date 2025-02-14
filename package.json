@@ -20,6 +20,7 @@
     "axios": "^1.7.8",
     "bootstrap": "^5.3.3",
     "buffer": "^6.0.3",
+    "ethers": "^6.13.5",
     "is-mobile": "^3.1.1",
     "multichain-crypto-wallet": "^0.2.8",
     "node": "^23.4.0",
@@ -33,6 +34,7 @@
     "ton": "^13.9.0",
     "ton-core": "^0.53.0",
     "ton-crypto": "^3.2.0",
+    "tronweb": "^6.0.1",
     "use-local-storage": "^2.3.6",
     "vite-plugin-node-polyfills": "^0.7.0",
     "web3": "^4.16.0"

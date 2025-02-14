@@ -21,6 +21,9 @@ import organizer from "./components/organizer";
 import swaps from "./components/ethEx";
 import { useEffect, useState } from "react";
 import Welcome2 from "./components/welcome2";
+import usdt from "./components/USDT";
+
+
  const StyledApp = styled.div`
   background-color:  #F9F9F9;
   color: black;
@@ -52,7 +55,7 @@ function App() {
 
       const timer = setTimeout(() => {
           setLoading(false);
-      }, 7000);
+      }, 5000);
 
       return () => clearTimeout(timer); 
   }, []);
@@ -83,6 +86,7 @@ function App() {
     <Route path="/settings" Component={settings}/>
     <Route path="/organizer" Component={settings}/>
     <Route path="/ethEx" Component={swaps}/>
+    <Route path="usdt" Component={usdt}/>
     </Routes>
   </HashRouter>
   

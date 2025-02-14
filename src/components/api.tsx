@@ -50,7 +50,9 @@ const CryptoRow = ({ crypto  }: { crypto: CryptoData;   }) => {
       };
     return (
         <API style={{  borderRadius: '7px' ,   margin:'7px' ,display:'flex' ,padding:'15px'  }}>
+             
             <div  style={{   display:'flex' , width:innerWidth }}>
+               
               <div><img src={getCryptoImage(crypto.symbol)} alt={`${crypto.name} logo`} style={{ width: '40px', height: '40px' }} /></div>
                <div style={{   margin:'10px' }}>{crypto.symbol}</div></div> 
             <div style={{marginLeft:'10px', margin:'10px', fontSize:'12px',display:'flex'}}>
@@ -101,6 +103,9 @@ function Api() {
        {cryptos.map((crypto, index) => (
            <CryptoRow key={crypto.id} crypto={crypto}   />
        ))}
+       <div style={{fontSize:'15px', color: 'grey'}}>
+        
+       </div>
       </div> 
                 
             </section>

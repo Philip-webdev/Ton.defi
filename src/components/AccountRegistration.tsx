@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import styled from "styled-components";
 import { Button } from "./styled/styled";
 import '../index.css';
+import { TronWeb } from 'tronweb';
 import * as multichainWallet from 'multichain-crypto-wallet';
 import { BsHouse, BsWallet2, BsShop, BsLightningCharge, BsCashStack } from "react-icons/bs";
 
@@ -52,12 +53,20 @@ function Register() {
     const [EthereumWalletAddress, setEthereumWalletAddress] = useState('');
     const [BitcoinWalletAddress, setBitcoinWalletAddress] = useState('');
     const [SolanaWalletAddress, setSolanaWalletAddress] = useState('');
+    const [tronWalletAddress,  setTronWalletAddress]= useState('');
 
-    const createWallets = () => {
+    const createWallets = async () => {
       const bitcoinWallet = multichainWallet.createWallet({ network: 'bitcoin' });
         const ethereumWallet = multichainWallet.createWallet({ network: "ethereum" });
         const solanaWallet = multichainWallet.createWallet({ network: "solana" });
+        const tronWeb = new TronWeb({
+          fullHost: 'https://api.trongrid.io',
+          });
+      
+        
+          const tronWallet = await tronWeb.createAccount();
 
+      
         setBitcoinWalletAddress(bitcoinWallet.address);
         setEthereumWalletAddress(ethereumWallet.address);
         setSolanaWalletAddress(solanaWallet.address);
@@ -66,11 +75,18 @@ function Register() {
         localStorage.setItem('ethereumWallet', ethereumWallet.address);
         localStorage.setItem('bitcoinWallet', bitcoinWallet.address);
         localStorage.setItem('solanaWallet', solanaWallet.address);
+        localStorage.setItem('tronWallet', tronWallet.address.base58);
 
         //private keys
         localStorage.setItem('ethereumWalletkey', ethereumWallet.privateKey);
         localStorage.setItem('bitcoinWalletkey', bitcoinWallet.privateKey);
         localStorage.setItem('solanaWalletkey', solanaWallet.privateKey);
+        localStorage.setItem('tronaWalletkey', tronWallet.privateKey);
+
+
+        
+      
+       
     };
    
 
@@ -80,6 +96,7 @@ function Register() {
         const ethAddress = localStorage.getItem('ethereumWallet');
         const bitAddress = localStorage.getItem('bitcoinWallet');
         const solAddress = localStorage.getItem('solanaWallet');
+        const tronAddress = localStorage.getItem('tronWallet');
 
         if (ethAddress) {
             setEthereumWalletAddress(ethAddress);
@@ -96,6 +113,12 @@ function Register() {
         } else {
             createWallets(); // Create wallets only if they do not exist in storage
         }
+        if (tronAddress){
+          setTronWalletAddress(tronAddress);
+          } else {
+            createWallets(); 
+          }
+        
     }, []); // Run this effect only once
     
      
@@ -132,7 +155,18 @@ function Register() {
                         <div style={{ zoom:'57%', marginLeft:'8px', width:'fit-content' }}>{SolanaWalletAddress}</div>
                     </div>
                 </ExPanel>
-
+                <br/> 
+                <ExPanel style={{ display: 'flex', padding:'10px', borderRadius: '7px' }}>
+                  <div>
+                    <img src='https://i.imgur.com/ywfZokP.png' alt='Tron' style={{ width: '40px', height: '40px' }} />
+                  </div>
+                  <div style={{ display:'inline' }}>
+                    <div style={{ zoom:'90%', marginLeft:'7px' }}>Tron wallet</div>
+                    <div style={{ zoom:'57%', marginLeft:'8px', width:'fit-content' }}>{tronWalletAddress}</div>
+                  </div>
+                </ExPanel>
+                <br/>
+              
                 {/* Navigation Icons */}
                    <Icon className="nav" style={{left:'0', right:'0', bottom:'0%', display:'flex',justifyContent:'space-evenly' ,height:'fit-content',  width:'100%', paddingBottom:'10px', paddingRight:'10px',position:'fixed' }}>
                                                         <a href='#/' style={{color:'grey', textDecoration:'none'}}> 
