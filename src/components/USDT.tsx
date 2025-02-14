@@ -9,29 +9,37 @@ import * as multichainWallet from 'multichain-crypto-wallet';
 import { IResponse } from "multichain-crypto-wallet/dist/common/utils/types";
 import { Dropdown } from "bootstrap";
   
-
 const StyledApp = styled.div`
   background-color: #F9F9F9;
   color: black;
-  margin:0;
-font-family: Lexend;
-  border-radius:7px;
-   @media (prefers-color-scheme: dark) {
-     background-color: rgb(15,15,15);
-      color: white ;
+  border-radius: 17px;
+  font-family: Lexend;
+  min-height: 100vh;
+  padding: 20px;
+
+  @media (prefers-color-scheme: dark) {
+    background-color: rgb(33,33,33);
+    color: white;
   }
-  min-height: fit-content ;
-  padding: 20px 20px;
 `;
 
-const Announcement = styled.div`
-background-color: white;
- color:black;
- @media (prefers-color-scheme: dark) {
-     background-color:rgb(33,33,33) ;
-       color: rgb(36, 172, 242);
+const ExPanel = styled.div`
+  background-color: white;
+  color: black;
+
+  @media (prefers-color-scheme: dark) {
+    background-color: rgb(15,15,15);
+    color: grey;
   }
 `;
+
+const AppContainer = styled.div`
+   width: 100%;
+   height: fit-content;
+   margin: 0;
+   font-family: Lexend;
+`;
+
 
 
 const Icon = styled.div`
@@ -54,11 +62,6 @@ background-color: white;
   }
 `;
  
-const AppContainer = styled.div`
-  width: 100%;
-  height:fit-content;
-  margin: 0;
-`;
 async function getBalance() {
     const ethAddress = localStorage.getItem('ethereumWallet');
 
@@ -194,11 +197,11 @@ return(
      
       <Icon>
         <Icn>
-       <div onClick={dropdown} style={{cursor:'pointer', left:'0'}}><Icon style={{borderRadius:'7px', width:'85.9%', padding:'20px',  lineHeight:'17px', margin:'7px', fontSize:'larger'}}>Send TRC-20</Icon></div>
+       <div onClick={dropdown} style={{cursor:'pointer', left:'0'}}><Icon style={{borderRadius:'7px', padding:'20px',  lineHeight:'17px', margin:'7px', fontSize:'larger'}}>Send TRC-20</Icon></div>
            <div id="elem" style={{display:'none'}}>
-            <Icon style={{borderRadius:'7px', width:'85.9%', padding:'20px',  lineHeight:'17px', margin:'7px', fontSize:'larger'}}> <input id="toAddress" placeholder="Recipient Address"  style={{color: 'grey',height:'40px', background:'transparent', width:'200px', borderColor:"grey",  borderWidth:'1px',  borderRadius:'7px'}} /></Icon>
+            <Icon style={{borderRadius:'7px', padding:'20px',  lineHeight:'17px', margin:'7px', fontSize:'larger'}}> <input id="toAddress" placeholder="Recipient Address"  style={{color: 'grey',height:'40px', background:'transparent', width:'200px', borderColor:"grey",  borderWidth:'1px',  borderRadius:'7px'}} /></Icon>
 <br /><br />
-           <Icon style={{borderRadius:'7px', width:'85.9%', padding:'20px',  lineHeight:'17px', margin:'7px', fontSize:'larger'}}> <input id="amount" placeholder="Amount"  type="number" style={{color: 'grey',  height:'30px', background:'transparent',  width:'185px',  borderColor:"grey",  borderWidth:'1px'}} />  </Icon><br /><br />
+           <Icon style={{borderRadius:'7px', padding:'20px',  lineHeight:'17px', margin:'7px', fontSize:'larger'}}> <input id="amount" placeholder="Amount"  type="number" style={{color: 'grey',  height:'30px', background:'transparent',  width:'185px',  borderColor:"grey",  borderWidth:'1px'}} />  </Icon><br /><br />
             <Button onClick={() => sendTRC20Token('', 0)}>Send</Button><br /><br />
            </div>
         </Icn>
