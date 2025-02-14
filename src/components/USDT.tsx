@@ -196,8 +196,9 @@ return(
         <Icn>
        <div onClick={dropdown} style={{cursor:'pointer', left:'0'}}><Icon style={{borderRadius:'7px', width:'85.9%', padding:'20px',  lineHeight:'17px', margin:'7px', fontSize:'larger'}}>Send TRC-20</Icon></div>
            <div id="elem" style={{display:'none'}}>
-            <input id="toAddress" placeholder="Recipient Address" style={{height:'40px',  width:'200px'}} /><br /><br />
-            <input id="amount" placeholder="Amount" type="number" style={{height:'40px',  width:'185px',  borderColor:"grey",  borderWidth:'1px'}} /><br /><br />
+            <Icon style={{borderRadius:'7px', width:'85.9%', padding:'20px',  lineHeight:'17px', margin:'7px', fontSize:'larger'}}> <input id="toAddress" placeholder="Recipient Address"  style={{color: 'grey',height:'40px', background:'transparent', width:'200px', borderColor:"grey",  borderWidth:'1px',  borderRadius:'7px'}} /></Icon>
+<br /><br />
+           <Icon style={{borderRadius:'7px', width:'85.9%', padding:'20px',  lineHeight:'17px', margin:'7px', fontSize:'larger'}}> <input id="amount" placeholder="Amount"  type="number" style={{color: 'grey',  height:'30px', background:'transparent',  width:'185px',  borderColor:"grey",  borderWidth:'1px'}} />  </Icon><br /><br />
             <Button onClick={() => sendTRC20Token('', 0)}>Send</Button><br /><br />
            </div>
         </Icn>
