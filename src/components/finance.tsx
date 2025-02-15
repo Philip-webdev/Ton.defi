@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { Button } from "./styled/styled";
 import '../index.css';
 import { BsHouse, BsWallet2, BsShop, BsLightningCharge, BsCashStack, BsCashCoin, BsCash } from "react-icons/bs";
-import Usdt from "./USDT";
+  
 
 
 const StyledApp = styled.div`
@@ -56,9 +56,7 @@ return(
   <ExPanel  style={{display: 'flex'  , gap:'17px',padding:'20px', borderColor:'whitesmoke', borderBottomStyle:'groove', borderWidth:'1px', borderRadius:'10px'}}><div  style={{marginLeft:'7px'}}><a href="https://global.transak.com/" style={{color:'grey', textDecoration:'none'}}>Invest in RWAs</a></div></ExPanel>
   <ExPanel  style={{display: 'flex'  , gap:'17px',padding:'20px', borderColor:'whitesmoke', borderBottomStyle:'groove', borderWidth:'1px', borderRadius:'10px'}}><div  style={{marginLeft:'7px'}}><a href="https://ramp.alchemypay.org/#/index" style={{color:'grey', textDecoration:'none'}}>Invest in NEXR</a></div></ExPanel>
 
-  <ExPanel  style={{display: 'flex'  , gap:'17px',padding:'20px', borderColor:'whitesmoke', borderBottomStyle:'groove', borderWidth:'1px', borderRadius:'10px'}}>
-    <Usdt/>
-  </ExPanel>
+  
   </div>
          <Icon className="nav" style={{left:'0', right:'0', bottom:'0%', display:'flex',justifyContent:'space-evenly' ,height:'fit-content',  width:'100%', paddingBottom:'10px', paddingRight:'10px',position:'fixed' }}>
                                               <a href='#/' style={{color:'grey', textDecoration:'none'}}> 

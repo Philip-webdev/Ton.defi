@@ -4,11 +4,11 @@ import '../index.css';
 import styled from "styled-components";
 import { Button } from "./styled/styled";
 import 'react-icons/bs';
-
 import * as multichainWallet from 'multichain-crypto-wallet';
 import { IResponse } from "multichain-crypto-wallet/dist/common/utils/types";
 import { Dropdown } from "bootstrap";
-  
+import { ethers } from "ethers";
+import Register from "./AccountRegistration";
 const StyledApp = styled.div`
   background-color: #F9F9F9;
   color: black;
@@ -91,10 +91,8 @@ const usdtABI = [
 }
 
 async function sendTRC20Token(toAddress: string, amount: number) {
-
-  
   const tronAddress = localStorage.getItem('tronWallet');
-  const trc20Address = 'TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t';
+  const trc20Address = 'TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t';  // USDT on Tron
 
   const toAddressElement = document.getElementById('toAddress') as HTMLInputElement | null;
   if (toAddressElement) {
@@ -102,15 +100,28 @@ async function sendTRC20Token(toAddress: string, amount: number) {
   } else {
     throw new Error("To address input element not found");
   }
-const amountElement = document.getElementById('amount') as HTMLInputElement | null;
-if (amountElement) {
-  amount = parseFloat(amountElement.value);
-} else {
-  throw new Error("Amount input element not found");
-}
+
+  const amountElement = document.getElementById('amount') as HTMLInputElement | null;
+  if (amountElement) {
+    amount = parseFloat(amountElement.value);
+  } else {
+    throw new Error("Amount input element not found");
+  }
+
+  const tronAddressKey = localStorage.getItem('tronWalletkey') as string;
+  if (!tronAddressKey) {
+    throw new Error("Tron wallet private key not found in local storage");
+  }
+
+  
   const tronWeb = new TronWeb({
     fullHost: 'https://api.trongrid.io',
+    privateKey: tronAddressKey
   });
+
+   
+ // tronWeb.setAddress(tronWeb.address.fromPrivateKey(tronAddressKey));
+
   const usdtABI = [
     {
       inputs: [{ name: 'owner', type: 'address' }],
@@ -127,15 +138,30 @@ if (amountElement) {
       type: 'function',
     }
   ];
-  const contract = tronWeb.contract(usdtABI, trc20Address);
+
+  const contract = await tronWeb.contract(usdtABI, trc20Address);
 
   try {
-    const tx = await contract.methods.transfer(toAddress, amount * 1e6).send();
-    console.log('Transaction successful:', tx);
+ 
+    const senderAddress = tronAddress;
+    if (!senderAddress) {
+      throw new Error("Sender address is null");
+    }
+    console.log("Sender Address:", senderAddress);
+
+    const tx = await contract.methods.transfer(toAddress, amount * 1e6).send({
+      feeLimit: 10000000, // 10 TRX gas fee limit
+      callValue: 0,
+      shouldPollResponse: true,
+      from: senderAddress,
+    });
+
+    console.log('  Transaction successful:', tx);
   } catch (error) {
-    console.error('Error sending TRC-20:', error);
+    console.error('  Error sending TRC-20:', error);
   }
 }
+
 const dropdown = () => {
   const Element = document.getElementById('elem') as HTMLInputElement | null;
   if (Element != null && Element.style.display == 'block') {
@@ -145,6 +171,69 @@ const dropdown = () => {
   }
   
 };
+const dropdown1 = () => {
+  const Element = document.getElementById('elem1') as HTMLInputElement | null;
+  if (Element != null && Element.style.display == 'block') {
+      Element.style.display = 'none'; 
+  } else if(Element != null) {
+    Element.style.display = 'block';
+  }
+  
+};
+
+async function sendERC20Token() {
+  const provider = new ethers.JsonRpcProvider('https://eth-mainnet.g.alchemy.com/v2/fY6etQ0_E-PnuaKp5g9npALfvpJ4IGRq'); 
+
+  const ethAddressKey = localStorage.getItem('ethereumWalletkey');
+  if (!ethAddressKey) {
+    throw new Error("Ethereum wallet private key not found in local storage");
+  }
+
+  const senderWallet = new ethers.Wallet(ethAddressKey, provider);
+
+  const usdtContractAddress = '0xdAC17F958D2ee523a2206206994597C13D831ec7'; 
+
+  // ✅ Get recipient address properly
+  const toAddressElement = document.getElementById('toethAddress') as HTMLInputElement | null;
+  const recipientAddress = toAddressElement?.value;  // ✅ Use `.value` instead of `.nodeValue`
+  
+  if (!recipientAddress) {
+    throw new Error("Recipient address is empty or invalid");
+  }
+
+ 
+  const amountElement = document.getElementById('ercamount') as HTMLInputElement | null;
+  const amount = amountElement ? parseFloat(amountElement.value) : 0;
+  
+  if (amount <= 0) {
+    throw new Error("Invalid transfer amount");
+  }
+  
+  const usdtAbi = [
+    'function transfer(address _to, uint256 _value) public returns (bool)',
+  ];
+
+  async function transferUSDT() {
+    try {
+      const contract = new ethers.Contract(usdtContractAddress, usdtAbi, senderWallet);
+      console.log(`🔄 Sending ${amount} USDT to ${recipientAddress}...`);
+
+      const tx = await contract.transfer(recipientAddress, ethers.parseUnits(amount.toString(), 6));
+
+      console.log(`Transaction sent! Tx Hash: ${tx.hash}`);
+
+     
+      await tx.wait();
+      console.log(`🎉 Transaction confirmed: ${tx.hash}`);
+    } catch (error) {
+      console.error('Error sending USDT:', error);
+    }
+  }
+
+
+  transferUSDT();
+}
+
 function usdt() {
   const [ercBalance, setercBalance] = useState<number>(0); 
   const tokenAddress = '0xdac17f958d2ee523a2206206994597c13d831ec7';
@@ -169,34 +258,43 @@ function usdt() {
   }, []);
 return(
     <AppContainer>
-    <img src='https://i.imgur.com/dhJjQcO.png' alt='Ethereum' style={{ width: '15px', height: '15px' }} /> ERC 20 USDT
-     <div style={{display:'inline',  justifyContent:'space-between',  margin:'10px'}}>
+    
      
-     <div style={{zoom:'50%'}}>Token Address: {tokenAddress}</div>
-     <div>Balance: {ercBalance}</div>
-     </div>
-       <br></br>
-
-       <img src='https://i.imgur.com/ywfZokP.png' alt='Tron' style={{ width: '15px', height: '15px' }} /> TRC 20 USDT
-     <div style={{display:'inline',  justifyContent:'space-between',  margin:'10px'}}>
-     
-     <div style={{zoom:'50%'}}>Token Address: {trc20Address} </div>
-
-     <div>Balance: {trcBalance}</div>
-     </div>
-     
-      <Icon>
-        <Icn>
-       <div onClick={dropdown} style={{cursor:'pointer', left:'0'}}><Icon style={{borderRadius:'7px', padding:'20px',  lineHeight:'17px', margin:'7px', fontSize:'larger'}}>Send TRC-20</Icon></div>
-           <div id="elem" style={{display:'none'}}>
-            <Icon style={{borderRadius:'7px', padding:'20px',  lineHeight:'17px', margin:'7px', fontSize:'larger'}}> <input id="toAddress" placeholder="Recipient Address"  style={{color: 'grey',height:'40px', background:'transparent', width:'200px', borderColor:"grey",  borderWidth:'1px',  borderRadius:'7px'}} /></Icon>
-<br />
-           <Icon style={{borderRadius:'7px', padding:'20px',  lineHeight:'17px', margin:'7px', fontSize:'larger'}}> <input id="amount" placeholder="Amount"  type="number" style={{color: 'grey',  height:'30px', background:'transparent',  width:'185px',  borderColor:"grey",  borderWidth:'1px'}} />  </Icon><br /><br />
-            <Button onClick={() => sendTRC20Token('', 0)}>Send</Button><br /><br />
-           </div>
-        </Icn>
+       
          
-      </Icon>
+       <div onClick={dropdown} style={{cursor:'pointer', left:'0'}}><Icon style={{borderRadius:'7px', width:'85.9%', padding:'20px',  lineHeight:'17px',  margin:'7px',fontSize:'larger'}}><img src='https://i.imgur.com/ywfZokP.png' alt='Tron' style={{ width: '15px', height: '15px' }} /> Send TRC-20</Icon></div>
+           <div id="elem" style={{display:'none',margin:'20px'}}>
+     <div style={{display:'flex'}}>
+     <div style={{zoom:'70%', padding:'10px'}}>Token Address: {trc20Address} </div>
+<div style={{fontFamily:'helvetica', padding:'20px'}}>${trcBalance}</div>
+     
+     </div>
+            <div style={{borderRadius:'7px', padding:'20px',  lineHeight:'17px', margin:'7px', fontSize:'larger'}}> <input id="toAddress" placeholder="Recipient Address"  style={{color: 'grey',height:'40px', background:'transparent', width:'200px', borderColor:"grey",  borderWidth:'1px',  borderRadius:'7px'}} /></div>
+
+           <div style={{borderRadius:'7px', padding:'20px',  lineHeight:'17px', margin:'7px', fontSize:'larger'}}> <input id="amount" placeholder="Amount"  type="number" style={{color: 'grey',  height:'30px', background:'transparent',  width:'185px',  borderColor:"grey",  borderWidth:'1px'}} />  </div><br />
+            <Button style={{marginLeft:'30%'}} onClick={() => sendTRC20Token('', 0)}>Send</Button><br />
+           </div>
+         
+
+       <div onClick={dropdown1} style={{cursor:'pointer', left:'0'}}><Icon style={{borderRadius:'7px', width:'85.9%', padding:'20px',  lineHeight:'17px',  margin:'7px',fontSize:'larger'}}> <img src='https://i.imgur.com/dhJjQcO.png' alt='Ethereum' style={{ width: '15px', height: '15px' }} />  Send ERC-20</Icon></div>
+           <div id="elem1" style={{display:'none',margin:'20px'}}>
+          
+<div style={{display:'flex'}}>
+
+<div style={{zoom:'70%', padding:'5px'}}>Token Address: {tokenAddress}</div>
+<div style={{fontFamily:'helvetica', padding:'20px'}}>${ercBalance}</div>
+</div>
+     
+    
+     
+      
+            <div style={{borderRadius:'7px', padding:'20px',  lineHeight:'17px', margin:'7px', fontSize:'larger'}}> <input id="toethAddress" placeholder="Recipient Address"  style={{color: 'grey',height:'40px', background:'transparent', width:'200px', borderColor:"grey",  borderWidth:'1px',  borderRadius:'7px'}} /></div>
+
+           <div style={{borderRadius:'7px', padding:'20px',  lineHeight:'17px', margin:'7px', fontSize:'larger'}}> <input id="ercamount" placeholder="Amount"  type="number" style={{color: 'grey',  height:'30px', background:'transparent',  width:'185px',  borderColor:"grey",  borderWidth:'1px'}} />  </div><br />
+            <Button style={{marginLeft:'30%'}} onClick={() => sendERC20Token()}>Send</Button><br /><br />
+           </div>
+        
+      
     </AppContainer>
 
 )

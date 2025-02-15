@@ -85,7 +85,7 @@ async function getTotalBalance() {
           const solBalanceResponse: IResponse = await multichainWallet.getBalance({
               address: solAddress,
               network: 'solana',
-              rpcUrl: 'https://api.mainnet-beta.solana.com',
+              rpcUrl: 'https://rpc.ankr.com/solana',
           });
           accountBalanceSol = solBalanceResponse.balance; // Adjust based on actual response structure
       } catch (error) {

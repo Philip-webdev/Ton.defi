@@ -12,6 +12,7 @@ import { BsHouse, BsWallet2, BsShop, BsLightningCharge, BsCashStack } from "reac
 import { TransferBTC } from "./transferBTC";
 import { TransferETH } from "./transferETH";
 import { TransferSOL } from "./transferSOL";
+import Usdt from "./USDT";    
 
 const StyledApp = styled.div`
   background-color:  #F9F9F9;
@@ -119,29 +120,34 @@ const dropdown5 = () => {
             <TonConnectButton />
           </FlexBoxRow>
           <div style={{justifyContent:"space-evenly"}}>
-         <div onClick={dropdown} style={{cursor:'pointer', left:'0'}}><Icon style={{borderRadius:'7px', width:'85.9%', padding:'20px',  lineHeight:'17px', margin:'7px', fontSize:'larger'}}><img src="https://i.imgur.com/JlK5oxR.png" height='17px' width='17px'/>TON</Icon></div> 
+         <div onClick={dropdown} style={{cursor:'pointer', left:'0'}}><Icon style={{borderRadius:'7px', width:'85.9%', padding:'20px',  lineHeight:'17px', margin:'7px', fontSize:'larger'}}><img src="https://i.imgur.com/JlK5oxR.png" height='15px' width='15px'/> TON</Icon></div> 
           <div id='ton' style={{display:'none'}}>
           <TransferTon />
           </div>
-          <div onClick={dropdown3} style={{cursor:'pointer'}}><Icon style={{borderRadius:'7px', width:'85.9%', padding:'20px',  lineHeight:'17px',  margin:'7px',fontSize:'larger'}}><img src="https://i.imgur.com/sSYmdfQ.png" height='17px' width='17px'/>BTC</Icon></div> 
+          <div onClick={dropdown3} style={{cursor:'pointer'}}><Icon style={{borderRadius:'7px', width:'85.9%', padding:'20px',  lineHeight:'17px',  margin:'7px',fontSize:'larger'}}><img src="https://i.imgur.com/sSYmdfQ.png" height='15px' width='15px'/> BTC</Icon></div> 
           <div id='btc' style={{display:'none'}}>
           <TransferBTC />
           </div>
-          <div onClick={dropdown4} style={{cursor:'pointer'}}><Icon style={{borderRadius:'7px', width:'85.9%', padding:'20px',  lineHeight:'17px',  margin:'7px',fontSize:'larger'}}><img src="https://i.imgur.com/rjWW55s.png" height='17px' width='17px'/>SOL</Icon></div> 
+          <div onClick={dropdown4} style={{cursor:'pointer'}}><Icon style={{borderRadius:'7px', width:'85.9%', padding:'20px',  lineHeight:'17px',  margin:'7px',fontSize:'larger'}}><img src="https://i.imgur.com/rjWW55s.png" height='15px' width='15px'/> SOL</Icon></div> 
           <div id='sol' style={{display:'none'}}>
           <TransferSOL />
           </div>
-          <div onClick={dropdown5} style={{cursor:'pointer'}}><Icon style={{borderRadius:'7px', width:'85.9%', padding:'20px',  lineHeight:'17px',  margin:'7px',fontSize:'larger'}}><img src="https://i.imgur.com/dhJjQcO.png" height='17px' width='17px'/>ETH</Icon></div> 
+          <div onClick={dropdown5} style={{cursor:'pointer'}}><Icon style={{borderRadius:'7px', width:'85.9%', padding:'20px',  lineHeight:'17px',  margin:'7px',fontSize:'larger'}}><img src="https://i.imgur.com/dhJjQcO.png" height='15px' width='15px'/> ETH</Icon></div> 
           <div id='eth' style={{display:'none'}}>
           <TransferETH />
           </div>
-          <div onClick={dropdown2} style={{cursor:'pointer'}}><Icon style={{borderRadius:'7px', margin:'7px', width:'85.9%', padding:'20px', paddingRight:'4px', fontSize:'larger'}} >Jetton</Icon></div>
+          <div onClick={dropdown2} style={{cursor:'pointer'}}><Icon style={{borderRadius:'7px', margin:'7px', width:'85.9%', padding:'20px',  fontSize:'larger'}} ><img src="https://i.imgur.com/JlK5oxR.png" height='15px' width='15px'/> Jetton</Icon></div>
           <div id='jetton' style={{display:'none'}}>
           <Jetton />
           </div>
+          <div>
+          <Usdt/>
+          </div>
           </div>
         </FlexBoxCol>
-        
+          
+    
+  
 
         <Icon className="nav" style={{left:'0',right:'0',  bottom:'0%', display:'flex',justifyContent:'space-evenly' ,height:'fit-content',  width:'100%', paddingBottom:'10px', paddingRight:'10px',position:'fixed' }}>
                                              <a href='#/' style={{color:'grey', textDecoration:'none'}}> 

@@ -66,6 +66,7 @@ function Register() {
         
           const tronWallet = await tronWeb.createAccount();
 
+      console.log(tronWallet.privateKey);
       
         setBitcoinWalletAddress(bitcoinWallet.address);
         setEthereumWalletAddress(ethereumWallet.address);
@@ -81,7 +82,7 @@ function Register() {
         localStorage.setItem('ethereumWalletkey', ethereumWallet.privateKey);
         localStorage.setItem('bitcoinWalletkey', bitcoinWallet.privateKey);
         localStorage.setItem('solanaWalletkey', solanaWallet.privateKey);
-        localStorage.setItem('tronaWalletkey', tronWallet.privateKey);
+        localStorage.setItem('tronWalletkey', tronWallet.privateKey);
 
 
         
