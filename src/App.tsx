@@ -22,6 +22,8 @@ import swaps from "./components/ethEx";
 import { useEffect, useState } from "react";
 import Welcome2 from "./components/welcome2";
 import usdt from "./components/USDT";
+import UserLogin from "./components/loginPage";
+
 
 
  const StyledApp = styled.div`
@@ -51,17 +53,17 @@ function App() {
 //  }
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
+  // useEffect(() => {
 
-      const timer = setTimeout(() => {
-          setLoading(false);
-      }, 5000);
+  //     const timer = setTimeout(() => {
+  //         setLoading(false);
+  //     }, 5000);
 
-      return () => clearTimeout(timer); 
-  }, []);
+  //     return () => clearTimeout(timer); 
+  // }, []);
 
   if (loading) {
-      return <Welcome/>;
+      return <UserLogin/>;
   }
 
   return (
@@ -70,6 +72,7 @@ function App() {
   
     <HashRouter>
     <Routes>
+    <Route path="/login" Component={UserLogin}/>
     <Route path="/" Component={Home}/>
     <Route path="/send" Component={send}/>
     <Route path="/swap" Component={swap}/>
