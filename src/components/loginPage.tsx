@@ -1,5 +1,5 @@
  
-import { useNavigate } from 'react-router-dom';
+// import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
 const StyledApp = styled.div`
@@ -51,21 +51,22 @@ const handleRegister = async () => {
         console.error("Registration failed:", error);
     }
 }
-
+//const navigate = useNavigate();
 
     const handleLogin = async () => {
-    const navigate = useNavigate();
+   
   const authenticate =  async () => {
        await fetch("https://twa-backend-g83o.onrender.com/login", {
             method: "GET",
+            headers: { "Content-Type": "application/json" },
             credentials: "include",  
         })
         .then((res) => res.json())
         .then((data) => {
             if (data.success) {
-                navigate("#/");
+              //  navigate("#/");
             } else {
-                navigate("#/login")
+               // navigate("#/login")
             }
         })
         .catch((err) => {
