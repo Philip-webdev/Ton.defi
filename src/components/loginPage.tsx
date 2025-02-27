@@ -57,28 +57,32 @@ const handleRegister = async () => {
 
     const handleLogin = async () => {
         const emailElement = document.getElementById("email") as HTMLInputElement | null;
+ const passwordElement = document.getElementById("password") as HTMLInputElement | null;
 
-        if (!emailElement) {
-            console.error("Email element not found");
-            return;
-        }
+ if (!emailElement || !passwordElement) {
+    console.error("Email or password element not found");
+    return;
+}
 
        const email = emailElement.value;
-    axios.post("https://twa-backend-g83o.onrender.com/login", {
-        email: email});
+    const password = passwordElement.value;
+
 
   const authenticate =  async () => {
        await fetch("https://twa-backend-g83o.onrender.com/login", {
-            method: "GET",
+            method: "POST",
             headers: { "Content-Type": "application/json" },
             credentials: "include",  
+            body: JSON.stringify({ email, password }),
         })
         .then((res) => res.json())
         .then((data) => {
             if (data.success) {
               //  navigate("#/");
+              console.log("Login successful");
             } else {
                // navigate("#/login")
+               console.log("Login failed");
             }
         })
         .catch((err) => {
