@@ -1,7 +1,7 @@
  
 // import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import axios from 'axios';
+  
 
 const StyledApp = styled.div`
   background-color: #F9F9F9;
@@ -68,7 +68,7 @@ const handleRegister = async () => {
     const password = passwordElement.value;
 
 
-  const authenticate =  async () => {
+ 
        await fetch("https://twa-backend-g83o.onrender.com/login", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
@@ -89,8 +89,8 @@ const handleRegister = async () => {
             console.error("Error:", err);
             
         });
-    }
- authenticate();
+    
+ 
    
 };
 
