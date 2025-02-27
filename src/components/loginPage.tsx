@@ -1,7 +1,7 @@
  
 // import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-  
+import Welcome from './Frontier'; 
 
 const StyledApp = styled.div`
   background-color: #F9F9F9;
@@ -74,11 +74,20 @@ const handleRegister = async () => {
             headers: { "Content-Type": "application/json" },
             credentials: "include",  
             body: JSON.stringify({ email, password }),
-        })
+        }). 
+        then(res => {
+            if (res.ok) {
+                console.log("Login successful");
+                return (<Welcome/>)
+            } else {
+                console.error("Login failed:", res.statusText);
+            }
+        });
     }
     catch (error) {
         console.error("Login failed:", error);
     }
+    
    
 };
 

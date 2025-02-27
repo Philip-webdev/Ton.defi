@@ -1,6 +1,8 @@
 
+import { useEffect, useState } from 'react';
 import 'react-icons/bs';
 import styled from "styled-components";
+import Home from './home';
  
 
  
@@ -42,6 +44,22 @@ function Welcome(){
         </div>
     );
 };
+const [processing, setProcessing] = useState(true);
+
+useEffect(() => {
+
+    const timer = setTimeout(() => {
+        setProcessing(false);
+    }, 5000);
+
+    return () => clearTimeout(timer); 
+}, []);
+
+if (!processing) {
+  return <Home/>;
+}
+
+
     return(
     
         <StyledApp>
