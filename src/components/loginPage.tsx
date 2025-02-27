@@ -68,29 +68,17 @@ const handleRegister = async () => {
     const password = passwordElement.value;
 
 
- 
+ try{
        await fetch("https://twa-backend-g83o.onrender.com/login", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             credentials: "include",  
             body: JSON.stringify({ email, password }),
         })
-        .then((res) => res.json())
-        .then((data) => {
-            if (data.success) {
-              //  navigate("#/");
-              console.log("Login successful");
-            } else {
-               // navigate("#/login")
-               console.log("Login failed");
-            }
-        })
-        .catch((err) => {
-            console.error("Error:", err);
-            
-        });
-    
- 
+    }
+    catch (error) {
+        console.error("Login failed:", error);
+    }
    
 };
 
