@@ -1,6 +1,7 @@
  
 // import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
+import axios from 'axios';
 
 const StyledApp = styled.div`
   background-color: #F9F9F9;
@@ -26,7 +27,8 @@ const handleRegister = async () => {
         return;
     }
 
-    const email = emailElement.value;
+       
+       const email = emailElement.value;
     const password = passwordElement.value;
 
     try {
@@ -54,7 +56,17 @@ const handleRegister = async () => {
 //const navigate = useNavigate();
 
     const handleLogin = async () => {
-   
+        const emailElement = document.getElementById("email") as HTMLInputElement | null;
+
+        if (!emailElement) {
+            console.error("Email element not found");
+            return;
+        }
+
+       const email = emailElement.value;
+    axios.post("https://twa-backend-g83o.onrender.com/login", {
+        email: email});
+
   const authenticate =  async () => {
        await fetch("https://twa-backend-g83o.onrender.com/login", {
             method: "GET",
