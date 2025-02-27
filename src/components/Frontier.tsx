@@ -2,6 +2,7 @@
 import { useEffect, useState } from 'react';
 import 'react-icons/bs';
 import styled from "styled-components";
+import UserLogin from './loginPage';
 import Home from './home';
  
 
@@ -44,20 +45,20 @@ function Welcome(){
         </div>
     );
 };
-const [processing, setProcessing] = useState(true);
+   const [processing, setProcessing] = useState(true);
 
-useEffect(() => {
+  //  useEffect(() => {
 
-    const timer = setTimeout(() => {
-        setProcessing(false);
-    }, 5000);
+  //      const timer = setTimeout(() => {
+  //          setProcessing(false);
+  //      }, 5000);
 
-    return () => clearTimeout(timer); 
-}, []);
+  //      return () => clearTimeout(timer); 
+  //  }, []);
 
-if (!processing) {
-  return <Home/>;
-}
+   if (!processing) {
+     return <Home/>;
+   }
 
 
     return(

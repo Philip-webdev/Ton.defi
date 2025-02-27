@@ -5,7 +5,7 @@
  import "./App.css";
 import Register from "./components/AccountRegistration";
  import "@twa-dev/sdk";
- import { HashRouter, Route, Routes} from "react-router-dom";
+ import { BrowserRouter, HashRouter, Route, Routes} from "react-router-dom";
 import swap from "./components/swap";
 import Welcome from "./components/Frontier";
 import market from "./components/finance";
@@ -48,57 +48,55 @@ const AppContainer = styled.div`
  
 function App() {
 
- // const onloadwelcomeScreen = ()=>{
-    window.location.href = '#/'; 
-//  }
+ 
   const [loading, setLoading] = useState(true);
 
-  // useEffect(() => {
+    useEffect(() => {
 
-  //     const timer = setTimeout(() => {
-  //         setLoading(false);
-  //     }, 5000);
+        const timer = setTimeout(() => {
+            setLoading(false);
+            return <UserLogin/>;
+        }, 5000);
 
-  //     return () => clearTimeout(timer); 
-  // }, []);
+        return () => clearTimeout(timer); 
+    }, []);
 
-  if (loading) {
-      return <UserLogin/>;
-  }
+ if (loading) {
+     return <Welcome/>;
+   }
+
+
+
+
 
   return (
     <div>
-   
   
-    <HashRouter>
+  <HashRouter>
     <Routes>
-    <Route path="/login" Component={UserLogin}/>
-    <Route path="/" Component={Home}/>
-    <Route path="/send" Component={send}/>
-    <Route path="/swap" Component={swap}/>
-    <Route path="/register" Component={Register}/>
-    <Route path="/tools" Component={tools}/>
-    <Route path="/market" Component={market}/>
-    <Route path="/discover" Component={discover}/>
-    <Route path="/tokenomics" Component={tokenomics}/>
-    <Route path="/tontools" Component={tontools}/>
-    <Route path="/buy" Component={buy}/>
-    <Route path="/contact" Component={contact}/>
-    <Route path="/agenda" Component={agenda}/>
-    <Route path="/security" Component={security}/>
-    <Route path="/settings" Component={settings}/>
-    <Route path="/organizer" Component={settings}/>
-    <Route path="/ethEx" Component={swaps}/>
-    <Route path="usdt" Component={usdt}/>
+     <Route path="/" Component={UserLogin}/>
+     <Route path="/home" Component={Home}/>
+      <Route path="/send" Component={send}/>
+      <Route path="/swap" Component={swap}/>
+      <Route path="/register" Component={Register}/>
+      <Route path="/tools" Component={tools}/>
+      <Route path="/market" Component={market}/>
+      <Route path="/discover" Component={discover}/>
+      <Route path="/tokenomics" Component={tokenomics}/>
+      <Route path="/tontools" Component={tontools}/>
+      <Route path="/buy" Component={buy}/>
+      <Route path="/contact" Component={contact}/>
+      <Route path="/agenda" Component={agenda}/>
+      <Route path="/security" Component={security}/>
+      <Route path="/settings" Component={settings}/>
+      <Route path="/organizer" Component={settings}/>
+      <Route path="/ethEx" Component={swaps}/>
+      <Route path="usdt" Component={usdt}/>
     </Routes>
   </HashRouter>
+
   
-  <StyledApp  >
- 
- 
- 
-  </StyledApp>
-    </div>
+</div>
   );
 }
 

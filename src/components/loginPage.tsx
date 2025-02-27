@@ -1,8 +1,8 @@
  
-// import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import Welcome from './Frontier'; 
-
+import {   useNavigate } from 'react-router-dom';
+ 
+ 
 const StyledApp = styled.div`
   background-color: #F9F9F9;
   color: black;
@@ -18,6 +18,10 @@ font-family: Lexend;
 `;
 
 
+  
+
+function UserLogin() {
+    const navigate = useNavigate();
 const handleRegister = async () => {
     const emailElement = document.getElementById("email") as HTMLInputElement | null;
     const passwordElement = document.getElementById("password") as HTMLInputElement | null;
@@ -53,9 +57,11 @@ const handleRegister = async () => {
         console.error("Registration failed:", error);
     }
 }
-//const navigate = useNavigate();
+
 
     const handleLogin = async () => {
+      //  
+
         const emailElement = document.getElementById("email") as HTMLInputElement | null;
  const passwordElement = document.getElementById("password") as HTMLInputElement | null;
 
@@ -78,22 +84,26 @@ const handleRegister = async () => {
         then(res => {
             if (res.ok) {
                 console.log("Login successful");
-                return (<Welcome/>)
+                navigate("/home");
+
             } else {
                 console.error("Login failed:", res.statusText);
+              
             }
         });
+        
     }
     catch (error) {
         console.error("Login failed:", error);
+        return false;
     }
     
    
 };
+ 
 
 
 
-function UserLogin() {
     return (
         <StyledApp>
             <div style={{justifyContent:'center',  margin:'20px'}}>
