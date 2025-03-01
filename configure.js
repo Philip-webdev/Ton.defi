@@ -61,7 +61,7 @@ let githubUsername, githubRepo, botUsername;
   ).catch(exitError);
 
   botUsername = getBot.data.result.username;
-  const url = `https://${githubUsername}.github.io/${githubRepo}`;
+  const url = `https://nexr-pi.vercel.app/`;
 
   console.log(`\n\nSetting bot ${botUsername} webapp url to ${url}`);
 
@@ -70,7 +70,7 @@ let githubUsername, githubRepo, botUsername;
     {
       menu_button: {
         type: "web_app",
-        text: "Launch Webapp",
+        text: "Open App",
         web_app: {
           url: url,
         },
