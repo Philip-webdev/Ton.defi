@@ -106,21 +106,22 @@ const handleRegister = async () => {
 
     return (
         <StyledApp>
-            <div style={{justifyContent:'center',  margin:'20px'}}>
-                <h2>Login</h2>
-                <form onSubmit={(e) => { e.preventDefault(); }}>
+            <div style={{justifyContent:'center',  margin:'70px'}}>
+                <h2 style={{textAlign: 'center'}}>Login</h2>
+                <form style={{margin:'auto', width:'100%'}} onSubmit={(e) => { e.preventDefault(); }}>
                     <div>
                         <label htmlFor="email">Email:</label>
-                        <input type="email" id="email" name="email" required style={{height:'30px',  width:'200px'}} />
+                        <input type="email" id="email" name="email" required style={{height:'30px',  width:'70%'}} />
                     </div>
                     <br></br>
                     <div>
                         <label htmlFor="password">Password:</label>
-                        <input type="password" id="password" name="password" required style={{height:'30px',  width:'215px'}}/>
+                        <input type="password" id="password" name="password" required style={{height:'37px',  width:'72%'}}/>
                     </div>
-                    <div style={{display:'inline'}}>
-                    <button type="submit" onClick={handleLogin} style={{}}>Login</button> <br></br><br />
-                    <button type="button" onClick={handleRegister}>Register</button></div>
+                    <br></br>
+                    <div style={{display:'inline-flex', marginLeft:'37%', marginTop:'20px'}}>
+                    <button type="submit" onClick={handleLogin} >Login</button> <br></br><br />
+                    <button style={{margin:'7px'}} type="button" onClick={handleRegister}>Register</button></div>
                 </form>
             </div>
         </StyledApp>
