@@ -2,7 +2,7 @@
 import { useEffect, useState } from 'react';
 import 'react-icons/bs';
 import styled from "styled-components";
-import UserLogin from './loginPage';
+
 import Home from './home';
  
 
@@ -26,15 +26,7 @@ color:black;
         color:white;
   }
 `;
-const AppContainer = styled.div`
-  width: 100%;
-   background-color: #4B96FF;
-  color: white;
-font-family: Lexend ;
-  border-radius:7px;
-  height: 100vh;
-  margin: 0;
-`;
+
 
 function Welcome(){
   const Loading = () => {
@@ -56,9 +48,9 @@ function Welcome(){
   //      return () => clearTimeout(timer); 
   //  }, []);
 
-   if (!processing) {
-     return <Home/>;
-   }
+  //  if (!processing) {
+  //    return <Home/>;
+  //  }
 
 
     return(
