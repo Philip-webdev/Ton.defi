@@ -1,6 +1,7 @@
  
 import styled from 'styled-components';
 import {   useNavigate } from 'react-router-dom';
+import { useState } from 'react';
  
  
 const StyledApp = styled.div`
@@ -33,7 +34,7 @@ const handleRegister = async () => {
         return;
     }
 
-       
+      
        const email = emailElement.value;
     const password = passwordElement.value;
 
@@ -70,8 +71,11 @@ const handleRegister = async () => {
  if (!emailElement || !passwordElement) {
     console.error("Email or password element not found");
     return;
+} const [status,  setStatus] = useState('logging in...');
+const infoPan = document.getElementById('infoPan') as HTMLInputElement | null;
+if (infoPan) {
+    infoPan.value = status;
 }
-
        const email = emailElement.value;
     const password = passwordElement.value;
 
@@ -85,10 +89,12 @@ const handleRegister = async () => {
         }). 
         then(res => {
             if (res.ok) {
+                passwordElement.value = status;
                 console.log("Login successful");
                 navigate("/home");
 
             } else {
+                setStatus('Login failed, register first');
                 console.error("Login failed:", res.statusText);
               
             }
@@ -123,7 +129,8 @@ const handleRegister = async () => {
                     <br></br>
                     <div style={{display:'inline-flex', margin:'auto ', width:'80%', justifyContent:'space-between'}}>
                     <button type="submit" onClick={handleLogin} style={{background:'greenyellow'}}>Login</button> <br></br><br />
-                    <button style={{background: '#007bff'}} type="button" onClick={handleRegister}>Register</button></div>
+                    <button style={{background: '#007bff'}} type="button" onClick={handleRegister}>Register</button></div><br></br>
+                    <div id='infoPan'></div>
                 </form>
             </div>
         </StyledApp>
