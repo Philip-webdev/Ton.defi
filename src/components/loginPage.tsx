@@ -121,7 +121,7 @@ const handleRegister = async () => {
                     <br></br>
                     <div style={{display:'inline-flex', margin:'auto ', width:'80%', justifyContent:'space-between'}}>
                     <button type="submit" onClick={handleLogin} style={{background:'greenyellow'}}>Login</button> <br></br><br />
-                    <button style={{margin:'0px'}} type="button" onClick={handleRegister}>Register</button></div>
+                    <button style={{background: '#007bff'}} type="button" onClick={handleRegister}>Register</button></div>
                 </form>
             </div>
         </StyledApp>
