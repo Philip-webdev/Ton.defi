@@ -4,13 +4,15 @@ import {   useNavigate } from 'react-router-dom';
  
  
 const StyledApp = styled.div`
-  background-color: #F9F9F9;
+ background-image:url('https://i.imgur.com/GWzPhNR.jpeg');
+ background-size:cover;
+ background-repeat:no-repeat;
   color: black;
   margin:0;
 font-family: Lexend;
   border-radius:7px;
    @media (prefers-color-scheme: dark) {
-     background-color: rgb(15,15,15);
+     background-image:url('https://i.imgur.com/GWzPhNR.jpeg');
       color: white ;
   }
   min-height:100vh ;
@@ -106,9 +108,9 @@ const handleRegister = async () => {
 
     return (
         <StyledApp>
-            <div style={{justifyContent:'center',  margin:'70px'}}>
+            <div style={{justifyContent:'center',padding:'20px',  backdropFilter: 'blur(7px) ',  margin:'70px'}}>
                 <h2 style={{textAlign: 'center'}}>Login</h2>
-                <form style={{margin:'auto', width:'100%'}} onSubmit={(e) => { e.preventDefault(); }}>
+                <form style={{margin:'auto', width:'100%', justifyContent:'center'}} onSubmit={(e) => { e.preventDefault(); }}>
                     <div>
                         <label htmlFor="email">Email:</label>
                         <input className='logs'  id="email" name="email" required style={{height:'30px',  width:'100%', background :'transparent', borderWidth:'1px', borderBlockStyle:'groove', borderColor:'gray', borderRadius:'3px'}} placeholder='@example.com'  />
