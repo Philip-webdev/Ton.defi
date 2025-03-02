@@ -119,12 +119,12 @@ if (infoPan) {
                 <form style={{margin:'auto', width:'100%', justifyContent:'center'}} onSubmit={(e) => { e.preventDefault(); }}>
                     <div>
                         <label htmlFor="email">Email:</label>
-                        <input className='logs'  id="email" name="email" required style={{height:'30px',  width:'100%', background :'transparent', borderWidth:'1px', borderBlockStyle:'groove', borderColor:'gray', borderRadius:'3px'}} placeholder='@example.com'  />
+                        <input className='logs'  id="email" name="email" required style={{color:'gray', height:'30px',  width:'100%', background :'transparent', borderWidth:'1px', borderBlockStyle:'groove', borderColor:'gray', borderRadius:'3px'}} placeholder='@example.com'  />
                     </div>
                     <br></br>
                     <div>
                         <label htmlFor="password">Password:</label>
-                        <input className='logs' type="password" id="password" name="password" required style={{height:'30px',  width:'100%', background :'transparent', borderWidth:'1px', borderBlockStyle:'groove', borderColor:'gray', borderRadius:'3px'}} placeholder='password'/>
+                        <input className='logs' type="password" id="password" name="password" required style={{color:'gray',height:'30px',  width:'100%', background :'transparent', borderWidth:'1px', borderBlockStyle:'groove', borderColor:'gray', borderRadius:'3px'}} placeholder='password'/>
                     </div>
                     <br></br>
                     <div style={{display:'inline-flex', margin:'auto ', width:'80%', justifyContent:'space-between'}}>
