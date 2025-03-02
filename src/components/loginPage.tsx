@@ -108,7 +108,7 @@ const handleRegister = async () => {
 
     return (
         <StyledApp>
-            <div style={{justifyContent:'center',padding:'20px',  backdropFilter: 'blur(7px) ',  margin:'70px'}}>
+            <div style={{justifyContent:'center',padding:'20px',  backdropFilter: 'blur(5px) ',  margin:'70px',  borderRadius:'10px',  borderStyle:'groove',  borderWidth:'0.004vh',  borderColor:'gray'}}>
                 <h2 style={{textAlign: 'center'}}>Login</h2>
                 <form style={{margin:'auto', width:'100%', justifyContent:'center'}} onSubmit={(e) => { e.preventDefault(); }}>
                     <div>
