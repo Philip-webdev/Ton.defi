@@ -7,16 +7,14 @@ import { useState } from 'react';
 const StyledApp = styled.div`
  background-image:url('https://i.imgur.com/GWzPhNR.jpeg');
  background-size:cover;
- 
+  
  background-repeat:no-repeat;
-  background-color: #F9F9F9;
-  color: black;
+  color: white;
   margin:0;
 font-family: Lexend;
- 
+  border-radius:7px;
    @media (prefers-color-scheme: dark) {
      background-image:url('https://i.imgur.com/GWzPhNR.jpeg');
-     background-color: rgb(15,15,15);
       color: white ;
   }
   min-height:100vh ;
