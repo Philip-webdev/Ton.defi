@@ -40,6 +40,11 @@ const handleRegister = async () => {
     const password = passwordElement.value;
 
     try {
+        const infoPan = document.getElementById('infoPan') ;
+                if (infoPan) {
+                    infoPan.style.color = 'green';
+                    infoPan.innerText = 'Registering...  ';
+                }
         const response = await fetch("https://twa-backend-g83o.onrender.com/register", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
@@ -48,9 +53,21 @@ const handleRegister = async () => {
         });
 
         if (!response.ok) {
+            const infoPan = document.getElementById('infoPan') ;
+                if (infoPan) {
+                    infoPan.style.color = 'red';
+                    infoPan.innerText = 'failed! ';
+                }
             throw new Error(`Error: ${response.statusText}`);
         }
-
+else{
+    const infoPan = document.getElementById('infoPan') ;
+    if (infoPan) {
+        infoPan.style.color = 'green';
+        infoPan.innerText = 'Registration successful! ';
+    }
+    console.log("Registration successful");
+}
         const data = await response.json();
         console.log(data);
 
