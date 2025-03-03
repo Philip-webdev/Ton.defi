@@ -46,13 +46,14 @@ button {
     margin:auto;
     
 }
+button:hover {
+    background-color: white;
+}
 #swapper{
     width:100px;
 }
 
-button:hover {
-    background-color: #0056b3;
-}
+
 
 #result {
     margin-top: 20px;

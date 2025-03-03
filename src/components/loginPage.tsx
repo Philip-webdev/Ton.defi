@@ -25,6 +25,7 @@ font-family: Lexend;
 
 function UserLogin() {
     const navigate = useNavigate();
+    const [status,  setStatus] = useState('logging in...');
 const handleRegister = async () => {
     const emailElement = document.getElementById("email") as HTMLInputElement | null;
     const passwordElement = document.getElementById("password") as HTMLInputElement | null;
@@ -63,24 +64,24 @@ const handleRegister = async () => {
 
 
     const handleLogin = async () => {
-      //  
-
         const emailElement = document.getElementById("email") as HTMLInputElement | null;
  const passwordElement = document.getElementById("password") as HTMLInputElement | null;
 
  if (!emailElement || !passwordElement) {
     console.error("Email or password element not found");
     return;
-} const [status,  setStatus] = useState('logging in...');
-const infoPan = document.getElementById('infoPan') as HTMLInputElement | null;
-if (infoPan) {
-    infoPan.value = status;
-}
+} 
+
        const email = emailElement.value;
     const password = passwordElement.value;
 
 
  try{
+    const infoPan = document.getElementById('infoPan') ;
+    if (infoPan) {
+        infoPan.style.color = 'green';
+        infoPan.innerText = status;
+    }
        await fetch("https://twa-backend-g83o.onrender.com/login", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
@@ -89,21 +90,27 @@ if (infoPan) {
         }). 
         then(res => {
             if (res.ok) {
-                passwordElement.value = status;
+              
                 console.log("Login successful");
                 navigate("/home");
 
             } else {
-                setStatus('Login failed, register first');
+                const infoPan = document.getElementById('infoPan') ;
+                if (infoPan) {
+                    infoPan.style.color = 'red';
+                    infoPan.innerText = 'Login failed, register first! ';
+                }
                 console.error("Login failed:", res.statusText);
               
             }
         });
         
     }
-    catch (error) {
-        console.error("Login failed:", error);
-        return false;
+    catch  {
+        
+        
+        console.error("Login failed");
+        
     }
     
    
@@ -114,9 +121,9 @@ if (infoPan) {
 
     return (
         <StyledApp>
-            <div style={{justifyContent:'center',padding:'20px',  backdropFilter: 'blur(5px) ',  margin:'70px',  borderRadius:'10px',  borderStyle:'groove',  borderWidth:'0.004vh',  borderColor:'gray'}}>
+            <div style={{justifyContent:'center',padding:'20px',  backdropFilter: 'blur(5px) ',  margin:'0 auto',  borderRadius:'10px',  borderStyle:'groove',  borderWidth:'0.004vh',  borderColor:'gray'}}>
                 <h2 style={{textAlign: 'center'}}>Login</h2>
-                <form style={{margin:'auto', width:'100%', justifyContent:'center'}} onSubmit={(e) => { e.preventDefault(); }}>
+                <form style={{margin:'0 auto', width:'70%', justifyContent:'center'}} onSubmit={(e) => { e.preventDefault(); }}>
                     <div>
                         <label htmlFor="email">Email:</label>
                         <input className='logs'  id="email" name="email" required style={{color:'gray', height:'30px',  width:'100%', background :'transparent', borderWidth:'1px', borderBlockStyle:'groove', borderColor:'gray', borderRadius:'3px'}} placeholder='@example.com'  />
@@ -127,12 +134,13 @@ if (infoPan) {
                         <input className='logs' type="password" id="password" name="password" required style={{color:'gray',height:'30px',  width:'100%', background :'transparent', borderWidth:'1px', borderBlockStyle:'groove', borderColor:'gray', borderRadius:'3px'}} placeholder='password'/>
                     </div>
                     <br></br>
-                    <div style={{display:'inline-flex', margin:'auto ', width:'80%', justifyContent:'space-between'}}>
-                    <button type="submit" onClick={handleLogin} style={{background:'greenyellow'}}>Login</button> <br></br><br />
-                    <button style={{background: '#007bff'}} type="button" onClick={handleRegister}>Register</button></div><br></br>
-                    <div id='infoPan'></div>
+                    <div style={{display:'inline-flex', margin:'0 auto ', width:'100%', justifyContent:'space-between'}}>
+                    <button className='Logbuts' type="submit" onClick={handleLogin} style={{background: 'transparent',  borderStyle:'groove',  borderWidth:'1px'}}>Login</button> <br></br><br />
+                    <button   className='Logbuts' style={{background: 'transparent',  borderStyle:'groove',  borderWidth:'1px'}} type="button" onClick={handleRegister}>Register</button></div><br></br><br></br>
+                   <div id='infoPan' style={{ fontSize:'small'}}></div>
                 </form>
             </div>
+          <p style={{textAlign:'center',  fontSize:'smaller'}}>NEXR &copy; 2025</p>
         </StyledApp>
     );
 }
