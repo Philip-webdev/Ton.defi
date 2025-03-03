@@ -1,9 +1,8 @@
 
-import { useEffect, useState } from 'react';
+import {   useState } from 'react';
 import 'react-icons/bs';
 import styled from "styled-components";
 
-import Home from './home';
  
 
  
@@ -12,7 +11,7 @@ const StyledApp = styled.div`
   background-color: black;
    
 font-family: Lexend ;
-  border-radius:7px;
+  
  margin: 0;
   min-height: 100vh;
   padding: 20px 20px;
@@ -37,20 +36,7 @@ function Welcome(){
         </div>
     );
 };
-   const [processing, setProcessing] = useState(true);
-
-  //  useEffect(() => {
-
-  //      const timer = setTimeout(() => {
-  //          setProcessing(false);
-  //      }, 5000);
-
-  //      return () => clearTimeout(timer); 
-  //  }, []);
-
-  //  if (!processing) {
-  //    return <Home/>;
-  //  }
+  
 
 
     return(

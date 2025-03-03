@@ -9,7 +9,7 @@ import { BsHouse, BsWallet2, BsShop, BsLightningCharge, BsCashStack } from "reac
 const StyledApp = styled.div`
   background-color: #F9F9F9;
   color: black;
-  border-radius: 17px;
+  
   font-family: Lexend;
   min-height: 100vh;
   padding: 20px;

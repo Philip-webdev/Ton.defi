@@ -28,13 +28,13 @@ import UserLogin from "./components/loginPage";
 
 
  const StyledApp = styled.div`
-  background-color:  #F9F9F9;
+  
   color: black;
 font-family: Lexend ;
      position: fixed;
      width:100%;
  @media (prefers-color-scheme: dark) {
-     background-color: rgb(15,15,15);
+     
       color: white ;
   }
   min-height: 90vh;
@@ -71,7 +71,7 @@ function App() {
 
 
   return (
-    <div>
+    <div style={{left: '0%',  right: '0%', top: '0%', bottom: '0%', position: 'fixed'}}>
   
   <HashRouter>
     <Routes>

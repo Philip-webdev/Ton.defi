@@ -15,7 +15,7 @@ const StyledApp = styled.div`
   color: black;
   margin:0;
 font-family: Lexend;
-  border-radius:7px;
+  
    @media (prefers-color-scheme: dark) {
      background-color: rgb(15,15,15);
       color: white ;
@@ -281,8 +281,7 @@ const load = ()=>{
 </section>
                 </div>
 
-{/* 
-the bottom navigation */}
+  
                    <Icon className="nav" style={{left:'0',  bottom:'0%', display:'flex',justifyContent:'space-evenly' ,height:'fit-content',  width:'100%', paddingBottom:'10px', paddingRight:'10px',position:'fixed' }}>
                                       <a href='#/home' style={{color:'grey', textDecoration:'none'}}> 
                                       <Button  style={{  fontFamily: 'Lexend' , bottom:'0%',  background:'none', color:"grey"}}><BsHouse/>{/*<img src='https://i.imgur.com/uxozY7V.png' height='14px' width='14px' />*/}

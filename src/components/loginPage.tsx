@@ -7,11 +7,12 @@ import { useState } from 'react';
 const StyledApp = styled.div`
  background-image:url('https://i.imgur.com/GWzPhNR.jpeg');
  background-size:cover;
+ 
  background-repeat:no-repeat;
   color: black;
   margin:0;
 font-family: Lexend;
-  border-radius:7px;
+ 
    @media (prefers-color-scheme: dark) {
      background-image:url('https://i.imgur.com/GWzPhNR.jpeg');
       color: white ;

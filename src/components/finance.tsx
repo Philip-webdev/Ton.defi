@@ -11,7 +11,7 @@ const StyledApp = styled.div`
   color: black;
   margin:0;
 font-family: Lexend;
-  border-radius:7px;
+ 
    @media (prefers-color-scheme: dark) {
      background-color: rgb(15,15,15);
       color: white ;

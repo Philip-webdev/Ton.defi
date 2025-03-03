@@ -8,7 +8,7 @@ import { BsHouse, BsWallet2, BsShop, BsLightningCharge, BsCashStack } from "reac
 const StyledApp = styled.div`
   background-color: #F9F9F9;
   color: black;
-  border-radius: 17px;
+  
     position:  ;
     font-family: Lexend ;
   @media (prefers-color-scheme: dark) {
