@@ -12,7 +12,7 @@ const StyledApp = styled.div`
   color: white;
   margin:0;
 font-family: Lexend;
-  border-radius:7px;
+  
    @media (prefers-color-scheme: dark) {
      background-image:url('https://i.imgur.com/GWzPhNR.jpeg');
       color: white ;
@@ -144,17 +144,17 @@ else{
                 <form style={{margin:'0 auto', width:'70%', justifyContent:'center'}} onSubmit={(e) => { e.preventDefault(); }}>
                     <div>
                         <label htmlFor="email">Email:</label>
-                        <input className='logs'  id="email" name="email" required style={{color:'gray', height:'30px',  width:'100%', background :'transparent', borderWidth:'1px', borderBlockStyle:'groove', borderColor:'gray', borderRadius:'3px'}} placeholder='@example.com'  />
+                        <input className='logs'  id="email" name="email" required style={{color:'gray', height:'30px',  width:'100%', background :'transparent', borderWidth:'2px', borderStyle:'groove', borderColor:'gray', borderRadius:'3px'}} placeholder='@example.com'  />
                     </div>
                     <br></br>
                     <div>
                         <label htmlFor="password">Password:</label>
-                        <input className='logs' type="password" id="password" name="password" required style={{color:'gray',height:'30px',  width:'100%', background :'transparent', borderWidth:'1px', borderBlockStyle:'groove', borderColor:'gray', borderRadius:'3px'}} placeholder='password'/>
+                        <input className='logs' type="password" id="password" name="password" required style={{color:'gray',height:'30px',  width:'100%', background :'transparent', borderWidth:'2px', borderStyle:'groove', borderColor:'gray', borderRadius:'3px'}} placeholder='password'/>
                     </div>
                     <br></br>
                     <div style={{display:'inline-flex', margin:'0 auto ', width:'100%', justifyContent:'space-between'}}>
-                    <button className='Logbuts' type="submit" onClick={handleLogin} style={{background: 'transparent',  borderStyle:'groove',  borderWidth:'1px'}}>Login</button> <br></br><br />
-                    <button   className='Logbuts' style={{background: 'transparent',  borderStyle:'groove',  borderWidth:'1px'}} type="button" onClick={handleRegister}>Register</button></div><br></br><br></br>
+                    <button className='Logbuts' type="submit" onClick={handleLogin} style={{background: 'transparent',  borderStyle:'groove',  borderWidth:'2px'}}>Login</button> <br></br><br />
+                    <button   className='Logbuts' style={{background: 'transparent',  borderStyle:'groove',  borderWidth:'2px'}} type="button" onClick={handleRegister}>Register</button></div><br></br><br></br>
                    <div id='infoPan' style={{ fontSize:'small'}}></div>
                 </form>
             </div>

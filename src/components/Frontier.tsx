@@ -20,10 +20,7 @@ const Icon = styled.div`
 color:black;
  border-radius:7px;  
   
- @media (prefers-color-scheme: dark) {
-    
-        color:white;
-  }
+  
 `;
 
 
@@ -45,7 +42,7 @@ function Welcome(){
 
  
             
-          <div  style={{textAlign: 'center', marginTop:'70%'}}><img src='https://i.imgur.com/PZlLQcl.png' style={{ zoom:'100%' }}/><br></br>
+          <div  style={{textAlign: 'center', marginTop:'70%'}}><img src='https://i.imgur.com/gvqiAg0.png' style={{ zoom:'100%' }}/><br></br>
           <br></br><br></br>{Loading()}</div>
          
         </StyledApp>
