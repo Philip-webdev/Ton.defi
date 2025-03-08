@@ -59,7 +59,7 @@ function App() {
             return <UserLogin/>;
         }, 5000);
 
-        return () => clearTimeout(timer); 
+       // return () => clearTimeout(timer); 
     }, []);
 
  if (loading) {
