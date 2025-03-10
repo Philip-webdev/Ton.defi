@@ -25,7 +25,7 @@ font-family: Lexend;
   
 
 function UserLogin() {
-    const navigate = useNavigate();
+   
     const [status,  setStatus] = useState('logging in...');
 const handleRegister = async () => {
     const emailElement = document.getElementById("email") as HTMLInputElement | null;
