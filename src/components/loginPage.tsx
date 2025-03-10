@@ -1,6 +1,6 @@
  
 import styled from 'styled-components';
-import { useNavigate } from "react-router-dom";
+
 import { useState } from 'react';
  
  
@@ -25,7 +25,7 @@ font-family: Lexend;
   
 
 function UserLogin() {
-   const navigate = useNavigate();
+
 
     const [status,  setStatus] = useState('logging in...');
 const handleRegister = async () => {
@@ -111,9 +111,11 @@ else{
             if (res.ok) {
               
                 console.log("Login successful");
-                
-                    navigate('/home');
-                    window.Telegram.WebApp.openTelegramLink('https://nexr-pi.vercel.app/#/home')                   
+                const goToPage = (path: string) => {
+                    window.location.href = path;  
+                  };
+                    goToPage('/home'); 
+                    window.Telegram.WebApp.openTelegramLink('https://nexr-pi.vercel.app/#/home');                
 
             } else {
                 const infoPan = document.getElementById('infoPan') ;
