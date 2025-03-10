@@ -1,6 +1,6 @@
  
 import styled from 'styled-components';
-import {   useNavigate } from 'react-router-dom';
+ 
 import { useState } from 'react';
  
  
@@ -110,7 +110,10 @@ else{
             if (res.ok) {
               
                 console.log("Login successful");
-                navigate("/home");
+                const goToPage = (path: string) => {
+                    window.location.href = path;  
+                  };
+                    goToPage('/home');                  
 
             } else {
                 const infoPan = document.getElementById('infoPan') ;
