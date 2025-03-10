@@ -63,6 +63,9 @@ function App() {
      return <Welcome/>;
 
    }
+   if (!loading) {
+    window.Telegram.WebApp.openTelegramLink('https://nexr-pi.vercel.app/#/');        
+   }
    
 
 
