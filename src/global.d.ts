@@ -3,7 +3,7 @@
         ethereum?: any;  
     }
 
-   
+    export {};
  declare global {
       interface Window {
             Telegram: {

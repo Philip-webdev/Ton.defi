@@ -88,7 +88,7 @@ function App() {
       <Route path="/security" Component={security}/>
       <Route path="/settings" Component={settings}/>
       <Route path="/organizer" Component={settings}/>
-      <Route path="/ethEx" Component={swaps}/>
+ 
       <Route path="usdt" Component={usdt}/>
     </Routes>
   </HashRouter>
