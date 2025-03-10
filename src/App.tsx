@@ -19,7 +19,7 @@ import security from "./components/security";
 import agenda from "./components/Agenda";
 import contact from "./components/contact";
 import organizer from "./components/organizer";
-import swaps from "./components/ethEx";
+
 import { useEffect, useState } from "react";
 import Welcome2 from "./components/welcome2";
 import usdt from "./components/USDT";
