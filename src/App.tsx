@@ -61,6 +61,7 @@ function App() {
 
  if (loading) {
      return <Welcome/>;
+
    }
 
 
@@ -71,7 +72,7 @@ function App() {
   
   <HashRouter>
     <Routes>
-     <Route path="/" Component={UserLogin}/>
+     <Route path="/user" Component={UserLogin}/>
      <Route path="/home" Component={Home}/>
       <Route path="/send" Component={send}/>
       <Route path="/swap" Component={swap}/>
@@ -92,6 +93,7 @@ function App() {
     </Routes>
   </HashRouter>
 
+<UserLogin/>
   
 </div>
   );
