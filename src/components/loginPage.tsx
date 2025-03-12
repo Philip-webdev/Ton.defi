@@ -114,7 +114,7 @@ else{
                 const goToPage = (path: string) => {
                     window.location.href = path;  
                   };
-                    goToPage('/home'); 
+                    goToPage('#/home'); 
                     window.Telegram.WebApp.openTelegramLink('https://nexr-pi.vercel.app/#/home');                
 
             } else {

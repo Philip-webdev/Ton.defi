@@ -63,7 +63,12 @@ function App() {
      return <Welcome/>;
 
    }
-   
+  
+    const goToPage = (path: string) => {
+      window.location.href = path;  
+    };
+      goToPage('#/user');        
+ 
    
 
 
@@ -73,7 +78,7 @@ function App() {
   
   <HashRouter>
     <Routes>
-    <Route path="/" Component={UserLogin}/>
+    <Route path="/user" Component={UserLogin}/>
      <Route path="/home" Component={Home}/>
       <Route path="/send" Component={send}/>
       <Route path="/swap" Component={swap}/>
