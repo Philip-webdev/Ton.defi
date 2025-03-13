@@ -22,13 +22,14 @@ font-family: Lexend;
   }
   min-height: fit-content ;
   padding: 20px 20px;
+  zoom : 100%;
 `;
 
 const Announcement = styled.div`
 background-color: white;
  color:black;
  @media (prefers-color-scheme: dark) {
-     background-color:rgb(33,33,33) ;
+     background-color:rgb(1,1,1) ;
        color: rgb(36, 172, 242);
   }
 `;
@@ -49,7 +50,7 @@ background-color: white;
  justify-content:center;
   padding:7px;
  @media (prefers-color-scheme: dark) {
-     background-color: rgb(33,33,33);
+     background-color: rgb(1,1,1);
         padding:7px;
   }
 `;
