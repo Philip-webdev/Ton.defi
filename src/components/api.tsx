@@ -46,7 +46,7 @@ const CryptoRow = ({ crypto  }: { crypto: CryptoData;   }) => {
           ? 'https://i.imgur.com/qfO2YuU.png'
           : symbol === 'SOL'
           ? 'https://i.imgur.com/rjWW55s.png'
-          : 'https://i.imgur.com/default.png';
+          : 'https://i.imgur.com/VXWScc9.png';
       };
     return (
         <API style={{  borderRadius: '7px' ,   margin:'7px' ,display:'flex' ,padding:'15px'  }}>

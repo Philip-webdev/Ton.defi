@@ -40,6 +40,7 @@ const handleRegister = async () => {
       
        const email = emailElement.value;
     const password = passwordElement.value;
+    const
 
     try {
         const infoPan = document.getElementById('infoPan') ;
