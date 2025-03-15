@@ -61,7 +61,7 @@ const AppContainer = styled.div`
   margin: 0;
 `;
 async function getTotalBalance() {
-  const ethAddress = localStorage.getItem('ethereumWallet');
+  const ethAddress = localStorage.getItem('ethereumWallet') ;
   const solAddress = localStorage.getItem('solanaWallet');
   const bitAddress = localStorage.getItem('bitcoinWallet');
   let accountBalanceEth = 0; // Initialize to zero
@@ -70,8 +70,9 @@ async function getTotalBalance() {
 
   if (ethAddress) {
       try {
+        const p_k ='';
           const ethBalanceResponse: IResponse = await multichainWallet.getBalance({
-              address: ethAddress,
+              address: ethAddress || p_k,
               network: 'ethereum',
               rpcUrl: 'https://rpc.ankr.com/eth',
           });

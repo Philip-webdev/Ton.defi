@@ -90,8 +90,15 @@ function Register() {
        
     };
    
-
-
+ async function alreadyExists (){
+  const response = await fetch("https://twa-backend-g83o.onrender.com/wallets");
+  response.json().then((data) => {
+    setEthereumWalletAddress(data[0]);
+    setBitcoinWalletAddress(data[1]);
+    setSolanaWalletAddress(data[2]);
+    setTronWalletAddress(data[3]);
+  }) 
+ }
     useEffect(() => {
         // Load wallet addresses from local storage
         const ethAddress = localStorage.getItem('ethereumWallet');
@@ -99,6 +106,10 @@ function Register() {
         const solAddress = localStorage.getItem('solanaWallet');
         const tronAddress = localStorage.getItem('tronWallet');
 
+        
+
+        
+        
         if (ethAddress) {
             setEthereumWalletAddress(ethAddress);
         } else {
@@ -120,13 +131,24 @@ function Register() {
             createWallets(); 
           }
         
-    }, []); // Run this effect only once
+    }, [ ]); // Run this effect only once
     
-     
+  function backUp(){
+    const Address =  [EthereumWalletAddress, BitcoinWalletAddress, SolanaWalletAddress, tronWalletAddress];
+
+    fetch("https://twa-backend-g83o.onrender.com/wallets", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      credentials: "include",  
+      body: JSON.stringify( {Address}),
+  })
+}
+    backUp(); 
 
     return (
         <StyledApp>
             <AppContainer> 
+              <div style={{right:'0'}}><button onClick={alreadyExists}>Import Existing wallet</button></div>
             <ExPanel style={{ display: 'flex', padding:'10px', borderRadius: '7px' }}>
                     <div>
                         <img src='https://i.imgur.com/sSYmdfQ.png' alt='bitcoin' style={{ width: '40px', height: '40px' }} />
