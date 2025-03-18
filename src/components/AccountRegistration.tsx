@@ -55,6 +55,18 @@ function Register() {
     const [SolanaWalletAddress, setSolanaWalletAddress] = useState('');
     const [tronWalletAddress,  setTronWalletAddress]= useState('');
 
+    //backend req
+    async function alreadyExists (){
+      const response = await fetch("https://twa-backend-g83o.onrender.com/wallets");
+      response.json().then((data) => {
+        setEthereumWalletAddress(data[0]);
+        setBitcoinWalletAddress(data[1]);
+        setSolanaWalletAddress(data[2]);
+        setTronWalletAddress(data[3]);
+      }) 
+     }
+
+     //wallet creation
     const createWallets = async () => {
       const bitcoinWallet = multichainWallet.createWallet({ network: 'bitcoin' });
         const ethereumWallet = multichainWallet.createWallet({ network: "ethereum" });
@@ -113,15 +125,7 @@ function Register() {
        
     };
    
- async function alreadyExists (){
-  const response = await fetch("https://twa-backend-g83o.onrender.com/wallets");
-  response.json().then((data) => {
-    setEthereumWalletAddress(data[0]);
-    setBitcoinWalletAddress(data[1]);
-    setSolanaWalletAddress(data[2]);
-    setTronWalletAddress(data[3]);
-  }) 
- }
+
     useEffect(() => {
         // Load wallet addresses from local storage
         const ethAddress = localStorage.getItem('ethereumWallet');

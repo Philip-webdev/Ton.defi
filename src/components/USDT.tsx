@@ -262,7 +262,7 @@ return(
      
        
          
-       <div onClick={dropdown} style={{cursor:'pointer', left:'0'}}><Icon style={{borderRadius:'7px', width:'85.9%', padding:'20px',  lineHeight:'17px',  margin:'7px',fontSize:'larger'}}><img src='https://i.imgur.com/ywfZokP.png' alt='Tron' style={{ width: '15px', height: '15px' }} /> Send TRC-20</Icon></div>
+       <div onClick={dropdown} style={{cursor:'pointer', left:'0'}}><Icon style={{borderRadius:'7px', width:'85.9%', padding:'20px',  lineHeight:'17px',  margin:'7px',fontSize:'larger'}}><img src='https://i.imgur.com/ywfZokP.png' alt='Tron' style={{ width: '15px', height: '15px' }} />TRC-20</Icon></div>
            <div id="elem" style={{display:'none',margin:'20px'}}>
      <div style={{display:'flex'}}>
      <div style={{zoom:'70%', padding:'10px'}}>Token Address: {trc20Address} </div>
@@ -276,7 +276,7 @@ return(
            </div>
          
 
-       <div onClick={dropdown1} style={{cursor:'pointer', left:'0'}}><Icon style={{borderRadius:'7px', width:'85.9%', padding:'20px',  lineHeight:'17px',  margin:'7px',fontSize:'larger'}}> <img src='https://i.imgur.com/dhJjQcO.png' alt='Ethereum' style={{ width: '15px', height: '15px' }} />  Send ERC-20</Icon></div>
+       <div onClick={dropdown1} style={{cursor:'pointer', left:'0'}}><Icon style={{borderRadius:'7px', width:'85.9%', padding:'20px',  lineHeight:'17px',  margin:'7px',fontSize:'larger'}}> <img src='https://i.imgur.com/dhJjQcO.png' alt='Ethereum' style={{ width: '15px', height: '15px' }} />ERC-20</Icon></div>
            <div id="elem1" style={{display:'none',margin:'20px'}}>
           
 <div style={{display:'flex'}}>
