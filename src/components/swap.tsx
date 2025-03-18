@@ -49,9 +49,8 @@ const AppContainer = styled.div`
 `;
 
 function swap(){
-   const [Count, setCountcalculated] = useState('');
-
-
+   const [Count, setCountcalculated] = useState('0');
+   const [coin, setCoin] = useState('TON');
 
 let currentPrice: '2'; 
 
@@ -63,12 +62,16 @@ function ondatainput(){
  
         setCountcalculated(inputValue );
          
-    } else {
         console.error('Input element not found');
     }
     
 }
- 
+ let coinSelect = document.getElementById('select') as HTMLInputElement;;
+
+ if (coinSelect){
+  var selCoin = coinSelect.innerText;
+  setCoin(selCoin);
+ }
       
     return(
         <StyledApp><Helmet><script src="https://cdn.jsdelivr.net/npm/web3@1.6.0/dist/web3.min.js"></script></Helmet>
@@ -80,8 +83,21 @@ function ondatainput(){
 
 <ExPanel><div style={{display: 'flex'  , gap:'17px',padding:'20px',  borderRadius:'10px'}}>
   <img src='https://i.imgur.com/w8vihMp.png'  height='20px' width='20px' style={{borderRadius:'100%'}}/>
-  <div><a href='#/ethEx' style={{ textDecoration:'none'}}>Ton.defi Exchange</a></div></div></ExPanel>
-
+  <div><a href='#/ethEx' style={{ textDecoration:'none'}}>NEXR Exchange</a></div></div></ExPanel>
+<br/>
+<div style={{display: 'flex',  justifyContent: 'space-between'}}>
+ <p>Swapping {coin} </p> 
+ <select>
+  <option>X-change</option>
+  <option>TON</option>
+  <option>BTC</option>
+  <option>SOL</option>
+  <option>ETH</option>
+  <option>TRC</option>
+ </select>
+ 
+  </div>
+  <ExPanel><input value={Count}/></ExPanel> 
 <br/>
 
 

