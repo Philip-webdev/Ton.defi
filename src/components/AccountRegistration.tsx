@@ -165,7 +165,8 @@ function Register() {
     return (
         <StyledApp>
             <AppContainer> 
-              <div style={{right:'0'}}><button onClick={alreadyExists}>Import Existing wallet</button></div>
+              <div style={{right:'0'}}><Button onClick={alreadyExists}  >Import Existing wallet</Button></div>
+              <br/>
             <ExPanel style={{ display: 'flex', padding:'10px', borderRadius: '7px' }}>
                     <div>
                         <img src='https://i.imgur.com/sSYmdfQ.png' alt='bitcoin' style={{ width: '40px', height: '40px' }} />

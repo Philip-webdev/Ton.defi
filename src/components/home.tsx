@@ -70,9 +70,9 @@ async function getTotalBalance() {
 
   if (ethAddress) {
       try {
-        const p_k ='';
+           
           const ethBalanceResponse: IResponse = await multichainWallet.getBalance({
-              address: ethAddress || p_k,
+              address: ethAddress  ,
               network: 'ethereum',
               rpcUrl: 'https://rpc.ankr.com/eth',
           });
@@ -117,7 +117,7 @@ async function getTotalBalance() {
 function Home(){
 
   const [totalBalance, setTotalBalance] = useState<number>(0); // Initialize total balance state
-const [pretext, setText] = useState(<div>Loading tokens...</div>);
+const [pretext, setText] = useState(<div style={{color:'gray'}}>Loading tokens...</div>);
 
 const load = ()=>{
   setText(<div>
@@ -163,6 +163,11 @@ const load = ()=>{
     useEffect(()=>{
        slide();} ,[])
 
+       function  swiper(){
+        const swiperComponent = document.getElementById('swiper');
+        if (swiperComponent != null)
+        swiperComponent.style.transform = 'translateX(' + (-100) + '%)';
+       }
     
       //  const [AccountBalance, setAccountBalance] = useState({totalBalance});
        const [Nohide, hide] = useState(<BsEye/>);
@@ -183,25 +188,25 @@ const load = ()=>{
 
       
        
-       useEffect(()=>{
-        fetch('https://twa-backend-g83o.onrender.com/walletdetails').then((res) => res.json())
-              .then((result) => {
-                console.log(result);
-               // setAccountName(result.walletName);
-                })
+      //  useEffect(()=>{
+      //   fetch('https://twa-backend-g83o.onrender.com/walletdetails').then((res) => res.json())
+      //         .then((result) => {
+      //           console.log(result);
+      //          // setAccountName(result.walletName);
+      //           })
                 
-                .catch((error) => console.log(error));
-      });
+      //           .catch((error) => console.log(error));
+      // });
 
-      useEffect(()=>{
-        fetch('https://twa-backend-g83o.onrender.com/AccBalance').then((res) => res.json())
-              .then((result) => {
-                console.log(result);
-                // setAccountBalance(result.responseBody.availableBalance);
-                })
+      // useEffect(()=>{
+      //   fetch('https://twa-backend-g83o.onrender.com/AccBalance').then((res) => res.json())
+      //         .then((result) => {
+      //           console.log(result);
+      //           // setAccountBalance(result.responseBody.availableBalance);
+      //           })
                 
-                .catch((error) => console.log(error));
-      });
+      //           .catch((error) => console.log(error));
+      // });
       
     return(
         <StyledApp style={{fontWeight:'100'}} >
@@ -265,11 +270,11 @@ const load = ()=>{
 <div>
     <div style={{display :'flex', background:"white", alignContent:'center', borderRadius:'7px', width:'fit-content'}}>
       <div style={{color:"black",padding:'10px',borderRightColor:'red', borderStyle:'groove', borderLeft:'none',borderTop:'none',borderBottom:'none',borderWidth:'1px'}}>Tokens</div>
-      <div style={{color:"grey", padding:'10px'}}>NFTs</div>
+      <div style={{color:"grey", padding:'10px'}} onClick={swiper} >NFTs</div>
       </div>
 </div> <br/>  
 {/* this section loads the API */}
-<section style={{  overflowX: 'scroll'}} >
+<section id='swiper' style={{  overflowX: 'scroll'}} >
   <div style={{display:'flex',width: '100%'}}>
 <div style={{ padding:'2px',borderRadius:'7px', height:'100%', width:'100%'}}>
 {pretext} 

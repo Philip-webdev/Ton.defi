@@ -52,7 +52,7 @@ function swap(){
    const [Count, setCountcalculated] = useState('0');
    const [coin, setCoin] = useState('TON');
 
-let currentPrice: '2'; 
+  
 
 function ondatainput(){
 
@@ -87,7 +87,7 @@ function ondatainput(){
 <br/>
 <div style={{display: 'flex',  justifyContent: 'space-between'}}>
  <p>Swapping {coin} </p> 
- <select>
+ <select style={{height:'40px'}}>
   <option>X-change</option>
   <option>TON</option>
   <option>BTC</option>
@@ -97,7 +97,7 @@ function ondatainput(){
  </select>
  
   </div>
-  <ExPanel><input value={Count}/></ExPanel> 
+  <ExPanel ><input value={Count} placeholder='transparent'style={{width:'100%', height:'70px'}}/></ExPanel> 
 <br/>
 
 
