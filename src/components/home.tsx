@@ -168,7 +168,12 @@ const load = ()=>{
         if (swiperComponent != null)
         swiperComponent.style.transform = 'translateX(' + (-100) + '%)';
        }
-    
+
+       function  swipeBack(){
+        const swiperComponent = document.getElementById('swiper');
+        if (swiperComponent != null)
+        swiperComponent.style.transform = 'translateX(' + (100) + '%)';
+       }
       //  const [AccountBalance, setAccountBalance] = useState({totalBalance});
        const [Nohide, hide] = useState(<BsEye/>);
 
@@ -269,7 +274,7 @@ const load = ()=>{
 <br/>
 <div>
     <div style={{display :'flex', background:"white", alignContent:'center', borderRadius:'7px', width:'fit-content'}}>
-      <div style={{color:"black",padding:'10px',borderRightColor:'red', borderStyle:'groove', borderLeft:'none',borderTop:'none',borderBottom:'none',borderWidth:'1px'}}>Tokens</div>
+      <div style={{color:"black",padding:'10px',borderRightColor:'red', borderStyle:'groove', borderLeft:'none',borderTop:'none',borderBottom:'none',borderWidth:'1px'}} onClick={swipeBack}>Tokens</div>
       <div style={{color:"grey", padding:'10px'}} onClick={swiper} >NFTs</div>
       </div>
 </div> <br/>  
@@ -280,7 +285,7 @@ const load = ()=>{
 {pretext} 
     
 </div>
-{/* <div style={{marginLeft:'10px', background:'white ', marginTop:'18px',height:'300px', width:'100%',borderRadius:'7px'}}>
+{/* <div style={{marginLeft:'10px', background:'white ', marginTop:'18px',height:'300px', width:'100%',borderRadius:'7px'}}> 
   <p>NFT NFT NFT NFT NFT NFT NFT NFT NFT NFT</p>  </div>*/}</div> 
 </section>
                 </div>

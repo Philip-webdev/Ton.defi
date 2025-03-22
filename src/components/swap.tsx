@@ -8,8 +8,7 @@ import 'react-icons/bs';
 import 'react-icons/fa';
 import { Helmet } from 'react-helmet';
  
-import   { Web3 } from 'web3';
-import { BsHouse, BsWallet2, BsShop, BsLightningCharge, BsCashStack } from 'react-icons/bs';
+import { BsHouse, BsWallet2,   BsLightningCharge, BsCashStack } from 'react-icons/bs';
 
 const StyledApp = styled.div`
   background-color:  #F9F9F9;
@@ -66,10 +65,10 @@ function ondatainput(){
     }
     
 }
- let coinSelect = document.getElementById('select') as HTMLInputElement;;
+ let coinSelect = document.getElementById('select') as HTMLElement;;
 
  if (coinSelect){
-  var selCoin = coinSelect.innerText;
+  var selCoin = coinSelect.innerHTML;
   setCoin(selCoin);
  }
       
