@@ -17,10 +17,19 @@ export  function TransferETH() {
       rpcUrl: 'https://rpc.ankr.com/eth_goerli',
       privateKey:
       ethprivatekey,
-      gasPrice: '10', // Gas price is in Gwei. Leave empty to use default gas price
+      gasPrice: '50', // Gas price is in Gwei. Leave empty to use default gas price
       data: message, // Send a message
-    }); // NOTE - For other EVM compatible blockchains all you have to do is change the rpcUrl.
-    
+    })// NOTE - For other EVM compatible blockchains all you have to do is change the rpcUrl.
+    .then(res => {
+      if (res.ok) {
+          const S_button = document.getElementById('info');
+          if (S_button) {
+              S_button.innerText = 'Success';
+              S_button.style.backgroundColor = 'green';
+          }
+
+}
+});
 
   return (
     <Card>
@@ -43,7 +52,7 @@ export  function TransferETH() {
             onChange={(e) => setETHRecipient(e.target.value)}
           ></Input>
         </FlexBoxRow>
-        <Button
+        <Button id="info"
          disabled={!ETHRecipient || ETHAmount <= 0}
           style={{ marginTop: 18 }}
           onClick={async () => {transferEth}

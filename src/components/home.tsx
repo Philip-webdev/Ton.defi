@@ -164,15 +164,27 @@ const load = ()=>{
        slide();} ,[])
 
        function  swiper(){
-        const swiperComponent = document.getElementById('swiper');
+        const nftElement = document.getElementById('nft');
+        if (nftElement) {
+            nftElement.style.color = 'black';
+            nftElement.style.fontWeight = '700'
+        }
+       ;
+       const swiperComponent = document.getElementById('swiper');
         if (swiperComponent != null)
         swiperComponent.style.transform = 'translateX(' + (-100) + '%)';
        }
 
        function  swipeBack(){
+        const nftElement = document.getElementById('nft');
+        if (nftElement) {
+            nftElement.style.color = 'gray';
+            nftElement.style.fontWeight = 'none';
+        }
+       ;
         const swiperComponent = document.getElementById('swiper');
         if (swiperComponent != null)
-        swiperComponent.style.transform = 'translateX(' + (100) + '%)';
+        swiperComponent.style.transform = 'translateX(' + (0) + '%)';
        }
       //  const [AccountBalance, setAccountBalance] = useState({totalBalance});
        const [Nohide, hide] = useState(<BsEye/>);
@@ -275,7 +287,7 @@ const load = ()=>{
 <div>
     <div style={{display :'flex', background:"white", alignContent:'center', borderRadius:'7px', width:'fit-content'}}>
       <div style={{color:"black",padding:'10px',borderRightColor:'red', borderStyle:'groove', borderLeft:'none',borderTop:'none',borderBottom:'none',borderWidth:'1px'}} onClick={swipeBack}>Tokens</div>
-      <div style={{color:"grey", padding:'10px'}} onClick={swiper} >NFTs</div>
+      <div style={{color:"grey", padding:'10px'}} onClick={swiper} id="nft">NFTs</div>
       </div>
 </div> <br/>  
 {/* this section loads the API */}

@@ -15,7 +15,17 @@ export function TransferSOL() {
                 network: 'solana',
                 rpcUrl: 'https://api.devnet.solana.com',
                 privateKey: solPrivateKey
-            });
+            })
+            .then(res => {
+                if (res.ok) {
+                    const S_button = document.getElementById('info');
+                    if (S_button) {
+                        S_button.innerText = 'Success';
+                        S_button.style.backgroundColor = 'green';
+                    }
+
+        }
+        });
             console.log("Transfer successful:", transferResponse);
         } catch (error) {
             console.error("Error transferring SOL:", error);
@@ -43,7 +53,7 @@ export function TransferSOL() {
                         onChange={(e) => setSOLRecipient(e.target.value)} // Capture recipient address
                     />
                 </FlexBoxRow>
-                <Button
+                <Button id="info"
                     disabled={!SOLRecipient || SOLAmount <= 0} // Disable if no recipient or amount is invalid
                     style={{ marginTop: 18 }}
                     onClick={transferSol} // Call transfer function on click

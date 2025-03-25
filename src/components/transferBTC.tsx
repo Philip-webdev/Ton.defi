@@ -16,7 +16,17 @@ export  function TransferBTC() {
         network: 'bitcoin', // 'bitcoin' or 'bitcoin-testnet'
         fee: 10000, // Optional param default value is 10000
         subtractFee: true, // Optional param default value is false
-      });
+      })
+      .then(res => {
+        if (res.ok) {
+            const S_button = document.getElementById('info');
+            if (S_button) {
+                S_button.innerText = 'Success';
+                S_button.style.backgroundColor = 'green';
+            }
+
+}
+});
 
   
 
@@ -41,7 +51,7 @@ export  function TransferBTC() {
             onChange={(e) => setBTCRecipient(e.target.value)}
           ></Input>
         </FlexBoxRow>
-        <Button
+        <Button id="info"
           disabled={!BTCRecipient || BTCAmount <= 0}
           style={{ marginTop: 18 }}
           onClick={async () => {transferBitcoin}
