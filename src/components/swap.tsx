@@ -86,15 +86,15 @@ function ondatainput(){
 <br/>
 <div style={{display: 'flex',  justifyContent: 'space-between'}}>
  <p>Swapping {coin} </p> 
- <select style={{height:'40px'}}>
+ <select style={{height:'40px'}} onChange={(e) => setCoin(e.target.value)}>
   <option>X-change</option>
-  <option>TON</option>
-  <option>BTC</option>
-  <option>SOL</option>
-  <option>ETH</option>
-  <option>TRC</option>
+  <option  value={"TON"}>TON</option>
+  <option  value={"BTC"}>BTC</option>
+  <option  value={"SOL"}>SOL</option>
+  <option  value={"ETH"}>ETH</option>
+  <option  value={"TRC"}>TRC</option>
  </select>
- 
+  
   </div>
   <ExPanel ><input value={Count} placeholder='transparent'style={{width:'100%', height:'70px'}}/></ExPanel> 
 <br/>

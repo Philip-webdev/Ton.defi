@@ -8,11 +8,12 @@ export  function TransferETH() {
     const [ETHAmount, setETHAmount] = useState<number>(0);
     const [ETHRecipient, setETHRecipient] = useState<string>("");
     var ethprivatekey = localStorage.getItem('ethereumWalletkey') as string ;
-    var message = '';
+    var messageElement = document.getElementById('message');
+    var message = messageElement ? messageElement.innerText : '';
 
     const transferEth = async() => await multichainWallet.transfer({
       recipientAddress: ETHRecipient,
-      amount: 1,
+      amount: Number((document.getElementById('ethAmt') as HTMLInputElement).value) ,
       network: 'ethereum',
       rpcUrl: 'https://rpc.ankr.com/eth_goerli',
       privateKey:
@@ -37,7 +38,7 @@ export  function TransferETH() {
         <h3>Transfer ETH</h3>
         <FlexBoxRow>
           <label>Amount </label>
-          <Input
+          <Input id= 'ethAmt' 
             style={{ marginRight: 8 }}
             type="number"
             value={ETHAmount}
@@ -50,6 +51,12 @@ export  function TransferETH() {
             style={{ marginRight: 8 }}
             value={ETHRecipient}
             onChange={(e) => setETHRecipient(e.target.value)}
+          ></Input>
+        </FlexBoxRow>
+        <FlexBoxRow>
+          <label>Message </label>
+          <Input  id="message"
+            style={{ marginRight: 8 }}
           ></Input>
         </FlexBoxRow>
         <Button id="info"

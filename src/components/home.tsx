@@ -8,7 +8,7 @@ import 'react-icons/fa';
 import {  BsCashStack, BsEye, BsEyeSlash, BsGear, BsHeadset, BsHouse, BsLightningCharge, BsShop,   BsWallet2 } from "react-icons/bs";
 import * as multichainWallet from 'multichain-crypto-wallet';
 import { IResponse } from "multichain-crypto-wallet/dist/common/utils/types";
-
+import scanner from "./QRcode";
 
 const StyledApp = styled.div`
   background-color: #F9F9F9;
@@ -296,9 +296,7 @@ const load = ()=>{
 <div style={{ padding:'2px',borderRadius:'7px', height:'100%', width:'100%'}}>
 {pretext} 
     
-</div>
-{/* <div style={{marginLeft:'10px', background:'white ', marginTop:'18px',height:'300px', width:'100%',borderRadius:'7px'}}> 
-  <p>NFT NFT NFT NFT NFT NFT NFT NFT NFT NFT</p>  </div>*/}</div> 
+</div><p style={{textAlign:'center',  color: 'gray'}}>Nothing to see. Buy one. </p></div> 
 </section>
                 </div>
 
