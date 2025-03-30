@@ -3,11 +3,13 @@ import styled from "styled-components";
 import { Address, toNano } from "ton";
 import { useTonConnect } from "../hooks/useTonConnect";
 import { Card, FlexBoxCol, FlexBoxRow, Button, Input } from "./styled/styled";
+import { Scanner } from "./Send";
+import { BsQrCodeScan } from "react-icons/bs";
 
 export function TransferTon() {
   const { sender, connected } = useTonConnect();
 
-  const [tonAmount, setTonAmount] = useState("0.01");
+  const [tonAmount, setTonAmount] = useState("0");
   const [tonRecipient, setTonRecipient] = useState(
     "UQBx_jqTG0klK4UJZlaEfK0J5TvJmj3B3-vbpFBTmYdOODMR"
   );
@@ -15,9 +17,10 @@ export function TransferTon() {
   return (
     <Card>
       <FlexBoxCol>
-        <h3>Transfer TON</h3>
+        <h3>Transfer TON <Button onClick={Scanner}><BsQrCodeScan/></Button></h3> 
+        <div style={{position:'absolute'}}><Scanner    onResult={(address: string) =>  setTonRecipient(address)} /></div>
         <FlexBoxRow>
-          <label>Amount </label>
+          <label>Amount </label> 
           <Input
             style={{ marginRight: 8 }}
             type="number"

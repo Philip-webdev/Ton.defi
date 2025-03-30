@@ -1,8 +1,8 @@
 import { Button, FlexBoxCol, FlexBoxRow, Input, Card} from "../components/styled/styled";
 import * as multichainWallet from 'multichain-crypto-wallet';
 import { useState } from "react";
-import { connected } from "process";
-
+  
+import Scanner from "./QRcode";
 
 export  function TransferBTC() {
     const [BTCAmount, setBTCAmount] = useState<number>(0);
@@ -49,7 +49,7 @@ export  function TransferBTC() {
             style={{ marginRight: 8 }}
             value={BTCRecipient}
             onChange={(e) => setBTCRecipient(e.target.value)}
-          ></Input>
+          ></Input><Scanner onResult={(address: string) =>  setBTCRecipient(address)} />
         </FlexBoxRow>
         <Button id="info"
           disabled={!BTCRecipient || BTCAmount <= 0}

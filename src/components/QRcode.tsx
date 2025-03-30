@@ -1,32 +1,33 @@
-import React, { useState } from 'react';
+import  { useState } from 'react';
 import { QrReader } from 'react-qr-reader';  
-
+import '../index.css';
  
 
-const scanner = () => {
-  const [code, setCode] = useState(null);
+const Scanner = (onResult:any) => {
+ 
   const [showDialog, setDiaglog] = useState(false);
   const [processing, setProcessing] = useState(false);
   const [precScan, setPrecScan] = useState("");
   const [selected, setSelected] = useState("environment");
 
   const handleScan = (scanData: string) => {
-    // window.location.href = "";
+
     if (scanData && scanData) {
-      window.location.href = scanData;
+      window.location.href = ''
+      onResult(scanData);
     }
   };
   const handleError = (err: any) => {
     console.error(err);
   };
   return (
-    <div className="App">
-      <h1>Escaneá el codigo QR</h1>
-      <h2>Apuntá con la camara al codigo, se detectará automáticamente</h2>
-      <select onChange={(e) => setSelected(e.target.value)}>
+    <div>
+     
+      
+      {/* <select onChange={(e) => setSelected(e.target.value)}>
         <option value={"environment"}>Cámara trasera</option>
         <option value={"user"}>Cámara delantera</option>
-      </select>
+      </select> */}
       {!showDialog && !processing && (
         <QrReader
            
@@ -45,4 +46,4 @@ const scanner = () => {
   );
 };
 
-export default scanner;
+export default Scanner;

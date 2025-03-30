@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Button, FlexBoxCol, FlexBoxRow, Input, Card } from "../components/styled/styled";
 import * as multichainWallet from 'multichain-crypto-wallet';
+import Scanner from "./QRcode";
 
 export function TransferSOL() {
     const [SOLAmount, setSOLAmount] = useState<number>(0);
@@ -51,7 +52,7 @@ export function TransferSOL() {
                         style={{ marginRight: 8 }}
                         value={SOLRecipient}
                         onChange={(e) => setSOLRecipient(e.target.value)} // Capture recipient address
-                    />
+                    /><Scanner onResult={(address: string) =>  setSOLRecipient(address)} />
                 </FlexBoxRow>
                 <Button id="info"
                     disabled={!SOLRecipient || SOLAmount <= 0} // Disable if no recipient or amount is invalid

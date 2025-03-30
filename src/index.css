@@ -1,6 +1,16 @@
 @import url('https://fonts.googleapis.com/css2?family=Lexend&display=swap');
 
-
+.qr-reader{
+    width: 80vw;
+    height: auto;
+    margin-top: 30px;
+    & > section{
+      border-radius: 10px;
+      & > div{
+        box-shadow: rgba(255, 255, 255, 0.5) 0px 0px 0px 5px inset !important;
+      }
+    }
+  }
 .input-placeholder::placeholder {
 
     background: grey;

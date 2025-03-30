@@ -4,15 +4,17 @@ import { TonConnectButton } from "@tonconnect/ui-react";
 import { Jetton } from "../components/Jetton";
 import { TransferTon } from "../components/TransferTon";
 import styled from "styled-components";
-import { Button, FlexBoxCol, FlexBoxRow, Input, Card} from "../components/styled/styled";
+import { Button, FlexBoxCol, FlexBoxRow } from "../components/styled/styled";
 import { useTonConnect } from "../hooks/useTonConnect";
 import { CHAIN } from "@tonconnect/protocol";
 import "@twa-dev/sdk";
-import { BsHouse, BsWallet2, BsShop, BsLightningCharge, BsCashStack } from "react-icons/bs";
+import { BsHouse, BsWallet2, BsShop, BsLightningCharge, BsCashStack, BsQrCodeScan } from "react-icons/bs";
 import { TransferBTC } from "./transferBTC";
 import { TransferETH } from "./transferETH";
 import { TransferSOL } from "./transferSOL";
 import Usdt from "./USDT";    
+import  { useState } from 'react';
+import { QrReader } from 'react-qr-reader';
 
 const StyledApp = styled.div`
   background-color:  #F9F9F9;
@@ -41,6 +43,47 @@ background-color: white;
         color:grey;
   }
 `;
+ 
+
+const Scanner = (onResult: any) => {
+  const [code, setCode] = useState(null);
+  const [showDialog, setDiaglog] = useState(false);
+  const [processing, setProcessing] = useState(false);
+  const [precScan, setPrecScan] = useState("");
+  const [selected, setSelected] = useState("environment");
+
+  const handleScan = (scanData: string) => {
+
+    if (scanData && scanData) {
+      // window.location.href = '/'
+      onResult(scanData);
+    }
+  };
+
+  const handleError = (err: any) => {
+    console.error(err);
+  };
+
+  return (
+    <div>
+       {!showDialog && !processing && (
+        <QrReader
+          constraints={{ facingMode: selected }}
+          scanDelay={500}
+          onResult={(result: any) => {
+            if (result?.text) {
+              handleScan(result.text);
+            }
+          }}
+          className="qr-reader"
+        />
+      )}
+    </div>
+  );
+};
+
+export { Scanner };
+
 
 const dropdown = () => {
    

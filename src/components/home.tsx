@@ -8,7 +8,7 @@ import 'react-icons/fa';
 import {  BsCashStack, BsEye, BsEyeSlash, BsGear, BsHeadset, BsHouse, BsLightningCharge, BsShop,   BsWallet2 } from "react-icons/bs";
 import * as multichainWallet from 'multichain-crypto-wallet';
 import { IResponse } from "multichain-crypto-wallet/dist/common/utils/types";
-import scanner from "./QRcode";
+
 
 const StyledApp = styled.div`
   background-color: #F9F9F9;

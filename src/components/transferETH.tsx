@@ -2,7 +2,7 @@ import { connected } from "process";
 import { useState } from "react";
 import { Button, FlexBoxCol, FlexBoxRow, Input, Card} from "../components/styled/styled";
 import * as multichainWallet from 'multichain-crypto-wallet';
-
+import Scanner from "./QRcode";
 
 export  function TransferETH() {
     const [ETHAmount, setETHAmount] = useState<number>(0);
@@ -51,7 +51,7 @@ export  function TransferETH() {
             style={{ marginRight: 8 }}
             value={ETHRecipient}
             onChange={(e) => setETHRecipient(e.target.value)}
-          ></Input>
+          ></Input><Scanner onResult={(address: string) =>  setETHRecipient(address)} />
         </FlexBoxRow>
         <FlexBoxRow>
           <label>Message </label>
