@@ -2,10 +2,10 @@
 
 .qr-reader{
     width: 80vw;
-    height: auto;
+    height: 100vw;
     margin-top: 30px;
     & > section{
-      border-radius: 10px;
+      border-radius: 20px;
       & > div{
         box-shadow: rgba(255, 255, 255, 0.5) 0px 0px 0px 5px inset !important;
       }

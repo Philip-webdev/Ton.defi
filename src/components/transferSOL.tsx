@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Button, FlexBoxCol, FlexBoxRow, Input, Card } from "../components/styled/styled";
 import * as multichainWallet from 'multichain-crypto-wallet';
 import Scanner from "./QRcode";
+import { BsQrCodeScan } from "react-icons/bs";
 
 export function TransferSOL() {
     const [SOLAmount, setSOLAmount] = useState<number>(0);
@@ -32,12 +33,22 @@ export function TransferSOL() {
             console.error("Error transferring SOL:", error);
         }
     };
-
+    const dropdown = () => {
+   
+        const section = document.getElementById('sol-qr') as HTMLElement | null;
+      
+        if (section != null && section.style.display == 'block') {
+            section.style.display = 'none'; 
+        } else if(section != null) {
+          section.style.display = 'block';
+        }
+      };
     return (
         <Card>
             <FlexBoxCol>
-                <h3>Transfer SOL</h3>
-                <FlexBoxRow>
+                <h3>Transfer SOL  <Button onClick={dropdown}><BsQrCodeScan/></Button></h3>
+                <div id='sol-qr' style={{position:'absolute',  display:'none',   height:'100%',  borderRadius:'17px'}}><Scanner onResult={(address: string) =>  setSOLRecipient(address)} />
+                </div> <FlexBoxRow>
                     <label>Amount </label>
                     <Input
                         style={{ marginRight: 8 }}
@@ -52,7 +63,7 @@ export function TransferSOL() {
                         style={{ marginRight: 8 }}
                         value={SOLRecipient}
                         onChange={(e) => setSOLRecipient(e.target.value)} // Capture recipient address
-                    /><Scanner onResult={(address: string) =>  setSOLRecipient(address)} />
+                    />
                 </FlexBoxRow>
                 <Button id="info"
                     disabled={!SOLRecipient || SOLAmount <= 0} // Disable if no recipient or amount is invalid

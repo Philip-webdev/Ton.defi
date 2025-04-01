@@ -15,6 +15,7 @@ import { TransferSOL } from "./transferSOL";
 import Usdt from "./USDT";    
 import  { useState } from 'react';
 import { QrReader } from 'react-qr-reader';
+import { TupleReader } from "ton-core";
 
 const StyledApp = styled.div`
   background-color:  #F9F9F9;
@@ -57,6 +58,7 @@ const Scanner = (onResult: any) => {
     if (scanData && scanData) {
       // window.location.href = '/'
       onResult(scanData);
+      setProcessing(true)
     }
   };
 

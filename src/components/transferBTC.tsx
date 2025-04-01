@@ -3,6 +3,7 @@ import * as multichainWallet from 'multichain-crypto-wallet';
 import { useState } from "react";
   
 import Scanner from "./QRcode";
+import { BsQrCodeScan } from "react-icons/bs";
 
 export  function TransferBTC() {
     const [BTCAmount, setBTCAmount] = useState<number>(0);
@@ -27,13 +28,23 @@ export  function TransferBTC() {
 
 }
 });
+const dropdown = () => {
+   
+  const section = document.getElementById('btc-qr') as HTMLElement | null;
 
+  if (section != null && section.style.display == 'block') {
+      section.style.display = 'none'; 
+  } else if(section != null) {
+    section.style.display = 'block';
+  }
+};
   
 
   return (
     <Card>
       <FlexBoxCol>
-        <h3>Transfer BTC</h3>
+        <h3>Transfer BTC  <Button onClick={dropdown}><BsQrCodeScan/></Button></h3>
+         <div id='btc-qr' style={{position:'absolute',  display:'none',   height:'100%',  borderRadius:'17px'}}><Scanner style={{  height:'100%'}}  id='QrReader'  onResult={(address: string) =>  setBTCRecipient(address)} /></div>
         <FlexBoxRow>
           <label>Amount </label>
           <Input
@@ -49,7 +60,7 @@ export  function TransferBTC() {
             style={{ marginRight: 8 }}
             value={BTCRecipient}
             onChange={(e) => setBTCRecipient(e.target.value)}
-          ></Input><Scanner onResult={(address: string) =>  setBTCRecipient(address)} />
+          ></Input>
         </FlexBoxRow>
         <Button id="info"
           disabled={!BTCRecipient || BTCAmount <= 0}

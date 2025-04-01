@@ -3,6 +3,7 @@ import { useState } from "react";
 import { Button, FlexBoxCol, FlexBoxRow, Input, Card} from "../components/styled/styled";
 import * as multichainWallet from 'multichain-crypto-wallet';
 import Scanner from "./QRcode";
+import { BsQrCodeScan } from "react-icons/bs";
 
 export  function TransferETH() {
     const [ETHAmount, setETHAmount] = useState<number>(0);
@@ -31,12 +32,22 @@ export  function TransferETH() {
 
 }
 });
+const dropdown = () => {
+   
+  const section = document.getElementById('eth-qr') as HTMLElement | null;
 
+  if (section != null && section.style.display == 'block') {
+      section.style.display = 'none'; 
+  } else if(section != null) {
+    section.style.display = 'block';
+  }
+};
   return (
     <Card>
       <FlexBoxCol>
-        <h3>Transfer ETH</h3>
-        <FlexBoxRow>
+        <h3>Transfer ETH  <Button onClick={dropdown}><BsQrCodeScan/></Button></h3>
+        <div id='eth-qr' style={{position:'absolute',  display:'none',   height:'100%',  borderRadius:'17px'}}><Scanner onResult={(address: string) =>  setETHRecipient(address)} />
+        </div><FlexBoxRow>
           <label>Amount </label>
           <Input id= 'ethAmt' 
             style={{ marginRight: 8 }}
@@ -51,7 +62,7 @@ export  function TransferETH() {
             style={{ marginRight: 8 }}
             value={ETHRecipient}
             onChange={(e) => setETHRecipient(e.target.value)}
-          ></Input><Scanner onResult={(address: string) =>  setETHRecipient(address)} />
+          ></Input>
         </FlexBoxRow>
         <FlexBoxRow>
           <label>Message </label>

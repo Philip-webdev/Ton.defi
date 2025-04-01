@@ -13,12 +13,21 @@ export function TransferTon() {
   const [tonRecipient, setTonRecipient] = useState(
     "UQBx_jqTG0klK4UJZlaEfK0J5TvJmj3B3-vbpFBTmYdOODMR"
   );
-
+  const dropdown = () => {
+   
+    const section = document.getElementById('ton-qr') as HTMLElement | null;
+  
+    if (section != null && section.style.display == 'block') {
+        section.style.display = 'none'; 
+    } else if(section != null) {
+      section.style.display = 'block';
+    }
+  };
   return (
     <Card>
       <FlexBoxCol>
-        <h3>Transfer TON <Button onClick={Scanner}><BsQrCodeScan/></Button></h3> 
-        <div style={{position:'absolute'}}><Scanner    onResult={(address: string) =>  setTonRecipient(address)} /></div>
+        <h3>Transfer TON <Button onClick={dropdown}><BsQrCodeScan/></Button></h3> 
+        <div id='ton-qr' style={{position:'absolute',  display:'none',   height:'100%',  borderRadius:'17px'}}><Scanner style={{  height:'100%'}}  id='QrReader'  onResult={(address: string) =>  setTonRecipient(address)} /></div>
         <FlexBoxRow>
           <label>Amount </label> 
           <Input
