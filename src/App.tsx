@@ -93,7 +93,7 @@ function App() {
       <Route path="/security" Component={security}/>
       <Route path="/settings" Component={settings}/>
       <Route path="/organizer" Component={settings}/>
-      <Route path="/scan" Component={Scanner}/>
+      
       <Route path="usdt" Component={usdt}/>
     </Routes>
   </HashRouter>

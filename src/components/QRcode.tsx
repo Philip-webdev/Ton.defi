@@ -12,20 +12,22 @@ function onScanSuccess(decodedText: any) {
   
 export default function QRScanner({ onRender }: QRScannerProps) {
       useEffect(() => {
-                const scanner = new Html5QrcodeScanner("reader", {
-                              fps: 10,
-                             qrbox: { width: 900, height: 300 },  aspectRatio:1.777778,   
-                }, false); //  'verbose' argument as false
+            const scanner = new Html5QrcodeScanner("reader", {
+              fps: 10,
+                 qrbox: { width: 900, height: 300 },  aspectRatio:1.777778,   
+            }, false); //  'verbose' argument as false
 
-                        scanner.render(
-                                      onScanSuccess,
-                                                  (error) => console.warn(error)
-                        );
+            scanner.render(
+                  (decodedText) => {
+                  onRender(decodedText); // Pass the decoded text to the onRender prop
+                  },
+                      (error) => console.warn(error)
+            );
 
-                                return () => {
-                                              scanner.clear().catch(console.error);
-                                };
-                              });
+                return () => {
+                      scanner.clear().catch(console.error);
+                };
+              });
 
                                   return( <div   style={{
                                     display: "flex",
