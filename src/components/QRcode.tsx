@@ -25,8 +25,8 @@ export default function QRScanner({ onRender }: QRScannerProps) {
               (error) => console.warn(error)
         );
 
-            return () => {
-              scanner.clear().catch(console.error);
+          return () => {
+                scanner.clear().catch(console.error);
             };
       });
 

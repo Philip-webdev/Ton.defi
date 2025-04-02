@@ -186,7 +186,19 @@ const assign = ()=>{
       
       navigator.clipboard.writeText(copyText.innerText);
       
-      alert("Copied!");
+      const alertBox = document.createElement('div');
+      alertBox.innerText = "Copied!";
+      alertBox.style.position = 'fixed';
+      alertBox.style.bottom = '20px';
+      alertBox.style.right = '20px';
+      alertBox.style.backgroundColor = '#4CAF50';
+      alertBox.style.color = 'white';
+      alertBox.style.padding = '10px 20px';
+      alertBox.style.borderRadius = '5px';
+      alertBox.style.boxShadow = '0 2px 5px rgba(0, 0, 0, 0.3)';
+      alertBox.style.fontFamily = 'Lexend';
+      alertBox.style.zIndex = '1000';
+      document.body.appendChild(alertBox);
 
 
     }
@@ -197,7 +209,19 @@ const assign = ()=>{
       
       navigator.clipboard.writeText(copyText.innerText);
       
-      alert("Copied!");
+      const alertBox = document.createElement('div');
+      alertBox.innerText = "Copied!";
+      alertBox.style.position = 'fixed';
+      alertBox.style.bottom = '20px';
+      alertBox.style.right = '20px';
+      alertBox.style.backgroundColor = '#4CAF50';
+      alertBox.style.color = 'white';
+      alertBox.style.padding = '10px 20px';
+      alertBox.style.borderRadius = '5px';
+      alertBox.style.boxShadow = '0 2px 5px rgba(0, 0, 0, 0.3)';
+      alertBox.style.fontFamily = 'Lexend';
+      alertBox.style.zIndex = '1000';
+      document.body.appendChild(alertBox);
 
 
     }
@@ -208,7 +232,23 @@ const assign = ()=>{
       
       navigator.clipboard.writeText(copyText.innerText);
       
-      alert("Copied!");
+      const alertBox = document.createElement('div');
+      alertBox.innerText = "Copied!";
+      alertBox.style.position = 'fixed';
+      alertBox.style.bottom = '20px';
+      alertBox.style.right = '20px';
+      alertBox.style.backgroundColor = '#4CAF50';
+      alertBox.style.color = 'white';
+      alertBox.style.padding = '10px 20px';
+      alertBox.style.borderRadius = '5px';
+      alertBox.style.boxShadow = '0 2px 5px rgba(0, 0, 0, 0.3)';
+      alertBox.style.fontFamily = 'Lexend';
+      alertBox.style.zIndex = '1000';
+      document.body.appendChild(alertBox);
+
+      setTimeout(() => {
+        document.body.removeChild(alertBox);
+      }, 3000);
 
 
     }
