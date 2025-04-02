@@ -12,29 +12,42 @@ function onScanSuccess(decodedText: any) {
   
 export default function QRScanner({ onRender }: QRScannerProps) {
       useEffect(() => {
-            const scanner = new Html5QrcodeScanner("reader", {
-              fps: 10,
-                 qrbox: { width: 900, height: 300 },  aspectRatio:1.777778,   
-            }, false); //  'verbose' argument as false
+        const scanner = new Html5QrcodeScanner("reader", {
+          fps: 10,
+          qrbox: { width: 500, height: 300 }, 
+          aspectRatio: 1.777778,   
+        }, false); // 'verbose' argument as false
 
-            scanner.render(
-                  (decodedText) => {
-                  onRender(decodedText); // Pass the decoded text to the onRender prop
-                  },
-                      (error) => console.warn(error)
-            );
+        scanner.render(
+          (decodedText) => {
+          onRender(decodedText); // Pass the decoded text to the onRender prop
+          },
+              (error) => console.warn(error)
+        );
 
-                return () => {
-                      scanner.clear().catch(console.error);
-                };
-              });
+            return () => {
+              scanner.clear().catch(console.error);
+            };
+      });
+
+      // Ensure the scanner's camera view covers the div and is centered
+      useEffect(() => {
+        const readerElement = document.getElementById("reader");
+        if (readerElement) {
+          readerElement.style.position = "relative";
+          readerElement.style.overflow = "hidden";
+          readerElement.style.display = "flex";
+          readerElement.style.justifyContent = "center";
+          readerElement.style.alignItems = "center";
+        }
+      }, []);
 
                                   return( <div   style={{
                                     display: "flex",
                                     justifyContent: "center",
                                     alignItems: "center",
-                                    height: "75vh", // Full viewport height
-                                    width: "75vh", // Full viewport width
+                                    height: "60vh", // Full viewport height
+                                    width: "60vh", // Full viewport width
                                     backgroundColor: "white",
                                     borderRadius: "17px",
                                   }} id="reader"></div>

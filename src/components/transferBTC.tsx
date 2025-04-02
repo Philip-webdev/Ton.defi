@@ -43,7 +43,7 @@ const dropdown = () => {
     <Card>
       <FlexBoxCol>
         <h3>Transfer BTC  <Button onClick={dropdown}><BsQrCodeScan/></Button></h3>
-         <div id='btc-qr' style={{ position: 'absolute',top: '50%', left: '50%',transform: 'translate(-50%, -50%)' }}><QRScanner onRender={(address: string) =>  setBTCRecipient(address)} /></div>
+         <div id='btc-qr' style={{display:'none', position: 'absolute',top: '50%', left: '50%',transform: 'translate(-50%, -50%)' }}><QRScanner onRender={(address: string) =>  setBTCRecipient(address)} /></div>
         <FlexBoxRow>
           <label>Amount </label>
           <Input
