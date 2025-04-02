@@ -4,7 +4,8 @@ import { Button } from "./styled/styled";
 import '../index.css';
 import { TronWeb } from 'tronweb';
 import * as multichainWallet from 'multichain-crypto-wallet';
-import { BsHouse, BsWallet2, BsShop, BsLightningCharge, BsCashStack } from "react-icons/bs";
+import { BsHouse, BsWallet2, BsShop, BsLightningCharge, BsCashStack, BsCopy } from "react-icons/bs";
+import { id } from "ethers";
  
 const StyledApp = styled.div`
   background-color: #F9F9F9;
@@ -157,11 +158,63 @@ function Register() {
           }
         
     }, [ ]); // Run this effect only once
-    
+    const [click, clicked] = useState(false);
+    const [clickFocus, Setclicked] = useState('0');
 
+const assign = ()=>{
+  var i = '1';
+  var i = i + '1';
+  Setclicked(i);
+}
+
+    if(!click)  {
+     function copy() {
+   
+      var copyText = document.getElementById(clickFocus) as HTMLDivElement;
+    
+      
+      navigator.clipboard.writeText(copyText.innerText);
+      
+      alert("Copied the text: " + copyText.innerText);
+
+
+    }}
+    function copy1() {
+   
+      var copyText = document.getElementById("ethcopy") as HTMLDivElement;
+    
+      
+      navigator.clipboard.writeText(copyText.innerText);
+      
+      alert("Copied the text: " + copyText.innerText);
+
+
+    }
+    function copy2() {
+   
+      var copyText = document.getElementById("solcopy") as HTMLDivElement;
+    
+      
+      navigator.clipboard.writeText(copyText.innerText);
+      
+      alert("Copied the text: " + copyText.innerText);
+
+
+    }
+    function copy3() {
+   
+      var copyText = document.getElementById("tronCopy") as HTMLDivElement;
+    
+      
+      navigator.clipboard.writeText(copyText.innerText);
+      
+      alert("Copied the text: " + copyText.innerText);
+
+
+    }
 
     return (
-        <StyledApp>
+        <StyledApp> 
             <AppContainer> 
               <div style={{right:'0'}}><Button onClick={alreadyExists}  >Import Existing wallet</Button></div>
               <br/>
@@ -170,8 +223,8 @@ function Register() {
                         <img src='https://i.imgur.com/sSYmdfQ.png' alt='bitcoin' style={{ width: '40px', height: '40px' }} />
                     </div>
                     <div style={{ display:'inline', pointerEvents:'painted' }}>
-                        <div style={{ zoom:'90%', marginLeft:'7px' }}>Bitcoin wallet</div> 
-                        <div style={{ zoom:'57%', marginLeft:'8px', width:'fit-content' }}>{BitcoinWalletAddress}</div>
+                        <div style={{ zoom:'90%', marginLeft:'7px' }}>Bitcoin wallet   <BsCopy onClick={assign}/></div> 
+                        <div id='11' style={{ zoom:'57%', marginLeft:'8px', width:'fit-content' }}>{BitcoinWalletAddress}  </div>
                     </div>
                 </ExPanel>
                 <br/> 
@@ -180,8 +233,8 @@ function Register() {
                         <img src='https://i.imgur.com/dhJjQcO.png' alt='Ethereum' style={{ width: '40px', height: '40px' }} />
                     </div>
                     <div style={{ display:'inline', pointerEvents:'painted' }}>
-                        <div style={{ zoom:'90%', marginLeft:'7px' }}>Ethereum wallet</div> 
-                        <div style={{ zoom:'57%', marginLeft:'8px', width:'fit-content' }}>{EthereumWalletAddress}</div>
+                        <div style={{ zoom:'90%', marginLeft:'7px' }}>Ethereum wallet   <BsCopy onClick={copy1}/></div> 
+                        <div   id="addresses" style={{ zoom:'57%', marginLeft:'8px', width:'fit-content' }}>{EthereumWalletAddress}  </div>
                     </div>
                 </ExPanel>
                 <br/> 
@@ -190,8 +243,8 @@ function Register() {
                         <img src='https://i.imgur.com/rjWW55s.png' alt='Solana' style={{ width: '40px', height: '40px' }} />
                     </div> 
                     <div style={{ display:'inline' }}>  
-                        <div style={{ zoom:'90%', marginLeft:'7px' }}>Solana wallet</div>
-                        <div style={{ zoom:'57%', marginLeft:'8px', width:'fit-content' }}>{SolanaWalletAddress}</div>
+                        <div style={{ zoom:'90%', marginLeft:'7px' }}>Solana wallet  <BsCopy onClick={copy2}/></div>
+                        <div  id="addresses" style={{ zoom:'57%', marginLeft:'8px', width:'fit-content' }}>{SolanaWalletAddress}  </div>
                     </div>
                 </ExPanel>
                 <br/> 
@@ -200,8 +253,8 @@ function Register() {
                     <img src='https://i.imgur.com/ywfZokP.png' alt='Tron' style={{ width: '40px', height: '40px' }} />
                   </div>
                   <div style={{ display:'inline' }}>
-                    <div style={{ zoom:'90%', marginLeft:'7px' }}>Tron wallet</div>
-                    <div style={{ zoom:'57%', marginLeft:'8px', width:'fit-content' }}>{tronWalletAddress}</div>
+                    <div style={{ zoom:'90%', marginLeft:'7px' }}>Tron wallet   <BsCopy onClick={copy3}/></div>
+                    <div  id="addresses" style={{ zoom:'57%', marginLeft:'8px', width:'fit-content' }}>{tronWalletAddress}  </div>
                   </div>
                 </ExPanel>
                 <br/>

@@ -1,49 +1,42 @@
-import  { useState } from 'react';
-import { QrReader } from 'react-qr-reader';  
-import '../index.css';
+import { Html5QrcodeScanner } from "html5-qrcode";
+import { useEffect } from "react";
+
+interface QRScannerProps {
+  onRender: (decodedText: any) => void;
+}
+function onScanSuccess(decodedText: any) {
  
+  return {decodedText}
+}
 
-const Scanner = (onResult:any) => {
+  
+export default function QRScanner({ onRender }: QRScannerProps) {
+      useEffect(() => {
+                const scanner = new Html5QrcodeScanner("reader", {
+                              fps: 10,
+                             qrbox: { width: 900, height: 300 },  aspectRatio:1.777778,   
+                }, false); //  'verbose' argument as false
+
+                        scanner.render(
+                                      onScanSuccess,
+                                                  (error) => console.warn(error)
+                        );
+
+                                return () => {
+                                              scanner.clear().catch(console.error);
+                                };
+                              });
+
+                                  return( <div   style={{
+                                    display: "flex",
+                                    justifyContent: "center",
+                                    alignItems: "center",
+                                    height: "75vh", // Full viewport height
+                                    width: "75vh", // Full viewport width
+                                    backgroundColor: "white",
+                                    borderRadius: "17px",
+                                  }} id="reader"></div>
+                                );
+                            };
+
  
-  const [showDialog, setDiaglog] = useState(false);
-  const [processing, setProcessing] = useState(false);
-  const [precScan, setPrecScan] = useState("");
-  const [selected, setSelected] = useState("environment");
-
-  const handleScan = (scanData: string) => {
-
-    if (scanData && scanData) {
-      window.location.href = ''
-      onResult(scanData);
-    }
-  };
-  const handleError = (err: any) => {
-    console.error(err);
-  };
-  return (
-    <div>
-     
-      
-      {/* <select onChange={(e) => setSelected(e.target.value)}>
-        <option value={"environment"}>Cámara trasera</option>
-        <option value={"user"}>Cámara delantera</option>
-      </select> */}
-      {!showDialog && !processing && (
-        <QrReader
-           
-          onResult={(result, error) => {
-            if (!!result) {
-              handleScan(result.getText());
-            }
-
-            if (!!error) {
-              handleError(error);
-            }
-          } }
-          className="qr-reader" constraints={{ facingMode: selected }}        />
-      )}
-    </div>
-  );
-};
-
-export default Scanner;

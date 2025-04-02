@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { Address, toNano } from "ton";
 import { useTonConnect } from "../hooks/useTonConnect";
 import { Card, FlexBoxCol, FlexBoxRow, Button, Input } from "./styled/styled";
-import { Scanner } from "./Send";
+import QRScanner from "./QRcode";
 import { BsQrCodeScan } from "react-icons/bs";
 
 export function TransferTon() {
@@ -27,7 +27,7 @@ export function TransferTon() {
     <Card>
       <FlexBoxCol>
         <h3>Transfer TON <Button onClick={dropdown}><BsQrCodeScan/></Button></h3> 
-        <div id='ton-qr' style={{position:'absolute',  display:'none',   height:'100%',  borderRadius:'17px'}}><Scanner style={{  height:'100%'}}  id='QrReader'  onResult={(address: string) =>  setTonRecipient(address)} /></div>
+        <div id='ton-qr' style={{ position: 'absolute',top: '50%', left: '50%',transform: 'translate(-50%, -50%)' }}><QRScanner onRender={(address: string) =>  setTonRecipient(address)} /></div>
         <FlexBoxRow>
           <label>Amount </label> 
           <Input

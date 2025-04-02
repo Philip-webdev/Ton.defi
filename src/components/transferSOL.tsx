@@ -1,8 +1,9 @@
 import { useState } from "react";
 import { Button, FlexBoxCol, FlexBoxRow, Input, Card } from "../components/styled/styled";
 import * as multichainWallet from 'multichain-crypto-wallet';
-import Scanner from "./QRcode";
+ 
 import { BsQrCodeScan } from "react-icons/bs";
+import QRScanner from "./QRcode";
 
 export function TransferSOL() {
     const [SOLAmount, setSOLAmount] = useState<number>(0);
@@ -47,7 +48,7 @@ export function TransferSOL() {
         <Card>
             <FlexBoxCol>
                 <h3>Transfer SOL  <Button onClick={dropdown}><BsQrCodeScan/></Button></h3>
-                <div id='sol-qr' style={{position:'absolute',  display:'none',   height:'100%',  borderRadius:'17px'}}><Scanner onResult={(address: string) =>  setSOLRecipient(address)} />
+                <div id='sol-qr' style={{ position: 'absolute',top: '50%', left: '50%',transform: 'translate(-50%, -50%)' }}><QRScanner onRender={(address: string) =>  setSOLRecipient(address)} />
                 </div> <FlexBoxRow>
                     <label>Amount </label>
                     <Input

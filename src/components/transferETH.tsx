@@ -2,8 +2,9 @@ import { connected } from "process";
 import { useState } from "react";
 import { Button, FlexBoxCol, FlexBoxRow, Input, Card} from "../components/styled/styled";
 import * as multichainWallet from 'multichain-crypto-wallet';
-import Scanner from "./QRcode";
+ 
 import { BsQrCodeScan } from "react-icons/bs";
+import QRScanner from "./QRcode";
 
 export  function TransferETH() {
     const [ETHAmount, setETHAmount] = useState<number>(0);
@@ -46,7 +47,7 @@ const dropdown = () => {
     <Card>
       <FlexBoxCol>
         <h3>Transfer ETH  <Button onClick={dropdown}><BsQrCodeScan/></Button></h3>
-        <div id='eth-qr' style={{position:'absolute',  display:'none',   height:'100%',  borderRadius:'17px'}}><Scanner onResult={(address: string) =>  setETHRecipient(address)} />
+        <div id='eth-qr' style={{ position: 'absolute',top: '50%', left: '50%',transform: 'translate(-50%, -50%)' }}><QRScanner onRender={(address: string) =>  setETHRecipient(address)} />
         </div><FlexBoxRow>
           <label>Amount </label>
           <Input id= 'ethAmt' 

@@ -14,7 +14,6 @@ import { TransferETH } from "./transferETH";
 import { TransferSOL } from "./transferSOL";
 import Usdt from "./USDT";    
 import  { useState } from 'react';
-import { QrReader } from 'react-qr-reader';
 import { TupleReader } from "ton-core";
 
 const StyledApp = styled.div`
@@ -46,45 +45,7 @@ background-color: white;
 `;
  
 
-const Scanner = (onResult: any) => {
-  const [code, setCode] = useState(null);
-  const [showDialog, setDiaglog] = useState(false);
-  const [processing, setProcessing] = useState(false);
-  const [precScan, setPrecScan] = useState("");
-  const [selected, setSelected] = useState("environment");
-
-  const handleScan = (scanData: string) => {
-
-    if (scanData && scanData) {
-      // window.location.href = '/'
-      onResult(scanData);
-      setProcessing(true)
-    }
-  };
-
-  const handleError = (err: any) => {
-    console.error(err);
-  };
-
-  return (
-    <div>
-       {!showDialog && !processing && (
-        <QrReader
-          constraints={{ facingMode: selected }}
-          scanDelay={500}
-          onResult={(result: any) => {
-            if (result?.text) {
-              handleScan(result.text);
-            }
-          }}
-          className="qr-reader"
-        />
-      )}
-    </div>
-  );
-};
-
-export { Scanner };
+ 
 
 
 const dropdown = () => {
