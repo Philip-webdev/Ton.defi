@@ -188,6 +188,9 @@ const assign = ()=>{
       alertBox.style.fontFamily = 'Lexend';
       alertBox.style.zIndex = '1000';
       document.body.appendChild(alertBox);
+      setTimeout(() => {
+        document.body.removeChild(alertBox);
+      }, 2000);
 
 
 
@@ -212,6 +215,9 @@ const assign = ()=>{
       alertBox.style.fontFamily = 'Lexend';
       alertBox.style.zIndex = '1000';
       document.body.appendChild(alertBox);
+      setTimeout(() => {
+        document.body.removeChild(alertBox);
+      }, 2000);
 
 
     }
@@ -235,6 +241,9 @@ const assign = ()=>{
       alertBox.style.fontFamily = 'Lexend';
       alertBox.style.zIndex = '1000';
       document.body.appendChild(alertBox);
+      setTimeout(() => {
+        document.body.removeChild(alertBox);
+      }, 2000);
 
 
     }
@@ -261,7 +270,7 @@ const assign = ()=>{
 
       setTimeout(() => {
         document.body.removeChild(alertBox);
-      }, 3000);
+      }, 2000);
 
 
     }

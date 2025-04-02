@@ -29,7 +29,12 @@ export default function QRScanner({ onRender }: QRScannerProps) {
                 scanner.clear().catch(console.error);
             };
       });
-
+const onMouseout = () => {
+    const readerElement = document.getElementById('reader');
+    if (readerElement) {
+      readerElement.style.display = 'none';
+    }
+  }
       // Ensure the scanner's camera view covers the div and is centered
       useEffect(() => {
         const readerElement = document.getElementById("reader");
@@ -41,8 +46,9 @@ export default function QRScanner({ onRender }: QRScannerProps) {
           readerElement.style.alignItems = "center";
         }
       }, []);
+     
 
-                                  return( <div   style={{
+                                  return( <div onMouseOut={onMouseout}  style={{
                                     display: "flex",
                                     justifyContent: "center",
                                     alignItems: "center",

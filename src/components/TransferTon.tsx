@@ -23,6 +23,7 @@ export function TransferTon() {
       section.style.display = 'block';
     }
   };
+  
   return (
     <Card>
       <FlexBoxCol>
