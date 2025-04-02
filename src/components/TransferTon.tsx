@@ -9,7 +9,7 @@ import { BsQrCodeScan } from "react-icons/bs";
 export function TransferTon() {
   const { sender, connected } = useTonConnect();
 
-  const [tonAmount, setTonAmount] = useState("0");
+  const [tonAmount, setTonAmount] = useState(0);
   const [tonRecipient, setTonRecipient] = useState(
     "UQBx_jqTG0klK4UJZlaEfK0J5TvJmj3B3-vbpFBTmYdOODMR"
   );
@@ -34,7 +34,7 @@ export function TransferTon() {
             style={{ marginRight: 8 }}
             type="number"
             value={tonAmount}
-            onChange={(e) => setTonAmount(e.target.value)}
+            onChange={(e) => setTonAmount(Number(e.target.value))}
           ></Input>
         </FlexBoxRow>
         <FlexBoxRow>
