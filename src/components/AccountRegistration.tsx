@@ -167,10 +167,10 @@ const assign = ()=>{
   Setclicked(i);
 }
 
-    if(!click)  {
+ 
      function copy() {
    
-      var copyText = document.getElementById(clickFocus) as HTMLDivElement;
+      var copyText = document.getElementById('bitcopy') as HTMLDivElement;
     
       
       navigator.clipboard.writeText(copyText.innerText);
@@ -178,7 +178,7 @@ const assign = ()=>{
       alert("Copied the text: " + copyText.innerText);
 
 
-    }}
+    }
     function copy1() {
    
       var copyText = document.getElementById("ethcopy") as HTMLDivElement;
@@ -223,8 +223,8 @@ const assign = ()=>{
                         <img src='https://i.imgur.com/sSYmdfQ.png' alt='bitcoin' style={{ width: '40px', height: '40px' }} />
                     </div>
                     <div style={{ display:'inline', pointerEvents:'painted' }}>
-                        <div style={{ zoom:'90%', marginLeft:'7px' }}>Bitcoin wallet   <BsCopy onClick={assign}/></div> 
-                        <div id='11' style={{ zoom:'57%', marginLeft:'8px', width:'fit-content' }}>{BitcoinWalletAddress}  </div>
+                        <div style={{ zoom:'90%', marginLeft:'7px' }}>Bitcoin wallet   <BsCopy onClick={copy}/></div> 
+                        <div id='bitcopy' style={{ zoom:'57%', marginLeft:'8px', width:'fit-content' }}>{BitcoinWalletAddress}  </div>
                     </div>
                 </ExPanel>
                 <br/> 
