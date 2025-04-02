@@ -186,7 +186,7 @@ const assign = ()=>{
       
       navigator.clipboard.writeText(copyText.innerText);
       
-      alert("Copied the text: " + copyText.innerText);
+      alert("Copied!");
 
 
     }
@@ -197,7 +197,7 @@ const assign = ()=>{
       
       navigator.clipboard.writeText(copyText.innerText);
       
-      alert("Copied the text: " + copyText.innerText);
+      alert("Copied!");
 
 
     }
@@ -208,7 +208,7 @@ const assign = ()=>{
       
       navigator.clipboard.writeText(copyText.innerText);
       
-      alert("Copied the text: " + copyText.innerText);
+      alert("Copied!");
 
 
     }
@@ -223,7 +223,7 @@ const assign = ()=>{
                         <img src='https://i.imgur.com/sSYmdfQ.png' alt='bitcoin' style={{ width: '40px', height: '40px' }} />
                     </div>
                     <div style={{ display:'inline', pointerEvents:'painted' }}>
-                        <div style={{ zoom:'90%', marginLeft:'7px' }}>Bitcoin wallet   <BsCopy onClick={copy}/></div> 
+                        <div style={{ zoom:'90%', marginLeft:'7px' }}>Bitcoin wallet          <BsCopy onClick={copy}/></div> 
                         <div id='bitcopy' style={{ zoom:'57%', marginLeft:'8px', width:'fit-content' }}>{BitcoinWalletAddress}  </div>
                     </div>
                 </ExPanel>
@@ -233,8 +233,8 @@ const assign = ()=>{
                         <img src='https://i.imgur.com/dhJjQcO.png' alt='Ethereum' style={{ width: '40px', height: '40px' }} />
                     </div>
                     <div style={{ display:'inline', pointerEvents:'painted' }}>
-                        <div style={{ zoom:'90%', marginLeft:'7px' }}>Ethereum wallet   <BsCopy onClick={copy1}/></div> 
-                        <div   id="addresses" style={{ zoom:'57%', marginLeft:'8px', width:'fit-content' }}>{EthereumWalletAddress}  </div>
+                        <div style={{ zoom:'90%', marginLeft:'7px' }}>Ethereum wallet        <BsCopy onClick={copy1}/></div> 
+                        <div   id="ethcopy" style={{ zoom:'57%', marginLeft:'8px', width:'fit-content' }}>{EthereumWalletAddress}  </div>
                     </div>
                 </ExPanel>
                 <br/> 
@@ -243,8 +243,8 @@ const assign = ()=>{
                         <img src='https://i.imgur.com/rjWW55s.png' alt='Solana' style={{ width: '40px', height: '40px' }} />
                     </div> 
                     <div style={{ display:'inline' }}>  
-                        <div style={{ zoom:'90%', marginLeft:'7px' }}>Solana wallet  <BsCopy onClick={copy2}/></div>
-                        <div  id="addresses" style={{ zoom:'57%', marginLeft:'8px', width:'fit-content' }}>{SolanaWalletAddress}  </div>
+                        <div style={{ zoom:'90%', marginLeft:'7px' }}>Solana wallet           <BsCopy onClick={copy2}/></div>
+                        <div  id="solcopy" style={{ zoom:'57%', marginLeft:'8px', width:'fit-content' }}>{SolanaWalletAddress}  </div>
                     </div>
                 </ExPanel>
                 <br/> 
@@ -253,8 +253,8 @@ const assign = ()=>{
                     <img src='https://i.imgur.com/ywfZokP.png' alt='Tron' style={{ width: '40px', height: '40px' }} />
                   </div>
                   <div style={{ display:'inline' }}>
-                    <div style={{ zoom:'90%', marginLeft:'7px' }}>Tron wallet   <BsCopy onClick={copy3}/></div>
-                    <div  id="addresses" style={{ zoom:'57%', marginLeft:'8px', width:'fit-content' }}>{tronWalletAddress}  </div>
+                    <div style={{ zoom:'90%', marginLeft:'7px' }}>Tron wallet                    <BsCopy onClick={copy3}/></div>
+                    <div  id="tronCopy" style={{ zoom:'57%', marginLeft:'8px', width:'fit-content' }}>{tronWalletAddress}  </div>
                   </div>
                 </ExPanel>
                 <br/>
