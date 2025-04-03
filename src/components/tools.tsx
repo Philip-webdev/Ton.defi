@@ -9,7 +9,7 @@ const StyledApp = styled.div`
   color: black;
   margin:0;
 font-family: Lexend;
- 
+ font-size: 40%;
    @media (prefers-color-scheme: dark) {
      background-color: rgb(15,15,15);
       color: white ;
