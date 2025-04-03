@@ -47,10 +47,8 @@ export function TransferSOL() {
     return (
         <Card>
             <FlexBoxCol>
-                <h3>Transfer SOL  <Button onClick={dropdown}><BsQrCodeScan/></Button></h3>
-                <div id='sol-qr' style={{ display: 'none', position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', zIndex: 1000 }}>
-                    <QRScanner onRender={(address: string) => setSOLRecipient(address)} />
-                </div><FlexBoxRow>
+                <h3>Transfer SOL </h3>
+     <FlexBoxRow>
                     <label>Amount </label>
                     <Input
                         style={{ marginRight: 8 }}

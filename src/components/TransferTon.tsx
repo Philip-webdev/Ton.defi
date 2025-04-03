@@ -27,8 +27,8 @@ export function TransferTon() {
   return (
     <Card>
       <FlexBoxCol>
-        <h3>Transfer TON <Button onClick={dropdown}><BsQrCodeScan/></Button></h3> 
-        <div id='ton-qr' style={{display:'none',  position: 'absolute',top: '50%', left: '50%',transform: 'translate(-50%, -50%)' }}><QRScanner onRender={(address: string) =>  setTonRecipient(address)} /></div>
+        <h3>Transfer TON </h3> 
+     
         <FlexBoxRow>
           <label>Amount </label> 
           <Input

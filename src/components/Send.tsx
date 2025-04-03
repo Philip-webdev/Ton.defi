@@ -15,6 +15,7 @@ import { TransferSOL } from "./transferSOL";
 import Usdt from "./USDT";    
 import  { useState } from 'react';
 import { TupleReader } from "ton-core";
+import QRScanner from "./QRcode";
 
 const StyledApp = styled.div`
   background-color:  #F9F9F9;
@@ -44,9 +45,43 @@ background-color: white;
   }
 `;
  
+const dropdownScan = () => {
+   
+  const section = document.getElementById('ton-qr') as HTMLElement | null;
 
- 
+  if (section != null && section.style.display == 'block') {
+      section.style.display = 'none'; 
+  } else if(section != null) {
+    section.style.display = 'block';
+  }
+};
 
+ const [result, setResult] = useState('');
+
+ function copy() {
+   
+  var copyText = document.getElementById('res') as HTMLDivElement;
+
+  
+  navigator.clipboard.writeText(copyText.innerText);
+  
+  const alertBox = document.createElement('div');
+  alertBox.innerText = "Copied!";
+  alertBox.style.position = 'fixed';
+  alertBox.style.bottom = '20px';
+  alertBox.style.right = '40%';
+  alertBox.style.backgroundColor = '#4CAF50';
+  alertBox.style.color = 'white';
+  alertBox.style.padding = '10px 20px';
+  alertBox.style.borderRadius = '5px';
+  alertBox.style.boxShadow = '0 2px 5px rgba(0, 0, 0, 0.3)';
+  alertBox.style.fontFamily = 'Lexend';
+  alertBox.style.zIndex = '1000';
+  document.body.appendChild(alertBox);
+  setTimeout(() => {
+    document.body.removeChild(alertBox);
+  }, 2000);
+}
 
 const dropdown = () => {
    
@@ -112,7 +147,9 @@ const dropdown5 = () => {
     <StyledApp >
 
       <AppContainer>
-      
+       <div id='ton-qr' style={{display:'none',  position: 'absolute',top: '50%', left: '50%',transform: 'translate(-50%, -50%)' }}><QRScanner onRender={(address: string) =>  setResult(address)} />
+        <div id="res">{result}</div>
+       </div>
         <FlexBoxCol>
           <FlexBoxRow>
             
@@ -124,6 +161,7 @@ const dropdown5 = () => {
                 : "N/A"}
             </Button>
             <TonConnectButton />
+            <Button onClick={ dropdownScan}><BsQrCodeScan/></Button>
           </FlexBoxRow>
           <div style={{justifyContent:"space-evenly"}}>
          <div onClick={dropdown} style={{cursor:'pointer', left:'0'}}><Icon style={{borderRadius:'7px', width:'85.9%', padding:'20px',  lineHeight:'17px', margin:'7px', fontSize:'larger'}}><img src="https://i.imgur.com/JlK5oxR.png" height='15px' width='15px'/> TON</Icon></div> 

@@ -46,9 +46,9 @@ const dropdown = () => {
   return (
     <Card>
       <FlexBoxCol>
-        <h3>Transfer ETH  <Button onClick={dropdown}><BsQrCodeScan/></Button></h3>
-        <div id='eth-qr' style={{display:'none', position: 'absolute',top: '50%', left: '50%',transform: 'translate(-50%, -50%)' }}><QRScanner onRender={(address: string) =>  setETHRecipient(address)} />
-        </div><FlexBoxRow>
+        <h3>Transfer ETH </h3>
+        
+        <FlexBoxRow>
           <label>Amount </label>
           <Input id= 'ethAmt' 
             style={{ marginRight: 8 }}
