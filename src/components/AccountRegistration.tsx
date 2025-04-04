@@ -14,7 +14,7 @@ const StyledApp = styled.div`
   font-family: Lexend;
    min-height: 250vh;
   padding: 20px;
- zoom :70%;
+ zoom :90%;
   @media (prefers-color-scheme: dark) {
     background-color: rgb(33,33,33);
     color: white;

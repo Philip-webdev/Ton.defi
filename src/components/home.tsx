@@ -22,7 +22,7 @@ font-family: Lexend;
   }
   min-height: fit-content ;
   padding: 20px 20px;
-  zoom :70%;
+   zoom :90%;
    
 `;
 

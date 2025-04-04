@@ -17,7 +17,7 @@ const StyledApp = styled.div`
   }
   min-height: 100vh;
   padding: 20px 20px;
-  zoom :70%;
+   zoom :90%;
 `;
 const Icon = styled.div`
 background-color: white;

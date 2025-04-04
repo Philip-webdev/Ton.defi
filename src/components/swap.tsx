@@ -13,8 +13,7 @@ import { BsHouse, BsWallet2,   BsLightningCharge, BsCashStack } from 'react-icon
 const StyledApp = styled.div`
   background-color:  #F9F9F9;
   color: black;
-  font-size: 50px;
-  zoom :70%;
+   zoom :90%;
   font-family: Lexend;
   @media (prefers-color-scheme: dark) {
      background-color: rgb(33,33,33);

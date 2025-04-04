@@ -7,8 +7,7 @@ import { Button } from "./styled/styled";
 const StyledApp = styled.div`
   background-color: #F9F9F9;
   color: black;
-  border-radius: 17px;
-   zoom :70%;
+  zoom :90%;
     font-family: Lexend ;
   @media (prefers-color-scheme: dark) {
     background-color:  #F9F9F9;
