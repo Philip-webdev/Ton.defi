@@ -10,14 +10,14 @@ const StyledApp = styled.div`
   color: black;
   margin:0;
 font-family: Lexend;
- font-size: 50px;
+
    @media (prefers-color-scheme: dark) {
      background-color: rgb(15,15,15);
       color: white ;
   }
   min-height: fit-content ;
   padding: 20px 20px;
-  zoom : 100%;
+  zoom :70%;
 `;
 
 const Icon = styled.div`

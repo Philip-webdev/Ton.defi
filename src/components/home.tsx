@@ -22,8 +22,8 @@ font-family: Lexend;
   }
   min-height: fit-content ;
   padding: 20px 20px;
-  zoom : 100%;
-  font-size: 50px;
+  zoom :70%;
+   
 `;
 
 const Announcement = styled.div`

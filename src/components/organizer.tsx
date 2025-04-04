@@ -9,7 +9,7 @@ const StyledApp = styled.div`
   background-color: #F9F9F9;
   color: black;
   border-radius: 17px;
-   font-size: 50px;
+     
     font-family: Lexend ;
   @media (prefers-color-scheme: dark) {
     background-color:  #F9F9F9;
@@ -17,6 +17,7 @@ const StyledApp = styled.div`
   }
   min-height: 100vh;
   padding: 20px 20px;
+  zoom :70%;
 `;
 const Icon = styled.div`
 background-color: white;
