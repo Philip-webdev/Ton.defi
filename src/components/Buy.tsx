@@ -6,7 +6,7 @@ import { Button } from "./styled/styled";
 const StyledApp = styled.div`
   background-color: #F9F9F9;
   color: black;
-  font-size: 40%;
+ font-size: 50px;
     font-family: Lexend ;
    @media (prefers-color-scheme: dark) {
      background-color: rgb(33,33,33);

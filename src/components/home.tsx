@@ -23,7 +23,7 @@ font-family: Lexend;
   min-height: fit-content ;
   padding: 20px 20px;
   zoom : 100%;
-  font-size: 40%;
+  font-size: 50px;
 `;
 
 const Announcement = styled.div`

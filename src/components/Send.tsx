@@ -29,7 +29,7 @@ const StyledApp = styled.div`
   padding: 20px 20px;
   margin:0;
   left:0;
-  font-size: 40%;
+  font-size: 50px;
 `;
 
 const AppContainer = styled.div`
