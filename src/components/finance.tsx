@@ -16,7 +16,7 @@ zoom :70%;
      background-color: rgb(15,15,15);
       color: white ;
   }
-   min-height: 100vh;
+    min-height: 250vh;
   ;
   padding: 20px 20px;
 `;

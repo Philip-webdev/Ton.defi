@@ -12,7 +12,7 @@ zoom :70%;
      background-color: rgb(33,33,33);
       color: white ;
   }
-  min-height: 100vh;
+  min-height: 250vh;
   padding: 20px 20px;
 `;
 const ExPanel = styled.div`

@@ -20,7 +20,7 @@ const StyledApp = styled.div`
      background-color: rgb(33,33,33);
       color: white ;
   }
-  min-height: 110vh;
+   min-height: 250vh;
   padding: 20px 20px;
 `;
 const ExPanel = styled.div`

@@ -14,7 +14,7 @@ zoom :70%;
     background-color: rgb(15,15,15);
     
   }
-  min-height: 100vh;
+  min-height: 250vh;
   padding: 10px 10px;
 `;
 const Icon = styled.div`
