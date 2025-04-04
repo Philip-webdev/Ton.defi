@@ -8,12 +8,12 @@ import { Button, FlexBoxCol, FlexBoxRow } from "../components/styled/styled";
 import { useTonConnect } from "../hooks/useTonConnect";
 import { CHAIN } from "@tonconnect/protocol";
 import "@twa-dev/sdk";
-import { BsHouse, BsWallet2, BsShop, BsLightningCharge, BsCashStack, BsQrCodeScan } from "react-icons/bs";
+import { BsHouse, BsWallet2, BsShop, BsLightningCharge, BsCashStack, BsQrCodeScan, BsCopy } from "react-icons/bs";
 import { TransferBTC } from "./transferBTC";
 import { TransferETH } from "./transferETH";
 import { TransferSOL } from "./transferSOL";
 import Usdt from "./USDT";    
-import  { useState } from 'react';
+import React, { useState } from 'react';
 import { TupleReader } from "ton-core";
 import QRScanner from "./QRcode";
 
@@ -57,32 +57,37 @@ const dropdownScan = () => {
   }
 };
 
+const onMouseOut = ()=>{
+  const section = document.getElementById('ton-qr') as HTMLElement | null;
+  if (section) {
+    section.style.display = 'none'; 
+  }
+}
 
-
-//  function copy() {
+  function copy() {
    
-//   var copyText = document.getElementById('res') as HTMLDivElement;
+   var copyText = document.getElementById('res') as HTMLDivElement;
 
   
-//   navigator.clipboard.writeText(copyText.innerText);
+   navigator.clipboard.writeText(copyText.innerText);
   
-//   const alertBox = document.createElement('div');
-//   alertBox.innerText = "Copied!";
-//   alertBox.style.position = 'fixed';
-//   alertBox.style.bottom = '20px';
-//   alertBox.style.right = '40%';
-//   alertBox.style.backgroundColor = '#4CAF50';
-//   alertBox.style.color = 'white';
-//   alertBox.style.padding = '10px 20px';
-//   alertBox.style.borderRadius = '5px';
-//   alertBox.style.boxShadow = '0 2px 5px rgba(0, 0, 0, 0.3)';
-//   alertBox.style.fontFamily = 'Lexend';
-//   alertBox.style.zIndex = '1000';
-//   document.body.appendChild(alertBox);
-//   setTimeout(() => {
-//     document.body.removeChild(alertBox);
-//   }, 2000);
-// }
+   const alertBox = document.createElement('div');
+   alertBox.innerText = "Copied!";
+   alertBox.style.position = 'fixed';
+   alertBox.style.bottom = '20px';
+   alertBox.style.right = '40%';
+   alertBox.style.backgroundColor = '#4CAF50';
+   alertBox.style.color = 'white';
+   alertBox.style.padding = '10px 20px';
+   alertBox.style.borderRadius = '5px';
+   alertBox.style.boxShadow = '0 2px 5px rgba(0, 0, 0, 0.3)';
+   alertBox.style.fontFamily = 'Lexend';
+   alertBox.style.zIndex = '1000';
+   document.body.appendChild(alertBox);
+   setTimeout(() => {
+     document.body.removeChild(alertBox);
+   }, 2000);
+ }
 
 const dropdown = () => {
    
@@ -141,15 +146,15 @@ const dropdown5 = () => {
 
  function sendCoin() {
   
-  const [result, setResult] = useState('');
+  const [result, setResult] = useState(<div></div>);
   const { network } = useTonConnect();
 
   return (
     <StyledApp >
 
       <AppContainer>
-       <div id='ton-qr' style={{display:'none',  position: 'absolute',top: '50%', left: '50%',transform: 'translate(-50%, -50%)' }}><QRScanner onRender={(address: string) =>  setResult(address)} />
-        <div id="res">{result}</div>
+       <div id='ton-qr' onMouseOut={onMouseOut} style={{display:'none',  position: 'absolute',top: '50%', left: '50%',transform: 'translate(-50%, -50%)' }}><QRScanner onRender={(address: string) =>  setResult(<div>{address}<BsCopy onClick={copy}/></div>)} />
+        <div id="res"  style={{color:'green', padding: '10px', textAlign:"center", position: 'absolute',top: '50%', left: '50%',transform: 'translate(-50%, -50%)'}}>{result} </div>
        </div>
         <FlexBoxCol>
           <FlexBoxRow>
