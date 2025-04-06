@@ -1,10 +1,13 @@
 import { useEffect, useState } from "react";
+import ReactDOM from 'react-dom';
+import {QRCodeCanvas} from 'qrcode.react';
+
 import styled from "styled-components";
 import { Button } from "./styled/styled";
 import '../index.css';
 import { TronWeb } from 'tronweb';
 import * as multichainWallet from 'multichain-crypto-wallet';
-import { BsHouse, BsWallet2, BsShop, BsLightningCharge, BsCashStack, BsCopy } from "react-icons/bs";
+import { BsHouse, BsWallet2, BsShop, BsLightningCharge, BsCashStack, BsCopy, BsQrCode } from "react-icons/bs";
 import { id } from "ethers";
  
 const StyledApp = styled.div`
@@ -124,7 +127,10 @@ function Register() {
        
     };
    
-
+    const ethAddress = localStorage.getItem('ethereumWallet') as string;
+    const bitAddress = localStorage.getItem('bitcoinWallet') as string;
+    const solAddress = localStorage.getItem('solanaWallet') as string;
+    const tronAddress = localStorage.getItem('tronWallet') as string;
     useEffect(() => {
         // Load wallet addresses from local storage
         const ethAddress = localStorage.getItem('ethereumWallet');
@@ -161,12 +167,7 @@ function Register() {
     const [click, clicked] = useState(false);
     const [clickFocus, Setclicked] = useState('0');
 
-const assign = ()=>{
-  var i = '1';
-  var i = i + '1';
-  Setclicked(i);
-}
-
+ 
  
      function copy() {
    
@@ -274,11 +275,55 @@ const assign = ()=>{
 
 
     }
+    
+      const section = document.getElementById('QRcodeChoice') as HTMLElement | null;
+    if (section != null && section.innerText == 'eth'){
+    ReactDOM.render(
+      <QRCodeCanvas value={ethAddress} />,
+      document.getElementById('QRcode1')
+    );
+  }
+  else if(section != null && section.innerText == 'btc'){
+    ReactDOM.render(
+      <QRCodeCanvas value={bitAddress} />,
+      document.getElementById('QRcode2')
+    );
+  }
+  else if(section != null && section.innerText == 'sol'){
+    ReactDOM.render(
+      <QRCodeCanvas value={solAddress} />,
+      document.getElementById('QRcode3')
+    );
+  }
+  else if(section != null && section.innerText == 'trx'){
+    ReactDOM.render(
+      <QRCodeCanvas value={tronAddress} />,
+      document.getElementById('QRcode4')
+    );
+  }
+  const showPanel  = ()=>{
+    const sectionP = document.getElementById('QRcodeChoice') as HTMLElement | null;
 
+    if (sectionP != null && sectionP.style.display == 'block') {
+        sectionP.style.display = 'none'; 
+    } else if(sectionP != null) {
+      sectionP.style.display = 'block';
+    }
+  }
     return (
         <StyledApp> 
             <AppContainer> 
-              <div style={{right:'0'}}><Button onClick={alreadyExists}  >Import Existing wallet</Button></div>
+            <div id="QRcodeChoice"  style={{display:'none',      position: 'absolute',top: '50%', left: '50%',transform: 'translate(-50%, -50%)'}}> <select>
+              <option>eth</option>
+              <option>btc</option>
+              <option>sol</option>
+              <option>trx</option>
+              </select></div>
+            <div id="QRcode1"  style={{display:'none',      position: 'absolute',top: '50%', left: '50%',transform: 'translate(-50%, -50%)'}}> </div>
+            <div id="QRcode2"  style={{display:'none',      position: 'absolute',top: '50%', left: '50%',transform: 'translate(-50%, -50%)'}}> </div>
+            <div id="QRcode3"  style={{display:'none',      position: 'absolute',top: '50%', left: '50%',transform: 'translate(-50%, -50%)'}}> </div>
+            <div id="QRcode4"  style={{display:'none',      position: 'absolute',top: '50%', left: '50%',transform: 'translate(-50%, -50%)'}}> </div>
+              <div style={{right:'0'}}><Button onClick={alreadyExists}  >Import Existing wallet</Button>  <Button onClick={showPanel}><BsQrCode/></Button></div>
               <br/>
             <ExPanel style={{ display: 'flex', padding:'10px', borderRadius: '7px' }}>
                     <div>
