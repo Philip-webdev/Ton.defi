@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
-import ReactDOM from 'react-dom';
+import { createRoot } from 'react-dom/client';
 import {QRCodeCanvas} from 'qrcode.react';
-
 import styled from "styled-components";
 import { Button } from "./styled/styled";
 import '../index.css';
@@ -275,55 +274,65 @@ function Register() {
 
 
     }
-    
+    const showQR  = ()=>{
       const section = document.getElementById('QRcodeChoice') as HTMLElement | null;
-    if (section != null && section.innerText == 'eth'){
-    ReactDOM.render(
-      <QRCodeCanvas value={ethAddress} />,
-      document.getElementById('QRcode1')
-    );
-  }
-  else if(section != null && section.innerText == 'btc'){
-    ReactDOM.render(
-      <QRCodeCanvas value={bitAddress} />,
-      document.getElementById('QRcode2')
-    );
-  }
-  else if(section != null && section.innerText == 'sol'){
-    ReactDOM.render(
-      <QRCodeCanvas value={solAddress} />,
-      document.getElementById('QRcode3')
-    );
-  }
-  else if(section != null && section.innerText == 'trx'){
-    ReactDOM.render(
-      <QRCodeCanvas value={tronAddress} />,
-      document.getElementById('QRcode4')
-    );
-  }
-  const showPanel  = ()=>{
-    const sectionP = document.getElementById('QRcodeChoice') as HTMLElement | null;
-
-    if (sectionP != null && sectionP.style.display == 'block') {
-        sectionP.style.display = 'none'; 
-    } else if(sectionP != null) {
-      sectionP.style.display = 'block';
+    if (section != null) {
+      const selectedValue = (section as HTMLSelectElement).value; // Access the value of the selected option
+      if (selectedValue === 'eth') {
+      const container = document.getElementById('QRcode1');
+      if (container) {
+        const root = createRoot(container);
+        root.render(<QRCodeCanvas value={ethAddress} size={300} bgColor="black " fgColor="rgb(36, 172, 242)" />);
+      }
+      } else if (selectedValue === 'btc') {
+      const container2 = document.getElementById('QRcode2');
+      if (container2) {
+        const root = createRoot(container2);
+        root.render(<QRCodeCanvas value={bitAddress} size={300} bgColor="black" fgColor="rgb(36, 172, 242)" />);
+      }
+      } else if (selectedValue === 'sol') {
+      const container3 = document.getElementById('QRcode3');
+      if (container3) {
+        const root = createRoot(container3);
+        root.render(<QRCodeCanvas value={solAddress} size={300} bgColor="black" fgColor="rgb(36, 172, 242)"/>);
+      }
+      } else if (selectedValue === 'trx') {
+      const container4 = document.getElementById('QRcode4');
+      if (container4) {
+        const root = createRoot(container4);
+        root.render(<QRCodeCanvas value={tronAddress} size={300} bgColor="black" fgColor="rgb(36, 172, 242)" />);
+      }
+      }
     }
+  
+    
   }
+  const onMouseLeave = () => {
+    const section = document.getElementById('qr') as HTMLElement | null;
+    if (section != null && section.style.display == 'block') {
+      section.style.display = 'none'; 
+  
+  } else if(section != null && section.style.display == 'none') {
+    section.style.display = 'block';
+  }
+  };
+ 
     return (
         <StyledApp> 
-            <AppContainer> 
-            <div id="QRcodeChoice"  style={{display:'none',      position: 'absolute',top: '50%', left: '50%',transform: 'translate(-50%, -50%)'}}> <select>
-              <option>eth</option>
-              <option>btc</option>
-              <option>sol</option>
-              <option>trx</option>
+            <AppContainer  onClick={onMouseLeave}> 
+            <div   style={{position: 'absolute', left: '85%', height:'34.5px'  }}> <select id="QRcodeChoice" style={{height:'34.5px', background:'transparent', border:'none', color:'gray', fontFamily:'Lexend'}}  onChange={showQR}   >
+              <option  value="eth">eth</option>
+              <option  value="btc">btc</option>
+              <option value="sol">sol</option>
+              <option  value="trx">trx</option>
               </select></div>
-            <div id="QRcode1"  style={{display:'none',      position: 'absolute',top: '50%', left: '50%',transform: 'translate(-50%, -50%)'}}> </div>
-            <div id="QRcode2"  style={{display:'none',      position: 'absolute',top: '50%', left: '50%',transform: 'translate(-50%, -50%)'}}> </div>
-            <div id="QRcode3"  style={{display:'none',      position: 'absolute',top: '50%', left: '50%',transform: 'translate(-50%, -50%)'}}> </div>
-            <div id="QRcode4"  style={{display:'none',      position: 'absolute',top: '50%', left: '50%',transform: 'translate(-50%, -50%)'}}> </div>
-              <div style={{right:'0'}}><Button onClick={alreadyExists}  >Import Existing wallet</Button>  <Button onClick={showPanel}><BsQrCode/></Button></div>
+              <div id="qr" style={{display:'block '}} >
+            <div id="QRcode1"  style={{position: 'absolute',top: '30%', left: '50%',transform: 'translate(-50%, -50%)'}}> </div>
+            <div id="QRcode2"  style={{position: 'absolute',top: '30%', left: '50%',transform: 'translate(-50%, -50%)'}}> </div>
+            <div id="QRcode3"  style={{position: 'absolute',top: '30%', left: '50%',transform: 'translate(-50%, -50%)'}}> </div>
+            <div id="QRcode4"  style={{position: 'absolute',top: '30%', left: '50%',transform: 'translate(-50%, -50%)'}}> </div>
+            </div>
+              <div style={{right:'0'}}><Button onClick={alreadyExists}  >Import Existing wallet</Button>  <Button onClick={showQR}><BsQrCode/></Button></div>
               <br/>
             <ExPanel style={{ display: 'flex', padding:'10px', borderRadius: '7px' }}>
                     <div>
