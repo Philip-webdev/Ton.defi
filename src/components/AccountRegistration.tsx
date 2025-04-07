@@ -327,10 +327,10 @@ function Register() {
               <option  value="trx">trx</option>
               </select></div>
               <div id="qr" style={{display:'block '}} >
-            <div id="QRcode1"  style={{position: 'absolute',top: '30%', left: '50%',transform: 'translate(-50%, -50%)'}}> </div>
-            <div id="QRcode2"  style={{position: 'absolute',top: '30%', left: '50%',transform: 'translate(-50%, -50%)'}}> </div>
-            <div id="QRcode3"  style={{position: 'absolute',top: '30%', left: '50%',transform: 'translate(-50%, -50%)'}}> </div>
-            <div id="QRcode4"  style={{position: 'absolute',top: '30%', left: '50%',transform: 'translate(-50%, -50%)'}}> </div>
+            <div id="QRcode1"  style={{position: 'absolute',top: '50%', left: '50%',transform: 'translate(-50%, -50%)'}}> </div>
+            <div id="QRcode2"  style={{position: 'absolute',top: '50%', left: '50%',transform: 'translate(-50%, -50%)'}}> </div>
+            <div id="QRcode3"  style={{position: 'absolute',top: '50%', left: '50%',transform: 'translate(-50%, -50%)'}}> </div>
+            <div id="QRcode4"  style={{position: 'absolute',top: '50%', left: '50%',transform: 'translate(-50%, -50%)'}}> </div>
             </div>
               <div style={{right:'0'}}><Button onClick={alreadyExists}  >Import Existing wallet</Button>  <Button onClick={showQR}><BsQrCode/></Button></div>
               <br/>
