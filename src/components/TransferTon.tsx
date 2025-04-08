@@ -1,10 +1,8 @@
 import { useState } from "react";
-
 import { Address, toNano } from "ton";
 import { useTonConnect } from "../hooks/useTonConnect";
 import { Card, FlexBoxCol, FlexBoxRow, Button, Input } from "./styled/styled";
-import QRScanner from "./QRcode";
-import { BsQrCodeScan } from "react-icons/bs";
+
 
 export function TransferTon() {
   const { sender, connected } = useTonConnect();

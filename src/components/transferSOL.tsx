@@ -1,9 +1,7 @@
 import { useState } from "react";
 import { Button, FlexBoxCol, FlexBoxRow, Input, Card } from "../components/styled/styled";
 import * as multichainWallet from 'multichain-crypto-wallet';
- 
-import { BsQrCodeScan } from "react-icons/bs";
-import QRScanner from "./QRcode";
+
 
 export function TransferSOL() {
     const [SOLAmount, setSOLAmount] = useState<number>(0);

@@ -27,16 +27,7 @@ export  function TransferBTC() {
 
 }
 });
-const dropdown = () => {
-   
-  const section = document.getElementById('btc-qr') as HTMLElement | null;
-
-  if (section != null && section.style.display == 'block') {
-      section.style.display = 'none'; 
-  } else if(section != null) {
-    section.style.display = 'block';
-  }
-};
+ 
   
 
   return (

