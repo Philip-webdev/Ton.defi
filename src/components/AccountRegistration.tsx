@@ -162,7 +162,7 @@ function Register() {
             createWallets(); 
           }
         
-    }, [ ]); // Run this effect only once
+    }, [ 0]); // Run this effect only once
     
 
  
