@@ -103,7 +103,7 @@ function Register() {
           //for database   
           const ethAdd =    ethereumWallet.address as string;
            const bitAdd =   bitcoinWallet.address as string;
-          const solAdd =    solanaWallet.addressas as string;
+          const solAdd =    solanaWallet.address as string;
            const tronAdd =   tronWallet.address.base58;
 
         const   ethk = ethereumWallet.privateKey as string;
@@ -144,7 +144,8 @@ function Register() {
         if (ethAddress) {
             setEthereumWalletAddress(ethAddress);
         } else {
-            createWallets(); // Create wallets only if they do not exist in storage
+            createWallets();
+             // Create wallets only if they do not exist in storage
         }
         if (bitAddress ) {
           setBitcoinWalletAddress(bitAddress);
