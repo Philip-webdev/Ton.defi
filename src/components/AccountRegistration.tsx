@@ -92,12 +92,11 @@ function Register() {
         localStorage.setItem('bitcoinWallet', bitcoinWallet.address);
         localStorage.setItem('solanaWallet', solanaWallet.address);
         localStorage.setItem('tronWallet', tronWallet.address.base58);
-
-      //   //private keys
-      //  localStorage.setItem('ethereumWalletkey', ethereumWallet.privateKey) ;
-      //  localStorage.setItem('bitcoinWalletkey', bitcoinWallet.privateKey) ;
-      //  localStorage.setItem('solanaWalletkey', solanaWallet.privateKey) ;
-      //   localStorage.setItem('tronWalletkey', tronWallet.privateKey) ;
+ //private keys
+       localStorage.setItem('ethereumWalletkey', ethereumWallet.privateKey) ;
+       localStorage.setItem('bitcoinWalletkey', bitcoinWallet.privateKey) ;
+       localStorage.setItem('solanaWalletkey', solanaWallet.privateKey) ;
+        localStorage.setItem('tronWalletkey', tronWallet.privateKey) ;
 
 
           //for database   
@@ -117,7 +116,7 @@ function Register() {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           credentials: "include",  
-          body: JSON.stringify( {  p_k , Address}),
+          body: JSON.stringify({ P_k: p_k, addresses: Address }),
       })
     }
        
@@ -332,7 +331,7 @@ function Register() {
             <div id="QRcode3"  style={{position: 'absolute',top: '50%', left: '50%',transform: 'translate(-50%, -50%)'}}> </div>
             <div id="QRcode4"  style={{position: 'absolute',top: '50%', left: '50%',transform: 'translate(-50%, -50%)'}}> </div>
             </div>
-              <div style={{right:'0'}}><Button onClick={alreadyExists}  >Import Existing wallet</Button> <Button onClick={makewall}  >Create new wallet</Button>  <Button onClick={showQR}><BsQrCode/></Button></div>
+              <div style={{right:'0'}}><Button onClick={alreadyExists}  >Import  wallet</Button> <Button onClick={makewall}  >Create new   </Button>  <Button onClick={showQR}><BsQrCode/></Button></div>
               <br/>
             <ExPanel style={{ display: 'flex', padding:'10px', borderRadius: '7px' }}>
                     <div>
