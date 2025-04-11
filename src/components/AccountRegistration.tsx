@@ -234,8 +234,8 @@ else{
         setSolanaWalletAddress(data.addresses[2]);
         setTronWalletAddress(data.addresses[3]);
 
-        localStorage.setItem('ethereumWallet', data.addresses[1]);
-        localStorage.setItem('bitcoinWallet', data.addresses[0]);
+        localStorage.setItem('ethereumWallet', data.addresses[0]);
+        localStorage.setItem('bitcoinWallet', data.addresses[1]);
         localStorage.setItem('solanaWallet', data.addresses[2]);
         localStorage.setItem('tronWallet', data.addresses[3]);
 

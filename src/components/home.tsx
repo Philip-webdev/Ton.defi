@@ -8,7 +8,7 @@ import 'react-icons/fa';
 import {  BsCashStack, BsEye, BsEyeSlash, BsGear, BsHeadset, BsHouse, BsLightningCharge, BsShop,   BsWallet2 } from "react-icons/bs";
 import * as multichainWallet from 'multichain-crypto-wallet';
 import { IResponse } from "multichain-crypto-wallet/dist/common/utils/types";
-
+import { ethers } from "ethers";
 
 const StyledApp = styled.div`
   background-color: #F9F9F9;
@@ -68,15 +68,17 @@ async function getTotalBalance() {
   let accountBalanceEth = 0; // Initialize to zero
   let accountBalanceSol = 0; // Initialize to zero
   let accountBalanceBit = 0; // Initialize to zero
+ 
 
+  
   if (ethAddress) {
       try {
            
-          const ethBalanceResponse: IResponse = await multichainWallet.getBalance({
-              address: ethAddress  ,
-              network: 'ethereum',
-              rpcUrl: 'https://rpc.ankr.com/eth',
-          });
+        const ethBalanceResponse: IResponse = await multichainWallet.getBalance({
+          address: ethAddress,
+          network: 'ethereum',
+          rpcUrl: 'https://eth-mainnet.alchemyapi.io/v2/fY6etQ0_E-PnuaKp5g9npALfvpJ4IGRq',
+      });
           accountBalanceEth = ethBalanceResponse.balance; // Adjust based on actual response structure
       } catch (error) {
           console.error('Error fetching Ethereum balance:', error);
@@ -102,9 +104,9 @@ async function getTotalBalance() {
       const bitBalanceResponse: IResponse = await multichainWallet.getBalance({
           address: bitAddress,
           network: 'bitcoin',
-           
+          rpcUrl: 'https://bitcoin-mainnet.g.alchemy.com/v2/fY6etQ0_E-PnuaKp5g9npALfvpJ4IGRq'
       });
-      accountBalanceBit = bitBalanceResponse.balance; // Adjust based on actual response structure
+      accountBalanceBit = bitBalanceResponse.balance;  
   } catch (error) {
       console.error('Error fetching Bitcoin balance:', error);
   }
