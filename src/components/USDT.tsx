@@ -181,6 +181,52 @@ const dropdown1 = () => {
   
 };
 
+async function transferUSDT(senderWallet: ethers.Wallet, recipientAddress: string, amount: number) {
+  try {
+    // Validate recipient address
+    if (!ethers.isAddress(recipientAddress)) {
+      throw new Error("Invalid recipient address");
+    }
+
+    // Validate amount
+    if (isNaN(amount) || amount <= 0) {
+      throw new Error("Invalid transfer amount");
+    }
+
+    const usdtAbi = [
+      'function transfer(address _to, uint256 _value) public returns (bool)',
+    ];
+    const usdtContractAddress = '0xdAC17F958D2ee523a2206206994597C13D831ec7'; // USDT Contract Address
+
+    const contract = new ethers.Contract(usdtContractAddress, usdtAbi, senderWallet);
+
+    // Estimate gas
+    const gasEstimate = await senderWallet.estimateGas({
+      to: usdtContractAddress,
+      data: contract.interface.encodeFunctionData('transfer', [recipientAddress, ethers.parseUnits(amount.toString(), 6)]),
+    });
+    console.log(`Estimated Gas: ${gasEstimate.toString()}`);
+
+    // Send transaction
+    console.log(`🔄 Sending ${amount} USDT to ${recipientAddress}...`);
+    const tx = await contract.transfer(recipientAddress, ethers.parseUnits(amount.toString(), 6), {
+      gasLimit: gasEstimate,
+    });
+
+    console.log(`Transaction sent! Tx Hash: ${tx.hash}`);
+
+    // Wait for confirmation
+    await tx.wait();
+    console.log(`🎉 Transaction confirmed: ${tx.hash}`);
+  } catch (error) {
+    if (error instanceof Error) {
+        console.error('Error sending USDT:', error.message);
+    } else {
+        console.error('Error sending USDT:', error);
+    }
+  }
+}
+
 async function sendERC20Token() {
   const provider = new ethers.JsonRpcProvider('https://eth-mainnet.g.alchemy.com/v2/fY6etQ0_E-PnuaKp5g9npALfvpJ4IGRq'); 
 
@@ -191,47 +237,21 @@ async function sendERC20Token() {
 
   const senderWallet = new ethers.Wallet(ethAddressKey, provider);
 
-  const usdtContractAddress = '0xdAC17F958D2ee523a2206206994597C13D831ec7'; 
-
-  // ✅ Get recipient address properly
   const toAddressElement = document.getElementById('toethAddress') as HTMLInputElement | null;
-  const recipientAddress = toAddressElement?.value;  // ✅ Use `.value` instead of `.nodeValue`
+  const recipientAddress = toAddressElement?.value;  
   
   if (!recipientAddress) {
     throw new Error("Recipient address is empty or invalid");
   }
 
- 
   const amountElement = document.getElementById('ercamount') as HTMLInputElement | null;
   const amount = amountElement ? parseFloat(amountElement.value) : 0;
   
   if (amount <= 0) {
     throw new Error("Invalid transfer amount");
   }
-  
-  const usdtAbi = [
-    'function transfer(address _to, uint256 _value) public returns (bool)',
-  ];
 
-  async function transferUSDT() {
-    try {
-      const contract = new ethers.Contract(usdtContractAddress, usdtAbi, senderWallet);
-      console.log(`🔄 Sending ${amount} USDT to ${recipientAddress}...`);
-
-      const tx = await contract.transfer(recipientAddress, ethers.parseUnits(amount.toString(), 6));
-
-      console.log(`Transaction sent! Tx Hash: ${tx.hash}`);
-
-     
-      await tx.wait();
-      console.log(`🎉 Transaction confirmed: ${tx.hash}`);
-    } catch (error) {
-      console.error('Error sending USDT:', error);
-    }
-  }
-
-
-  transferUSDT();
+  transferUSDT(senderWallet, recipientAddress, amount);
 }
 
 function usdt() {

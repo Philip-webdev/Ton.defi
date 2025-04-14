@@ -82,12 +82,12 @@ function ondatainput(){
 <br/>
 
 <ExPanel><div style={{display: 'flex'  , gap:'17px',padding:'20px',  borderRadius:'10px'}}>
-  <img src='https://i.imgur.com/w8vihMp.png'  height='20px' width='20px' style={{borderRadius:'100%'}}/>
-  <div><a href='#/ethEx' style={{ textDecoration:'none'}}>NEXR Exchange</a></div></div></ExPanel>
+  <img src='https://i.imgur.com/gvqiAg0.png'  height='20px' width='20px' style={{borderRadius:'100%'}}/>
+  <div><a href='#/ethEx' style={{ textDecoration:'none'}}>NekstPei Exchange</a></div></div></ExPanel>
 <br/>
 <div style={{display: 'flex',  justifyContent: 'space-between'}}>
- <p>Swapping {coin} </p> 
- <select style={{height:'40px'}} onChange={(e) => setCoin(e.target.value)}>
+ <div>Swapping {coin} </div> 
+ <select style={{background:'none',  border:'none', borderRadius:'10px'}} onChange={(e) => setCoin(e.target.value)}>
   <option>X-change</option>
   <option  value={"TON"}>TON</option>
   <option  value={"BTC"}>BTC</option>
@@ -96,8 +96,9 @@ function ondatainput(){
   <option  value={"TRC"}>TRC</option>
  </select>
   
-  </div>
-  <ExPanel ><input value={Count} placeholder='transparent'style={{width:'100%', height:'70px'}}/></ExPanel> 
+  </div><br/>
+  <ExPanel ><input value={Count} placeholder='transparent'style={{width:'100%', height:'40px',  borderRadius:'10px', border:'none'}}/></ExPanel> 
+  <div>You get</div>
 <br/>
 
 

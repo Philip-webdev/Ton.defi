@@ -170,7 +170,7 @@ const load = ()=>{
         const nftElement = document.getElementById('nft');
         if (nftElement) {
             nftElement.style.color = 'black';
-            nftElement.style.fontWeight = '700'
+            nftElement.style.fontWeight = '400'
         }
        ;
        const swiperComponent = document.getElementById('swiper');
@@ -181,7 +181,7 @@ const load = ()=>{
        function  swipeBack(){
         const nftElement = document.getElementById('nft');
         if (nftElement) {
-            nftElement.style.color = 'gray';
+            nftElement.style.color = '';
             nftElement.style.fontWeight = 'none';
         }
        ;
@@ -293,16 +293,15 @@ const load = ()=>{
       <div style={{color:"grey", padding:'10px'}} onClick={swiper} id="nft">NFTs</div>
       </div>
 </div> <br/>  
-{/* this section loads the API */}
-<section id='swiper' style={{  overflowX: 'scroll'}} >
-  <div style={{display:'flex',width: '100%'}}>
-<div style={{ padding:'2px',borderRadius:'7px', height:'100%', width:'100%'}}>
-{pretext} 
+<div style={{width: '100%',overflowX: 'scroll'}}>
+<section id='swiper' style={{  overflowX: 'scroll',width: '100%'}} >
     
-</div><p style={{textAlign:'center',  color: 'gray'}}>Nothing to see. Buy one. </p></div> 
-</section>
+<div style={{ padding:'2px',borderRadius:'7px', height:'100%', width:'100%'}}>
+{pretext}  
+</div>  
+</section><section style={{ padding:'2px', height:'100%', width:'100%'}}>Nothing to see. Buy one.</section>
                 </div>
-
+                </div>
   
                    <Icon className="nav" style={{left:'0',  bottom:'0%', display:'flex',justifyContent:'space-evenly' ,height:'fit-content',  width:'100%', paddingBottom:'10px', paddingRight:'10px',position:'fixed' }}>
                                       <a href='#/home' style={{color:'grey', textDecoration:'none'}}> 
