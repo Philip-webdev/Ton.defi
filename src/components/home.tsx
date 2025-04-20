@@ -5,7 +5,7 @@ import styled from "styled-components";
 import { Button } from "./styled/styled";
 import 'react-icons/bs';
 import 'react-icons/fa';
-import {  BsCashStack, BsEye, BsEyeSlash, BsGear, BsHeadset, BsHouse, BsLightningCharge, BsShop,   BsWallet2 } from "react-icons/bs";
+import {  BsApp, BsAppIndicator, BsCashStack, BsEye, BsEyeSlash, BsGear, BsHeadset, BsHouse, BsLightningCharge, BsShop,   BsWallet2 } from "react-icons/bs";
 import * as multichainWallet from 'multichain-crypto-wallet';
 import { IResponse } from "multichain-crypto-wallet/dist/common/utils/types";
 import { ethers } from "ethers";
@@ -309,8 +309,8 @@ const load = ()=>{
                                       <p style={{zoom:'100%'}}>Home</p> </Button></a>
                                        <a href='#/send' style={{color:'grey', textDecoration:'none'}}> <Button  style={{  fontFamily: 'Lexend' ,bottom:'0%',  background:'none', color:"grey"}}><BsWallet2 />{/*<img src="https://i.imgur.com/hCrmXO1.png" height='14px' width='14px'/> */}
                                       <p style={{zoom:'100%'}}>Wallet</p></Button></a>
-                                      <a href='#/market' style={{color:'grey', textDecoration:'none'}}>  <Button style={{  fontFamily: 'Lexend' ,bottom:'0%',  background:'none', color:"grey"}}><BsCashStack /> {/*<img src="https://i.imgur.com/loOhRv0.png" height='14px' width='14px' /> */}
-                                        <p style={{zoom:'100%'}}>Finance</p></Button></a> 
+                                      <a href='#/market' style={{color:'grey', textDecoration:'none'}}>  <Button style={{  fontFamily: 'Lexend' ,bottom:'0%',  background:'none', color:"grey"}}><BsApp/> {/*<img src="https://i.imgur.com/loOhRv0.png" height='14px' width='14px' /> */}
+                                        <p style={{zoom:'100%'}}>Apps</p></Button></a> 
                                         <a href='#/discover' style={{color:'grey', textDecoration:'none'}}>
                                         <Button  style={{ fontFamily: 'Lexend' ,bottom:'0%', background:'none', color:"grey"}}><BsLightningCharge />{/*<img src='https://i.imgur.com/S444rBc.png'height='14px' width='14px'/>*/}
                                         <p style={{zoom:'100%'}}>Discover</p> </Button></a>

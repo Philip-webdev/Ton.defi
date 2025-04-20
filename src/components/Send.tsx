@@ -8,7 +8,7 @@ import { Button, FlexBoxCol, FlexBoxRow } from "../components/styled/styled";
 import { useTonConnect } from "../hooks/useTonConnect";
 import { CHAIN } from "@tonconnect/protocol";
 import "@twa-dev/sdk";
-import { BsHouse, BsWallet2, BsShop, BsLightningCharge, BsCashStack, BsQrCodeScan, BsCopy } from "react-icons/bs";
+import { BsHouse, BsWallet2,  BsLightningCharge, BsCashStack, BsQrCodeScan, BsCopy, BsApp } from "react-icons/bs";
 import { TransferBTC } from "./transferBTC";
 import { TransferETH } from "./transferETH";
 import { TransferSOL } from "./transferSOL";
@@ -205,8 +205,8 @@ const dropdown5 = () => {
                                              <p style={{zoom:'100%'}}>Home</p> </Button></a>
                                               <a href='#/send' style={{color:'grey', textDecoration:'none'}}> <Button  style={{  fontFamily: 'Lexend' ,bottom:'0%',  background:'none', color:"grey"}}><BsWallet2/>{/*<img src="https://i.imgur.com/hCrmXO1.png" height='14px' width='14px'/> */}
                                              <p style={{zoom:'100%'}}>Wallet</p></Button></a>
-                                             <a href='#/market' style={{color:'grey', textDecoration:'none'}}>  <Button style={{  fontFamily: 'Lexend' ,bottom:'0%',  background:'none', color:"grey"}}><BsCashStack/>{/*<img src="https://i.imgur.com/loOhRv0.png" height='14px' width='14px' /> */}
-                                               <p style={{zoom:'100%'}}>Finance</p></Button></a> 
+                                             <a href='#/market' style={{color:'grey', textDecoration:'none'}}>  <Button style={{  fontFamily: 'Lexend' ,bottom:'0%',  background:'none', color:"grey"}}><BsApp/>{/*<img src="https://i.imgur.com/loOhRv0.png" height='14px' width='14px' /> */}
+                                               <p style={{zoom:'100%'}}>Apps</p></Button></a> 
                                                <a href='#/discover' style={{color:'grey', textDecoration:'none'}}>
                                                <Button  style={{ fontFamily: 'Lexend' ,bottom:'0%', background:'none', color:"grey"}}><BsLightningCharge/>{/*<img src='https://i.imgur.com/S444rBc.png'height='14px' width='14px'/>*/}
                                                <p style={{zoom:'100%'}}>Discover</p> </Button></a>

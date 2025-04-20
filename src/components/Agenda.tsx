@@ -38,7 +38,7 @@ return(
                    <a href='#/send' style={{color:'black', textDecoration:'none'}}> <Button  style={{  fontFamily: 'Lexend' ,bottom:'0%', marginRight:'20px', background:'none', color:"black"}}><img src="https://i.imgur.com/hCrmXO1.png" height='14px' width='14px'/>
                    <p style={{zoom:'80%'}}>Wallet</p></Button></a>
                    <a href='#/market' style={{color:'black', textDecoration:'none'}}>  <Button style={{  fontFamily: 'Lexend' ,bottom:'0%', marginRight:'20px', background:'none', color:"black"}}> <img src="https://i.imgur.com/loOhRv0.png" height='14px' width='14px' /> 
-                     <p style={{zoom:'80%'}}>Market</p></Button></a>
+                     <p style={{zoom:'80%'}}>Apps</p></Button></a>
                       <a href='#/discover' style={{color:'black', textDecoration:'none'}}><Button  style={{ fontFamily: 'Lexend' ,bottom:'0%', background:'none', color:"black"}}><img src='https://i.imgur.com/S444rBc.png'height='14px' width='14px'/>
                      <p style={{zoom:'80%'}}>Discover</p> </Button></a>
                    </div>

@@ -7,7 +7,7 @@ import 'react-icons/bs';
 import 'react-icons/fa';
 import { Helmet } from 'react-helmet';
 
-import { BsHouse, BsWallet2, BsLightningCharge, BsCashStack } from 'react-icons/bs';
+import { BsHouse, BsWallet2, BsLightningCharge, BsCashStack, BsApp } from 'react-icons/bs';
 
 const StyledApp = styled.div`
   background-color:  #F9F9F9;
@@ -129,8 +129,8 @@ function swap() {
               <p style={{ zoom: '100%' }}>Home</p> </Button></a>
           <a href='#/send' style={{ color: 'grey', textDecoration: 'none' }}> <Button style={{ fontFamily: 'Lexend', bottom: '0%', background: 'none', color: "grey" }}><BsWallet2 />
             <p style={{ zoom: '100%' }}>Wallet</p></Button></a>
-          <a href='#/market' style={{ color: 'grey', textDecoration: 'none' }}>  <Button style={{ fontFamily: 'Lexend', bottom: '0%', background: 'none', color: "grey" }}><BsCashStack />
-            <p style={{ zoom: '100%' }}>Finance</p></Button></a>
+          <a href='#/market' style={{ color: 'grey', textDecoration: 'none' }}>  <Button style={{ fontFamily: 'Lexend', bottom: '0%', background: 'none', color: "grey" }}><BsApp/>
+            <p style={{ zoom: '100%' }}>Apps</p></Button></a>
           <a href='#/discover' style={{ color: 'grey', textDecoration: 'none' }}>
             <Button style={{ fontFamily: 'Lexend', bottom: '0%', background: 'none', color: "grey" }}><BsLightningCharge />
               <p style={{ zoom: '100%' }}>Discover</p> </Button></a>
