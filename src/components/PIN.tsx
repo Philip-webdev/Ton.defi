@@ -69,8 +69,8 @@ return(
     <AppContainer>
     <h3 style={{textAlign: "center"}}>Web3charge</h3>
         <div style={{  justifyContent:'space-around',    borderRadius:'10px'}}>
-<ExPanelPIN style={{width:'inherit',  height: '20px', borderRadius:'10px'}}>Enter your phone number: {Phone}</ExPanelPIN>
-<ExPanelPIN style={{width:'inherit',  height: '20px', borderRadius:'10px'}} >Select plan: {plan}</ExPanelPIN>
+<div style={{width:'100px',  height: '20px', borderRadius:'10px'}}>Enter your phone number: {Phone}</div>
+<div style={{width:'100px',  height: '20px', borderRadius:'10px'}} >Select plan: {plan}</div>
 <Button>Pay Fee</Button>
 <div style={{width:'inherit',  height: '20px', borderRadius:'10px'}} >Duration: {DurationByPlan} </div>
   </div>
