@@ -3,7 +3,6 @@
  import send from "./components/Send";
  import tools from "./components/tools";
  import "./App.css";
- 
 import Register from "./components/AccountRegistration";
  import "@twa-dev/sdk";
  import { BrowserRouter, HashRouter, Route, Routes} from "react-router-dom";
@@ -20,7 +19,6 @@ import agenda from "./components/Agenda";
 import contact from "./components/contact";
 import organizer from "./components/organizer";
 import { useEffect, useState } from "react";
-
 import usdt from "./components/USDT";
 import UserLogin from "./components/loginPage";
 import PIN from "./components/PIN";

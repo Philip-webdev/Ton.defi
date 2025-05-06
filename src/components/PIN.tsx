@@ -45,12 +45,14 @@ const AppContainer = styled.div`
   font-family: Lexend ;
 `;
 
-const [plan,  setPlan] = useState<string>("");
-const [Phone,  setPhone] = useState<number>();
-const [DurationByPlan,  setDuration] = useState<string>("");
+
 
 
 function PIN() {
+  const [plan,  setPlan] = useState<string>("");
+const [Phone,  setPhone] = useState<number>();
+const [DurationByPlan,  setDuration] = useState<string>("");
+
 if (plan == 'monthly'){
     setDuration('30 days')
 }
