@@ -1,4 +1,4 @@
- 
+ import './qr.css';
 import { Html5QrcodeScanner } from "html5-qrcode";
 import { useEffect, useState } from "react";
  

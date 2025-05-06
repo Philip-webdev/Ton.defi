@@ -20,10 +20,12 @@ import agenda from "./components/Agenda";
 import contact from "./components/contact";
 import organizer from "./components/organizer";
 import { useEffect, useState } from "react";
-import Welcome2 from "./components/welcome2";
+
 import usdt from "./components/USDT";
 import UserLogin from "./components/loginPage";
-import Scanner from "./components/QRcode";
+import PIN from "./components/PIN";
+import stake from "./components/stake";
+import RWA from "./components/RWA";
 
 
  const StyledApp = styled.div`
@@ -93,7 +95,9 @@ function App() {
       <Route path="/security" Component={security}/>
       <Route path="/settings" Component={settings}/>
       <Route path="/organizer" Component={settings}/>
-      
+      <Route path="/stake" Component={stake}/>
+      <Route path="/rwa" Component={RWA}/>
+      <Route path="/pin" Component={PIN}/>
       <Route path="usdt" Component={usdt}/>
     </Routes>
   </HashRouter>

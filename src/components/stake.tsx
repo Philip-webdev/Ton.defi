@@ -30,31 +30,26 @@ background-color: white;
         color:grey;
   }
 `;
-const ExPanel = styled.div`
-background-color: white;
- color:black;
- @media (prefers-color-scheme: dark) {
-     background-color: rgb(15,15,15);
-       color:grey;
-  }
-`;
+// const ExPanel = styled.div`
+// background-color: white;
+//  color:black;
+//  @media (prefers-color-scheme: dark) {
+//      background-color: rgb(15,15,15);
+//        color:grey;
+//   }
+// `;
 const AppContainer = styled.div`
    width: 100%;
   height:fit-content;
   margin: 0;
   font-family: Lexend ;
 `;
-function market() {
-   
-  
+function stake() {
 return(
     <StyledApp>
     <AppContainer>
-    <h3>Earn</h3>
+    <h3>Earn by Stakes</h3>
         <div style={{  justifyContent:'space-around',    borderRadius:'10px'}}>
-<ExPanel style={{display: 'flex'  , gap:'17px',padding:'20px', borderColor:'whitesmoke', borderBottomStyle:'groove', borderWidth:'1px', borderRadius:'10px'}}><div style={{marginLeft:'7px'}}><a href='#/stake' style={{color:'grey', textDecoration:'none'}}>DeFi staking</a></div></ExPanel>
-  <ExPanel  style={{display: 'flex'  , gap:'17px',padding:'20px', borderColor:'whitesmoke', borderBottomStyle:'groove', borderWidth:'1px', borderRadius:'10px'}}><div  style={{marginLeft:'7px'}}><a href="#/pin" style={{color:'grey', textDecoration:'none'}}>DePIN</a></div></ExPanel>
-  <ExPanel  style={{display: 'flex'  , gap:'17px',padding:'20px', borderColor:'whitesmoke', borderBottomStyle:'groove', borderWidth:'1px', borderRadius:'10px'}}><div  style={{marginLeft:'7px'}}><a href="#/rwa" style={{color:'grey', textDecoration:'none'}}>RWA</a></div></ExPanel>
 
   
   </div>
@@ -73,4 +68,4 @@ return(
     </AppContainer></StyledApp>
 )
 }
-export default market;
+export default stake;

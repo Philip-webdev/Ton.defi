@@ -44,18 +44,18 @@ const AppContainer = styled.div`
   margin: 0;
   font-family: Lexend ;
 `;
-function market() {
+function RWA() {
    
   
 return(
     <StyledApp>
     <AppContainer>
-    <h3>Earn</h3>
+    <h3>Real World Assets</h3>
         <div style={{  justifyContent:'space-around',    borderRadius:'10px'}}>
-<ExPanel style={{display: 'flex'  , gap:'17px',padding:'20px', borderColor:'whitesmoke', borderBottomStyle:'groove', borderWidth:'1px', borderRadius:'10px'}}><div style={{marginLeft:'7px'}}><a href='#/stake' style={{color:'grey', textDecoration:'none'}}>DeFi staking</a></div></ExPanel>
-  <ExPanel  style={{display: 'flex'  , gap:'17px',padding:'20px', borderColor:'whitesmoke', borderBottomStyle:'groove', borderWidth:'1px', borderRadius:'10px'}}><div  style={{marginLeft:'7px'}}><a href="#/pin" style={{color:'grey', textDecoration:'none'}}>DePIN</a></div></ExPanel>
-  <ExPanel  style={{display: 'flex'  , gap:'17px',padding:'20px', borderColor:'whitesmoke', borderBottomStyle:'groove', borderWidth:'1px', borderRadius:'10px'}}><div  style={{marginLeft:'7px'}}><a href="#/rwa" style={{color:'grey', textDecoration:'none'}}>RWA</a></div></ExPanel>
-
+<ExPanel style={{display: 'flex'  , gap:'17px',padding:'20px', borderColor:'whitesmoke', borderBottomStyle:'groove', borderWidth:'1px', borderRadius:'10px'}}><div style={{marginLeft:'7px'}}><a href='/#' style={{color:'grey', textDecoration:'none'}}>Agro-tech</a></div></ExPanel>
+  <ExPanel  style={{display: 'flex'  , gap:'17px',padding:'20px', borderColor:'whitesmoke', borderBottomStyle:'groove', borderWidth:'1px', borderRadius:'10px'}}><div  style={{marginLeft:'7px'}}><a href="/#" style={{color:'grey', textDecoration:'none'}}>Real Estates</a></div></ExPanel>
+  <ExPanel  style={{display: 'flex'  , gap:'17px',padding:'20px', borderColor:'whitesmoke', borderBottomStyle:'groove', borderWidth:'1px', borderRadius:'10px'}}><div  style={{marginLeft:'7px'}}><a href="/#" style={{color:'grey', textDecoration:'none'}}>Communication</a></div></ExPanel>
+COMING SOON
   
   </div>
          <Icon className="nav" style={{left:'0', right:'0', bottom:'0%', display:'flex',justifyContent:'space-evenly' ,height:'fit-content',  width:'100%', paddingBottom:'10px', paddingRight:'10px',position:'fixed' }}>
@@ -73,4 +73,4 @@ return(
     </AppContainer></StyledApp>
 )
 }
-export default market;
+export default RWA;

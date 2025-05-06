@@ -30,33 +30,47 @@ background-color: white;
         color:grey;
   }
 `;
-const ExPanel = styled.div`
-background-color: white;
- color:black;
- @media (prefers-color-scheme: dark) {
-     background-color: rgb(15,15,15);
-       color:grey;
-  }
-`;
+ const ExPanelPIN = styled.div`
+ background-color: white;
+  color:black;
+  @media (prefers-color-scheme: dark) {
+      background-color: rgb(15,15,15);
+        color:grey;
+   }
+ `;
 const AppContainer = styled.div`
    width: 100%;
   height:fit-content;
   margin: 0;
   font-family: Lexend ;
 `;
-function market() {
-   
-  
+
+const [plan,  setPlan] = useState<string>("");
+const [Phone,  setPhone] = useState<number>();
+const [DurationByPlan,  setDuration] = useState<string>("");
+
+
+function PIN() {
+if (plan == 'monthly'){
+    setDuration('30 days')
+}
+else if (plan == 'weekly')
+{
+    setDuration('7 days')
+}
+else {
+    setDuration('1 day')
+}
+
 return(
     <StyledApp>
     <AppContainer>
-    <h3>Earn</h3>
+    <h3 style={{textAlign: "center"}}>Web3charge</h3>
         <div style={{  justifyContent:'space-around',    borderRadius:'10px'}}>
-<ExPanel style={{display: 'flex'  , gap:'17px',padding:'20px', borderColor:'whitesmoke', borderBottomStyle:'groove', borderWidth:'1px', borderRadius:'10px'}}><div style={{marginLeft:'7px'}}><a href='#/stake' style={{color:'grey', textDecoration:'none'}}>DeFi staking</a></div></ExPanel>
-  <ExPanel  style={{display: 'flex'  , gap:'17px',padding:'20px', borderColor:'whitesmoke', borderBottomStyle:'groove', borderWidth:'1px', borderRadius:'10px'}}><div  style={{marginLeft:'7px'}}><a href="#/pin" style={{color:'grey', textDecoration:'none'}}>DePIN</a></div></ExPanel>
-  <ExPanel  style={{display: 'flex'  , gap:'17px',padding:'20px', borderColor:'whitesmoke', borderBottomStyle:'groove', borderWidth:'1px', borderRadius:'10px'}}><div  style={{marginLeft:'7px'}}><a href="#/rwa" style={{color:'grey', textDecoration:'none'}}>RWA</a></div></ExPanel>
-
-  
+<ExPanelPIN style={{width:'inherit',  height: 'inherit', borderRadius:'7px'}}>Enter your phone number: {Phone}</ExPanelPIN>
+<ExPanelPIN style={{width:'inherit',  height: 'inherit', borderRadius:'7px'}} >Select plan: {plan}</ExPanelPIN>
+<Button>Pay Fee</Button>
+<div style={{width:'inherit',  height: 'inherit', borderRadius:'7px'}} >Duration: {DurationByPlan} </div>
   </div>
          <Icon className="nav" style={{left:'0', right:'0', bottom:'0%', display:'flex',justifyContent:'space-evenly' ,height:'fit-content',  width:'100%', paddingBottom:'10px', paddingRight:'10px',position:'fixed' }}>
                                               <a href='#/home' style={{color:'grey', textDecoration:'none'}}> 
@@ -73,4 +87,4 @@ return(
     </AppContainer></StyledApp>
 )
 }
-export default market;
+export default PIN;
