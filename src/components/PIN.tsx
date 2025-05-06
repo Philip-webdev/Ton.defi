@@ -69,10 +69,10 @@ return(
     <AppContainer>
     <h3 style={{textAlign: "center"}}>Web3charge</h3>
         <div style={{  justifyContent:'space-around',    borderRadius:'10px'}}>
-<ExPanelPIN style={{width:'inherit',  height: 'inherit', borderRadius:'7px'}}>Enter your phone number: {Phone}</ExPanelPIN>
-<ExPanelPIN style={{width:'inherit',  height: 'inherit', borderRadius:'7px'}} >Select plan: {plan}</ExPanelPIN>
+<ExPanelPIN style={{width:'inherit',  height: '20px', borderRadius:'10px'}}>Enter your phone number: {Phone}</ExPanelPIN>
+<ExPanelPIN style={{width:'inherit',  height: '20px', borderRadius:'10px'}} >Select plan: {plan}</ExPanelPIN>
 <Button>Pay Fee</Button>
-<div style={{width:'inherit',  height: 'inherit', borderRadius:'7px'}} >Duration: {DurationByPlan} </div>
+<div style={{width:'inherit',  height: '20px', borderRadius:'10px'}} >Duration: {DurationByPlan} </div>
   </div>
          <Icon className="nav" style={{left:'0', right:'0', bottom:'0%', display:'flex',justifyContent:'space-evenly' ,height:'fit-content',  width:'100%', paddingBottom:'10px', paddingRight:'10px',position:'fixed' }}>
                                               <a href='#/home' style={{color:'grey', textDecoration:'none'}}> 
