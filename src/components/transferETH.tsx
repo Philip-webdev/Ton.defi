@@ -43,31 +43,32 @@ const dropdown = () => {
   }
 };
   return (
-    <Card>
+    <Card style={{ background: 'linear-gradient(110deg, #6c56ef 70%, #8b5cf6 100%)' }}>
       <FlexBoxCol>
-        <h3>Transfer ETH </h3>
+      <div style={{display:'flex', justifyContent:'space-between', margin:'7px', color:'white'}}><div>Debit</div><div> ETH </div></div>
         
         <FlexBoxRow>
-          <label>Amount </label>
+         
           <Input id= 'ethAmt' 
-            style={{ marginRight: 8 }}
+            style={{background:'transparent',borderBottom:'none', borderRadius:'0px',marginRight: 8, borderRight:'none' , borderLeft:'none', borderTop:'0px',  borderColor:'black ', color:'black'}}
             type="number"
             value={ETHAmount}
             onChange={(e) => setETHAmount(Number(e.target.value))}
           ></Input>
         </FlexBoxRow>
         <FlexBoxRow>
-          <label>To </label>
+         
           <Input
-            style={{ marginRight: 8 }}
+            style={{background:'transparent',borderBottom:'none',borderRadius:'0px', marginRight: 8 ,borderRight:'none' , borderLeft:'none', borderTop:'0px', color:'black'}}
             value={ETHRecipient}
+            placeholder="0x9b9..."
             onChange={(e) => setETHRecipient(e.target.value)}
           ></Input>
         </FlexBoxRow>
         <FlexBoxRow>
-          <label>Message </label>
-          <Input  id="message"
-            style={{ marginRight: 8 }}
+          
+          <Input  id="message" placeholder="Say something..."
+           style={{background:'transparent',borderBottom:'none',borderRadius:'0px', marginRight: 8 ,borderRight:'none' , borderLeft:'none', borderTop:'0px', color:'white'}}
           ></Input>
         </FlexBoxRow>
         <Button id="info"

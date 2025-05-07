@@ -31,24 +31,25 @@ export  function TransferBTC() {
   
 
   return (
-    <Card>
+    <Card style={{ background: 'linear-gradient(110deg, #FF9900  0%,white 170%, #FFB627 100%)' }}>
       <FlexBoxCol>
-        <h3>Transfer BTC </h3>
+      <div style={{display:'flex', justifyContent:'space-between', margin:'7px', color:'Whitesmoke'}}><div>Debit</div><div> BTC </div></div>
         
         <FlexBoxRow>
-          <label>Amount </label>
+          
           <Input
-            style={{ marginRight: 8 }}
+             style={{background:'transparent',borderBottom:'none', borderRadius:'0px',marginRight: 8, borderRight:'none' , borderLeft:'none', borderTop:'0px',  borderColor:'black ', color:'black'}}
             type="number"
             value={BTCAmount}
             onChange={(e) => setBTCAmount(Number(e.target.value))}
           ></Input>
         </FlexBoxRow>
         <FlexBoxRow>
-          <label>To </label>
+           
           <Input
-            style={{ marginRight: 8 }}
+            style={{background:'transparent',borderBottom:'none', borderRadius:'0px',marginRight: 8, borderRight:'none' , borderLeft:'none', borderTop:'0px',  borderColor:'black ', color:'black'}}
             value={BTCRecipient}
+            placeholder="17s..."
             onChange={(e) => setBTCRecipient(e.target.value)}
           ></Input>
         </FlexBoxRow>

@@ -43,23 +43,24 @@ export function TransferSOL() {
         }
       };
     return (
-        <Card>
+        <Card style={{ background: 'linear-gradient(135deg #7B3FFF 0%, pink 1%,aqua 10%, black 40% , #5C2E93 100%)' }}>
             <FlexBoxCol>
-                <h3>Transfer SOL </h3>
+            <div style={{display:'flex', justifyContent:'space-between', margin:'7px', color:'white'}}><div>Debit</div><div> SOL </div></div>
      <FlexBoxRow>
-                    <label>Amount </label>
+                     
                     <Input
-                        style={{ marginRight: 8 }}
+                       style={{background:'transparent',borderBottom:'none', borderRadius:'0px',marginRight: 8, borderRight:'none' , borderLeft:'none', borderTop:'0px',  borderColor:'black ', color:'black '}}
                         type="number"
                         value={SOLAmount}
                         onChange={(e) => setSOLAmount(Number(e.target.value))} // Convert to number
                     />
                 </FlexBoxRow>
                 <FlexBoxRow>
-                    <label>To </label>
+                    
                     <Input
-                        style={{ marginRight: 8 }}
+                        style={{background:'transparent', borderBottom:'none',borderRadius:'0px',marginRight: 8, borderRight:'none' , borderLeft:'none', borderTop:'0px',  borderColor:'black ', color:'black '}}
                         value={SOLRecipient}
+                        placeholder="3sN..."
                         onChange={(e) => setSOLRecipient(e.target.value)} // Capture recipient address
                     />
                 </FlexBoxRow>

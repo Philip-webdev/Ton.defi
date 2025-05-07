@@ -5,10 +5,9 @@ import styled from "styled-components";
 import { Button } from "./styled/styled";
 import 'react-icons/bs';
 import * as multichainWallet from 'multichain-crypto-wallet';
-import { IResponse } from "multichain-crypto-wallet/dist/common/utils/types";
-import { Dropdown } from "bootstrap";
+ 
 import { ethers } from "ethers";
-import Register from "./AccountRegistration";
+ 
 const StyledApp = styled.div`
   background-color: #F9F9F9;
   color: black;

@@ -23,24 +23,25 @@ export function TransferTon() {
   };
   
   return (
-    <Card>
+    <Card  style={{ background: 'linear-gradient(110deg, #0098EA  0%,white 100%)' }}>
       <FlexBoxCol>
         <h3>Transfer TON </h3> 
      
         <FlexBoxRow>
-          <label>Amount </label> 
+          
           <Input
-            style={{ marginRight: 8 }}
+           style={{background:'transparent',borderBottom:'none', borderRadius:'0px',marginRight: 8, borderRight:'none' , borderLeft:'none', borderTop:'0px',  borderColor:'black ', color:'black'}}
             type="number"
             value={tonAmount}
             onChange={(e) => setTonAmount(Number(e.target.value))}
           ></Input>
         </FlexBoxRow>
         <FlexBoxRow>
-          <label>To </label>
+        
           <Input
-            style={{ marginRight: 8 }}
+            style={{background:'transparent',borderBottom:'none', borderRadius:'0px',marginRight: 8, borderRight:'none' , borderLeft:'none', borderTop:'0px',  borderColor:'black ', color:'black'}}
             value={tonRecipient}
+             
             onChange={(e) => setTonRecipient(e.target.value)}
           ></Input>
         </FlexBoxRow>

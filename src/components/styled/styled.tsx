@@ -33,7 +33,6 @@ export const Button = styled.button`
   background-color: ${(props) =>
     props.disabled ? "none" : "var(--tg-theme-button-color)"};
   border: 0;
-  
   border-radius: 8px;
   padding: 10px 20px;
   color: var(--tg-theme-button-text-color);
