@@ -43,7 +43,7 @@ const dropdown = () => {
   }
 };
   return (
-    <Card style={{ background: 'linear-gradient(110deg, #6c56ef 70%, #8b5cf6 100%)' }}>
+    <Card style={{ background: 'linear-gradient(110deg, #6c56ef 70%, #8b5cf6 100%)' , height:'190px' }}>
       <FlexBoxCol>
       <div style={{display:'flex', justifyContent:'space-between', margin:'7px', color:'white'}}><div>Debit</div><div> ETH </div></div>
         
@@ -73,7 +73,7 @@ const dropdown = () => {
         </FlexBoxRow>
         <Button id="info"
          disabled={!ETHRecipient || ETHAmount <= 0}
-          style={{ marginTop: 18 }}
+          style={{ marginTop: 0 }}
           onClick={async () => {transferEth}
           }
         >

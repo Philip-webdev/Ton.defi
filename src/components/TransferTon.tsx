@@ -23,7 +23,7 @@ export function TransferTon() {
   };
   
   return (
-    <Card  style={{ background: 'linear-gradient(110deg, #0098EA  0%,white 100%)' }}>
+    <Card  style={{ background: 'linear-gradient(110deg, #0098EA  0%,white 100%)' , height:'190px' }}>
       <FlexBoxCol>
         <h3>Transfer TON </h3> 
      
@@ -47,7 +47,7 @@ export function TransferTon() {
         </FlexBoxRow>
         <Button
           disabled={!connected}
-          style={{ marginTop: 18 }}
+          style={{ marginTop: 0 }}
           onClick={async () => {
             sender.send({
               to: Address.parse(tonRecipient),

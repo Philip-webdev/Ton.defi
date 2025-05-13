@@ -169,7 +169,7 @@ const dropdown5 = () => {
             <TonConnectButton />
             <Button onClick={ dropdownScan}><BsQrCodeScan/></Button>
           </FlexBoxRow>
-          <div style={{justifyContent:"space-evenly"}}>
+          <div style={{justifyContent:"space-evenly", margin: '20px'}}>
          <div onClick={dropdown} style={{cursor:'pointer', left:'0'}}><Icon style={{borderRadius:'7px', width:'85.9%', padding:'20px',  lineHeight:'17px', margin:'7px', fontSize:'larger'}}><img src="https://i.imgur.com/JlK5oxR.png" height='15px' width='15px'/> TON</Icon></div> 
           <div id='ton' style={{display:'none'}}>
           <TransferTon />

@@ -31,7 +31,7 @@ export  function TransferBTC() {
   
 
   return (
-    <Card style={{ background: 'linear-gradient(110deg, #FF9900  0%,white 170%, #FFB627 100%)' }}>
+    <Card style={{ background: 'linear-gradient(110deg, #FF9900  0%,white 170%, #FFB627 100%)', height:'190px' }}>
       <FlexBoxCol>
       <div style={{display:'flex', justifyContent:'space-between', margin:'7px', color:'Whitesmoke'}}><div>Debit</div><div> BTC </div></div>
         
@@ -55,7 +55,7 @@ export  function TransferBTC() {
         </FlexBoxRow>
         <Button id="info"
           disabled={!BTCRecipient || BTCAmount <= 0}
-          style={{ marginTop: 18 }}
+          style={{ marginTop: 0 }}
           onClick={async () => {transferBitcoin}
           }
         >

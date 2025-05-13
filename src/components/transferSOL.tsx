@@ -43,7 +43,7 @@ export function TransferSOL() {
         }
       };
     return (
-        <Card style={{ background: 'linear-gradient(135deg #7B3FFF 0%, pink 1%,aqua 10%, black 40% , #5C2E93 100%)' }}>
+        <Card style={{ background: 'linear-gradient(135deg #7B3FFF 0%, aqua 10%, black 40% , #5C2E93 100%)' , height:'190px'}}>
             <FlexBoxCol>
             <div style={{display:'flex', justifyContent:'space-between', margin:'7px', color:'white'}}><div>Debit</div><div> SOL </div></div>
      <FlexBoxRow>
@@ -66,7 +66,7 @@ export function TransferSOL() {
                 </FlexBoxRow>
                 <Button id="info"
                     disabled={!SOLRecipient || SOLAmount <= 0} // Disable if no recipient or amount is invalid
-                    style={{ marginTop: 18 }}
+                    style={{ marginTop: 0 }}
                     onClick={transferSol} // Call transfer function on click
                 >
                     Transfer

@@ -6,18 +6,16 @@ export const Card = styled.div`
   border-radius: 8px;
   border-style: groove;
   border-width:1px;
-  border-color:#87CEEB;
+  border-color:none ;
   background-color: whitesmoke;
 font-family: Lexend;
-  @media (prefers-color-scheme: dark) {
-    background-color: rgb(15,15,15);
-  }
+  
 `;
 
 export const FlexBoxRow = styled.div`
   display: flex;
   flex-direction: row;
-  gap: 10px;
+  gap:5px;
   align-items: center;
   font-family: Lexend;
 `;
