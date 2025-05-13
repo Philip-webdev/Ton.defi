@@ -116,7 +116,7 @@ else{
                     window.location.href = path;  
                   };
                     goToPage('#/home'); 
-                    window.Telegram.WebApp.openTelegramLink('https://app.nekstpe.com/#/home');                
+                    window.Telegram.WebApp.openTelegramLink('https://app.nekstpei.com/#/home');                
 
             } else {
                 const infoPan = document.getElementById('infoPan') ;
