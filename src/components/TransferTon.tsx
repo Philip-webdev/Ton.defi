@@ -25,7 +25,7 @@ export function TransferTon() {
   return (
     <Card  style={{ background: 'linear-gradient(110deg, #0098EA  0%,white 100%)' , height:'190px' }}>
       <FlexBoxCol>
-        <h3>Transfer TON </h3> 
+       
      
         <FlexBoxRow>
           
