@@ -8,7 +8,7 @@ import 'react-icons/fa';
 import {  BsApp, BsAppIndicator, BsCashStack, BsEye, BsEyeSlash, BsGear, BsHeadset, BsHouse, BsLightningCharge, BsShop,   BsWallet2 } from "react-icons/bs";
 import * as multichainWallet from 'multichain-crypto-wallet';
 import { IResponse } from "multichain-crypto-wallet/dist/common/utils/types";
-import { ethers } from "ethers";
+import NftApi from "./nftApi";
 
 const StyledApp = styled.div`
   background-color: #F9F9F9;
@@ -175,7 +175,7 @@ const load = ()=>{
        ;
        const swiperComponent = document.getElementById('swiper');
         if (swiperComponent != null)
-        swiperComponent.style.transform = 'translateX(' + (-100) + '%)';
+        swiperComponent.style.transform = 'translateX(' + (-50) + '%)';
        }
 
        function  swipeBack(){
@@ -229,7 +229,7 @@ const load = ()=>{
       // });
       
     return(
-        <StyledApp style={{fontWeight:'100'}} >
+        <StyledApp style={{fontWeight:'100', overflowX:'hidden'}} >
             
             <AppContainer onLoad={load}>
                 <div>
@@ -293,14 +293,16 @@ const load = ()=>{
       <div style={{color:"grey", padding:'10px'}} onClick={swiper} id="nft">NFTs</div>
       </div>
 </div> <br/>  
-<div style={{width: '100%',overflowX: 'scroll'}}>
-<section id='swiper' style={{  overflowX: 'scroll',width: '100%'}} >
+<div id='swiper' style={{display:'flex',width: '200%'}}>
+<div style={{width: '100%',overflowX: 'scroll',  justifyContent:'space-between', padding:'2px', borderRadius:'7px', height:'100%'}}>
+<section  style={{width: '100%'}} >
     
 <div style={{ padding:'2px',borderRadius:'7px', height:'100%', width:'100%'}}>
 {pretext}  
 </div>  
-</section><section style={{ padding:'2px', height:'100%', width:'100%'}}>Nothing to see. Buy one.</section>
-                </div>
+</section></div>
+<section style={{marginLeft:'30px' ,padding:'2px', height:'100%', width:'100%'}}><div style={{ padding:'2px',borderRadius:'7px', height:'100%', width:'100%'}}><NftApi /></div> </section>
+                </div> 
                 </div>
   
                    <Icon className="nav" style={{left:'0',  bottom:'0%', display:'flex',justifyContent:'space-evenly' ,height:'fit-content',  width:'100%', paddingBottom:'10px', paddingRight:'10px',position:'fixed' }}>

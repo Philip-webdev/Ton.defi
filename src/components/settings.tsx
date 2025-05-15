@@ -4,6 +4,7 @@ import styled from "styled-components";
 import '../index.css';
 import { BsApp, BsArrowLeftCircle, BsCashStack, BsHouse, BsLightningCharge, BsShop, BsWallet2 } from "react-icons/bs";
 import { Button } from "./styled/styled";
+import { useState } from "react";
 
 const StyledApp = styled.div`
   background-color: #F9F9F9;
@@ -38,9 +39,45 @@ const AppContainer = styled.div`
 `;
 
 function settings(){
+
+  const [phoneNum,  setPhone] = useState<any>();
+  const [walletAddress,  setAddress] = useState('');
+
+  const address = document.getElementById('address') as HTMLInputElement;
+  if (address != null){
+  setAddress(address.value);
+}
+
+  const matchAddress = () => {
+    const phoneElem = document.getElementById("phone")as HTMLInputElement;
+    if (phoneElem != null){
+      setPhone(phoneElem.value);
+    }
+    setPhone(phoneElem.value);
+
+    if (phoneElem != null ){
+
+      
+      const phoneMap = new Map();
+      phoneMap.set({phoneNum}, {walletAddress} );
+
+     fetch("https://twa-backend-g83o.onrender.com/matchlist", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",  
+        body: JSON.stringify({phoneMap}),
+    })
+    }
+  }
 return(
     <StyledApp>
         <AppContainer>
+          <div>
+            Set Phone number as address
+          </div>
+          <div><input id='phone ' placeholder="your phone number" type="number"/></div><br/>
+          <div><input id='address' placeholder="the address" type="text"/></div><br/>
+          <div><Button onClick={matchAddress}>Match Address</Button></div>
        
       <Icon className="nav" style={{left:'0',  bottom:'0%', display:'flex',justifyContent:'space-evenly' ,height:'fit-content',  width:'100%', paddingBottom:'10px', paddingRight:'10px',position:'fixed' }}>
                                            <a href='#/home' style={{color:'grey', textDecoration:'none'}}> 
