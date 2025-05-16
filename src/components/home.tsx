@@ -9,7 +9,7 @@ import {  BsApp, BsAppIndicator, BsCashStack, BsEye, BsEyeSlash, BsGear, BsHeads
 import * as multichainWallet from 'multichain-crypto-wallet';
 import { IResponse } from "multichain-crypto-wallet/dist/common/utils/types";
 import NftApi from "./nftApi";
-
+import WalletHistoryApi from "./history";
 const StyledApp = styled.div`
   background-color: #F9F9F9;
   color: black;
@@ -304,7 +304,12 @@ const load = ()=>{
 <section style={{marginLeft:'30px' ,padding:'2px', height:'100%', width:'100%'}}><div style={{ padding:'2px',borderRadius:'7px', height:'100%', width:'100%'}}><NftApi /></div> </section>
                 </div> 
                 </div>
-  
+  <div style={{ padding:'2px',borderRadius:'7px', height:'100%', width:'100%'}}>
+    <h2>Wallet History</h2>
+    <div style={{ padding:'2px',borderRadius:'7px', height:'100%', width:'100%'}}>
+      <WalletHistoryApi/>
+    </div>
+  </div>
                    <Icon className="nav" style={{left:'0',  bottom:'0%', display:'flex',justifyContent:'space-evenly' ,height:'fit-content',  width:'100%', paddingBottom:'10px', paddingRight:'10px',position:'fixed' }}>
                                       <a href='#/home' style={{color:'grey', textDecoration:'none'}}> 
                                       <Button  style={{  fontFamily: 'Lexend' , bottom:'0%',  background:'none', color:"grey"}}><BsHouse />{/*<img src='https://i.imgur.com/uxozY7V.png' height='14px' width='14px' />*/}

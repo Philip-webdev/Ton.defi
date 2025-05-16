@@ -16,7 +16,7 @@ font-family: Lexend;
      background-color: rgb(15,15,15);
       color: white ;
   }
-  min-height: fit-content ;
+  min-height: 100vh;
   padding: 20px 20px;
    zoom :90%;
 `;
@@ -36,6 +36,37 @@ const AppContainer = styled.div`
   height:fit-content;
   margin: 0;
   font-family: Lexend ;
+`;
+
+const StyledInputWrapper = styled.div`
+  margin-bottom: 16px;
+  display: flex;
+  flex-direction: column;
+`;
+
+const StyledInput = styled.input`
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px;
+  font-family: Lexend;
+  background: white;
+  color: black;
+  @media (prefers-color-scheme: dark) {
+    background: rgb(15,15,15);
+    color: white;
+    border: 1px solid #444;
+  }
+`;
+
+const StyledLabel = styled.label`
+  font-size: 14px;
+  margin-bottom: 4px;
+  font-family: Lexend;
+  color: #333;
+  @media (prefers-color-scheme: dark) {
+    color: #ccc;
+  }
 `;
 
 function settings(){
@@ -75,9 +106,29 @@ return(
           <div>
             Set Phone number as address
           </div>
-          <div><input id='phone ' placeholder="your phone number" type="number"/></div><br/>
-          <div><input id='address' placeholder="the address" type="text"/></div><br/>
-          <div><Button onClick={matchAddress}>Match Address</Button></div>
+          <StyledInputWrapper>
+             
+            <StyledInput
+              id="phone"
+              placeholder="Enter your phone number"
+              type="tel"
+              inputMode="tel"
+              autoComplete="tel"
+            />
+          </StyledInputWrapper><br/>
+
+
+          <div><StyledInputWrapper> <StyledInput
+              id="address"
+              placeholder="Enter your address"
+              type="decimal"
+              inputMode="text"
+              autoComplete="text"
+            />
+            </StyledInputWrapper>
+              </div>
+              <br/> 
+          <div style={{justifyContent:'center'}}><Button style={{border: '1px solid #ccc', borderRadius: '4px', fontSize: '16px'}} onClick={matchAddress}>Match Address</Button></div>
        
       <Icon className="nav" style={{left:'0',  bottom:'0%', display:'flex',justifyContent:'space-evenly' ,height:'fit-content',  width:'100%', paddingBottom:'10px', paddingRight:'10px',position:'fixed' }}>
                                            <a href='#/home' style={{color:'grey', textDecoration:'none'}}> 
@@ -93,7 +144,7 @@ return(
                                            </Icon> 
         </AppContainer>
     </StyledApp>
-)
+);
 }
 
 export default settings;

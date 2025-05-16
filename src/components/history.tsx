@@ -19,8 +19,8 @@ background-color: white;
   }
 `;
 
-function nftApi() {
-   const [resultnfts, setResponse] = useState(<div>No Nft</div>);
+function WalletHistoryApi() {
+   const [walletHistory, setWalletHistory] = useState(<div>No transactions yet</div>);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -31,20 +31,17 @@ try {
       apiKey: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJub25jZSI6Ijk1OWZkODlmLWUwNmEtNGYxYi05YzJmLTUwYmI1YzhjMTUxYSIsIm9yZ0lkIjoiNDQ2NzI0IiwidXNlcklkIjoiNDU5NjIwIiwidHlwZUlkIjoiNzFiYjRiODAtYjA5ZS00ZTk1LThiNmItNmIxMDA3ZWU3MWQ2IiwidHlwZSI6IlBST0pFQ1QiLCJpYXQiOjE3NDcwODQ2ODQsImV4cCI6NDkwMjg0NDY4NH0.b3gtSE9QpCwe8EMHqGJCBXWm2vlHBEL-cWY8P2WKn6s"
     });
   
-    const response = await Moralis.EvmApi.nft.getWalletNFTs({
+    const response = await Moralis.EvmApi.wallets.getWalletHistory({
       "chain": "0x1",
-      "format": "decimal",
-      "normalizeMetadata": true,
-      "mediaItems": true,
-      "limit": 4,
-      "address": "0xff3879b8a363aed92a6eaba8f61f1a96a9ec3c1e"
+          "order": "DESC",
+    "address": "0xcB1C1FdE09f811B294172696404e88E658659905"
     });
-  setResponse(
+  setWalletHistory(
     <div>
-      {response.result.map((nft: any, index: number) => (
+      {response.result.map((history: any, index: number) => (
         <div key={index}>
          
-          <img src={nft.metadata?.image || ""} alt={nft.metadata?.name || "NFT"} style={{borderRadius:'7px' ,width: "100px", height: "100px" }} />
+          
         </div>
       ))}
     </div>
@@ -65,7 +62,7 @@ try {
  return (
         <AppContainer >
             <API>
-          { resultnfts}
+          {walletHistory}
           </API>
          
     
@@ -75,25 +72,5 @@ try {
     );
 }
 
-export default nftApi;
- 
-
-// for erc balances, special calling😝
-
-
-// try {
-//  await Moralis.start({
-//   apiKey: "YOUR_API_KEY"
-//  });
- 
-//  const response = await Moralis.EvmApi.token.getWalletTokenBalances({
-//   "chain": "0x1",
-//   "address": "0x1f9090aaE28b8a3dCeaDf281B0F12828e676c326"
-//  });
- 
-//  console.log(response.raw);
-// } catch (e) {
-//  console.error(e);
- 
-//  //wallet history here
+export default WalletHistoryApi;
  
