@@ -21,7 +21,8 @@ background-color: white;
 
 function nftApi() {
    const [resultnfts, setResponse] = useState(<div>No Nft</div>);
-
+const ethAddress = localStorage.getItem('ethereumWallet') as string;
+   
     useEffect(() => {
         const fetchData = async () => {
            
@@ -37,7 +38,7 @@ try {
       "normalizeMetadata": true,
       "mediaItems": true,
       "limit": 4,
-      "address": "0xff3879b8a363aed92a6eaba8f61f1a96a9ec3c1e"
+      "address": ethAddress   
     });
   setResponse(
     <div>
