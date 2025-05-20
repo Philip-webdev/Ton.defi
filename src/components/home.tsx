@@ -181,7 +181,7 @@ const load = ()=>{
        function  swipeBack(){
         const nftElement = document.getElementById('nft');
         if (nftElement) {
-            nftElement.style.color = '';
+            nftElement.style.color = 'gray';
             nftElement.style.fontWeight = 'none';
         }
        ;
