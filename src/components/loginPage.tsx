@@ -149,7 +149,7 @@ else{
                 <h2 style={{textAlign: 'center'}}>Login</h2>
                 <form style={{margin:'0 auto', width:'70%', justifyContent:'center'}} onSubmit={(e) => { e.preventDefault(); }}>
                     <div>
-                        <label htmlFor="email">Email:</label>
+                        <label htmlFor="email">Business/Personal Email:</label>
                         <input className='logs'  id="email" name="email" required style={{color:'gray', height:'30px',  width:'100%', background :'transparent', borderWidth:'1px', borderStyle:'groove', borderColor:'gray', borderRadius:'5px'}} placeholder='@example.com'  />
                     </div>
                     <br></br>

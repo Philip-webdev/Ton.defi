@@ -20,7 +20,7 @@ font-family: Lexend;
      background-color: rgb(15,15,15);
       color: white ;
   }
-   height: 170vh;
+   height: 190vh;
   padding: 20px 20px;
    zoom :90%;
    
