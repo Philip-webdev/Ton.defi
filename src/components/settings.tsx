@@ -105,7 +105,7 @@ return(
         <AppContainer>
           <div>
             Set Phone number as address
-          </div>
+          </div><br/>
           <StyledInputWrapper>
              
             <StyledInput

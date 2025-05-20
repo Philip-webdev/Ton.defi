@@ -146,10 +146,10 @@ else{
     return (
         <StyledApp>
             <div style={{justifyContent:'center',padding:'20px',  backdropFilter: 'blur(5px) ',  margin:'0 auto',  borderRadius:'5px',  borderStyle:'groove',  borderWidth:'0.004vh',  borderColor:'gray'}}>
-                <h2 style={{textAlign: 'center'}}>Login</h2>
+                <h2 style={{textAlign: 'center'}}>Login/Register</h2>
                 <form style={{margin:'0 auto', width:'70%', justifyContent:'center'}} onSubmit={(e) => { e.preventDefault(); }}>
                     <div>
-                        <label htmlFor="email">Business/Personal Email:</label>
+                        <label htmlFor="email">B/C Email:</label>
                         <input className='logs'  id="email" name="email" required style={{color:'gray', height:'30px',  width:'100%', background :'transparent', borderWidth:'1px', borderStyle:'groove', borderColor:'gray', borderRadius:'5px'}} placeholder='@example.com'  />
                     </div>
                     <br></br>
