@@ -21,7 +21,7 @@ font-family: Lexend;
 }
       height : 180vh;
   padding: 20px;
-   zoom :70%;
+   zoom :90%;
    
 `;
 
