@@ -78,6 +78,16 @@ function settings(){
   if (address != null){
   setAddress(address.value);
 }
+const dropdown1 = () => {
+   
+  const section = document.getElementsByClassName('phonewrap')[0] as HTMLElement | null;
+
+  if (section != null && section.style.display == 'block') {
+      section.style.display = 'none'; 
+  } else if(section != null) {
+    section.style.display = 'block';
+  }
+};
 
   const matchAddress = () => {
     const phoneElem = document.getElementById("phone")as HTMLInputElement;
@@ -103,10 +113,11 @@ function settings(){
 return(
     <StyledApp>
         <AppContainer>
-          <div>
+          <Icon><div  onClick={dropdown1} style={{cursor:'pointer', width:'inherit', height:'inherit', borderRadius:'10px', padding:'10px 20px', marginBottom:'10px'}}>
             Set Phone number as address
-          </div><br/>
-          <StyledInputWrapper>
+          </div></Icon><br/>
+           <div className="phonewrap" style={{ display: 'none' }}>
+          <StyledInputWrapper  >
              
             <StyledInput
               id="phone"
@@ -118,7 +129,7 @@ return(
           </StyledInputWrapper><br/>
 
 
-          <div><StyledInputWrapper> <StyledInput
+         <StyledInputWrapper  > <StyledInput
               id="address"
               placeholder="Enter your address"
               type="decimal"
@@ -126,9 +137,10 @@ return(
               autoComplete="text"
             />
             </StyledInputWrapper>
-              </div>
+            
               <br/> 
           <div style={{justifyContent:'center'}}><Button style={{border: '1px solid #ccc', borderRadius: '4px', fontSize: '16px'}} onClick={matchAddress}>Match Address</Button></div>
+            </div>
        
       <Icon className="nav" style={{left:'0',  bottom:'0%', display:'flex',justifyContent:'space-evenly' ,height:'fit-content',  width:'100%', paddingBottom:'10px', paddingRight:'10px',position:'fixed' }}>
                                            <a href='#/home' style={{color:'grey', textDecoration:'none'}}> 

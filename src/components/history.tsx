@@ -12,7 +12,8 @@ const AppContainer = styled.div`
 `;
 const API = styled.div`
 background-color: white;
- 
+ top: 0;
+  
  @media (prefers-color-scheme: dark) {
      background-color: rgb(15,15,15);
        color:white;
