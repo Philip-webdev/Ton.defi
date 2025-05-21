@@ -18,9 +18,10 @@ font-family: Lexend;
  
    @media (prefers-color-scheme: dark) {
      background-color: rgb(15,15,15);
-      color: 180vh;
-  padding: 20px 20px;
-   zoom :90%;
+}
+      height : 180vh;
+  padding: 20px;
+   zoom :70%;
    
 `;
 
