@@ -106,7 +106,7 @@ else{
             method: "POST",
             headers: { "Content-Type": "application/json" },
             credentials: "include",  
-            body: JSON.stringify({ email, password  ,  p_k}),
+            body: JSON.stringify({ email, password   }),
         }). 
         then(res => {
             if (res.ok) {
@@ -119,8 +119,8 @@ else{
                     window.Telegram.WebApp.openTelegramLink('https://app.nekstpei.com/#/home');                
 
             } else {
-                const infoPan = document.getElementById('infoPan') ;
-                if (infoPan) {
+                const infoPan = document.getElementById('infoPan') as HTMLDivElement ;
+                if (infoPan != null && res.status == 500 || res.status == 401 ) {
                     infoPan.style.color = 'red';
                     infoPan.innerText = 'Login failed, register first! ';
                 }

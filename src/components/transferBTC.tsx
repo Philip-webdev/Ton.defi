@@ -1,8 +1,7 @@
 import { Button, FlexBoxCol, FlexBoxRow, Input, Card} from "../components/styled/styled";
 import * as multichainWallet from 'multichain-crypto-wallet';
 import { useState } from "react";
-import { BsQrCodeScan } from "react-icons/bs";
-import QRScanner from "./QRcode";
+
 
 export  function TransferBTC() {
     const [BTCAmount, setBTCAmount] = useState<number>(0);
@@ -19,12 +18,21 @@ export  function TransferBTC() {
       })
       .then(res => {
         if (res.ok) {
+          console.log('Transaction successful:', res);
             const S_button = document.getElementById('info');
             if (S_button) {
                 S_button.innerText = 'Success';
                 S_button.style.backgroundColor = 'green';
             }
 
+}
+else {
+  console.log('Transaction failed:', res);
+  const S_button = document.getElementById('info');
+  if (S_button) {
+      S_button.innerText = 'Failed';
+      S_button.style.backgroundColor = 'red';
+  }
 }
 });
  

@@ -121,6 +121,7 @@ function Home(){
 
   const [totalBalance, setTotalBalance] = useState<number>(0); // Initialize total balance state
 const [pretext, setText] = useState(<div style={{color:'gray'}}>Loading tokens...</div>);
+const[color,  setColor] = useState('grey');
 
 const load = ()=>{
   setText(<div>
@@ -203,8 +204,13 @@ const load = ()=>{
         hide( <BsEye/>);
       }
        }
-    
+     const styles = {
+        color: 'rgb(36, 172, 242)'
+       }
+      const current = () =>{
       
+       setColor(styles.color)
+      }
 
       
        
@@ -313,14 +319,14 @@ const load = ()=>{
   
                    <Icon className="nav" style={{left:'0',  bottom:'0%', display:'flex',justifyContent:'space-evenly' ,height:'fit-content',  width:'100%', paddingBottom:'10px', paddingRight:'10px',position:'fixed' }}>
                                       <a href='#/home' style={{color:'grey', textDecoration:'none'}}> 
-                                      <Button  style={{  fontFamily: 'Lexend' , bottom:'0%',  background:'none', color:"grey"}}><BsHouse />{/*<img src='https://i.imgur.com/uxozY7V.png' height='14px' width='14px' />*/}
+                                      <Button  style={{  fontFamily: 'Lexend' , bottom:'0%',  background:'none', color:color}} onClick={current}><BsHouse />{/*<img src='https://i.imgur.com/uxozY7V.png' height='14px' width='14px' />*/}
                                       <p style={{zoom:'100%'}}>Home</p> </Button></a>
-                                       <a href='#/send' style={{color:'grey', textDecoration:'none'}}> <Button  style={{  fontFamily: 'Lexend' ,bottom:'0%',  background:'none', color:"grey"}}><BsWallet2 />{/*<img src="https://i.imgur.com/hCrmXO1.png" height='14px' width='14px'/> */}
+                                       <a href='#/send' style={{color:'grey', textDecoration:'none'}}> <Button  style={{  fontFamily: 'Lexend' ,bottom:'0%',  background:'none', color:color}} onClick={current}><BsWallet2 />{/*<img src="https://i.imgur.com/hCrmXO1.png" height='14px' width='14px'/> */}
                                       <p style={{zoom:'100%'}}>Wallet</p></Button></a>
-                                      <a href='#/market' style={{color:'grey', textDecoration:'none'}}>  <Button style={{  fontFamily: 'Lexend' ,bottom:'0%',  background:'none', color:"grey"}}><BsApp/> {/*<img src="https://i.imgur.com/loOhRv0.png" height='14px' width='14px' /> */}
+                                      <a href='#/market' style={{color:'grey', textDecoration:'none'}}>  <Button style={{  fontFamily: 'Lexend' ,bottom:'0%',  background:'none', color:color}} onClick={current}><BsApp/> {/*<img src="https://i.imgur.com/loOhRv0.png" height='14px' width='14px' /> */}
                                         <p style={{zoom:'100%'}}>Apps</p></Button></a> 
                                         <a href='#/discover' style={{color:'grey', textDecoration:'none'}}>
-                                        <Button  style={{ fontFamily: 'Lexend' ,bottom:'0%', background:'none', color:"grey"}}><BsLightningCharge />{/*<img src='https://i.imgur.com/S444rBc.png'height='14px' width='14px'/>*/}
+                                        <Button  style={{ fontFamily: 'Lexend' ,bottom:'0%', background:'none', color:color}} onClick={current}><BsLightningCharge />{/*<img src='https://i.imgur.com/S444rBc.png'height='14px' width='14px'/>*/}
                                         <p style={{zoom:'100%'}}>Discover</p> </Button></a>
                                       </Icon> 
             </AppContainer>
