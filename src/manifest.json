@@ -1,8 +1,8 @@
 {
-    "url": "https://nexr-pi.vercel.app/", 
+    "url": "https://app.nekstpei.com/", 
     "app_name": "Next Exchanger",                   
     "name": "Next Exchanger", 
-    "short_name": "NEXR",                   
+    "short_name": "nekstpei",                   
     "iconUrl": "https://i.imgur.com/PZlLQcl.png",            
     "termsOfUseUrl": "<terms-of-use-url>",    
     "privacyPolicyUrl": "<privacy-policy-url>" 
