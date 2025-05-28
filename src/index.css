@@ -58,6 +58,7 @@ button {
 }
 button:hover {
     background-color: white;
+    color: #000;
 }
 #swapper{
     width:100px;

@@ -5,7 +5,7 @@ import '../index.css';
 import { BsHouse, BsWallet2, BsShop, BsLightningCharge, BsCashStack, BsCashCoin, BsCash, BsApp } from "react-icons/bs";
   
 
-
+     
 const StyledApp = styled.div`
   background-color: #F9F9F9;
   color: black;
@@ -49,44 +49,168 @@ const AppContainer = styled.div`
 
 
 function PIN() {
-  const [plan,  setPlan] = useState<string>("");
+  const [plan,  setPlan] = useState<number>(1);
 const [Phone,  setPhone] = useState<number>();
-const [DurationByPlan,  setDuration] = useState<string>("");
 
-if (plan == 'monthly'){
-    setDuration('30 days')
+
+
+ 
+const [moniepointWallet, setMoniepointWallet] = useState<string>('');
+ 
+ 
+ const getUsersIdFromIndexedDB = (): Promise<string | null> => {
+            return new Promise((resolve, reject) => {
+              const request = indexedDB.open('usersDatabase', 1);
+          
+              request.onsuccess = (event) => {
+                const db = (event.target as IDBOpenDBRequest).result;
+                const tx = db.transaction('users', 'readonly');
+                const store = tx.objectStore('users');
+                const getRequest = store.get('latest');
+          
+                getRequest.onsuccess = () => {
+                  if (getRequest.result) {
+                    const userId = getRequest.result.userId;
+                    console.log('✅ Retrieved user ID:', userId);
+                    resolve(userId);
+                  } else {
+                    resolve(null); // Nothing saved
+                  }
+                };
+          
+                getRequest.onerror = () => reject(' Failed to retrieve user ID');
+              };
+          
+              request.onerror = () => reject(' Failed to open IndexedDB');
+            });
+          };
+ 
+async function createNodeRequest(){
+  const creatorId = await getUsersIdFromIndexedDB();
+  const packageCost = plan; // use state value
+
+   fetch("https://twa-backend-g83o.onrender.com/nodes", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            credentials: "include",  
+            body: JSON.stringify({  creatorId ,packageCost }),
+        })
 }
-else if (plan == 'weekly')
-{
-    setDuration('7 days')
-}
-else {
-    setDuration('1 day')
+async function joinNodeRequest(){
+  const res = await fetch("https://twa-backend-g83o.onrender.com/user", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    credentials: "include",  
+    body: JSON.stringify({  moniepointWallet ,    phone: Phone }),
+  });
+  const responseData = await res.json();
+  const userId = responseData.userId;
+  const minAmount = "";
+  
+  const saveuserIdToIndexedDB = ( ) => {
+    const request = indexedDB.open('usersDatabase', 1);
+  
+    request.onupgradeneeded = (event) => {
+      const db = event.target ? (event.target as IDBOpenDBRequest).result : null;
+      if (!db) {
+        console.error('Failed to access IndexedDB result.');
+        return;
+      }
+  
+      if (!db.objectStoreNames.contains('users')) {
+        db.createObjectStore('users', { keyPath: 'id' });
+      }
+    };
+  
+    request.onsuccess = (event) => {
+      const db = event.target ? (event.target as IDBOpenDBRequest).result : null;
+      if (!db) {
+        console.error('Failed to access IndexedDB result.');
+        return;
+      }
+      const tx = db.transaction('users', 'readwrite');
+      const store = tx.objectStore('users');
+  
+      store.put({ id: 'latest', userId: userId });
+  
+      tx.oncomplete = () => {
+        console.log(' user ID saved to IndexedDB:', userId);
+      };
+  
+      tx.onerror = (err) => {
+        console.error(' Error saving user ID:', err);
+      };
+    };
+  
+    request.onerror = (err) => {
+      console.error(' Error opening IndexedDB:', err);
+    };
+    
+  };
+  saveuserIdToIndexedDB();
+  
+  fetch(`https://twa-backend-g83o.onrender.com/nodes/${userId}/join`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    credentials: "include",  
+    body: JSON.stringify({  userId , minAmount }),
+  });
 }
 
-return(
+return (
     <StyledApp>
-    <AppContainer>
-    <h3 style={{textAlign: "center"}}>Web3charge</h3>
+      <AppContainer>
         <div style={{  justifyContent:'space-around',    borderRadius:'10px'}}>
-<div style={{width:'100px',  height: '20px', borderRadius:'10px'}}>Enter your phone number: {Phone}</div>
-<div style={{width:'100px',  height: '20px', borderRadius:'10px'}} >Select plan: {plan}</div>
-<Button>Pay Fee</Button>
-<div style={{width:'inherit',  height: '20px', borderRadius:'10px'}} >Duration: {DurationByPlan} </div>
-  </div>
-         <Icon className="nav" style={{left:'0', right:'0', bottom:'0%', display:'flex',justifyContent:'space-evenly' ,height:'fit-content',  width:'100%', paddingBottom:'10px', paddingRight:'10px',position:'fixed' }}>
-                                              <a href='#/home' style={{color:'grey', textDecoration:'none'}}> 
-                                              <Button  style={{  fontFamily: 'Lexend' , bottom:'0%',  background:'none', color:"grey"}}><BsHouse/>{/*<img src='https://i.imgur.com/uxozY7V.png' height='14px' width='14px' />*/}
-                                              <p style={{zoom:'100%'}}>Home</p> </Button></a>
-                                               <a href='#/send' style={{color:'grey', textDecoration:'none'}}> <Button  style={{  fontFamily: 'Lexend' ,bottom:'0%',  background:'none', color:"grey"}}><BsWallet2/>{/*<img src="https://i.imgur.com/hCrmXO1.png" height='14px' width='14px'/> */}
-                                              <p style={{zoom:'100%'}}>Wallet</p></Button></a>
-                                              <a href='#/market' style={{color:'grey', textDecoration:'none'}}>  <Button style={{  fontFamily: 'Lexend' ,bottom:'0%',  background:'none', color:"grey"}}><BsApp/> {/*<img src="https://i.imgur.com/loOhRv0.png" height='14px' width='14px' /> */}
-                                                <p style={{zoom:'100%'}}>Apps</p></Button></a> 
-                                                <a href='#/discover' style={{color:'grey', textDecoration:'none'}}>
-                                                <Button  style={{ fontFamily: 'Lexend' ,bottom:'0%', background:'none', color:"grey"}}><BsLightningCharge/>{/*<img src='https://i.imgur.com/S444rBc.png'height='14px' width='14px'/>*/}
-                                                <p style={{zoom:'100%'}}>Discover</p> </Button></a>
-                                              </Icon> 
-    </AppContainer></StyledApp>
-)
+          <h3 style={{textAlign: "center"}}>Web3charge</h3>
+          
+
+         
+          <div >
+            
+            <input placeholder="Enter phone number"
+              id="phone" 
+              value={Phone ?? ''} 
+              onChange={e => setPhone(Number(e.target.value))} 
+              type="number"
+            style={{ borderRadius:'1px',border:'1px solid black', padding:'10px', width:'90%'}}/>
+          </div>  <br/>
+          <div style={{ borderRadius:'10px'}} >
+            
+            <input placeholder="Enter plan in GB"
+              id="plan" 
+              value={plan} 
+              onChange={e => setPlan(Number(e.target.value))} 
+              type="number"
+           style={{ borderRadius:'1px',border:'1px solid black', padding:'10px', width:'90%'}} /> 
+          </div>  <br/>
+          <div style =  {{display:"flex" ,justifyContent:'space-between' }}><Button onClick={createNodeRequest}>create node</Button>
+          <Button onClick={joinNodeRequest}>Join node</Button></div>
+          <br/>
+        </div>
+        <Icon className="nav" style={{left:'0', right:'0', bottom:'0%', display:'flex',justifyContent:'space-evenly' ,height:'fit-content',  width:'100%', paddingBottom:'10px', paddingRight:'10px',position:'fixed' }}>
+          <a href='#/home' style={{color:'grey', textDecoration:'none'}}> 
+            <Button  style={{  fontFamily: 'Lexend' , bottom:'0%',  background:'none', color:"grey"}}><BsHouse/>
+              <p style={{zoom:'100%'}}>Home</p> 
+            </Button>
+          </a>
+          <a href='#/send' style={{color:'grey', textDecoration:'none'}}> 
+            <Button  style={{  fontFamily: 'Lexend' ,bottom:'0%',  background:'none', color:"grey"}}><BsWallet2/>
+              <p style={{zoom:'100%'}}>Wallet</p>
+            </Button>
+          </a>
+          <a href='#/market' style={{color:'grey', textDecoration:'none'}}>  
+            <Button style={{  fontFamily: 'Lexend' ,bottom:'0%',  background:'none', color:"grey"}}><BsApp/> 
+              <p style={{zoom:'100%'}}>Apps</p>
+            </Button>
+          </a> 
+          <a href='#/discover' style={{color:'grey', textDecoration:'none'}}>
+            <Button  style={{ fontFamily: 'Lexend' ,bottom:'0%', background:'none', color:"grey"}}><BsLightningCharge/>
+              <p style={{zoom:'100%'}}>Discover</p> 
+            </Button>
+          </a>
+        </Icon> 
+      </AppContainer>
+    </StyledApp>
+  );
 }
 export default PIN;
