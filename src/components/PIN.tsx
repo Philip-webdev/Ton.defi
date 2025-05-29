@@ -53,9 +53,24 @@ function PIN() {
 const [Phone,  setPhone] = useState<number>();
 
 
+async function getMonie(accountNumber: string) {
+    const url = `https://sandbox.monnify.com/api/v1/disbursements/wallet/balance?accountNumber=${accountNumber}`;
+    try {
+        const response = await fetch(url, {
+            method: "GET",
+            headers: { "Content-Type": "application/json" }
+        });
+        const data = await response.json();
+        return data;
+    } catch (error) {
+        console.error('Error fetching balance:', error);
+        throw error;
+    }
+}
+const account = ''; //document.getElementById('account') as HTMLInputElement;
 
- 
-const [moniepointWallet, setMoniepointWallet] = useState<string>('');
+
+const [moniepointWallet, setMoniepointWallet] = useState(getMonie(account));
  
  
  const getUsersIdFromIndexedDB = (): Promise<string | null> => {
