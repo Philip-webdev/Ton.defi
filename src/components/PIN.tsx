@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { Button } from "./styled/styled";
 import '../index.css';
 import { BsHouse, BsWallet2, BsShop, BsLightningCharge, BsCashStack, BsCashCoin, BsCash, BsApp } from "react-icons/bs";
-  
+import Crowd from "./CrowdFront";
 
      
 const StyledApp = styled.div`
@@ -52,6 +52,19 @@ function PIN() {
   const [plan,  setPlan] = useState<number>(1);
 const [Phone,  setPhone] = useState<number>();
 
+ const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+      const timer = setTimeout(() => {
+          setLoading(false);
+      }, 5000);
+      return () => clearTimeout(timer);
+  }, []);
+
+ if (loading) {
+     return <Crowd />;
+
+   }
 
 async function getMonie(accountNumber: string) {
     const url = `https://sandbox.monnify.com/api/v1/disbursements/wallet/balance?accountNumber=${accountNumber}`;

@@ -277,7 +277,7 @@ const load = ()=>{
         <div id='slideContents' style={{height:'fit-content', width:'auto', display:'flex',  transition:'1s ease'}}>
  
  <a href ='#/tokenomics' ><img src='https://i.imgur.com/EfcPkCp.png' height='170px' width='350px' style={{borderRadius:'7px'}}/> </a> 
- <a href ='#/tontools' ><img src='https://i.imgur.com/RONC6cl.png' height='170px' width='350px' style={{marginLeft:'7px',borderRadius:'7px'}}/> </a> 
+ <a href ='#/tontools' ><img src='https://i.imgur.com/KRXEzQl.jpeg' height='170px' width='350px' style={{marginLeft:'7px',borderRadius:'7px'}}/> </a> 
         </div></div>
     
 </div> 

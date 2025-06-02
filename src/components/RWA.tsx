@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { Button } from "./styled/styled";
 import '../index.css';
 import { BsHouse, BsWallet2, BsShop, BsLightningCharge, BsCashStack, BsCashCoin, BsCash, BsApp } from "react-icons/bs";
-  
+import  Growtree from  "./Growfront";
 
 
 const StyledApp = styled.div`
@@ -45,7 +45,19 @@ const AppContainer = styled.div`
   font-family: Lexend ;
 `;
 function RWA() {
+   const [loading, setLoading] = useState(true);
    
+     useEffect(() => {
+         const timer = setTimeout(() => {
+             setLoading(false);
+         }, 5000);
+         return () => clearTimeout(timer);
+     }, []);
+   
+    if (loading) {
+        return <Growtree/>;
+   
+      }
   
 return(
     <StyledApp>
