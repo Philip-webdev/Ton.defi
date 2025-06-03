@@ -20,7 +20,7 @@ font-family: Lexend ;
 const Icon = styled.div`
 color:white;
  border-radius:7px;  
-  
+  font-size: larger;
  
 `;
 
@@ -43,7 +43,7 @@ function crowd(){
 
  
             
-          <div  style={{textAlign: 'center', marginTop:'70%'}}><img src='' alt='crowdlogo' style={{ zoom:'50%' }}/><br></br>
+          <div  style={{textAlign: 'center', marginTop:'70%'}}><br></br>
           <br></br><br></br>{Loading()}</div>
          
         </StyledApp>

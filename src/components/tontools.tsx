@@ -35,9 +35,9 @@ background-color: white;
 `;
 function tontools(){
 return(
-    <StyledApp>
+    <StyledApp> <AppContainer>
       <h1>The StableCoin Revolution: How NekstPei is Unlocking Financial Freedom for All Generations</h1>
-
+<img src='https://raw.githubusercontent.com/Philip-webdev/nexr-landing-hub/refs/heads/main/969a42a0-a1b6-49ca-901a-f5a0afab071d.svg' height='100%' width='100%' style={{marginLeft:'7px',borderRadius:'7px'}}/>
 
 <p>In an era where inflation, currency devaluation, and economic uncertainty are rampant, traditional fiat currencies have proven to be unreliable as long-term stores of value. Individuals
 and businesses across developing economies, particularly in Africa, are disproportionately
@@ -131,7 +131,7 @@ blockchain—NekstPei is your trusted partner for a borderless, stable financial
                                               <Button  style={{ fontFamily: 'Lexend' ,bottom:'0%', background:'none', color:"grey"}}><BsLightningCharge/>{/*<img src='https://i.imgur.com/S444rBc.png'height='14px' width='14px'/>*/}
                                               <p style={{zoom:'100%'}}>Discover</p> </Button></a>
                                             </Icon> 
-    </StyledApp>
+   </AppContainer> </StyledApp>
 )
 }
 

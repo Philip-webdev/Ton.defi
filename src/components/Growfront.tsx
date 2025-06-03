@@ -20,7 +20,8 @@ font-family: Lexend ;
 const Icon = styled.div`
 color:white;
  border-radius:7px;  
-  
+ font-family: Lexend;
+ font-size: larger;
  
 `;
 
@@ -29,7 +30,7 @@ function Growtree(){
   const Loading = () => {
     return (
         <div className="loading">
-            <Icon>Growtree</Icon>
+            <Icon>Grow3</Icon>
             <div className="spinner"></div> {/* Optional spinner */}
         </div>
     );
@@ -43,7 +44,7 @@ function Growtree(){
 
  
             
-          <div  style={{textAlign: 'center', marginTop:'70%'}}><img src='' alt='growtreelogo' style={{ zoom:'50%' }}/><br></br>
+          <div  style={{textAlign: 'center', marginTop:'70%'}}><br></br>
           <br></br><br></br>{Loading()}</div>
          
         </StyledApp>

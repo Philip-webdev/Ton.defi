@@ -38,7 +38,7 @@ return(
     <StyledApp>
         <AppContainer>
           <h1>Tokenomics for Beginners: A Comprehensive Guide</h1>
-          <section>
+          <section><img src='https://raw.githubusercontent.com/Philip-webdev/nexr-landing-hub/refs/heads/main/4063571.svg' height='100%' width='100%' style={{borderRadius:'7px'}}/> 
           <p>If you're new to blockchain, crypto, and digital assets, you've probably come across the term "tokenomics." But what does it really mean? How does it impact your investment or understanding of crypto projects? In this guide, 
           we'll break down the essentials of tokenomics in a simple, clear, and practical way.</p>
           </section>

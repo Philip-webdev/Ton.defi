@@ -49,9 +49,11 @@ const AppContainer = styled.div`
 
 
 function PIN() {
-  const [plan,  setPlan] = useState<number>(1);
+  const [plan,  setPlan] = useState<number>();
 const [Phone,  setPhone] = useState<number>();
-
+const account = ''; //document.getElementById('account') as HTMLInputElement;
+const [moniepointWallet, setMoniepointWallet] = useState(getMonie(account));
+ 
  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -80,11 +82,7 @@ async function getMonie(accountNumber: string) {
         throw error;
     }
 }
-const account = ''; //document.getElementById('account') as HTMLInputElement;
 
-
-const [moniepointWallet, setMoniepointWallet] = useState(getMonie(account));
- 
  
  const getUsersIdFromIndexedDB = (): Promise<string | null> => {
             return new Promise((resolve, reject) => {
@@ -189,7 +187,7 @@ return (
     <StyledApp>
       <AppContainer>
         <div style={{  justifyContent:'space-around',    borderRadius:'10px'}}>
-          <h3 style={{textAlign: "center"}}>Web3charge</h3>
+          <h3 style={{textAlign: "center"}}>Crowd</h3>
           
 
          
