@@ -88,6 +88,16 @@ const dropdown1 = () => {
     section.style.display = 'block';
   }
 };
+const dropdown2 = () => {
+
+  const section = document.getElementsByClassName('monnifywrap')[0] as HTMLElement | null;
+
+  if (section != null && section.style.display == 'block') {
+      section.style.display = 'none'; 
+  } else if(section != null) {
+    section.style.display = 'block';
+  }
+};
 
   const matchAddress = () => {
     const phoneElem = document.getElementById("phone")as HTMLInputElement;
@@ -141,7 +151,10 @@ return(
               <br/> 
           <div style={{justifyContent:'center'}}><Button style={{border: '1px solid #ccc', borderRadius: '4px', fontSize: '16px'}} onClick={matchAddress}>Match Address</Button></div>
             </div>
-       
+        <Icon><div  onClick={dropdown2} style={{cursor:'pointer', width:'inherit', height:'inherit', borderRadius:'10px', padding:'10px 20px', marginBottom:'10px'}}>
+           My Fiat Account Number
+          </div></Icon><br/>
+           <div className="monnifywrap" style={{ display: 'none' }}>{localStorage.getItem("monnifyAccountNumber")}</div>
       <Icon className="nav" style={{left:'0',  bottom:'0%', display:'flex',justifyContent:'space-evenly' ,height:'fit-content',  width:'100%', paddingBottom:'10px', paddingRight:'10px',position:'fixed' }}>
                                            <a href='#/home' style={{color:'grey', textDecoration:'none'}}> 
                                            <Button  style={{  fontFamily: 'Lexend' , bottom:'0%',  background:'none', color:"grey"}}><BsHouse />{/*<img src='https://i.imgur.com/uxozY7V.png' height='14px' width='14px' />*/}

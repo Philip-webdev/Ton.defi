@@ -7,7 +7,7 @@ import '../index.css';
 import { TronWeb } from 'tronweb';
 import * as multichainWallet from 'multichain-crypto-wallet';
 import { BsHouse, BsWallet2, BsShop, BsLightningCharge, BsCashStack, BsCopy, BsQrCode, BsApp } from "react-icons/bs";
-
+import WalletForm from "./monnify";
 
 const StyledApp = styled.div`
   background-color: #F9F9F9;
@@ -412,6 +412,16 @@ else{
       
        setColor(styles.color)
       }
+      const dropdown = () => {
+         
+        const section = document.getElementById('fiat') as HTMLElement | null;
+      
+        if (section != null && section.style.display == 'block') {
+            section.style.display = 'none'; 
+        } else if(section != null) {
+          section.style.display = 'block';
+        }
+      };
     return (
         <StyledApp  > 
             <AppContainer  > 
@@ -469,7 +479,12 @@ else{
                   </div>
                 </ExPanel>
                 <br/>
-              
+              <ExPanel style={{ display: 'flex', padding:'10px', borderRadius: '7px' }} onClick={dropdown}>
+          
+                    <div style={{ zoom:'90%', marginLeft:'7px' }}>Fiat wallet         </div>
+                    <div  id="fiat" style={{ display:'none' }}><WalletForm/> </div>
+                 
+                </ExPanel>
                 {/* Navigation Icons */}
                      <Icon className="nav" style={{left:'0',  bottom:'0%', display:'flex',justifyContent:'space-evenly' ,height:'fit-content',  width:'100%', paddingBottom:'10px', paddingRight:'10px',position:'fixed' }}>
                                                          <a href='#/home' style={{color:'grey', textDecoration:'none'}}> 
