@@ -479,7 +479,7 @@ else{
                   </div>
                 </ExPanel>
                 <br/>
-              <ExPanel style={{ display: 'flex', padding:'10px', borderRadius: '7px' }} onClick={dropdown}>
+              <ExPanel style={{  padding:'10px', borderRadius: '7px' }} onClick={dropdown}>
           
                     <div style={{ zoom:'90%', marginLeft:'7px' }}>Fiat wallet         </div>
                     <div  id="fiat" style={{ display:'none' }}><WalletForm/> </div>
