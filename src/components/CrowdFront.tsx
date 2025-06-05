@@ -29,7 +29,7 @@ function crowd(){
   const Loading = () => {
     return (
         <div className="loading">
-            <Icon>Crowd</Icon>
+            <Icon><h3   style={{textAlign: "center"}}>CryptoFund</h3></Icon><h4 style={{textAlign: "center"}}>A web3 crowdfunding dApp</h4>
             <div className="spinner"></div> {/* Optional spinner */}
         </div>
     );

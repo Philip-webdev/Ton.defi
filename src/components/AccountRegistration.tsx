@@ -479,9 +479,9 @@ else{
                   </div>
                 </ExPanel>
                 <br/>
-              <ExPanel style={{  padding:'10px', borderRadius: '7px' }} onClick={dropdown}>
+              <ExPanel style={{  padding:'10px', borderRadius: '7px' }} >
           
-                    <div style={{ zoom:'90%', marginLeft:'7px' }}>Fiat wallet         </div>
+                    <div style={{ zoom:'90%', margin :'7px' }} onClick={dropdown}>Fiat wallet         </div> <br/> 
                     <div  id="fiat" style={{ display:'none' }}><WalletForm/> </div>
                  
                 </ExPanel>

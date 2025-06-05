@@ -59,7 +59,7 @@ const [moniepointWallet, setMoniepointWallet] = useState(getMonie(account));
   useEffect(() => {
       const timer = setTimeout(() => {
           setLoading(false);
-      }, 5000);
+      }, 3000);
       return () => clearTimeout(timer);
   }, []);
 
@@ -188,7 +188,7 @@ return (
       <AppContainer>
         <div style={{  justifyContent:'space-around',    borderRadius:'10px'}}>
           <h3 style={{textAlign: "center"}}>CryptoFund</h3>
-           <h4 style={{textAlign: "center"}}>A web3 crowdfunding dApp</h4>
+          
 
          
           <div >
@@ -211,7 +211,7 @@ return (
           </div>  <br/>
           <div style =  {{display:"flex" ,justifyContent:'space-between' }}><Button onClick={createNodeRequest}>create node</Button>
           <Button onClick={joinNodeRequest}>Join node</Button></div>
-          <br/><br/>Balance: <input value = {moniepointWallet} style={{border:'none'}}/>
+          <br/><br/>Balance: <input value = {moniepointWallet} style={{border:'none', background:'none'}} disabled/>
         </div>
         <Icon className="nav" style={{left:'0', right:'0', bottom:'0%', display:'flex',justifyContent:'space-evenly' ,height:'fit-content',  width:'100%', paddingBottom:'10px', paddingRight:'10px',position:'fixed' }}>
           <a href='#/home' style={{color:'grey', textDecoration:'none'}}> 

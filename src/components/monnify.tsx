@@ -18,7 +18,7 @@ const WalletForm = () => {
 
   const handleSubmit = async (e: { preventDefault: () => void; }) => {
     e.preventDefault();
-    setMessage("");
+     
     try {
       const res = await fetch("/api/monnify", {
         method: "POST",
