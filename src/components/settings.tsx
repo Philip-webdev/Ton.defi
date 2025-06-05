@@ -59,15 +59,7 @@ const StyledInput = styled.input`
   }
 `;
 
-const StyledLabel = styled.label`
-  font-size: 14px;
-  margin-bottom: 4px;
-  font-family: Lexend;
-  color: #333;
-  @media (prefers-color-scheme: dark) {
-    color: #ccc;
-  }
-`;
+  
 
 function settings(){
 
@@ -125,8 +117,8 @@ return(
         <AppContainer>
           <Icon><div  onClick={dropdown1} style={{cursor:'pointer', width:'inherit', height:'inherit', borderRadius:'10px', padding:'10px 20px', marginBottom:'10px'}}>
             Set Phone number as address
-          </div></Icon><br/>
-           <div className="phonewrap" style={{ display: 'none' }}>
+          </div></Icon>
+           <div className="phonewrap" style={{ display: 'none' }}><br/>
           <StyledInputWrapper  >
              
             <StyledInput
@@ -150,7 +142,7 @@ return(
             
               <br/> 
           <div style={{justifyContent:'center'}}><Button style={{border: '1px solid #ccc', borderRadius: '4px', fontSize: '16px'}} onClick={matchAddress}>Match Address</Button></div>
-            </div>  <br/> 
+            </div>   
         <Icon><div  onClick={dropdown2} style={{cursor:'pointer', width:'inherit', height:'inherit', borderRadius:'10px', padding:'10px 20px', marginBottom:'10px'}}>
            My Fiat Account Number
           </div></Icon><br/>

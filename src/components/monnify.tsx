@@ -5,14 +5,14 @@ const WalletForm = () => {
     walletReference: "Enter any peculiar word or mumber to you",
     walletName: "Desired Wallet Name",
     customerName: "Your Name",
-    bvn: "",
+    bvn: "bvn",
     bvnDateOfBirth: "yyyy-mm-dd",
-    customerEmail: "",
+    customerEmail: "Email",
   });
 
   const [message, setMessage] = useState("");
 
-  const handleChange = (e: { target: { name: any; value: any; }; }) => {
+  const handleChange = (e: { target: { name: any; value: any; }; }  ) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
@@ -38,9 +38,9 @@ const WalletForm = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit} style={{maxWidth:400,margin:"auto",padding:"2rem",border:"1px solid #eee",borderRadius:8,background:"#fafbfc"}}>
+    <form onSubmit={handleSubmit} style={{maxWidth:400,margin:"auto",padding:"2rem",border:"1px solid #eee",borderRadius:7,background:"#fafbfc"}}>
       <h2 style={{textAlign:"center"}}>Wallet Registration</h2>
-      <label>Wallet Reference</label>
+         
       <input
         type="text"
         name="walletReference"
@@ -50,7 +50,7 @@ const WalletForm = () => {
         style={{width:"100%",padding:8,marginBottom:12}}
       />
 
-      <label>Wallet Name</label>
+         
       <input
         type="text"
         name="walletName"
@@ -60,7 +60,7 @@ const WalletForm = () => {
         style={{width:"100%",padding:8,marginBottom:12}}
       />
 
-      <label>Customer Name</label>
+  
       <input
         type="text"
         name="customerName"
@@ -69,8 +69,7 @@ const WalletForm = () => {
         required
         style={{width:"100%",padding:8,marginBottom:12}}
       />
-
-      <label>BVN</label>
+ 
       <input
         type="text"
         name="bvn"
@@ -79,8 +78,7 @@ const WalletForm = () => {
         required
         style={{width:"100%",padding:8,marginBottom:12}}
       />
-
-      <label>BVN Date of Birth</label>
+ 
       <input
         type="date"
         name="bvnDateOfBirth"
@@ -89,8 +87,7 @@ const WalletForm = () => {
         required
         style={{width:"100%",padding:8,marginBottom:12}}
       />
-
-      <label>Customer Email</label>
+  
       <input
         type="email"
         name="customerEmail"
