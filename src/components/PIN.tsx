@@ -52,9 +52,9 @@ function PIN() {
   const [plan,  setPlan] = useState<number>();
 const [Phone,  setPhone] = useState<number>();
 const account = localStorage.getItem("monnifyAccountNumber") as string;
-const [moniepointWallet, setMoniepointWallet] = useState(getMonie(account));
- 
- const [loading, setLoading] = useState(true);
+const [moniepointWallet, setMoniepointWallet] = useState<number | null>(null);
+
+const [loading, setLoading] = useState(true);
 
   useEffect(() => {
       const timer = setTimeout(() => {
@@ -62,6 +62,20 @@ const [moniepointWallet, setMoniepointWallet] = useState(getMonie(account));
       }, 3000);
       return () => clearTimeout(timer);
   }, []);
+
+  useEffect(() => {
+    async function fetchBalance() {
+      if (account) {
+        try {
+          const balance = await getMonie(account);
+          setMoniepointWallet(balance);
+        } catch (error) {
+          setMoniepointWallet(null);
+        }
+      }
+    }
+    fetchBalance();
+  }, [account]);
 
  if (loading) {
      return <Crowd />;
@@ -193,12 +207,14 @@ return (
          
           <div >
             
-            <input placeholder="Enter phone number"
+            <input
+              placeholder="Enter phone number"
               id="phone" 
               value={Phone ?? ''} 
-              onChange={e => setPhone(Number(e.target.value))} 
-              type="number"
-            style={{ borderRadius:'1px',border:'1px solid black', padding:'10px', width:'90%'}}/>
+              onChange={e => setPhone(Number(e.target.value))}
+              style={{ borderRadius:'1px', border:'1px solid black', padding:'10px', width:'90%' }}
+            />
+          <br/><br/>
           </div>  <br/>
           <div style={{ borderRadius:'10px'}} >
             
@@ -211,7 +227,7 @@ return (
           </div>  <br/>
           <div style =  {{display:"flex" ,justifyContent:'space-between' }}><Button onClick={createNodeRequest}>create node</Button>
           <Button onClick={joinNodeRequest}>Join node</Button></div>
-          <br/><br/>Balance: <input value = {moniepointWallet} style={{border:'none', background:'none'}} disabled/>
+          <br/><br/>Balance: {moniepointWallet}  
         </div>
         <Icon className="nav" style={{left:'0', right:'0', bottom:'0%', display:'flex',justifyContent:'space-evenly' ,height:'fit-content',  width:'100%', paddingBottom:'10px', paddingRight:'10px',position:'fixed' }}>
           <a href='#/home' style={{color:'grey', textDecoration:'none'}}> 
