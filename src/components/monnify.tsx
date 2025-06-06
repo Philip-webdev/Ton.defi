@@ -80,7 +80,7 @@ const WalletForm = () => {
       />
  
       <input
-        type="date"
+        
         name="bvnDateOfBirth"
         value={form.bvnDateOfBirth}
         onChange={handleChange}
