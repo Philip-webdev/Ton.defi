@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import styled from "styled-components";
 import { Button } from "./styled/styled";
 import '../index.css';
-import { BsHouse, BsWallet2, BsShop, BsLightningCharge, BsCashStack, BsCashCoin, BsCash, BsApp } from "react-icons/bs";
+import { BsHouse, BsWallet2, BsShop, BsLightningCharge,    BsApp } from "react-icons/bs";
 import Crowd from "./CrowdFront";
 
      
@@ -30,6 +30,22 @@ background-color: white;
         color:grey;
   }
 `;
+
+const Input = styled.input`
+background-color: white;
+border-radius: 1px;
+border: 1px solid white;
+padding: 10px;
+width: 90%;
+placeholder :transparent;
+ @media (prefers-color-scheme: dark) {
+     background-color: rgb(15,15,15);
+    
+      color: white ;
+  }
+`;
+
+
  const ExPanelPIN = styled.div`
  background-color: white;
   color:black;
@@ -207,23 +223,24 @@ return (
          
           <div >
             
-            <input
+            <Input
               placeholder="Enter phone number"
               id="phone" 
+              
               value={Phone ?? ''} 
               onChange={e => setPhone(Number(e.target.value))}
-              style={{ borderRadius:'1px', border:'1px solid black', padding:'10px', width:'90%' }}
+               
             />
           <br/><br/>
           </div>  <br/>
           <div style={{ borderRadius:'10px'}} >
             
-            <input placeholder="Enter plan in GB"
+            <Input placeholder="Enter plan in GB"
               id="plan" 
               value={plan} 
               onChange={e => setPlan(Number(e.target.value))} 
-              type="number"
-           style={{ borderRadius:'1px',border:'1px solid black', padding:'10px', width:'90%'}} /> 
+               
+           /> 
           </div>  <br/>
           <div style =  {{display:"flex" ,justifyContent:'space-between' }}><Button onClick={createNodeRequest}>create node</Button>
           <Button onClick={joinNodeRequest}>Join node</Button></div>
