@@ -141,7 +141,7 @@ return(
             </StyledInputWrapper>
             
               <br/> 
-          <div style={{justifyContent:'center'}}><Button style={{border: '1px solid #ccc', borderRadius: '4px', fontSize: '16px'}} onClick={matchAddress}>Match Address</Button></div>
+          <div style={{justifyContent:'center', margin:'auto'}}><Button style={{padding:'10',border: '1px solid #ccc', borderRadius: '4px', fontSize: '16px'}} onClick={matchAddress}>Match Address</Button></div>
             </div>   
         <Icon><div  onClick={dropdown2} style={{cursor:'pointer', width:'inherit', height:'inherit', borderRadius:'10px', padding:'10px 20px', marginBottom:'10px'}}>
            My Fiat Account Number

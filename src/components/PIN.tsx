@@ -35,7 +35,7 @@ background-color: white;
   color:black;
   @media (prefers-color-scheme: dark) {
       background-color: rgb(15,15,15);
-        color:grey;
+        color:white;
    }
  `;
 const AppContainer = styled.div`
@@ -52,7 +52,7 @@ function PIN() {
   const [plan,  setPlan] = useState<number>();
 const [Phone,  setPhone] = useState<number>();
 const account = localStorage.getItem("monnifyAccountNumber") as string;
-const [moniepointWallet, setMoniepointWallet] = useState<number | null>(null);
+const [moniepointWallet, setMoniepointWallet] = useState<number | null>(0);
 
 const [loading, setLoading] = useState(true);
 
@@ -227,7 +227,7 @@ return (
           </div>  <br/>
           <div style =  {{display:"flex" ,justifyContent:'space-between' }}><Button onClick={createNodeRequest}>create node</Button>
           <Button onClick={joinNodeRequest}>Join node</Button></div>
-          <br/><br/>Balance: {moniepointWallet}  
+          <br/><br/><ExPanelPIN>Balance: {moniepointWallet} </ExPanelPIN> 
         </div>
         <Icon className="nav" style={{left:'0', right:'0', bottom:'0%', display:'flex',justifyContent:'space-evenly' ,height:'fit-content',  width:'100%', paddingBottom:'10px', paddingRight:'10px',position:'fixed' }}>
           <a href='#/home' style={{color:'grey', textDecoration:'none'}}> 
