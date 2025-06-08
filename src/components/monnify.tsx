@@ -41,8 +41,8 @@ const WalletForm = () => {
       });
       const data = await res.json();
       if (res.ok) {
-      console.log(data.responseBody.accountnumber);
-        setMessage("Your account number is " + data.responseBody.accountnumber);
+      console.log(data.responseBody.accountNumber);
+        setMessage("Your account number is " + data.responseBody.accountNumber);
         localStorage.setItem("monnifyAccountNumber", data.accountnumber);
       } else {
         setMessage(data.error || "Registration failed.");
