@@ -34,14 +34,15 @@ const WalletForm = () => {
     e.preventDefault();
      
     try {
-      const res = await fetch("/api/monnify", {
+      const res = await fetch("https://twa-backend-g83o.onrender.com/api/monnify", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(form),
       });
       const data = await res.json();
       if (res.ok) {
-        setMessage("Your account number is " + data.accountnumber);
+      console.log(data.responseBody.accountnumber);
+        setMessage("Your account number is " + data.responseBody.accountnumber);
         localStorage.setItem("monnifyAccountNumber", data.accountnumber);
       } else {
         setMessage(data.error || "Registration failed.");
