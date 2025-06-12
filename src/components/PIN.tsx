@@ -2,8 +2,10 @@ import { useEffect, useState } from "react";
 import styled from "styled-components";
 import { Button } from "./styled/styled";
 import '../index.css';
-import { BsHouse, BsWallet2, BsShop, BsLightningCharge,    BsApp } from "react-icons/bs";
+import 'react-icons/bs';
+import { BsHouse, BsWallet2, BsShop, BsLightningCharge,    BsApp, BsBell, BsAlarm } from "react-icons/bs";
 import Crowd from "./CrowdFront";
+import { FaBell } from "react-icons/fa";
 
      
 const StyledApp = styled.div`
@@ -238,7 +240,7 @@ return (
     <StyledApp>
       <AppContainer>
         <div style={{  justifyContent:'space-around',    borderRadius:'10px'}}>
-          <h3 style={{textAlign: "center"}}>CryptoFund</h3>
+          <h3 style={{textAlign: "center", display:'flex'}}><div  style={{left:'0'}}><FaBell/></div><div   style={{marginLeft:'32%'}}>CryptoFund</div></h3>
 
           <div  style={{ borderRadius:'10px'}} >
             
@@ -254,7 +256,7 @@ return (
           </div>  <br/>
           <div style={{ borderRadius:'10px'}} >
             
-            <Input placeholder="Enter plan in GB"
+            <Input placeholder="Plan (must not be lesser than 500)"
               id="plan" 
               value={plan} 
               onChange={e => setPlan(Number(e.target.value))} 
