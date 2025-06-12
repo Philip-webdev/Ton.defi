@@ -16,12 +16,12 @@ placeholder :transparent;
 
 const WalletForm = () => {
   const [form, setForm] = useState({
-    walletReference: "Enter any peculiar word or number to you",
-    walletName: "Desired Wallet Name",
-    customerName: "Your Name",
-    bvn: "bvn",
-    bvnDateOfBirth: "yyyy-mm-dd",
-    customerEmail: "Email",
+    walletReference: "",
+    walletName: "",
+    customerName: "",
+    bvn: "",
+    bvnDateOfBirth: "",
+    customerEmail: "",
   });
 
   const [message, setMessage] = useState("");
@@ -59,6 +59,7 @@ const WalletForm = () => {
       <Input
         type="text"
         name="walletReference"
+        placeholder="Enter any peculiar word or number to you"
         value={form.walletReference}
         onChange={handleChange}
         required
@@ -69,6 +70,7 @@ const WalletForm = () => {
       <Input
         type="text"
         name="walletName"
+        placeholder="Desired Wallet Name"
         value={form.walletName}
         onChange={handleChange}
         required
@@ -79,6 +81,7 @@ const WalletForm = () => {
       <Input
         type="text"
         name="customerName"
+        placeholder="Your Name"
         value={form.customerName}
         onChange={handleChange}
         required
@@ -88,6 +91,7 @@ const WalletForm = () => {
       <Input
         type="text"
         name="bvn"
+        placeholder="bvn"
         value={form.bvn}
         onChange={handleChange}
         required
@@ -96,6 +100,7 @@ const WalletForm = () => {
  
       <Input
         type="text"
+        placeholder="yyyy-mm-dd"
         name="bvnDateOfBirth"
         value={form.bvnDateOfBirth}
         onChange={handleChange}
@@ -105,6 +110,7 @@ const WalletForm = () => {
   
       <Input
         type="email"
+        placeholder="Email"
         name="customerEmail"
         value={form.customerEmail}
         onChange={handleChange}
