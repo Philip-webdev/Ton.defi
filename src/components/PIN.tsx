@@ -66,6 +66,7 @@ const AppContainer = styled.div`
 
 function PIN() {
   const [plan,  setPlan] = useState<number>();
+  const [network,  setNetwork] = useState<string>();
 const [Phone,  setPhone] = useState<number>();
 const account = localStorage.getItem("monnifyAccountNumber") as string;
 const [moniepointWallet, setMoniepointWallet] = useState<number | null>(0);
@@ -157,11 +158,31 @@ async function joinNodeRequest(){
     method: "POST",
     headers: { "Content-Type": "application/json" },
     credentials: "include",  
-    body: JSON.stringify({  moniepointWallet ,    phone: Phone }),
+    body: JSON.stringify({  moniepointWallet ,    phone: Phone ,  Plan: plan}),
   });
+
+  if (res.ok) {
+    const alertBox = document.createElement('div');
+    alertBox.innerText = "Joined! Takes some moments for package to reflect";
+    alertBox.style.position = 'fixed';
+    alertBox.style.bottom = '50%';
+    alertBox.style.right = '40%';
+    alertBox.style.backgroundColor = '#4CAF50';
+    alertBox.style.color = 'white';
+    alertBox.style.padding = '10px 20px';
+    alertBox.style.borderRadius = '5px';
+    alertBox.style.boxShadow = '0 2px 5px rgba(0, 0, 0, 0.3)';
+    alertBox.style.fontFamily = 'Lexend';
+    alertBox.style.zIndex = '1000';
+    document.body.appendChild(alertBox);
+    setTimeout(() => {
+      document.body.removeChild(alertBox);
+    }, 5000);     
+  }
+
   const responseData = await res.json();
   const userId = responseData.userId;
-  const minAmount = "";
+  const minAmount = "1000";
   
   const saveuserIdToIndexedDB = ( ) => {
     const request = indexedDB.open('usersDatabase', 1);
@@ -212,16 +233,14 @@ async function joinNodeRequest(){
     body: JSON.stringify({  userId , minAmount }),
   });
 }
-
+ 
 return (
     <StyledApp>
       <AppContainer>
         <div style={{  justifyContent:'space-around',    borderRadius:'10px'}}>
           <h3 style={{textAlign: "center"}}>CryptoFund</h3>
-          
 
-         
-          <div >
+          <div  style={{ borderRadius:'10px'}} >
             
             <Input
               placeholder="Enter phone number"
@@ -240,9 +259,15 @@ return (
               value={plan} 
               onChange={e => setPlan(Number(e.target.value))} 
                
+           /> <br/><br/>
+                <br/><Input placeholder="network"
+              id="plan" 
+              value={network} 
+              onChange={e => setNetwork((e.target.value))} 
+               
            /> 
           </div>  <br/>
-          <div style =  {{display:"flex" ,justifyContent:'space-between' }}><Button onClick={createNodeRequest}>create node</Button>
+          <div style =  {{display:"flex" ,justifyContent:'space-between' }}>
           <Button onClick={joinNodeRequest}>Join node</Button></div>
           <br/><br/><ExPanelPIN>Balance: {moniepointWallet} </ExPanelPIN> 
         </div>
