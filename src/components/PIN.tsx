@@ -160,7 +160,7 @@ async function joinNodeRequest(){
     method: "POST",
     headers: { "Content-Type": "application/json" },
     credentials: "include",  
-    body: JSON.stringify({  moniepointWallet ,    phone: Phone ,  Plan: plan}),
+    body: JSON.stringify({  moniepointWallet ,    phone: Phone ,   plan}),
   });
 
   if (res.ok) {
