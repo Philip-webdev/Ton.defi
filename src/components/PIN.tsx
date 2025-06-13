@@ -160,7 +160,7 @@ async function joinNodeRequest(){
     method: "POST",
     headers: { "Content-Type": "application/json" },
     credentials: "include",  
-    body: JSON.stringify({  moniepointWallet ,    phone: Phone ,   plan}),
+    body: JSON.stringify({  moniepointWallet ,    phone: Phone ,   plan,  network }),
   });
 
   if (res.ok) {
@@ -169,7 +169,8 @@ async function joinNodeRequest(){
     alertBox.style.position = 'fixed';
     alertBox.style.bottom = '50%';
    alertBox.style.transform = 'translateY(50%)';
-   alertBox.style.width = 'max-content';
+   alertBox.style.width = '70%';
+   alertBox.style.justifyContent = 'space-around';
     alertBox.style.height = 'max-content';
     alertBox.style.alignSelf = 'center';
     alertBox.style.backgroundColor = 'white';
