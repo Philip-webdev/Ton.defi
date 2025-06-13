@@ -165,17 +165,17 @@ async function joinNodeRequest(){
 
   if (res.ok) {
     const alertBox = document.createElement('div');
-    alertBox.innerText = "Joined! Takes some moments for package to reflect";
+    alertBox.innerHTML = "Joined! <br/>Takes some moments for package to reflect";
     alertBox.style.position = 'fixed';
     alertBox.style.bottom = '50%';
    alertBox.style.transform = 'translateY(50%)';
-   alertBox.style.width = '70%';
+   alertBox.style.margin = 'auto';
    alertBox.style.justifyContent = 'space-around';
-    alertBox.style.height = 'max-content';
+    alertBox.style.height = '500px';
     alertBox.style.alignSelf = 'center';
     alertBox.style.backgroundColor = 'white';
     alertBox.style.color = 'black';
-    alertBox.style.padding = '10px 20px';
+    alertBox.style.padding = '20px 20px';
     alertBox.style.borderRadius = '5px';
     alertBox.style.boxShadow = '0 2px 5px rgba(0, 0, 0, 0.3)';
     alertBox.style.fontFamily = 'Lexend';
