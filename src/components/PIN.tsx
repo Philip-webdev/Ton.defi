@@ -168,10 +168,12 @@ async function joinNodeRequest(){
     alertBox.innerText = "Joined! Takes some moments for package to reflect";
     alertBox.style.position = 'fixed';
     alertBox.style.bottom = '50%';
-   
+   alertBox.style.transform = 'translateY(50%)';
+   alertBox.style.width = 'max-content';
+    alertBox.style.height = 'max-content';
     alertBox.style.alignSelf = 'center';
-    alertBox.style.backgroundColor = '#4CAF50';
-    alertBox.style.color = 'white';
+    alertBox.style.backgroundColor = 'white';
+    alertBox.style.color = 'black';
     alertBox.style.padding = '10px 20px';
     alertBox.style.borderRadius = '5px';
     alertBox.style.boxShadow = '0 2px 5px rgba(0, 0, 0, 0.3)';
