@@ -156,7 +156,7 @@ async function createNodeRequest(){
         })
 }
 async function joinNodeRequest(){
-  const res = await fetch("https://twa-backend-g83o.onrender.com/user", {
+  const res = await fetch("https://twa-backend-g83o.onrender.com/users", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     credentials: "include",  
