@@ -168,7 +168,7 @@ async function joinNodeRequest(){
     alertBox.innerHTML = "Joined! <br/>Takes some moments for package to reflect";
     alertBox.style.position = 'fixed';
     alertBox.style.bottom = '50%';
-   alertBox.style.transform = 'translateY(50%)';
+   
    alertBox.style.margin = 'auto';
    alertBox.style.justifyContent = 'space-around';
     alertBox.style.height = '500px';
