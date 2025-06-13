@@ -3,9 +3,11 @@ import styled from "styled-components";
 import { Button } from "./styled/styled";
 import '../index.css';
 import 'react-icons/bs';
-import { BsHouse, BsWallet2, BsShop, BsLightningCharge,    BsApp, BsBell, BsAlarm } from "react-icons/bs";
+import 'react-icons/fa';
+import { BsHouse, BsWallet2, BsShop, BsLightningCharge,    BsApp, BsBell, BsAlarm, BsBadge3D, BsChatLeftDots, BsInbox, BsGraphUp, BsBarChartLine, BsBarChart } from "react-icons/bs";
 import Crowd from "./CrowdFront";
-import { FaBell } from "react-icons/fa";
+import { FaBullhorn } from "react-icons/fa";
+
 
      
 const StyledApp = styled.div`
@@ -35,10 +37,13 @@ background-color: white;
 
 const Input = styled.input`
 background-color: white;
-border-radius: 1px;
-border: 1px solid white;
+border-radius: 7px;
+border: 1px solid blue;
 padding: 10px;
 width: 90%;
+height: 40px;
+font-size: 16px;
+font-family: Lexend;
 placeholder :transparent;
  @media (prefers-color-scheme: dark) {
      background-color: rgb(15,15,15);
@@ -171,7 +176,7 @@ async function joinNodeRequest(){
    
    alertBox.style.margin = 'auto';
    alertBox.style.justifyContent = 'space-around';
-    alertBox.style.height = '500px';
+    
     alertBox.style.alignSelf = 'center';
     alertBox.style.backgroundColor = 'white';
     alertBox.style.color = 'black';
@@ -244,7 +249,7 @@ return (
     <StyledApp>
       <AppContainer>
         <div style={{  justifyContent:'space-around',    borderRadius:'10px'}}>
-          <h3 style={{textAlign: "center", display:'flex'}}><div  style={{left:'0'}}><FaBell/></div><div   style={{marginLeft:'32%'}}>CryptoFund</div></h3>
+          <h3 style={{textAlign: "center", display:'flex'}}><div  style={{left:'0'}}><BsBarChart/></div><div   style={{marginLeft:'32%'}}>CryptoFund</div></h3>
 
           <div  style={{ borderRadius:'10px'}} >
             
@@ -274,7 +279,7 @@ return (
            /> 
           </div>  <br/>
           <div style =  {{display:"flex" ,justifyContent:'space-between' }}>
-          <Button onClick={joinNodeRequest}>Join node</Button></div>
+          <Button onClick={joinNodeRequest} style={{ fontSize:'16px'}}>Join node</Button></div>
           <br/><br/><ExPanelPIN>Balance: {moniepointWallet} </ExPanelPIN> 
         </div>
         <Icon className="nav" style={{left:'0', right:'0', bottom:'0%', display:'flex',justifyContent:'space-evenly' ,height:'fit-content',  width:'100%', paddingBottom:'10px', paddingRight:'10px',position:'fixed' }}>

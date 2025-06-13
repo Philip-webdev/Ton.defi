@@ -4,8 +4,12 @@ import styled from "styled-components";
 
 const Input = styled.input`
 background-color: white;
-padding: 10px;
-width: 100%;
+padding: 20px;
+width: 90%;
+height: 40px;
+
+font-size: 16px;
+font-family: Lexend;
 placeholder :transparent;
  @media (prefers-color-scheme: dark) {
      background-color: rgb(15,15,15);
@@ -53,7 +57,7 @@ const WalletForm = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit} style={{maxWidth:400,margin:"auto",padding:"2rem",border:"1px solid #eee",borderRadius:7,background:"transparent"}}>
+    <form onSubmit={handleSubmit} style={{maxWidth:800,margin:"auto",padding:"2rem",border:"1px solid #eee",borderRadius:7,background:"transparent"}}>
       <h2 style={{textAlign:"center"}}>Wallet Registration</h2>
          
       <Input
@@ -63,7 +67,7 @@ const WalletForm = () => {
         value={form.walletReference}
         onChange={handleChange}
         required
-        style={{width:"100%",padding:8,marginBottom:12}}
+        style={{width:"95%",padding:8,marginBottom:12}}
       />
 
          
@@ -74,7 +78,7 @@ const WalletForm = () => {
         value={form.walletName}
         onChange={handleChange}
         required
-        style={{width:"100%",padding:8,marginBottom:12}}
+        style={{width:"95%",padding:8,marginBottom:12}}
       />
 
   
@@ -85,7 +89,7 @@ const WalletForm = () => {
         value={form.customerName}
         onChange={handleChange}
         required
-        style={{width:"100%",padding:8,marginBottom:12}}
+        style={{width:"95%",padding:8,marginBottom:12}}
       />
  
       <Input
@@ -95,7 +99,7 @@ const WalletForm = () => {
         value={form.bvn}
         onChange={handleChange}
         required
-        style={{width:"100%",padding:8,marginBottom:12}}
+        style={{width:"95%",padding:8,marginBottom:12}}
       />
  
       <Input
@@ -105,7 +109,7 @@ const WalletForm = () => {
         value={form.bvnDateOfBirth}
         onChange={handleChange}
         required
-        style={{width:"100%",padding:8,marginBottom:12}}
+        style={{width:"95%",padding:8,marginBottom:12}}
       />
   
       <Input
@@ -115,7 +119,7 @@ const WalletForm = () => {
         value={form.customerEmail}
         onChange={handleChange}
         required
-        style={{width:"100%",padding:8,marginBottom:16}}
+        style={{width:"95%",padding:8,marginBottom:16}}
       />
 
       <button type="submit" style={{width:"100%",padding:10,background:"#007bff",color:"#fff",border:"none",borderRadius:4,fontSize:"1rem"}}>Submit</button>

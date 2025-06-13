@@ -9,25 +9,24 @@ import { useState } from "react";
 const StyledApp = styled.div`
   background-color: #F9F9F9;
   color: black;
-  margin:0;
-font-family: Lexend;
-
-   @media (prefers-color-scheme: dark) {
-     background-color: rgb(15,15,15);
-      color: white ;
+  
+  font-family: Lexend;
+   min-height: 250vh;
+  padding: 20px;
+ zoom :90%;
+  @media (prefers-color-scheme: dark) {
+    background-color: rgb(33,33,33);
+    color: white;
   }
-  min-height: 100vh;
-  padding: 20px 20px;
-   zoom :90%;
 `;
 
 const Icon = styled.div`
-background-color: white;
- border-radius:7px;  
-  
- @media (prefers-color-scheme: dark) {
-     background-color: rgb(15,15,15);
-        color:grey;
+  background-color: white;
+  color: black;
+
+  @media (prefers-color-scheme: dark) {
+    background-color: rgb(15,15,15);
+    color: grey;
   }
 `;
 
