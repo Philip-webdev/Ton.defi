@@ -40,7 +40,7 @@ background-color: white;
 border-radius: 7px;
 border: 1px solid blue;
 padding: 10px;
-width: 100%;
+width: 98%;
 height: 40px;
 font-size: 16px;
 font-family: Lexend;
