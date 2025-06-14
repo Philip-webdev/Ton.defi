@@ -7,7 +7,7 @@ const StyledApp = styled.div`
   color: black;
   
   font-family: Lexend;
-   min-height: 90vh;
+   min-height: 100vh;
   padding: 20px;
  zoom :90%;
   @media (prefers-color-scheme: dark) {
