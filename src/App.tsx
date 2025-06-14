@@ -24,7 +24,7 @@ import UserLogin from "./components/loginPage";
 import PIN from "./components/PIN";
 import stake from "./components/stake";
 import RWA from "./components/RWA";
-
+import Latest from "./components/latest";
 
  const StyledApp = styled.div`
   
@@ -88,6 +88,7 @@ function App() {
       <Route path="/tokenomics" Component={tokenomics}/>
       <Route path="/tontools" Component={tontools}/>
       <Route path="/buy" Component={buy}/>
+      <Route path="/latest" Component={Latest}/>
       <Route path="/contact" Component={contact}/>
       <Route path="/agenda" Component={agenda}/>
       <Route path="/security" Component={security}/>
@@ -96,7 +97,8 @@ function App() {
       <Route path="/stake" Component={stake}/>
       <Route path="/rwa" Component={RWA}/>
       <Route path="/pin" Component={PIN}/>
-      <Route path="usdt" Component={usdt}/>
+      <Route path="/usdt" Component={usdt}/>
+      
     </Routes>
   </HashRouter>
 

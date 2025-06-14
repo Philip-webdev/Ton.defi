@@ -249,7 +249,7 @@ return (
     <StyledApp>
       <AppContainer>
         <div style={{  justifyContent:'space-around',    borderRadius:'10px'}}>
-          <h3 style={{textAlign: "center", display:'flex'}}><div  style={{left:'0'}}><BsBarChart/></div><div   style={{marginLeft:'32%'}}>CryptoFund</div></h3>
+          <h3 style={{textAlign: "center", display:'flex'}}><div  style={{left:'0'}}><a href="#/latest" style={{color:'gray'}}><BsBarChart/></a></div><div   style={{marginLeft:'32%'}}>CryptoFund</div></h3>
 
           <div  style={{ borderRadius:'10px'}} >
             
