@@ -122,7 +122,7 @@ const WalletForm = () => {
         style={{width:"95%",padding:8,marginBottom:16}}
       />
 
-      <button type="submit" style={{width:"100%",padding:10,background:"#007bff",color:"#fff",border:"none",borderRadius:4,fontSize:"1rem"}}>Submit</button>
+      <button type="submit" style={{width:"100%",padding:10,background:"rgb(36, 172, 242)",color:"#fff",border:"none",borderRadius:4,fontSize:"1rem"}}>Submit</button>
       {message && <p style={{marginTop:16, textAlign:"center"}}>{message}</p>}
     </form>
   );
