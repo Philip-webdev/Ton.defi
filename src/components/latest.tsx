@@ -7,7 +7,7 @@ const StyledApp = styled.div`
   color: black;
   
   font-family: Lexend;
-   min-height: 100vh;
+   min-height: 150vh;
   padding: 20px;
  zoom :90%;
   @media (prefers-color-scheme: dark) {
@@ -69,7 +69,7 @@ useEffect(() => {
 return (
 <StyledApp>
 <AppContainer>
-  <h3 style={{display:'flex'}}><div  style={{ marginRight:'41%'}}><a href="#/market" style={{color:'gray'}}><BsArrowLeft/></a></div><div>Updates</div></h3>
+  <h3 style={{display:'flex'}}><div  style={{ marginRight:'39%'}}><a href="#/market" style={{color:'gray'}}><BsArrowLeft/></a></div><div>Updates</div></h3>
   {newsList}
 </AppContainer>
 </StyledApp>

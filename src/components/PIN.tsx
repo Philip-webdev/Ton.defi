@@ -38,7 +38,7 @@ background-color: white;
 const Input = styled.input`
 background-color: white;
 border-radius: 7px;
-border: 1px solid blue;
+border: 1px rgb(36, 172, 242);
 padding: 10px;
 width: 98%;
 height: 40px;

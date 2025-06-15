@@ -7,13 +7,13 @@ background-color: white;
 padding: 20px;
 width: 90%;
 height: 40px;
-
+border: black;
 font-size: 16px;
 font-family: Lexend;
 placeholder :transparent;
  @media (prefers-color-scheme: dark) {
      background-color: rgb(15,15,15);
-    
+    border: rgb(36, 172, 242);
       color: gray ;
   }
 `;
