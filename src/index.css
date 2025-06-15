@@ -43,7 +43,7 @@ input[type="email"]
     padding: 5px 10px;
     font-size: 16px;
     border-radius: 7px;
-    border-color: #007bff;
+    border-color: rgb(36, 172, 242);
 }
 
 button {

@@ -13,7 +13,7 @@ font-family: Lexend;
 placeholder :transparent;
  @media (prefers-color-scheme: dark) {
      background-color: rgb(15,15,15);
-    border: rgb(36, 172, 242);
+     
       color: gray ;
   }
 `;
