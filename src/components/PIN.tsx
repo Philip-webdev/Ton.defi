@@ -36,11 +36,11 @@ background-color: white;
 `;
 
 const Input = styled.input`
-background-color: white;
+color:white;
 border-radius: 7px;
- 
+ border-color: black;
 padding: 10px;
-width: 98%;
+width: 95%;
 height: 40px;
 font-size: 16px;
 font-family: Lexend;
@@ -48,7 +48,7 @@ placeholder :transparent;
  @media (prefers-color-scheme: dark) {
      background-color: rgb(15,15,15);
     
-      color: white ;
+      border-color: rgb(36, 172, 242);
   }
 `;
 
@@ -172,16 +172,17 @@ async function joinNodeRequest(){
     const alertBox = document.createElement('div');
     alertBox.innerHTML = "Joined! <br/>Takes some moments for package to reflect";
     alertBox.style.position = 'fixed';
-    alertBox.style.bottom = '50%';
+    alertBox.style.bottom = '0';
    
    alertBox.style.margin = 'auto';
    alertBox.style.justifyContent = 'space-around';
-    
+    alertBox.style.height = '30%';
     alertBox.style.alignSelf = 'center';
     alertBox.style.backgroundColor = 'white';
     alertBox.style.color = 'black';
-    alertBox.style.padding = '20px 20px';
-    alertBox.style.borderRadius = '5px';
+    alertBox.style.padding = '20px';
+    alertBox.style.borderTopLeftRadius = '5px';
+    alertBox.style.borderTopRightRadius = '5px';
     alertBox.style.boxShadow = '0 2px 5px rgba(0, 0, 0, 0.3)';
     alertBox.style.fontFamily = 'Lexend';
     alertBox.style.zIndex = '1000';

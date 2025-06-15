@@ -3,18 +3,18 @@ import styled from "styled-components";
 
 
 const Input = styled.input`
-background-color: white;
+color:white;
 padding: 20px;
 width: 90%;
 height: 40px;
-border: black;
+border-color: black;
 font-size: 16px;
 font-family: Lexend;
 placeholder :transparent;
  @media (prefers-color-scheme: dark) {
      background-color: rgb(15,15,15);
-     
-      color: gray ;
+     border-color: rgb(36, 172, 242);
+      
   }
 `;
 
