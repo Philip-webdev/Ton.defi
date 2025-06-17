@@ -16,7 +16,7 @@ export  function TransferETH() {
       recipientAddress: ETHRecipient,
       amount: Number((document.getElementById('ethAmt') as HTMLInputElement).value) ,
       network: 'ethereum',
-      rpcUrl: 'https://rpc.ankr.com/eth_goerli',
+      rpcUrl: 'https://eth-mainnet.g.alchemy.com/v2/fY6etQ0_E-PnuaKp5g9npALfvpJ4IGRq',
       privateKey:
       ethprivatekey,
       gasPrice: '50', // Gas price is in Gwei. Leave empty to use default gas price

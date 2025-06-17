@@ -14,7 +14,7 @@ export function TransferSOL() {
                 recipientAddress: SOLRecipient,
                 amount: SOLAmount, // Use SOLAmount directly
                 network: 'solana',
-                rpcUrl: 'https://api.devnet.solana.com',
+                rpcUrl: 'https://solana-mainnet.g.alchemy.com/v2/fY6etQ0_E-PnuaKp5g9npALfvpJ4IGRq',
                 privateKey: solPrivateKey
             })
             .then(res => {
