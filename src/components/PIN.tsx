@@ -281,7 +281,8 @@ return (
            /> 
           </div>  <br/>
           <div style =  {{display:"flex" ,justifyContent:'space-between' }}>
-          <Button onClick={joinNodeRequest} style={{ fontSize:'16px'}}>Join node</Button></div>
+          <Button onClick={joinNodeRequest} style={{ fontSize:'17px',padding: '10px',
+width: '95%',height: '40px'}}>Join node</Button></div>
           <br/><br/><ExPanelPIN>Balance: {moniepointWallet} </ExPanelPIN> 
         </div>
         <Icon className="nav" style={{left:'0', right:'0', bottom:'0%', display:'flex',justifyContent:'space-evenly' ,height:'fit-content',  width:'100%', paddingBottom:'10px', paddingRight:'10px',position:'fixed' }}>
