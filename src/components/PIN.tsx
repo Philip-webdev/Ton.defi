@@ -14,8 +14,9 @@ const StyledApp = styled.div`
   background-color: #F9F9F9;
   color: black;
   margin:0;
+  font-size: 17px;
 font-family: Lexend;
- zoom :90%;
+ zoom :100%;
    @media (prefers-color-scheme: dark) {
      background-color: rgb(15,15,15);
       color: white ;
@@ -42,7 +43,7 @@ border-radius: 7px;
 padding: 10px;
 width: 95%;
 height: 40px;
-font-size: 16px;
+font-size: 27px;
 font-family: Lexend;
 placeholder :transparent;
  @media (prefers-color-scheme: dark) {

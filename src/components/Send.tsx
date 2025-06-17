@@ -29,7 +29,7 @@ const StyledApp = styled.div`
   padding: 20px 20px;
   margin:0;
   left:0;
-   zoom :90%;
+   zoom :100%;
 `;
 
 const AppContainer = styled.div`

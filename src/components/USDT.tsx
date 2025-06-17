@@ -31,7 +31,21 @@ const AppContainer = styled.div`
 `;
 
 
-
+const Input = styled.input`
+color:white;
+padding: 20px;
+width: 90%;
+height:30px;
+border-color: black;
+font-size: 16px;
+font-family: Lexend;
+placeholder :transparent;
+ @media (prefers-color-scheme: dark) {
+     background-color: rgb(15,15,15);
+     border-color: rgb(36, 172, 242);
+      
+  }
+`;
 const Icon = styled.div`
 background-color: white;
  border-radius:7px;  
@@ -281,22 +295,22 @@ return(
      
        
          
-       <div onClick={dropdown} style={{cursor:'pointer', left:'0'}}><Icon style={{borderRadius:'7px', width:'85.9%', padding:'20px',  lineHeight:'17px',  margin:'7px',fontSize:'larger'}}><img src='https://i.imgur.com/ywfZokP.png' alt='Tron' style={{ width: '15px', height: '15px' }} />TRC-20</Icon></div>
+       <div onClick={dropdown} style={{cursor:'pointer', left:'0'}}><Icon style={{borderRadius:'7px', width:'85.9%', padding:'20px',  lineHeight:'17px',  margin:'7px',fontSize:'larger'}}><img src='https://i.imgur.com/ywfZokP.png' alt='Tron' style={{ width: '15px', height: '15px' }} /> TRC-20</Icon></div>
            <div id="elem" style={{display:'none',margin:'20px'}}>
      <div style={{display:'flex'}}>
      <div style={{zoom:'70%', padding:'10px'}}>Token Address: {trc20Address} </div>
 <div style={{fontFamily:'helvetica', padding:'20px'}}>${trcBalance}</div>
      
      </div>
-            <div style={{borderRadius:'7px', padding:'20px',  lineHeight:'17px', margin:'7px', fontSize:'larger'}}> <input id="toAddress" placeholder="Recipient Address"  style={{color: 'grey',height:'40px', background:'transparent', width:'200px', borderColor:"grey",  borderWidth:'1px',  borderRadius:'7px'}} /></div>
+            <div style={{borderRadius:'7px', padding:'20px',  lineHeight:'17px', fontSize:'larger'}}> <Input id="toAddress" placeholder="Recipient Address"  style={{color: 'grey', background:'transparent',   borderWidth:'1px',  borderRadius:'7px'}} /></div>
 
-           <div style={{borderRadius:'7px', padding:'20px',  lineHeight:'17px', margin:'7px', fontSize:'larger'}}> <input id="amount" placeholder="Amount"  type="number" style={{color: 'grey',  height:'30px', background:'transparent',  width:'185px',  borderColor:"grey",  borderWidth:'1px'}} />  </div><br />
-            <Button style={{marginLeft:'30%'}} onClick={() => sendTRC20Token('', 0)}>Send</Button><br />
+           <div style={{borderRadius:'7px', padding:'20px',  lineHeight:'17px', fontSize:'larger'}}> <Input id="amount" placeholder="Amount"  type="number" style={{color: 'grey', background:'transparent',     borderWidth:'1px'}} />  </div><br />
+            <Input style={{margin: 'auto', textAlign: 'center', backgroundColor: 'rgb(36, 172, 242)', border: 'none'}} onClick={() => sendTRC20Token('', 0)}  value = 'Send'/>
            </div>
          
 
-       <div onClick={dropdown1} style={{cursor:'pointer', left:'0'}}><Icon style={{borderRadius:'7px', width:'85.9%', padding:'20px',  lineHeight:'17px',  margin:'7px',fontSize:'larger'}}> <img src='https://i.imgur.com/dhJjQcO.png' alt='Ethereum' style={{ width: '15px', height: '15px' }} />ERC-20</Icon></div>
-           <div id="elem1" style={{display:'none',margin:'20px'}}>
+       <div onClick={dropdown1} style={{cursor:'pointer', left:'0'}}><Icon style={{borderRadius:'7px', width:'85.9%', padding:'20px',  lineHeight:'17px',  margin:'7px',fontSize:'larger'}}> <img src='https://i.imgur.com/dhJjQcO.png' alt='Ethereum' style={{ width: '15px', height: '15px' }} /> ERC-20</Icon></div>
+           <div id="elem1" style={{display:'none',margin:'20px', justifyContent:'center'}}>
           
 <div style={{display:'flex'}}>
 
@@ -307,10 +321,10 @@ return(
     
      
       
-            <div style={{borderRadius:'7px', padding:'20px',  lineHeight:'17px', margin:'7px', fontSize:'larger'}}> <input id="toethAddress" placeholder="Recipient Address"  style={{color: 'grey',height:'40px', background:'transparent', width:'200px', borderColor:"grey",  borderWidth:'1px',  borderRadius:'7px'}} /></div>
+            <div style={{borderRadius:'7px', padding:'20px',  lineHeight:'17px'}}> <Input id="toethAddress" placeholder="Recipient Address"  style={{color: 'grey', background:'transparent',  borderWidth:'1px',  borderRadius:'7px'}} /></div>
 
-           <div style={{borderRadius:'7px', padding:'20px',  lineHeight:'17px', margin:'7px', fontSize:'larger'}}> <input id="ercamount" placeholder="Amount"  type="number" style={{color: 'grey',  height:'30px', background:'transparent',  width:'185px',  borderColor:"grey",  borderWidth:'1px'}} />  </div><br />
-            <Button style={{marginLeft:'30%'}} onClick={() => sendERC20Token()}>Send</Button><br /><br />
+           <div style={{borderRadius:'7px', padding:'20px',  lineHeight:'17px'}}> <Input id="ercamount" placeholder="Amount"  type="number" style={{color: 'grey',  background:'transparent',     borderWidth:'1px'}} />  </div><br />
+          <Input style={{margin: 'auto', textAlign: 'center', backgroundColor: 'rgb(36, 172, 242)', border: 'none', width: '90%'}} onClick={() => sendERC20Token()} value="Send"/><br /><br />
            </div>
         
       

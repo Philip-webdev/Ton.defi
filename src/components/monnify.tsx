@@ -8,7 +8,7 @@ padding: 20px;
 width: 90%;
 height: 40px;
 border-color: black;
-font-size: 16px;
+font-size: 30px;
 font-family: Lexend;
 placeholder :transparent;
  @media (prefers-color-scheme: dark) {
