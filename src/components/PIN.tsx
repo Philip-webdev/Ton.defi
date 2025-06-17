@@ -43,7 +43,7 @@ border-radius: 7px;
 padding: 10px;
 width: 95%;
 height: 40px;
-font-size: 27px;
+font-size: 17px;
 font-family: Lexend;
 placeholder :transparent;
  @media (prefers-color-scheme: dark) {

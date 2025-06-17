@@ -6,10 +6,12 @@ import styled from "styled-components";
 const AppContainer = styled.div`
   width: 100%;
   margin-bottom : 70px;
-  font-size: 50px;
+
  
 `;
 const API = styled.div`
+
+
 background-color: white;
  @media (prefers-color-scheme: dark) {
      background-color: rgb(15,15,15);
