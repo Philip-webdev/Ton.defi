@@ -44,7 +44,7 @@ const dropdown = () => {
   }
 };
   return (
-    <Card style={{  height:'190px',  backgroundImage: 'url(https://raw.githubusercontent.com/Philip-webdev/nexr-landing-hub/refs/heads/main/ethcard1.svg)',  backgroundSize: 'cover',  backgroundRepeat: 'no-repeat' }} id="eth-qr">
+    <Card style={{aspectRatio:'16/9',  height:'190px',  backgroundImage: 'url(https://raw.githubusercontent.com/Philip-webdev/nexr-landing-hub/refs/heads/main/ethcard1.svg)',  backgroundSize: 'cover',  backgroundRepeat: 'no-repeat' }} id="eth-qr">
       <FlexBoxCol>
       <div style={{  display:'flex', justifyContent:'space-between', margin:'7px', color:'black'}}><div>Debit</div><div> ETH </div></div>
         

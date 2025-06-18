@@ -23,11 +23,11 @@ export function TransferTon() {
   };
   
   return (
-    <Card  style={{ background: 'linear-gradient(110deg, #0098EA  0%,white 100%)' , height:'190px' }}>
+    <Card  style={{ background: 'linear-gradient(110deg, #0098EA  0%,white 100%)' , aspectRatio:'16/9', width:'100%' }}>
       <FlexBoxCol>
        
      
-        <FlexBoxRow>
+        <FlexBoxRow style={{justifyContent:'flex'}}>
           
           <Input
            style={{background:'transparent',borderBottom:'none', borderRadius:'0px',marginRight: 8, borderRight:'none' , borderLeft:'none', borderTop:'0px',  borderColor:'black ', color:'black'}}
@@ -43,9 +43,7 @@ export function TransferTon() {
             value={tonRecipient}
              
             onChange={(e) => setTonRecipient(e.target.value)}
-          ></Input>
-        </FlexBoxRow>
-        <Button
+          ></Input>  <Button
           disabled={!connected}
           style={{ marginTop: 0 }}
           onClick={async () => {
@@ -57,6 +55,8 @@ export function TransferTon() {
         >
           Transfer
         </Button>
+        </FlexBoxRow>
+      
       </FlexBoxCol>
     </Card>
   );

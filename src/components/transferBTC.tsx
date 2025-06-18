@@ -39,18 +39,25 @@ else {
   
 
   return (
-    <Card style={{ backgroundImage: 'url(https://raw.githubusercontent.com/Philip-webdev/nexr-landing-hub/refs/heads/main/bitcard.svg)', height:'190px',  backgroundSize: 'cover',  backgroundRepeat: 'no-repeat' }}>
+    <Card style={{ backgroundImage: 'url(https://raw.githubusercontent.com/Philip-webdev/nexr-landing-hub/refs/heads/main/bitcard.svg)', aspectRatio:'16/9',  backgroundSize: 'cover',  backgroundRepeat: 'no-repeat' }}>
       <FlexBoxCol>
       <div style={{display:'flex', justifyContent:'space-between', margin:'7px', color:'Whitesmoke'}}><div>Debit</div><div> BTC </div></div>
-        
-        <FlexBoxRow>
-          
+
+        <FlexBoxRow style={{justifyContent:'flex'}}>
+
           <Input
              style={{background:'transparent',borderBottom:'none', borderRadius:'0px',marginRight: 8, borderRight:'none' , borderLeft:'none', borderTop:'0px',  borderColor:'black ', color:'black'}}
             type="number"
             value={BTCAmount}
             onChange={(e) => setBTCAmount(Number(e.target.value))}
-          ></Input>
+          ></Input> <Button id="info"
+          disabled={!BTCRecipient || BTCAmount <= 0}
+          style={{ marginTop: 0 }}
+          onClick={async () => {transferBitcoin}
+          }
+        >
+          Transfer
+        </Button>
         </FlexBoxRow>
         <FlexBoxRow>
            
@@ -61,14 +68,7 @@ else {
             onChange={(e) => setBTCRecipient(e.target.value)}
           ></Input>
         </FlexBoxRow>
-        <Button id="info"
-          disabled={!BTCRecipient || BTCAmount <= 0}
-          style={{ marginTop: 0 }}
-          onClick={async () => {transferBitcoin}
-          }
-        >
-          Transfer
-        </Button>
+       
       </FlexBoxCol>
     </Card>
   );
