@@ -39,7 +39,7 @@ else {
   
 
   return (
-    <Card style={{ background: 'linear-gradient(110deg, #FF9900  0%,white 170%, #FFB627 100%)', height:'190px' }}>
+    <Card style={{ backgroundImage: 'url(https://raw.githubusercontent.com/Philip-webdev/nexr-landing-hub/refs/heads/main/bitcard.svg)', height:'190px',  backgroundSize: 'cover',  backgroundRepeat: 'no-repeat' }}>
       <FlexBoxCol>
       <div style={{display:'flex', justifyContent:'space-between', margin:'7px', color:'Whitesmoke'}}><div>Debit</div><div> BTC </div></div>
         

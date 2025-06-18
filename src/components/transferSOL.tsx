@@ -43,18 +43,26 @@ export function TransferSOL() {
         }
       };
     return (
-        <Card style={{ background: 'linear-gradient(135deg #7B3FFF 0%, aqua 10%, black 40% , #5C2E93 100%)' , height:'190px'}}>
+        <Card style={{ backgroundImage: 'url(https://raw.githubusercontent.com/Philip-webdev/nexr-landing-hub/refs/heads/main/solcard.svg)', height:'190px',  backgroundSize: 'cover',  backgroundRepeat: 'no-repeat'}}>
             <FlexBoxCol>
             <div style={{display:'flex', justifyContent:'space-between', margin:'7px', color:'white'}}><div>Debit</div><div> SOL </div></div>
-     <FlexBoxRow>
-                     
-                    <Input
-                       style={{background:'transparent',borderBottom:'none', borderRadius:'0px',marginRight: 8, borderRight:'none' , borderLeft:'none', borderTop:'0px',  borderColor:'black ', color:'black '}}
-                        type="number"
-                        value={SOLAmount}
-                        onChange={(e) => setSOLAmount(Number(e.target.value))} // Convert to number
-                    />
-                </FlexBoxRow>
+      <FlexBoxRow style={{justifyContent:'flex'}}>
+         
+          <Input id= 'ethAmt' 
+            style={{background:'transparent',borderBottom:'none', borderRadius:'0px',marginRight: 8, borderRight:'none' , borderLeft:'none', borderTop:'0px',  borderColor:'black ', color:'black'}}
+            type="number"
+            value={SOLAmount}
+            onChange={(e) => setSOLAmount(Number(e.target.value))}
+          ></Input>
+            <Button   
+         disabled={!SOLRecipient || SOLAmount <= 0}
+          style={{ marginTop: 0 }}
+          onClick={async () => {transferSol}
+          }
+        >
+          Transfer
+        </Button>
+        </FlexBoxRow>
                 <FlexBoxRow>
                     
                     <Input
@@ -64,13 +72,7 @@ export function TransferSOL() {
                         onChange={(e) => setSOLRecipient(e.target.value)} // Capture recipient address
                     />
                 </FlexBoxRow>
-                <Button id="info"
-                    disabled={!SOLRecipient || SOLAmount <= 0} // Disable if no recipient or amount is invalid
-                    style={{ marginTop: 0 }}
-                    onClick={transferSol} // Call transfer function on click
-                >
-                    Transfer
-                </Button>
+
             </FlexBoxCol>
         </Card>
     );

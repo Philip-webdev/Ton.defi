@@ -2,6 +2,7 @@ import { connected } from "process";
 import { useState } from "react";
 import { Button, FlexBoxCol, FlexBoxRow, Input, Card} from "../components/styled/styled";
 import * as multichainWallet from 'multichain-crypto-wallet';
+import { url } from "inspector";
  
  
 
@@ -43,11 +44,11 @@ const dropdown = () => {
   }
 };
   return (
-    <Card style={{ background: 'linear-gradient(110deg, #6c56ef 70%, #8b5cf6 100%)' , height:'190px' }}>
+    <Card style={{  height:'190px',  backgroundImage: 'url(https://raw.githubusercontent.com/Philip-webdev/nexr-landing-hub/refs/heads/main/ethcard1.svg)',  backgroundSize: 'cover',  backgroundRepeat: 'no-repeat' }} id="eth-qr">
       <FlexBoxCol>
-      <div style={{display:'flex', justifyContent:'space-between', margin:'7px', color:'white'}}><div>Debit</div><div> ETH </div></div>
+      <div style={{  display:'flex', justifyContent:'space-between', margin:'7px', color:'black'}}><div>Debit</div><div> ETH </div></div>
         
-        <FlexBoxRow>
+        <FlexBoxRow style={{justifyContent:'flex'}}>
          
           <Input id= 'ethAmt' 
             style={{background:'transparent',borderBottom:'none', borderRadius:'0px',marginRight: 8, borderRight:'none' , borderLeft:'none', borderTop:'0px',  borderColor:'black ', color:'black'}}
@@ -55,6 +56,14 @@ const dropdown = () => {
             value={ETHAmount}
             onChange={(e) => setETHAmount(Number(e.target.value))}
           ></Input>
+            <Button   
+         disabled={!ETHRecipient || ETHAmount <= 0}
+          style={{ marginTop: 0 }}
+          onClick={async () => {transferEth}
+          }
+        >
+          Transfer
+        </Button>
         </FlexBoxRow>
         <FlexBoxRow>
          
@@ -68,17 +77,10 @@ const dropdown = () => {
         <FlexBoxRow>
           
           <Input  id="message" placeholder="Say something..."
-           style={{background:'transparent',borderBottom:'none',borderRadius:'0px', marginRight: 8 ,borderRight:'none' , borderLeft:'none', borderTop:'0px', color:'white'}}
+           style={{background:'transparent',borderBottom:'none',borderRadius:'0px', marginRight: 8 ,borderRight:'none' , borderLeft:'none', borderTop:'0px', color:'black'}}
           ></Input>
         </FlexBoxRow>
-        <Button id="info"
-         disabled={!ETHRecipient || ETHAmount <= 0}
-          style={{ marginTop: 0 }}
-          onClick={async () => {transferEth}
-          }
-        >
-          Transfer
-        </Button>
+      
       </FlexBoxCol>
     </Card>
   );
