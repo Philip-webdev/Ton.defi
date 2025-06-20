@@ -34,16 +34,7 @@ export function TransferTon() {
             type="number"
             value={tonAmount}
             onChange={(e) => setTonAmount(Number(e.target.value))}
-          ></Input>
-        </FlexBoxRow>
-        <FlexBoxRow>
-        
-          <Input
-            style={{background:'transparent',borderBottom:'none', borderRadius:'0px',marginRight: 8, borderRight:'none' , borderLeft:'none', borderTop:'0px',  borderColor:'black ', color:'black'}}
-            value={tonRecipient}
-             
-            onChange={(e) => setTonRecipient(e.target.value)}
-          ></Input>  <Button
+          ></Input> <Button
           disabled={!connected}
           style={{ marginTop: 0 }}
           onClick={async () => {
@@ -55,6 +46,15 @@ export function TransferTon() {
         >
           Transfer
         </Button>
+        </FlexBoxRow>
+        <FlexBoxRow>
+        
+          <Input
+            style={{background:'transparent',borderBottom:'none', borderRadius:'0px',marginRight: 8, borderRight:'none' , borderLeft:'none', borderTop:'0px',  borderColor:'black ', color:'black'}}
+            value={tonRecipient}
+             
+            onChange={(e) => setTonRecipient(e.target.value)}
+          ></Input> 
         </FlexBoxRow>
       
       </FlexBoxCol>
