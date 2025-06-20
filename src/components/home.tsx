@@ -287,9 +287,9 @@ const load = ()=>{
                 <div style={{ margin:'0', width:'100%', justifyContent:'center'}}>
     <div  id='slideContainer' style={{zIndex:'0',marginLeft:'10px' , width:'100%', height:'fit-content', overflow:'scroll',  border:'none', borderRadius:'7px', justifySelf:'center'}}>
         <div id='slideContents' style={{height:'fit-content', width:'auto', display:'flex',  transition:'1s ease'}}>
- 
- <a href ='#/tokenomics' style={{background:'rgb(165,  221, 239) '}}><div style={{  position:'absolute',marginLeft:'10px',  color: 'white',  width:'70%',margin:'10px',  backdropFilter: 'blur(15px)',bottom:'0'}}>Tokenomics? </div><img src='https://raw.githubusercontent.com/Philip-webdev/nexr-landing-hub/refs/heads/main/4063571.svg' height='170px' width='350px' style={{borderRadius:'7px'}}/> </a> 
- <a href ='#/tontools' ><div style={{  position:'absolute',marginLeft:'10px',  color: 'white',  width:'70%',margin:'10px',  backdropFilter: 'blur(10px)',bottom:'0'}}>Nekstpei & StableCoin</div><img src='https://raw.githubusercontent.com/Philip-webdev/nexr-landing-hub/refs/heads/main/969a42a0-a1b6-49ca-901a-f5a0afab071d.svg' height='170px' width='350px' style={{marginLeft:'7px',borderRadius:'7px'}}/> </a> 
+
+ <a href ='#/tokenomics' style={{background:'rgb(27,27,27)'}} ><div style={{  position:'absolute',marginLeft:'10px',  color: 'white',  width:'70%',margin:'10px', backdropFilter: 'blur(15px)',bottom:'0'}}>Tokenomics? </div><img src='https://raw.githubusercontent.com/Philip-webdev/nexr-landing-hub/refs/heads/main/8eb7262e-f381-4b26-b93e-06ddaae002df.svg' height='170px' width='350px' style={{borderRadius:'7px'}}/> </a>
+ <a href ='#/tontools' ><div style={{  position:'absolute',marginLeft:'10px',  color: 'white',  width:'70%',margin:'10px',  backdropFilter: 'blur(10px)',bottom:'0'}}>Nekstpei & StableCoin</div><img src='https://raw.githubusercontent.com/Philip-webdev/nexr-landing-hub/refs/heads/main/2205_w037_n003_379b_p1_379.svg' height='170px' width='350px' style={{marginLeft:'7px',borderRadius:'7px'}}/> </a>
         </div></div>
     
 </div> 

@@ -27,7 +27,7 @@ font-family: Lexend;
 function UserLogin() {
 
 
-    const [status,  setStatus] = useState('logging in...');
+    const [status,  setStatus] = useState('');
 const handleRegister = async () => {
     const emailElement = document.getElementById("email") as HTMLInputElement | null;
     const passwordElement = document.getElementById("password") as HTMLInputElement | null;
@@ -46,7 +46,8 @@ const handleRegister = async () => {
         const infoPan = document.getElementById('infoPan') ;
                 if (infoPan) {
                     infoPan.style.color = 'green';
-                    infoPan.innerText = 'Registering...  ';
+                    infoPan.innerText = 'Registering...';
+                    setStatus('Registering...');
                 }
         const response = await fetch("https://twa-backend-g83o.onrender.com/register", {
             method: "POST",
@@ -159,8 +160,16 @@ else{
                     </div>
                     <br></br>
                     <div style={{display:'inline-flex', margin:'0 auto ', width:'100%', justifyContent:'space-evenly '}}>
-                    <button className='Logbuts' type="submit" onClick={handleLogin} style={{height:'28px',width:'69.7px',background: 'whitesmoke',color:'black ' , borderStyle:'groove',  border:'none', borderRadius:'5px'}}>Login</button> 
-                    <button   className='Logbuts' style={{background: 'transparent',  borderStyle:'groove',  borderWidth:'1px', borderRadius:'5px'}} type="button" onClick={handleRegister}>Register</button></div><br></br><br></br>
+                    <button
+                        className='Logbuts'
+                        type="submit"
+                        onClick={handleLogin}
+                        style={{height:'28px',width:'69.7px',background: 'whitesmoke',color:'black', borderStyle:'groove', border:'none', borderRadius:'5px'}}
+                       
+                    >
+                        Login
+                    </button> 
+                    <button   className='Logbuts' style={{background: 'transparent',  borderStyle:'groove',  borderWidth:'1px', borderRadius:'5px'}} type="button" onClick={handleRegister}  disabled={status === 'Registering...'}>Register</button></div><br></br><br></br>
                    <div id='infoPan' style={{ fontSize:'small'}}></div>
                 </form>
             </div>
