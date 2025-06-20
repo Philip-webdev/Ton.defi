@@ -43,9 +43,9 @@ export function TransferSOL() {
         }
       };
     return (
-        <Card style={{ backgroundImage: 'url(https://raw.githubusercontent.com/Philip-webdev/nexr-landing-hub/refs/heads/main/solcard.svg)',aspectRatio:'16/9',  backgroundSize: 'cover',  backgroundRepeat: 'no-repeat'}}>
+        <Card style={{ backgroundImage: 'url(https://raw.githubusercontent.com/Philip-webdev/nexr-landing-hub/refs/heads/main/solcard.svg)',aspectRatio:'16/9', width:'100%',  backgroundSize: 'cover',  backgroundRepeat: 'no-repeat'}}>
             <FlexBoxCol>
-            <div style={{display:'flex', justifyContent:'space-between', margin:'7px', color:'white'}}><div>Debit</div><div> SOL </div></div>
+            <div style={{display:'flex', justifyContent:'space-between', margin:'7px', color:'black '}}><div>Debit</div><div> SOL </div></div>
       <FlexBoxRow style={{justifyContent:'flex'}}>
          
           <Input id= 'ethAmt' 

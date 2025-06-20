@@ -20,14 +20,14 @@ import QRScanner from "./QRcode";
 const StyledApp = styled.div`
   background-color:  #F9F9F9;
   color: black;
-  width: 107%;
+  width: 100%;
   font-family: Lexend;
   @media (prefers-color-scheme: dark) {
      background-color: rgb(33,33,33);
       color: white ;
   }
   min-height: 250vh;
-  padding: 20px 20px;
+  padding:40px 40px;
   margin:0;
   left:0;
    zoom :100%;

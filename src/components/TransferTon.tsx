@@ -25,7 +25,7 @@ export function TransferTon() {
   return (
     <Card  style={{ background: 'linear-gradient(110deg, #0098EA  0%,white 100%)' , aspectRatio:'16/9', width:'100%' }}>
       <FlexBoxCol>
-       
+       <div style={{display:'flex', justifyContent:'space-between', margin:'7px', color:'black'}}><div>Debit</div><div> TON </div></div>
      
         <FlexBoxRow style={{justifyContent:'flex'}}>
           
