@@ -55,6 +55,21 @@ background-color: white;
         color:grey;
   }
 `;
+
+const Butt = styled.button`
+  margin: auto;
+  background:white;
+padding: 20px;
+width: 90%;
+height:70px;
+
+font-size: 16px;
+font-family: Lexend;
+ @media (prefers-color-scheme: dark) {
+     background-color: rgb(15,15,15);
+    
+}
+`;
 const Icn = styled.div`
 background-color: white;
  border-radius:7px;  
@@ -305,7 +320,7 @@ return(
             <div style={{borderRadius:'7px', padding:'20px',  lineHeight:'17px', fontSize:'larger'}}> <Input id="toAddress" placeholder="Recipient Address"  style={{color: 'grey', background:'transparent',   borderWidth:'1px',  borderRadius:'7px'}} /></div>
 
            <div style={{borderRadius:'7px', padding:'20px',  lineHeight:'17px', fontSize:'larger'}}> <Input id="amount" placeholder="Amount"  type="number" style={{color: 'grey', background:'transparent',     borderWidth:'1px'}} />  </div><br />
-            <Input type="button" style={{margin: 'auto',lineHeight:'17px', backgroundColor: 'rgb(36, 172, 242)', border: 'none',  borderRadius:'7px', width: '100%', padding:'20px'}} onClick={() => sendTRC20Token('', 0)}  value = 'Send'/>
+            <Butt   style={{margin: 'auto',lineHeight:'17px', backgroundColor: 'rgb(36, 172, 242)', border: 'none',  borderRadius:'7px', width: '100%'}} onClick={() => sendTRC20Token('', 0)}   ><img src="https://i.imgur.com/EvACd43.png" alt="Send" style={{ width: '15px', height: '15px'}} /></Butt>
            </div>
          
 
@@ -324,7 +339,7 @@ return(
             <div style={{borderRadius:'7px', padding:'20px',  lineHeight:'17px'}}> <Input id="toethAddress" placeholder="Recipient Address"  style={{color: 'grey', background:'transparent',  borderWidth:'1px',  borderRadius:'7px'}} /></div>
 
            <div style={{borderRadius:'7px', padding:'20px',  lineHeight:'17px'}}> <Input id="ercamount" placeholder="Amount"  type="number" style={{color: 'grey',  background:'transparent',     borderWidth:'1px'}} />  </div><br />
-          <Input type="button" style={{margin: 'auto', backgroundColor: 'rgb(36, 172, 242)', border: 'none', width: '100%',  borderRadius:'7px', padding:'20px'}} onClick={() => sendERC20Token()} value="Send"/><br /><br />
+          <Butt  style={{margin: 'auto', backgroundColor: 'rgb(36, 172, 242)', border: 'none', width: '100%',  borderRadius:'7px', padding:'20px'}} onClick={() => sendERC20Token()}><img src="https://i.imgur.com/EvACd43.png" alt="Send" style={{ width: '15px', height: '15px' }} /></Butt><br /><br />
            </div>
         
       
