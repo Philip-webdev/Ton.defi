@@ -172,23 +172,23 @@ const dropdown5 = () => {
           </FlexBoxRow>
           <div style={{justifyContent:"space-evenly", margin: '20px'}}>
          <div onClick={dropdown} style={{cursor:'pointer', left:'0'}}><Icon style={{borderRadius:'7px', width:'85.9%', padding:'20px',  lineHeight:'17px', margin:'7px', fontSize:'larger'}}><img src="https://i.imgur.com/JlK5oxR.png" height='15px' width='15px'/> TON</Icon></div> 
-          <div id='ton' style={{display:'none',aspectRatio:'16/9', width:'100%'}}>
+          <div id='ton' style={{display:'none'}}>
           <TransferTon />
           </div>
           <div onClick={dropdown3} style={{cursor:'pointer'}}><Icon style={{borderRadius:'7px', width:'85.9%', padding:'20px',  lineHeight:'17px',  margin:'7px',fontSize:'larger'}}><img src="https://i.imgur.com/sSYmdfQ.png" height='15px' width='15px'/> BTC</Icon></div> 
-          <div id='btc' style={{display:'none',aspectRatio:'16/9', width:'100%'}}>
+          <div id='btc' style={{display:'none'}}>
           <TransferBTC />
           </div>
           <div onClick={dropdown4} style={{cursor:'pointer'}}><Icon style={{borderRadius:'7px', width:'85.9%', padding:'20px',  lineHeight:'17px',  margin:'7px',fontSize:'larger'}}><img src="https://i.imgur.com/rjWW55s.png" height='15px' width='15px'/> SOL</Icon></div> 
-          <div id='sol' style={{display:'none',aspectRatio:'16/9', width:'100%'}}>
+          <div id='sol' style={{display:'none'}}>
           <TransferSOL />
           </div>
           <div onClick={dropdown5} style={{cursor:'pointer'}}><Icon style={{borderRadius:'7px', width:'85.9%', padding:'20px',  lineHeight:'17px',  margin:'7px',fontSize:'larger'}}><img src="https://i.imgur.com/dhJjQcO.png" height='15px' width='15px'/> ETH</Icon></div> 
-          <div id='eth' style={{display:'none',aspectRatio:'16/9', width:'100%'}}>
+          <div id='eth' style={{display:'none'}}>
           <TransferETH />
           </div>
           <div onClick={dropdown2} style={{cursor:'pointer'}}><Icon style={{borderRadius:'7px', margin:'7px', width:'85.9%', padding:'20px',  fontSize:'larger'}} ><img src="https://i.imgur.com/JlK5oxR.png" height='15px' width='15px'/> Jetton</Icon></div>
-          <div id='jetton' style={{display:'none',aspectRatio:'16/9', width:'100%'}}>
+          <div id='jetton' style={{display:'none'}}>
           <Jetton />
           </div>
           <div>
