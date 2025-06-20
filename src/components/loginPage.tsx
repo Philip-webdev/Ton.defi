@@ -27,7 +27,7 @@ font-family: Lexend;
 function UserLogin() {
 
 
-    const [status,  setStatus] = useState('');
+    const [statuS,  setStatus] = useState('');
 const handleRegister = async () => {
     const emailElement = document.getElementById("email") as HTMLInputElement | null;
     const passwordElement = document.getElementById("password") as HTMLInputElement | null;
@@ -169,7 +169,7 @@ else{
                     >
                         Login
                     </button> 
-                    <button   className='Logbuts' style={{background: 'transparent',  borderStyle:'groove',  borderWidth:'1px', borderRadius:'5px'}} type="button" onClick={handleRegister}  disabled={status === 'Registering...'}>Register</button></div><br></br><br></br>
+                    <button   className='Logbuts' style={{background: 'transparent',  borderStyle:'groove',  borderWidth:'1px', borderRadius:'5px'}} type="button" onClick={handleRegister}  disabled={statuS === 'Registering...'}>Register</button></div><br></br><br></br>
                    <div id='infoPan' style={{ fontSize:'small'}}></div>
                 </form>
             </div>
