@@ -170,7 +170,7 @@ else{
                         Login
                     </button> 
                     <button   className='Logbuts' style={{background: 'transparent',  borderStyle:'groove',  borderWidth:'1px', borderRadius:'5px'}} type="button" onClick={handleRegister}  disabled={statuS === 'Registering...'}>Register</button></div><br></br><br></br>
-                   <div id='infoPan' style={{ fontSize:'small'}}></div>
+                   <div id='infoPan' style={{ fontSize:'small', transform(50%,50)}}></div>
                 </form>
             </div>
           <p style={{textAlign:'center',  fontSize:'smaller'}}>NekstPei &copy; 2025</p>
