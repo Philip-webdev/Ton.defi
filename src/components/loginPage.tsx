@@ -1,6 +1,6 @@
  
 import styled from 'styled-components';
-
+import '../index.css';
 import { useState } from 'react';
  
  
@@ -101,7 +101,7 @@ else{
     const infoPan = document.getElementById('infoPan') ;
     if (infoPan) {
         infoPan.style.color = 'green';
-        infoPan.innerText ='logging in...';
+        infoPan.innerHTML = '<img src="https://raw.githubusercontent.com/Philip-webdev/nexr-landing-hub/refs/heads/main/loading_189792.png" width="15px" height="15px" alt="Loading..." />';
     }
        await fetch("https://twa-backend-g83o.onrender.com/login", {
             method: "POST",
@@ -170,7 +170,7 @@ else{
                         Login
                     </button> 
                     <button   className='Logbuts' style={{background: 'transparent',  borderStyle:'groove',  borderWidth:'1px', borderRadius:'5px'}} type="button" onClick={handleRegister}  disabled={statuS === 'Registering...'}>Register</button></div><br></br><br></br>
-                   <div id='infoPan' style={{ fontSize:'small', transform(50%,50)}}></div>
+                   <div id='infoPan' style={{ fontSize:'small', transform: 'translate(50%, 50%)'}} className='box'></div>
                 </form>
             </div>
           <p style={{textAlign:'center',  fontSize:'smaller'}}>NekstPei &copy; 2025</p>
