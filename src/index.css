@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Lexend&display=swap');
 
-.box{
-    @keyframes rotate {
+.boxx{animation : rotate 10s infinite;  }
+    @keyframes  rotate {
         0% {
             transform: rotate(0deg);
         }
@@ -9,7 +9,7 @@
             transform: rotate(360deg);
         }
     }
-}
+  
 .qr-reader{
     width: 80vw;
     height: 100vw;

@@ -43,10 +43,10 @@ const handleRegister = async () => {
    
 
     try {
-        const infoPan = document.getElementById('infoPan') ;
-                if (infoPan) {
-                    infoPan.style.color = 'green';
-                    infoPan.innerText = 'Registering...';
+        const infoPan2 = document.getElementById('infoPan2') ;
+                if (infoPan2) {
+                    infoPan2.style.color = 'green';
+                    infoPan2.innerText = 'Registering...';
                     setStatus('Registering...');
                 }
         const response = await fetch("https://twa-backend-g83o.onrender.com/register", {
@@ -57,18 +57,18 @@ const handleRegister = async () => {
         });
 
         if (!response.ok) {
-            const infoPan = document.getElementById('infoPan') ;
-                if (infoPan) {
-                    infoPan.style.color = 'red';
-                    infoPan.innerText = 'failed! ';
+            const infoPan2 = document.getElementById('infoPan2') ;
+                if (infoPan2) {
+                    infoPan2.style.color = 'red';
+                    infoPan2.innerText = 'failed! ';
                 }
             throw new Error(`Error: ${response.statusText}`);
         }
 else{
-    const infoPan = document.getElementById('infoPan') ;
-    if (infoPan) {
-        infoPan.style.color = 'green';
-        infoPan.innerText = 'Registration successful! ';
+    const infoPan2 = document.getElementById('infoPan2') ;
+    if (infoPan2) {
+        infoPan2.style.color = 'green';
+        infoPan2.innerText = 'Registration successful! ';
     }
     console.log("Registration successful");
 }
@@ -120,10 +120,10 @@ else{
                     window.Telegram.WebApp.openTelegramLink('https://app.nekstpei.com/#/home');                
 
             } else {
-                const infoPan = document.getElementById('infoPan') as HTMLDivElement ;
-                if (infoPan != null && res.status == 500 || res.status == 401 ) {
-                    infoPan.style.color = 'red';
-                    infoPan.innerText = 'Login failed, register first! ';
+                const infoPan2 = document.getElementById('infoPan2') as HTMLDivElement ;
+                if (infoPan2 != null && res.status == 500 || res.status == 401 ) {
+                    infoPan2.style.color = 'red';
+                    infoPan2.innerText = 'Login failed, register first! ';
                 }
                 console.error("Login failed:", res.statusText);
               
@@ -170,7 +170,8 @@ else{
                         Login
                     </button> 
                     <button   className='Logbuts' style={{background: 'transparent',  borderStyle:'groove',  borderWidth:'1px', borderRadius:'5px'}} type="button" onClick={handleRegister}  disabled={statuS === 'Registering...'}>Register</button></div><br></br><br></br>
-                   <div id='infoPan' style={{ fontSize:'small', transform: 'translate(50%, 50%)'}} className='box'></div>
+                   <div id='infoPan' style={{ fontSize:'small',    marginLeft:'50%',   width:'fit-content'}} className='boxx'></div>
+                    <div id='infoPan2' style={{ fontSize:'small' }}  ></div>
                 </form>
             </div>
           <p style={{textAlign:'center',  fontSize:'smaller'}}>NekstPei &copy; 2025</p>
