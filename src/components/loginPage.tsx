@@ -101,7 +101,7 @@ else{
     const infoPan = document.getElementById('infoPan') ;
     if (infoPan) {
         infoPan.style.color = 'green';
-        infoPan.innerText = status;
+        infoPan.innerText ='logging in...';
     }
        await fetch("https://twa-backend-g83o.onrender.com/login", {
             method: "POST",
@@ -111,7 +111,7 @@ else{
         }). 
         then(res => {
             if (res.ok) {
-              
+           
                 console.log("Login successful");
                 const goToPage = (path: string) => {
                     window.location.href = path;  
