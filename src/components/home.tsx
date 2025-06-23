@@ -62,9 +62,9 @@ const AppContainer = styled.div`
   margin: 0;
 `;
 async function getTotalBalance() {
-  const ethAddress: string | null = localStorage.getItem('ethereumWallet');
-  const solAddress: string | null = localStorage.getItem('solanaWallet');
-  const bitAddress: string | null = localStorage.getItem('bitcoinWallet');
+  const ethAddress = localStorage.getItem('ethereumWallet') ;
+  const solAddress = localStorage.getItem('solanaWallet');
+  const bitAddress = localStorage.getItem('bitcoinWallet');
   let accountBalanceEth = 0; // Initialize to zero
   let accountBalanceSol = 0; // Initialize to zero
   let accountBalanceBit = 0; // Initialize to zero
@@ -75,61 +75,88 @@ async function getTotalBalance() {
  const usdPrice = async (symbol: string) => {
     const response = await fetch('https://twa-backend-g83o.onrender.com/api/cryptocurrency');
     const result = await response.json();
-  
-    const cryptoData = result.data.find((crypto: { symbol: string }) => crypto.symbol === symbol);
-    if (cryptoData && cryptoData.quote && cryptoData.quote.USD && typeof cryptoData.quote.USD.price === 'number') {
-      return cryptoData.quote.USD.price;
-    }
-    return 0;
-  }
+    console.log(result);
+
+    
+        const cryptoData = result.data.find((crypto: { symbol: string }) => crypto.symbol === symbol);
+        return cryptoData ? Number(cryptoData.price) : 0;
+      
+}
 
   
- 
-   
-  if (ethAddress) {
-    try {
-      const ethBalanceResponse: IResponse = await multichainWallet.getBalance({
-        address: ethAddress,
-        network: 'ethereum',
-        rpcUrl: 'https://eth-mainnet.alchemyapi.io/v2/fY6etQ0_E-PnuaKp5g9npALfvpJ4IGRq',
-      });
-      const ethPrice = await usdPrice('ETH');
-      accountBalanceEth = ethBalanceResponse.balance * ethPrice;
-    } catch (error) {
-      console.error('Error fetching Ethereum balance:', error);
-    }
+  if (ethAddress ) {
+      try {
+           
+        const ethBalanceResponse: IResponse = await multichainWallet.getBalance({
+          address: ethAddress,
+          network: 'ethereum',
+          rpcUrl: 'https://eth-mainnet.alchemyapi.io/v2/fY6etQ0_E-PnuaKp5g9npALfvpJ4IGRq',
+        });
+        const ethUsdPrice = Number(await usdPrice('ETH'));
+        accountBalanceEth = Number(ethBalanceResponse.balance ?? 0) * ethUsdPrice;   
+      } catch (error) {
+        console.error('Error fetching Ethereum balance:', error);
+      }
   }
 
   if (solAddress) {
-    try {
-      const solBalanceResponse: IResponse = await multichainWallet.getBalance({
-        address: solAddress,
-        network: 'solana',
-        rpcUrl: 'https://mainnet.helius-rpc.com/?api-key=5517adc0-a742-464f-8ef1-276dc13f6c78',
-      });
-      const solPrice = await usdPrice('SOL');
-      accountBalanceSol = solBalanceResponse.balance * solPrice;
-    } catch (error) {
-      console.error('Error fetching Solana balance:', error);
-    }
+      try {
+          const solBalanceResponse = await multichainWallet.getBalance({
+              address: solAddress,
+              network: 'solana',
+              rpcUrl: 'https://mainnet.helius-rpc.com/?api-key=5517adc0-a742-464f-8ef1-276dc13f6c78'
+              ,
+          });
+          const solUsdPrice = Number(await usdPrice('SOL'));
+          accountBalanceSol = Number(solBalanceResponse.balance ?? 0) * solUsdPrice;  
+      } catch (error) {
+          console.error('Error fetching Solana balance:', error);
+      }
   }
 
-  if (bitAddress) {
+  if(bitAddress){
     try {
       const bitBalanceResponse: IResponse = await multichainWallet.getBalance({
-        address: bitAddress,
-        network: 'bitcoin',
-        rpcUrl: 'https://bitcoin-mainnet.g.alchemy.com/v2/fY6etQ0_E-PnuaKp5g9npALfvpJ4IGRq'
+          address: bitAddress,
+          network: 'bitcoin',
+          rpcUrl: 'https://bitcoin-mainnet.g.alchemy.com/v2/fY6etQ0_E-PnuaKp5g9npALfvpJ4IGRq'
       });
-      const btcPrice = await usdPrice('BTC');
-      accountBalanceBit = bitBalanceResponse.balance * btcPrice;
-    } catch (error) {
+      accountBalanceBit = Number(bitBalanceResponse.balance ?? 0) * Number(await usdPrice('BTC'));  
+  } catch (error) {
       console.error('Error fetching Bitcoin balance:', error);
-    }
+  }
   }
 
-  return accountBalanceEth + accountBalanceSol + accountBalanceBit; // Return total balance
+  const total = 
+    Number(accountBalanceEth) || 0 + 
+    Number(accountBalanceSol) || 0 + 
+    Number(accountBalanceBit) || 0;
+  const safeTotal = isNaN(total) ? 0 : total;
+  console.log('Total Balance:', safeTotal); 
+  return safeTotal;  
 }
+
+
+
+function Home(){
+
+  const [totalBalance, setTotalBalance] = useState<number>(0); // Initialize total balance state
+const [pretext, setText] = useState(<div style={{color:'gray'}}>Loading tokens...</div>);
+const[color,  setColor] = useState('grey');
+
+
+const load = ()=>{
+  setText(<div>
+    <Api/></div>)
+}
+  useEffect(() => {
+      const fetchTotalBalance = async () => {
+          const balance = await getTotalBalance(); // Call async function to get total balance
+          setTotalBalance(balance); // Update state with total balance
+      };
+
+      fetchTotalBalance(); // Fetch total balance on component mount
+  }, []);
 
 
     const slide = ()=>{
@@ -202,7 +229,6 @@ async function getTotalBalance() {
      const styles = {
         color: 'rgb(36, 172, 242)'
        }
-      const [color, setColor] = useState<string>('grey');
       const current = () =>{
       
        setColor(styles.color)
@@ -230,20 +256,10 @@ async function getTotalBalance() {
       //           .catch((error) => console.log(error));
       // });
       
-function Home() {
-    // You may want to define totalBalance state and fetch logic here
-    const [totalBalance, setTotalBalance] = useState<number>(0);
-
-    useEffect(() => {
-        getTotalBalance().then(setTotalBalance);
-    }, []);
-
-    // ...all your other hooks and functions above remain unchanged...
-
     return(
         <StyledApp style={{fontWeight:'100', overflowX:'hidden'}} >
             
-            <AppContainer>
+            <AppContainer onLoad={load}>
                 <div>
                     <div  id="header" style={{display:'flex', justifyContent:'space-between', margin:'0',fontFamily: 'Lexend'}}>
                   <div >
@@ -310,7 +326,7 @@ function Home() {
 <section  style={{width: '100%'}} >
     
 <div style={{ padding:'2px',borderRadius:'7px', height:'100%', width:'100%'}}>
-  
+{pretext}  
 </div>  
 </section></div>
 <section style={{marginLeft:'30px' ,padding:'2px', height:'100%', width:'100%'}}><div style={{ padding:'2px',borderRadius:'7px', height:'100%', width:'100%'}}><NftApi /></div> </section>
