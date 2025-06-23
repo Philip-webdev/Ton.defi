@@ -34,7 +34,7 @@ interface CryptoData {
         };
     };
 }
-
+ 
 const CryptoRow = ({ crypto  }: { crypto: CryptoData;   }) => {
     const percentChangeColor = crypto.quote.USD.percent_change_24h < 0 ? 'red' : 'green';
     const getCryptoImage = (symbol: string) => {
@@ -48,7 +48,13 @@ const CryptoRow = ({ crypto  }: { crypto: CryptoData;   }) => {
           ? 'https://i.imgur.com/qfO2YuU.png'
           : symbol === 'SOL'
           ? 'https://i.imgur.com/rjWW55s.png'
-          : 'https://i.imgur.com/VXWScc9.png';
+          : symbol === 'BNB'
+          ? 'https://i.imgur.com/VXWScc9.png'
+          : symbol === 'USDC'
+          ?  ''
+          : symbol === 'TRX'
+          ? ''
+          : ''
       };
     return (
         <API style={{  borderRadius: '7px' ,   margin:'7px' ,display:'flex' ,padding:'15px'  }}>
@@ -70,13 +76,7 @@ const CryptoRow = ({ crypto  }: { crypto: CryptoData;   }) => {
 function Api() {
     const [cryptos, setCryptos] = useState<CryptoData[]>([]);
     
-    const logos = [
-        'https://i.imgur.com/sSYmdfQ.png',
-        'https://i.imgur.com/dhJjQcO.png',
-        'https://i.imgur.com/WaJtG67.png', 
-        'https://i.imgur.com/qfO2YuU.png',
-        'https://i.imgur.com/rjWW55s.png'
-    ];
+  
 
     useEffect(() => {
         const fetchData = async () => {
@@ -85,7 +85,7 @@ function Api() {
                 const result = await response.json();
                 console.log(result);
 
-                const topCryptos = result.data.slice(0, 5);
+                const topCryptos = result.data.slice(0, 8);
                 setCryptos(topCryptos);
             } catch (error) {
                 console.error('Error fetching data:', error);
