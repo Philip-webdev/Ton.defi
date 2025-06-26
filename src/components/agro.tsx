@@ -39,7 +39,7 @@ const AgroApp = () => {
     useEffect(() => {
         // Scene setup
         const scene = new THREE.Scene();
-        scene.background = new THREE.Color(0xf0f8ff);
+        
 
         const camera = new THREE.PerspectiveCamera(
             45,
@@ -79,7 +79,7 @@ const AgroApp = () => {
         const plantTexture = textureLoader.load('../49221.jpg');
 
         (plantTexture as THREE.Texture).anisotropy = renderer.capabilities.getMaxAnisotropy();
-        // Plane geometry (slightly curved for 3D effect)
+         
         const width = 2, height = 3;
         const segments = 32;
         const geometry = new THREE.PlaneGeometry(width, height, segments);
@@ -99,7 +99,7 @@ const AgroApp = () => {
 
         function animate() {
             animationId = requestAnimationFrame(animate);
-            plantMesh.rotation.y += 0.005; // Slow rotation for 3D effect
+            plantMesh.rotation.y += 0.001; // Slow rotation for 3D effect
             renderer.render(scene, camera);
         }
         animate();
@@ -135,7 +135,7 @@ const AgroApp = () => {
             <AppContainer>
                 <div
                     ref={mountRef}
-                    style={{ width: '100%', height: '100vh', overflow: 'hidden' }}
+                    style={{ width: '100%', height: '100vh', overflow: 'hidden' ,zoom: '40%'}}
                 />
             </AppContainer>
         </StyledApp>
