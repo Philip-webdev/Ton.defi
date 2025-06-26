@@ -87,7 +87,7 @@ background-color: white;
        </div>
         
     <br/>
-  <a href="#/send"><Button style={{display: 'flex', justifyContent:'center' , bottom:'0'}}>Back to Send</Button></a>
+  <a href="#/send" style={{textDecoration:'none', textDecorationLine:'none'}}><Button style={{display: 'flex', justifyContent:'center' , bottom:'0'}}>Back to Send</Button></a>
 
         <Icon className="nav" style={{left:'0',right:'0',  bottom:'0%', display:'flex',justifyContent:'space-evenly' ,height:'fit-content',  width:'100%', paddingBottom:'10px', paddingRight:'10px',position:'fixed' }}>
                                              <a href='#/home' style={{color:'grey', textDecoration:'none'}}> 

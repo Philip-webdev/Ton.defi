@@ -425,19 +425,19 @@ else{
     return (
         <StyledApp  > 
             <AppContainer  > 
-            <div   style={{position: 'absolute', left: '85%', height:'34.5px'  }}> <select id="QRcodeChoice" style={{height:'34.5px', background:'transparent', border:'none', color:'gray', fontFamily:'Lexend'}}  onChange={showQR}   >
-              <option  value="eth">eth</option>
-              <option  value="btc">btc</option>
-              <option value="sol">sol</option>
-              <option  value="trx">trx</option>
-              </select></div>
+           
               <div id="qr" style={{display:'none '}}>
             <div id="QRcode1"  style={{position: 'absolute',top: '50%', left: '50%',transform: 'translate(-50%, -50%)'}}> </div>
             <div id="QRcode2"  style={{position: 'absolute',top: '50%', left: '50%',transform: 'translate(-50%, -50%)'}}> </div>
             <div id="QRcode3"  style={{position: 'absolute',top: '50%', left: '50%',transform: 'translate(-50%, -50%)'}}> </div>
             <div id="QRcode4"  style={{position: 'absolute',top: '50%', left: '50%',transform: 'translate(-50%, -50%)'}}> </div>
             </div>
-              <div style={{right:'0'}}><Button onClick={alreadyExists}  >Import  wallet</Button> <Button onClick={createWallets}  >Create new   </Button>  <Button onClick={showQR}><BsQrCode/></Button></div>
+              <div style={{right:'0', display:'flex'}}><Button onClick={alreadyExists}  >Import  wallet</Button> <Button onClick={createWallets}  >Create new   </Button>  <Button onClick={showQR}><BsQrCode/></Button> <div   style={{  left: '85%', height:'34.5px'  }}> <select id="QRcodeChoice" style={{height:'34.5px', background:'transparent', border:'none', color:'gray', fontFamily:'Lexend'}}  onChange={showQR}   >
+              <option  value="eth">eth</option>
+              <option  value="btc">btc</option>
+              <option value="sol">sol</option>
+              <option  value="trx">trx</option>
+              </select></div></div>
               <br/>
             <ExPanel style={{ display: 'flex', padding:'10px', borderRadius: '7px' }} onMouseEnter={onMouseLeave}>
                     <div>
