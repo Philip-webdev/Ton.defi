@@ -51,9 +51,9 @@ const CryptoRow = ({ crypto  }: { crypto: CryptoData;   }) => {
           : symbol === 'BNB'
           ? 'https://i.imgur.com/VXWScc9.png'
           : symbol === 'USDC'
-          ?  ''
+          ?  'https://i.imgur.com/HgZMzC6.png'
           : symbol === 'TRX'
-          ? ''
+          ? 'https://i.imgur.com/ywfZokP.png'
           : ''
       };
     return (

@@ -64,10 +64,10 @@ return(
     <AppContainer>
     <h3>Real World Assets</h3>
         <div style={{  justifyContent:'space-around',    borderRadius:'10px'}}>
-<ExPanel style={{display: 'flex'  , gap:'17px',padding:'20px', borderColor:'whitesmoke', borderBottomStyle:'groove', borderWidth:'1px', borderRadius:'10px'}}><div style={{marginLeft:'7px'}}><a href='/#' style={{color:'grey', textDecoration:'none'}}>Agro-tech</a></div></ExPanel>
-  <ExPanel  style={{display: 'flex'  , gap:'17px',padding:'20px', borderColor:'whitesmoke', borderBottomStyle:'groove', borderWidth:'1px', borderRadius:'10px'}}><div  style={{marginLeft:'7px'}}><a href="/#" style={{color:'grey', textDecoration:'none'}}>Real Estates</a></div></ExPanel>
-  <ExPanel  style={{display: 'flex'  , gap:'17px',padding:'20px', borderColor:'whitesmoke', borderBottomStyle:'groove', borderWidth:'1px', borderRadius:'10px'}}><div  style={{marginLeft:'7px'}}><a href="/#" style={{color:'grey', textDecoration:'none'}}>Communication</a></div></ExPanel>
-COMING SOON
+<ExPanel style={{display: 'flex'  , gap:'17px',padding:'20px', borderColor:'whitesmoke', borderBottomStyle:'groove', borderWidth:'1px', borderRadius:'10px'}}><div style={{marginLeft:'7px'}}><a href='#/Agro' style={{color:'grey', textDecoration:'none'}}>Agro-tech</a></div></ExPanel>
+  <ExPanel  style={{display: 'flex'  , gap:'17px',padding:'20px', borderColor:'whitesmoke', borderBottomStyle:'groove', borderWidth:'1px', borderRadius:'10px'}}><div  style={{marginLeft:'7px'}}><a href="/#" style={{color:'grey', textDecoration:'none'}}>Real Estate</a></div></ExPanel>
+  <ExPanel  style={{display: 'flex'  , gap:'17px',padding:'20px', borderColor:'whitesmoke', borderBottomStyle:'groove', borderWidth:'1px', borderRadius:'10px'}}><div  style={{marginLeft:'7px'}}><a href="/#" style={{color:'grey', textDecoration:'none'}}>Machinery</a></div></ExPanel>
+ 
   
   </div>
          <Icon className="nav" style={{left:'0', right:'0', bottom:'0%', display:'flex',justifyContent:'space-evenly' ,height:'fit-content',  width:'100%', paddingBottom:'10px', paddingRight:'10px',position:'fixed' }}>

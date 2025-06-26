@@ -5,7 +5,7 @@
  import "./App.css";
 import Register from "./components/AccountRegistration";
  import "@twa-dev/sdk";
- import { BrowserRouter, HashRouter, Route, Routes} from "react-router-dom";
+ import {   HashRouter, Route, Routes} from "react-router-dom";
 import swap from "./components/swap";
 import Welcome from "./components/Frontier";
 import market from "./components/finance";
@@ -25,27 +25,9 @@ import PIN from "./components/PIN";
 import stake from "./components/stake";
 import RWA from "./components/RWA";
 import Latest from "./components/latest";
-
- const StyledApp = styled.div`
+import scan from "./components/scan";
+import AgroApp from "./components/agro";
   
-  color: black;
-font-family: Lexend ;
-     position: fixed;
-     width:100%;
- @media (prefers-color-scheme: dark) {
-     
-      color: white ;
-  }
-  min-height: 90vh;
-  padding: 20px 20px;
-`;
-
-const AppContainer = styled.div`
-  width: 100%;
-  height:fit-content;
-  margin: 0;
-`;
- 
 function App() {
 
  
@@ -73,7 +55,7 @@ function App() {
 
 
   return (
-    <div style={{left: '0%',  right: '0%', top: '0%', bottom: '0%', position: 'fixed', overflow:'auto'}}>
+    <div style={{left: '0%',  right: '0%', top: '0%', bottom: '0%', position: 'fixed', overflow:'auto' }}>
   
   <HashRouter>
     <Routes>
@@ -98,6 +80,8 @@ function App() {
       <Route path="/rwa" Component={RWA}/>
       <Route path="/pin" Component={PIN}/>
       <Route path="/usdt" Component={usdt}/>
+      <Route path="/scan" Component={scan}/>
+      <Route path="/Agro" Component={AgroApp}/>
       
     </Routes>
   </HashRouter>

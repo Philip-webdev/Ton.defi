@@ -1,5 +1,4 @@
 
-import {   useState } from 'react';
 import 'react-icons/bs';
 import styled from "styled-components";
 
@@ -8,8 +7,9 @@ import styled from "styled-components";
  
 
 const StyledApp = styled.div`
-  background-color: black;
-   
+  background: black;
+
+    background-size:cover;
 font-family: Lexend ;
   @media (prefers-color-scheme: dark) {
     
@@ -30,7 +30,7 @@ color:white;
 function Welcome(){
   const Loading = () => {
     return (
-        <div className="loading">
+        <div className="loading" >
             <Icon>Loading...</Icon>
             <div className="spinner"></div> {/* Optional spinner */}
         </div>
@@ -45,7 +45,7 @@ function Welcome(){
 
  
             
-          <div  style={{textAlign: 'center', marginTop:'70%'}}><img src='https://i.imgur.com/gvqiAg0.png' style={{ zoom:'50%' }}/><br></br>
+          <div  style={{textAlign: 'center', marginTop:'50%'}}><img src='https://i.imgur.com/gvqiAg0.png' style={{ zoom:'50%' }}/><br></br>
           <br></br><br></br>{Loading()}</div>
          
         </StyledApp>
