@@ -4,10 +4,9 @@ import styled from "styled-components";
 export const Card = styled.div`
   padding: 18px 20px;
   border-radius: 8px;
-  border-style: groove;
-  border-width:1px;
+  border-style: none;
   border-color:none ;
-  background-color: whitesmoke;
+  background-color: transparent;
 font-family: Lexend;
   
 `;
