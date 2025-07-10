@@ -4,7 +4,7 @@ import '../index.css';
 import { BsApp, BsArrowLeftCircle, BsHouse, BsLightningCharge, BsWallet2 } from "react-icons/bs";
 import { Button } from "./styled/styled";
 import { useState } from "react";
-
+import FootNavig from './footnavig';
 const StyledApp = styled.div`
   background-color: #F9F9F9;
   color: black;
@@ -60,7 +60,7 @@ return(
                                               <Button  style={{ fontFamily: 'Lexend' ,bottom:'0%', background:'none', color:color}} onClick={current}><BsLightningCharge />{/*<img src='https://i.imgur.com/S444rBc.png'height='14px' width='14px'/>*/}
                                               <p style={{zoom:'100%'}}>Discover</p> </Button></a>
                                             </Icon>
-        </AppContainer>
+        </AppContainer><div><FootNavig/></div> 
     </StyledApp>
 )
 }

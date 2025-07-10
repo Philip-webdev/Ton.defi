@@ -27,7 +27,7 @@ import RWA from "./components/RWA";
 import Latest from "./components/latest";
 import scan from "./components/scan";
 import AgroApp from "./components/agro";
-  
+import Marketplace from "./components/marketplace"; 
 function App() {
 
  
@@ -82,7 +82,8 @@ function App() {
       <Route path="/usdt" Component={usdt}/>
       <Route path="/scan" Component={scan}/>
       <Route path="/Agro" Component={AgroApp}/>
-      
+      <Route path="/marketplace" Component={Marketplace}/>
+
     </Routes>
   </HashRouter>
 

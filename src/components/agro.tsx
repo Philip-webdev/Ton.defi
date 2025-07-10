@@ -5,6 +5,7 @@ import styled from "styled-components";
 // @ts-ignore
   
 import {GLTFLoader} from 'three/examples/jsm/loaders/GLTFLoader.js';
+import FootNavig from './footnavig';
 const StyledApp = styled.div`
   background-color:  #F9F9F9;
   color: black;
@@ -77,14 +78,16 @@ const AgroApp = () => {
         const Loader = new GLTFLoader();
         let loadedScene: THREE.Object3D | null = null;
             
-        Loader.load('https://github.com/Philip-webdev/campus-blessed-library-hub/raw/refs/heads/main/decorative-ceramic-vase.glb', function (gltf){
+        Loader.load('/decorative-ceramic-vase.glb', function (gltf){
             loadedScene = gltf.scene;
             scene.add(gltf.scene);
-        });
+        }, function (error) {
+    console.error('An error happened during GLB loading:', error);
+  });
 
         let animationId: number;
 
-        function animate() {
+        function animate() { 
             animationId = requestAnimationFrame(animate);
             if (loadedScene) {
                 loadedScene.rotation.y += 0.001; // Slow rotation for 3D effect
@@ -125,7 +128,7 @@ const AgroApp = () => {
                 <div
                     ref={mountRef}
                     style={{ width: '100%', height: '100vh', overflow: 'hidden' ,zoom: '40%'}}
-                />
+                />  <div><FootNavig/></div>
             </AppContainer>
         </StyledApp>
     );

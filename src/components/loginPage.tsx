@@ -148,7 +148,7 @@ else{
         <StyledApp>
             <div style={{justifyContent:'center',padding:'20px',  backdropFilter: 'blur(5px) ',  margin:'0 auto',  borderRadius:'5px',  borderStyle:'groove',  borderWidth:'0.004vh',  borderColor:'gray'}}>
                 <h2 style={{textAlign: 'center'}}>Login/Register</h2>
-                <form style={{margin:'0 auto', width:'70%', justifyContent:'center'}} onSubmit={(e) => { e.preventDefault(); }}>
+                <form style={{margin:'0 auto', width:'100%', justifyContent:'center'}} onSubmit={(e) => { e.preventDefault(); }}>
                     <div>
                         <label htmlFor="email">B/C Email:</label>
                         <input className='logs'  id="email" name="email" required style={{color:'gray', height:'30px',  width:'100%', background :'transparent', borderWidth:'1px', borderStyle:'groove', borderColor:'gray', borderRadius:'5px'}} placeholder='@example.com'  />
@@ -169,7 +169,7 @@ else{
                     >
                         Login
                     </button> 
-                    <button   className='Logbuts' style={{background: 'transparent',  borderStyle:'groove',  borderWidth:'1px', borderRadius:'5px'}} type="button" onClick={handleRegister}  disabled={statuS === 'Registering...'}>Register</button></div><br></br><br></br>
+                    <button   className='Logbuts' style={{background: 'whitesmoke',  borderStyle:'groove',  borderWidth:'1px', borderRadius:'5px', color: 'black'}} type="button" onClick={handleRegister}  disabled={statuS === 'Registering...'}>Register</button></div><br></br><br></br>
                    <div id='infoPan' style={{ fontSize:'small',    marginLeft:'50%',   width:'fit-content'}} className='boxx'></div>
                     <div id='infoPan2' style={{ fontSize:'small' }}  ></div>
                 </form>

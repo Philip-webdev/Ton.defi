@@ -23,15 +23,17 @@
   }
 .input-placeholder::placeholder {
 
-    background: grey;
+    background: none;
 
   
   }
+  
    .logs::placeholder {
     text-decoration-color: gray;
     color: grey;
   }
   
+ 
 h1 {
     text-align: center;
     margin-bottom: 20px;
@@ -41,7 +43,11 @@ h1 {
     margin: 10px;
     font-family: Lexend;
 }
-
+input:focus{
+    border:none;
+    outline:none;
+    box-shadow: none;
+}
 label {
     display: inline-block;
     width: 100px;
