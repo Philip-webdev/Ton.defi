@@ -10,6 +10,9 @@
         }
     }
   
+ .active_buttons.active {
+    color: rgb(36, 172, 242);
+}
 .qr-reader{
     width: 80vw;
     height: 100vw;

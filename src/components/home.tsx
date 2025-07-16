@@ -337,7 +337,7 @@ const load = ()=>{
   </div>
                 </div>
   
-                   <div><FootNavig/></div>
+               <div><FootNavig/></div>
             </AppContainer>
         </StyledApp>
     )

@@ -68,7 +68,7 @@ function marketplace() {
   return (
         <StyledApp>
           <header style={{justifyContent:'space-evenly'}}>  
-            <div className='relative' style={{display:'flex', borderRadius:'5px', borderWidth:'1px', borderStyle:'groove', borderColor:'white'}}>
+            <div className='relative' style={{display:'flex', borderRadius:'5px', borderWidth:'1px', borderStyle:'groove', borderColor:'grey'}}>
               <Search  style={{ height:'30px', margin:'6px'}}/>
               <input
                 placeholder="Search products..."

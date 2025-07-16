@@ -433,7 +433,7 @@ else{
             <div id="QRcode3"  style={{position: 'absolute',top: '50%', left: '50%',transform: 'translate(-50%, -50%)'}}> </div>
             <div id="QRcode4"  style={{position: 'absolute',top: '50%', left: '50%',transform: 'translate(-50%, -50%)'}}> </div>
             </div>
-              <div style={{right:'0', display:'flex'}}><Button onClick={alreadyExists} style={{fontSize:'14px'}}  >Import  wallet</Button> <Button onClick={createWallets} style={{fontSize:'14px'}} >Create new   </Button>  <Button onClick={showQR}><BsQrCode/></Button> <div   style={{  left: '85%', height:'34.5px'  }}> <select id="QRcodeChoice" style={{height:'34.5px', background:'transparent', border:'none', color:'gray', fontFamily:'Lexend'}}  onChange={showQR}   >
+              <div style={{right:'0', display:'flex'}}><Button onClick={alreadyExists} style={{fontSize:'inherit'}}  >Import</Button> <Button onClick={createWallets} style={{fontSize:'14px'}} >Create</Button>  <Button onClick={showQR}><BsQrCode/></Button> <div   style={{  left: '85%', height:'34.5px'  }}> <select id="QRcodeChoice" style={{height:'34.5px', background:'transparent', border:'none', color:'gray', fontFamily:'Lexend'}}  onChange={showQR}   >
               <option  value="eth">eth</option>
               <option  value="btc">btc</option>
               <option value="sol">sol</option>
