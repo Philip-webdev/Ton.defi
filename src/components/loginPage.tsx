@@ -151,12 +151,12 @@ else{
                 <form style={{margin:'0 auto', width:'100%', justifyContent:'center'}} onSubmit={(e) => { e.preventDefault(); }}>
                     <div>
                         <label htmlFor="email">B/C Email:</label>
-                        <input className='logs'  id="email" name="email" required style={{color:'gray', height:'30px',  width:'100%', background :'transparent', borderWidth:'1px', borderStyle:'groove', borderColor:'gray', borderRadius:'5px'}} placeholder='@example.com'  />
+                        <input className='logs'  id="email" name="email" required style={{color:'gray', height:'40px',  width:'100%', background :'transparent', borderWidth:'1px', borderStyle:'groove', borderColor:'gray', borderRadius:'5px'}} placeholder='@example.com'  />
                     </div>
                     <br></br>
                     <div>
                         <label htmlFor="password">Password:</label>
-                        <input className='logs' type="password" id="password" name="password" required style={{color:'gray',height:'30px',  width:'100%', background :'transparent', borderWidth:'1px', borderStyle:'groove', borderColor:'gray', borderRadius:'5px'}} placeholder='password'/>
+                        <input className='logs' type="password" id="password" name="password" required style={{color:'gray',height:'40px',  width:'100%', background :'transparent', borderWidth:'1px', borderStyle:'groove', borderColor:'gray', borderRadius:'5px'}} placeholder='password'/>
                     </div>
                     <br></br>
                     <div style={{display:'inline-flex', margin:'0 auto ', width:'100%', justifyContent:'space-evenly '}}>
@@ -174,7 +174,7 @@ else{
                     <div id='infoPan2' style={{ fontSize:'small' }}  ></div>
                 </form>
             </div>
-          <p style={{textAlign:'center',  fontSize:'smaller'}}>NekstPei &copy; 2025</p>
+          <p style={{textAlign:'center',  fontSize:'smaller'}}>nekstpei &copy; 2025</p>
         </StyledApp>
     );
 }

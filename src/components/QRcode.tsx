@@ -45,7 +45,7 @@ const clear = ()=>{
                                     alignItems: "center",
                                     height: "50vh", // Full viewport height
                                     width: "50vh", // Full viewport width
-                                    backgroundColor: "black ",
+                                    backgroundColor: "white ",
                                     borderRadius: "17px",
                                   }} id="reader"></div>
                                 );

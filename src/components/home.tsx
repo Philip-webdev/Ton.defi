@@ -179,13 +179,13 @@ const load = ()=>{
         var currentIndex = 0;
         function swipeInfo(){
             const slider = ['1', '2' ];
-            currentIndex = (currentIndex + 1) % slider.length;
+            currentIndex = (currentIndex ) % slider.length;
             if (InfoContents != null){
-            InfoContents.style.transform = 'translateY(' + (currentIndex * -57.0) + 'px)';
+            InfoContents.style.transform = 'translateY(' + (currentIndex * -65.0) + 'px)';
     
             }
         }
-        setInterval(swipeInfo, 1500);
+        setInterval(swipeInfo, 5000);
        }
     useEffect(()=>{
        slide();} ,[])
@@ -234,25 +234,7 @@ const load = ()=>{
 
       
        
-      //  useEffect(()=>{
-      //   fetch('https://twa-backend-g83o.onrender.com/walletdetails').then((res) => res.json())
-      //         .then((result) => {
-      //           console.log(result);
-      //          // setAccountName(result.walletName);
-      //           })
-                
-      //           .catch((error) => console.log(error));
-      // });
-
-      // useEffect(()=>{
-      //   fetch('https://twa-backend-g83o.onrender.com/AccBalance').then((res) => res.json())
-      //         .then((result) => {
-      //           console.log(result);
-      //           // setAccountBalance(result.responseBody.availableBalance);
-      //           })
-                
-      //           .catch((error) => console.log(error));
-      // });
+ 
       
     return(
         <StyledApp style={{fontWeight:'100', overflowX:'hidden'}} >
@@ -308,8 +290,8 @@ const load = ()=>{
   <div id="publicity-logo" style={{padding:'10px', background:'rgb(36, 172, 242)', borderRadius:'7px'}}><img src='https://i.imgur.com/5d6m9T7.png' height='20px' width='20px'/></div>
   <div  id='InfoContainer' style={{zIndex:'0',marginLeft:'10px' , width:'100%', height:'30px', overflowY:'hidden',  border:'none', borderRadius:'7px', justifySelf:'center'}}>
   <div id='InfoContents' style={{height:'fit-content', width:'auto',  transition:'1s ease'}}>
-  <div id="publcity" style={{marginTop:'7px'}}>Our 24/7 support is live</div>
-  <div id="publcity" style={{marginTop:'35px'}}> Our 24/7 support is live </div>
+  <div id="publcity" style={{marginTop:'7px'}}>Store on nekstpei is coming soon</div>
+  <div id="publcity" style={{marginTop:'35px'}}> Buy TON USDT for now </div>
   </div></div>
 </Announcement>
 <br/>

@@ -13,7 +13,7 @@ import FootNavig from './footnavig';
 const StyledApp = styled.div`
   background-color:  #F9F9F9;
   color: black;
-   zoom :90%;
+   zoom :100%;
   font-family: Lexend;
   @media (prefers-color-scheme: dark) {
      background-color: rgb(33,33,33);
@@ -113,7 +113,7 @@ function swap() {
         <br />
         <ExPanel style={{background:'none'}}>
           <input
-            style={{ width: '100%', height: '40px', borderRadius: '10px', border: 'none' }}
+            style={{ width: '100%', height: '40px', borderRadius: '5px', border: 'none', background:'transparent' }}
             value={commodity} // Bind input to state
             onChange={(e) => setCommodity(e.target.value)} // Update state on change
           />

@@ -41,7 +41,7 @@ const FootNavig = () => {
                 <a
                     href={item.href}
                     key={item.href}
-                    className={`active_buttons${active === item.href ? "active" : ""}`}
+                    className={`active_buttons${active === item.href ? "active" : " "}`}
                     onClick={() => setActive(item.href)}
                 >
                     <button

@@ -7,7 +7,7 @@ import FootNavig from './footnavig';
 const StyledApp = styled.div`
   background-color: #F9F9F9;
   color: black;
-   zoom :90%;
+   zoom :100%;
     font-family: Lexend ;
   @media (prefers-color-scheme: dark) {
      background-color: rgb(15,15,15);

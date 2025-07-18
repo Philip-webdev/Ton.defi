@@ -8,7 +8,7 @@ const StyledApp = styled.div`
   background-color: #F9F9F9;
   color: black;
   border-radius: 17px;
-    zoom :90%;
+    zoom :100%;
     font-family: Lexend ;
   @media (prefers-color-scheme: dark) {
     background-color:  #F9F9F9;

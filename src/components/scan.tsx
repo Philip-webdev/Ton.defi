@@ -13,7 +13,7 @@ import QRScanner from "./QRcode";
 
 const StyledApp = styled.div`
   background-color:  #F9F9F9;
-  color: black;
+  color:inherit;
   
   font-family: Lexend;
   @media (prefers-color-scheme: dark) {
