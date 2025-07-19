@@ -38,9 +38,19 @@ background-color: white;
  
 const Header = styled.div`
 backdrop-filter:blur(30px);
+
+
+`;
+ 
+const Iconic = styled.div`
+  @media (prefers-color-scheme: dark) {
+     background-color: rgb(15,15,15);
+        color:white;
+       padding:4px;
+  }
 `;
 
-const AgroApp = () => { 
+const AgroApp = () => {
     const mountRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
@@ -132,8 +142,8 @@ const AgroApp = () => {
         <StyledApp>
           
                 <Header style={{justifyContent:'space-between', display:'flex', top:'0', marginBottom:'7px'}}>
-                 <Menu/><User/>
-                </Header>
+                 <Iconic><Menu/></Iconic><Iconic><User/></Iconic>
+                </Header> <br/>
                 <Acc_panel style={{ height:'150px'}}><p style={{color:'grey', fontSize:'small', textAlign:'center', padding:'7px'}}>Total Earnings</p>
                  <p style={{ textAlign:'center',  fontFamily:'helvetica',fontWeight:'900',fontSize:'30px'}}> $500.00</p>
                     </Acc_panel>
@@ -143,9 +153,9 @@ const AgroApp = () => {
                 />  
                 <div><FootNavig/></div>
 
-                <Acc_panel style={{ width:'90%',position:'absolute' , top:'80%', textAlign:'center'}}><p style={{ marginTop:'7%',fontSize:'20px'}}>Ends: 20/07/25</p></Acc_panel>
+                <Acc_panel style={{ width:'90%',position:'absolute' , top:'85%', textAlign:'center'}}><p style={{ marginTop:'7%',fontSize:'20px'}}>Ends: 20/07/25</p></Acc_panel>
                 <br/>
-                <Acc_panel style={{ width:'90%',position:'absolute' , top:'95%', textAlign:'center', fontSize:'30px'}}><p style={{ marginTop:'7%',fontSize:'20px'}}>%ROI: 10</p></Acc_panel>
+                <Acc_panel style={{ width:'90%',position:'absolute' , top:'100%', textAlign:'center', fontSize:'30px'}}><p style={{ marginTop:'7%',fontSize:'20px'}}>%ROI: 10</p></Acc_panel>
          
         </StyledApp>
     );
