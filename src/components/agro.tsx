@@ -36,7 +36,7 @@ background-color: white;
   }
 `;
  
-const heder = styled.div`
+const Header = styled.div`
 backdrop-filter:blur(30px);
 `;
 
@@ -131,9 +131,9 @@ const AgroApp = () => {
     return (
         <StyledApp>
           
-                <heder style={{justifyContent:'space-between', display:'flex', top:'0', marginBottom:'7px'}}>
+                <Header style={{justifyContent:'space-between', display:'flex', top:'0', marginBottom:'7px'}}>
                  <Menu/><User/>
-                </heder>
+                </Header>
                 <Acc_panel style={{ height:'150px'}}><p style={{color:'grey', fontSize:'small', textAlign:'center', padding:'7px'}}>Total Earnings</p>
                  <p style={{ textAlign:'center',  fontFamily:'helvetica',fontWeight:'900',fontSize:'30px'}}> $500.00</p>
                     </Acc_panel>
