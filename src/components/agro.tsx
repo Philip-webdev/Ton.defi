@@ -143,9 +143,9 @@ const AgroApp = () => {
                 />  
                 <div><FootNavig/></div>
 
-                <Acc_panel style={{ width:'90%',position:'absolute' , top:'70%', textAlign:'center'}}><p style={{ marginTop:'7%',fontSize:'20px'}}>Ends: 20/07/25</p></Acc_panel>
+                <Acc_panel style={{ width:'90%',position:'absolute' , top:'80%', textAlign:'center'}}><p style={{ marginTop:'7%',fontSize:'20px'}}>Ends: 20/07/25</p></Acc_panel>
                 <br/>
-                <Acc_panel style={{ width:'90%',position:'absolute' , top:'85%', textAlign:'center', fontSize:'30px'}}><p style={{ marginTop:'7%',fontSize:'20px'}}>%ROI: 10</p></Acc_panel>
+                <Acc_panel style={{ width:'90%',position:'absolute' , top:'95%', textAlign:'center', fontSize:'30px'}}><p style={{ marginTop:'7%',fontSize:'20px'}}>%ROI: 10</p></Acc_panel>
          
         </StyledApp>
     );
