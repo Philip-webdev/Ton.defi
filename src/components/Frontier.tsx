@@ -45,8 +45,8 @@ function Welcome(){
 
  
             
-          <div  style={{textAlign: 'center', marginTop:'50%'}}><img src='https://i.imgur.com/ySoWviB.png' style={{ zoom:'50%' }}/><br></br>
-          <br></br><br></br>{Loading()}</div>
+          <div  style={{translate:'-50% -50%', top:'50%', left:'50%', position:'absolute', textAlign:'center', color:'white', fontSize:'20px'}}>
+            <img src='https://i.imgur.com/ySoWviB.png' style={{ zoom:'100%' }}/>{Loading()}</div>
          
         </StyledApp>
         
