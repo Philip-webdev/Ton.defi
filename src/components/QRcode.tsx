@@ -14,6 +14,7 @@ function onScanSuccess(decodedText: any) {
   
 export default function QRScanner({ onRender }: QRScannerProps) {
   const [signal, setSignal] = useState(false);
+
 const clear = ()=>{
   setSignal(true);
 }
@@ -35,17 +36,16 @@ const clear = ()=>{
           return () => {
                 scanner.clear().catch(console.error);
             };
-      }, [{signal}]);
+      }, [ ]);
  
         
 
                                   return( <div  style={{
-                                     
                                     justifyContent: "center",
                                     alignItems: "center",
                                     height: "50vh", // Full viewport height
                                     width: "50vh", // Full viewport width
-                                    backgroundColor: "white ",
+                                          
                                     borderRadius: "17px",
                                   }} id="reader"></div>
                                 );

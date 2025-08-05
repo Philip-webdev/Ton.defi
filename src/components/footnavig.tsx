@@ -26,10 +26,10 @@ a {
 `;
 
 const navItems = [
-    { href: "#/home", label: "Home", icon: <BsHouse style={{ zoom: "150%" }} /> },
-    { href: "#/market", label: "Apps", icon: <BsApp style={{ zoom: "150%" }} /> },
-    { href: "#/marketplace", label: "Store", icon: <BsShop style={{ zoom: "150%" }} /> },
-    { href: "#/discover", label: "Discover", icon: <BsLightningCharge style={{ zoom: "150%" }} /> },
+    { href: "#/home", label: "Home", icon: <BsHouse style={{ height:'25px', width:'25px' }} /> },
+    { href: "#/market", label: "Apps", icon: <BsApp style={{ height:'25px' ,width:'25px' }} /> },
+    { href: "#/marketplace", label: "Store", icon: <BsShop style={{ height:'25px', width:'25px' }} /> },
+    { href: "#/discover", label: "Discover", icon: <BsLightningCharge style={{ height:'25px', width:'25px' }} /> },
 ];
 
 const FootNavig = () => {

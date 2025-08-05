@@ -1,11 +1,9 @@
 import "../App.css";
 import '../index.css';
- 
 import styled from "styled-components";
 import { Button } from "../components/styled/styled";
- 
 import "@twa-dev/sdk";
-import { BsHouse, BsWallet2,  BsLightningCharge , BsCopy, BsApp } from "react-icons/bs";
+import {   BsCopy  } from "react-icons/bs";
     import FootNavig from "./footnavig";
 import   { useState } from 'react';
  
@@ -31,22 +29,6 @@ const AppContainer = styled.div`
   
   margin: 0;
 `;
-const Icon = styled.div`
-background-color: white;
-   
-  
- @media (prefers-color-scheme: dark) {
-     background-color: rgb(15,15,15);
-        color:grey;
-  }
-`;
- 
- 
- 
- 
- 
- 
-
  
 
  function scan() {
@@ -83,9 +65,8 @@ background-color: white;
       <AppContainer>
         <h1 style={{textAlign:"center"}}>Scan</h1>
        <div id='ton-qr'  style={{display: 'flex', justifyContent:'center', marginLeft:'10px'  }}><QRScanner onRender={(address: string) =>  setResult(<div>{address}<BsCopy onClick={copy}/></div>)} />
-        <div id="res"  style={{color:'blue', padding: '10px', textAlign:"center", transform: 'translate(-50%, -50%)'}}>{result} </div>
-       </div>
-        
+        <div id="res"  style={{color:'blue', padding: '10px', textAlign:"center", transform: 'translate(-50%, -50%)', position:'relative'}}>{result} </div>
+       </div>     
     <br/>
   <a href="#/send" style={{textDecoration:'none', textDecorationLine:'none'}}><Button style={{display: 'flex', justifyContent:'center' , bottom:'0'}}>Back to Send</Button></a>
   <div><FootNavig/></div>

@@ -101,7 +101,7 @@ else{
     const infoPan = document.getElementById('infoPan') ;
     if (infoPan) {
         infoPan.style.color = 'green';
-        infoPan.innerHTML = '<img src="https://raw.githubusercontent.com/Philip-webdev/nexr-landing-hub/refs/heads/main/loading_189792.png" width="15px" height="15px" alt="Loading..." />';
+        infoPan.innerHTML = '<img src="https://raw.githubusercontent.com/Philip-webdev/nexr-landing-hub/refs/heads/main/loading_189792.png" width="15px" height="15px" alt = "." />';
     }
        await fetch("https://twa-backend-g83o.onrender.com/login", {
             method: "POST",

@@ -1,10 +1,8 @@
- 
-import styled from 'styled-components';
+ import styled from 'styled-components';
 import '../index.css';   
 import { useState } from 'react';
 import ProductCard from './productCard';
 import {  Search } from "lucide-react";
-import { Input } from './input';
 import FootNavig from './footnavig';
 
 const StyledApp = styled.div`

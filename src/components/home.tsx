@@ -11,6 +11,7 @@ import { IResponse } from "multichain-crypto-wallet/dist/common/utils/types";
 import NftApi from "./nftApi";
 import WalletHistoryApi from "./history";
 import FootNavig from "./footnavig";
+import { removeListener } from "process";
 const StyledApp = styled.div`
   background-color: #F9F9F9;
   color: black;
@@ -214,22 +215,21 @@ const load = ()=>{
         swiperComponent.style.transform = 'translateX(' + (0) + '%)';
        }
       //  const [AccountBalance, setAccountBalance] = useState({totalBalance});
-       const [Nohide, hide] = useState(<BsEye/>);
+       const [Nohide, hide] = useState(<BsEye style={{ height:'25px', width:'25px'}}/>);
 
         function Hide(){
        
        const balanceArea = document.getElementById('balance') as HTMLElement | null;
        if(balanceArea != null &&  balanceArea.style.display == 'block'){
-        hide( <BsEyeSlash/>);
+        hide( <BsEyeSlash style={{ height:'25px', width:'25px'}}/>);
         balanceArea.style.display = 'none'; 
-      } else if(balanceArea != null) {
-        balanceArea.style.display = 'block';
-        hide( <BsEye/>);
+      } else if (balanceArea != null && balanceArea.style.display == 'none') {
+        hide(<BsEye style={{ height:'25px', width:'25px'}}/>);
+
       }
+      
        }
-     const styles = {
-        color: 'rgb(36, 172, 242)'
-       }
+    
        
 
       
@@ -295,25 +295,31 @@ const load = ()=>{
   </div></div>
 </Announcement>
 <br/>
+
+
 <div>
-    <div style={{display :'flex', background:"white", alignContent:'center', borderRadius:'7px', width:'fit-content'}}>
-      <div style={{color:"black",padding:'10px',borderRightColor:'red', borderStyle:'groove', borderLeft:'none',borderTop:'none',borderBottom:'none',borderWidth:'1px'}} onClick={swipeBack}>Tokens</div>
-      <div style={{color:"grey", padding:'10px'}} onClick={swiper} id="nft">NFTs</div>
+    <div style={{display :'flex', background:"transparent", alignContent:'center', borderRadius:'7px', width:'fit-content'}}>
+      <div style={{ padding:'10px',borderRightColor:'red', borderStyle:'groove', borderLeft:'none',borderTop:'none',borderBottom:'none',borderWidth:'1px'}} onClick={swipeBack}>Tokens</div>
+      <div style={{  padding:'10px'}} onClick={swiper} id="nft">NFTs</div>
       </div>
-</div> <br/>  
+</div> <br/>
+
+
 <div id='swiper' style={{display:'flex',width: '200%'}}>
 <div style={{width: '100%',overflowX: 'scroll',  justifyContent:'space-between', padding:'2px', borderRadius:'7px', height:'100%'}}>
+
 <section  style={{width: '100%'}} >
-    
 <div style={{ padding:'2px',borderRadius:'7px', height:'100%', width:'100%'}}>
 {pretext}  
 </div>  
 </section></div>
 <section style={{marginLeft:'30px' ,padding:'2px', height:'100%', width:'100%'}}><div style={{ padding:'2px',borderRadius:'7px', height:'100%', width:'100%'}}><NftApi /></div> </section>
                 </div> 
+
+                
                 <div style={{ padding:'2px',borderRadius:'7px', height:'auto', width:'auto'}}>
     <h3>Wallet History</h3>
-    <div style={{ padding:'2px',borderRadius:'7px', height:'100%', width:'100%'}}>
+    <div style={{ padding:'4px',borderRadius:'7px', height:'100%', width:'100%'}}>
       <WalletHistoryApi/>
     </div>
   </div>

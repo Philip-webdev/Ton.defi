@@ -161,6 +161,8 @@ async function createNodeRequest(){
             body: JSON.stringify({  creatorId ,packageCost }),
         })
 }
+//use javascript switch case to check if wallet balance is > 0
+
 async function joinNodeRequest(){
   const res = await fetch("https://twa-backend-g83o.onrender.com/users", {
     method: "POST",
@@ -169,7 +171,7 @@ async function joinNodeRequest(){
     body: JSON.stringify({  moniepointWallet ,    phone: Phone ,  plan: plan, network: network }),
   });
 
-  if (res.ok) {
+  if (res.ok   ) {
     const alertBox = document.createElement('div');
     alertBox.innerHTML = "Joined! <br/>Takes some moments for package to reflect";
     alertBox.style.position = 'fixed';

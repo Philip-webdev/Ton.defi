@@ -69,7 +69,7 @@ useEffect(() => {
 return (
 <StyledApp>
 <AppContainer>
-  <h3 style={{display:'flex'}}><div  style={{ marginRight:'39%'}}><a href="#/market" style={{color:'gray'}}><BsArrowLeft/></a></div><div>Updates</div></h3>
+  <div style={{display:'flex', top:'0'}}><div  style={{ margin:'auto', justifyContent:'space-around'}}><a href="#/market" style={{color:'gray'}}><BsArrowLeft/></a></div><div>Updates</div></div>
   {newsList}
 </AppContainer>
 </StyledApp>

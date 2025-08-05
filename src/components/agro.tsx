@@ -1,10 +1,10 @@
 import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
-import React, { useEffect , useRef} from 'react';
+import   { useEffect , useRef} from 'react';
 import styled from "styled-components";
 // @ts-ignore
  import {Menu} from 'lucide-react'; 
-  import {User} from 'lucide-react'; 
+  import {InfoIcon} from 'lucide-react'; 
 import {GLTFLoader} from 'three/examples/jsm/loaders/GLTFLoader.js';
 import FootNavig from './footnavig';
 
@@ -123,7 +123,7 @@ const AgroApp = () => {
         };
         window.addEventListener('resize', handleResize);
 
-        // Initial resize to fit container
+        
         handleResize();
 
         // Cleanup
@@ -142,10 +142,10 @@ const AgroApp = () => {
         <StyledApp>
           
                 <Header style={{justifyContent:'space-between', display:'flex', top:'0', marginBottom:'7px'}}>
-                 <Iconic><Menu/></Iconic><Iconic><User/></Iconic>
+                 <Iconic><Menu/></Iconic><Iconic><InfoIcon/></Iconic>
                 </Header> <br/>
                 <Acc_panel style={{ height:'150px'}}><p style={{color:'grey', fontSize:'small', textAlign:'center', padding:'7px'}}>Total Earnings</p>
-                 <p style={{ textAlign:'center',  fontFamily:'helvetica',fontWeight:'900',fontSize:'30px'}}> $500.00</p>
+                 <p style={{ textAlign:'center',  fontFamily:'helvetica',fontWeight:'900',fontSize:'30px'}}> $ 500.00</p>
                     </Acc_panel>
                 <div
                     ref={mountRef}

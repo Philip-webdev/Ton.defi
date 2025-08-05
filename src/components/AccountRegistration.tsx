@@ -254,7 +254,7 @@ else{
      tronAddress = localStorage.getItem('tronWallet')as string;
 
  
- 
+ //the entire copy code rewritten efficiently using useState to update of either the bitcopy  ethcopy.
      function copy() {
    
       var copyText = document.getElementById('bitcopy') as HTMLDivElement;
@@ -406,13 +406,8 @@ else{
   
   } 
   };
-  const styles = {
-        color: 'rgb(36, 172, 242)'
-       }
-      const current = () =>{
-      
-       setColor(styles.color)
-      }
+  
+    
       const dropdown = () => {
          
         const section = document.getElementById('fiat') as HTMLElement | null;

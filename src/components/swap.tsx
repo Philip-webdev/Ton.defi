@@ -55,17 +55,17 @@ function swap() {
 
   const handleCalculation = () => {
     let result = 0;
-    const ton = 4.2; // Example price
+    const ton = 4.2;  
     if (coin === 'TON') {
       result = Number(commodity) * ton;
     } else if (coin === 'BTC') {
-      const btc = 4.2; // Example price
+      const btc = 4.2;  
       result = Number(commodity) * btc;
     } else if (coin === 'SOL') {
-      const sol = 4.2; // Example price
+      const sol = 4.2;  
       result = Number(commodity) * sol;
     } else if (coin === 'ETH') {
-      const eth = 4.2; // Example price
+      const eth = 4.2;  
       result = Number(commodity) * eth;
     }
     setCountcalculated(result);
@@ -113,7 +113,7 @@ function swap() {
         <br />
         <ExPanel style={{background:'none'}}>
           <input
-            style={{ width: '100%', height: '40px', borderRadius: '5px', border: 'none', background:'transparent' }}
+            style={{ width: '100%', height: '40px', borderRadius: '5px', borderStyle: 'groove',borderWidth:'1px', background:'transparent', color:'white', borderColor:'grey' }}
             value={commodity} // Bind input to state
             onChange={(e) => setCommodity(e.target.value)} // Update state on change
           />
