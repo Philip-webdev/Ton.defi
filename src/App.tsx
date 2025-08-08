@@ -1,96 +1,104 @@
- import Home from "./components/home";
- import styled from "styled-components";
- import send from "./components/Send";
- import tools from "./components/tools";
- import "./App.css";
-import Register from "./components/AccountRegistration";
- import "@twa-dev/sdk";
- import {   HashRouter, Route, Routes} from "react-router-dom";
-import swap from "./components/swap";
-import Welcome from "./components/Frontier";
-import market from "./components/finance";
-import discover from "./components/discover";
-import tokenomics from "./components/tokenomics";
-import tontools from "./components/tontools";
-import buy from "./components/Buy";
-import settings from "./components/settings";
-import security from "./components/security";
-import agenda from "./components/Agenda";
-import contact from "./components/contact";
-import organizer from "./components/organizer";
 import { useEffect, useState } from "react";
-import usdt from "./components/USDT";
+import { HashRouter, Route, Routes, useNavigate } from "react-router-dom";
+import "@twa-dev/sdk";
+import "./App.css";
+
+// Components
+import Home from "./components/home";
+import Send from "./components/Send";
+import Tools from "./components/tools";
+import Register from "./components/AccountRegistration";
+import Swap from "./components/swap";
+import Welcome from "./components/Frontier";
+import Market from "./components/finance";
+import Discover from "./components/discover";
+import Tokenomics from "./components/tokenomics";
+import Tontools from "./components/tontools";
+import Buy from "./components/Buy";
+import Settings from "./components/settings";
+import Security from "./components/security";
+import Agenda from "./components/Agenda";
+import Contact from "./components/contact";
+import Organizer from "./components/organizer";
+import Usdt from "./components/USDT";
 import UserLogin from "./components/loginPage";
 import PIN from "./components/PIN";
-import stake from "./components/stake";
+import Stake from "./components/stake";
 import RWA from "./components/RWA";
 import Latest from "./components/latest";
-import scan from "./components/scan";
+import Scan from "./components/scan";
 import AgroApp from "./components/agro";
-import Marketplace from "./components/marketplace"; 
-function App() {
+import Marketplace from "./components/marketplace";
 
- 
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-      const timer = setTimeout(() => {
-          setLoading(false);
-      }, 10000);
-      return () => clearTimeout(timer);
-  }, []);
-
- if (loading) {
-     return <Welcome/>;
-
-   }
-  
-    const goToPage = (path: string) => {
-      window.location.href = path;  
-    };
-      goToPage('#/user');        
- 
-   
-
-
-
+function AppWrapper() {
   return (
-    <div style={{left: '0%',  right: '0%', top: '0%', bottom: '0%', position: 'fixed', overflow:'auto' }}>
-  
-  <HashRouter>
-    <Routes>
-    <Route path="/user" Component={UserLogin}/>
-     <Route path="/home" Component={Home}/>
-      <Route path="/send" Component={send}/>
-      <Route path="/swap" Component={swap}/>
-      <Route path="/register" Component={Register}/>
-      <Route path="/tools" Component={tools}/>
-      <Route path="/market" Component={market}/>
-      <Route path="/discover" Component={discover}/>
-      <Route path="/tokenomics" Component={tokenomics}/>
-      <Route path="/tontools" Component={tontools}/>
-      <Route path="/buy" Component={buy}/>
-      <Route path="/latest" Component={Latest}/>
-      <Route path="/contact" Component={contact}/>
-      <Route path="/agenda" Component={agenda}/>
-      <Route path="/security" Component={security}/>
-      <Route path="/settings" Component={settings}/>
-      <Route path="/organizer" Component={settings}/>
-      <Route path="/stake" Component={stake}/>
-      <Route path="/rwa" Component={RWA}/>
-      <Route path="/pin" Component={PIN}/>
-      <Route path="/usdt" Component={usdt}/>
-      <Route path="/scan" Component={scan}/>
-      <Route path="/Agro" Component={AgroApp}/>
-      <Route path="/marketplace" Component={Marketplace}/>
-
-    </Routes>
-  </HashRouter>
-
-
-  
-</div>
+    <HashRouter>
+      <App />
+    </HashRouter>
   );
 }
 
-export default App;
+function App() {
+  const navigate = useNavigate();
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    // Simulate loading
+    const timer = setTimeout(() => {
+      setLoading(false);
+    },7000);
+
+    return () => clearTimeout(timer);
+  }, []);
+
+  useEffect(() => {
+    if (loading) {
+      navigate("/welcome"); // ✔ Correct way to navigate
+    } else {
+      navigate("/user"); // ✔ Navigate after loading
+    }
+  }, [loading, navigate]);
+
+  return (
+    <div
+      style={{
+        left: "0%",
+        right: "0%",
+        top: "0%",
+        bottom: "0%",
+        position: "fixed",
+        overflow: "auto",
+      }}
+    >
+      <Routes>
+        <Route path="/welcome" element={<Welcome />} />
+        <Route path="/user" element={<UserLogin />} />
+        <Route path="/home" element={<Home />} />
+        <Route path="/send" element={<Send />} />
+        <Route path="/swap" element={<Swap />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="/tools" element={<Tools />} />
+        <Route path="/market" element={<Market />} />
+        <Route path="/discover" element={<Discover />} />
+        <Route path="/tokenomics" element={<Tokenomics />} />
+        <Route path="/tontools" element={<Tontools />} />
+        <Route path="/buy" element={<Buy />} />
+        <Route path="/latest" element={<Latest />} />
+        <Route path="/contact" element={<Contact />} />
+        <Route path="/agenda" element={<Agenda />} />
+        <Route path="/security" element={<Security />} />
+        <Route path="/settings" element={<Settings />} />
+        <Route path="/organizer" element={<Organizer />} />
+        <Route path="/stake" element={<Stake />} />
+        <Route path="/rwa" element={<RWA />} />
+        <Route path="/pin" element={<PIN />} />
+        <Route path="/usdt" element={<Usdt />} />
+        <Route path="/scan" element={<Scan />} />
+        <Route path="/Agro" element={<AgroApp />} />
+        <Route path="/marketplace" element={<Marketplace />} />
+      </Routes>
+    </div>
+  );
+}
+
+export default AppWrapper;
