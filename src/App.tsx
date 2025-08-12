@@ -55,9 +55,9 @@ function App() {
     if (loading) {
       navigate("/welcome"); // ✔ Correct way to navigate
     } else {
-      navigate("/user"); // ✔ Navigate after loading
+      navigate("/home"); // ✔ Navigate after loading
     }
-  }, [loading, navigate]);
+  }, [loading]);
 
   return (
     <div
@@ -71,7 +71,7 @@ function App() {
       }}
     >
       <Routes>
-        <Route path="/welcome" element={<Welcome />} />
+      
         <Route path="/user" element={<UserLogin />} />
         <Route path="/home" element={<Home />} />
         <Route path="/send" element={<Send />} />
@@ -96,6 +96,7 @@ function App() {
         <Route path="/scan" element={<Scan />} />
         <Route path="/Agro" element={<AgroApp />} />
         <Route path="/marketplace" element={<Marketplace />} />
+          <Route path="/welcome" element={<Welcome />} />
       </Routes>
     </div>
   );
