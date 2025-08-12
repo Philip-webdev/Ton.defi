@@ -65,7 +65,7 @@ const AppContainer = styled.div`
       <AppContainer>
         <h1 style={{textAlign:"center"}}>Scan</h1>
        <div id='ton-qr'  style={{display: 'flex', justifyContent:'center', marginLeft:'10px'  }}><QRScanner onRender={(address: string) =>  setResult(<div>{address}<BsCopy onClick={copy}/></div>)} />
-        <div id="res"  style={{color:'blue', padding: '10px', textAlign:"center", transform: 'translate(-50%, -50%)', position:'relative'}}>{result} </div>
+        <div id="res"  style={{color:'blue', padding: '10px', textAlign:"center", transform: 'translate(-50%, -50%)', position:'absolute'}}>{result} </div>
        </div>     
     <br/>
   <a href="#/send" style={{textDecoration:'none', textDecorationLine:'none'}}><Button style={{display: 'flex', justifyContent:'center' , bottom:'0'}}>Back to Send</Button></a>
