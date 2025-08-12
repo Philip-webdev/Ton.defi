@@ -2,6 +2,7 @@ import { useState } from "react";
 import { BsHouse, BsWallet2, BsApp, BsLightningCharge, BsShop } from 'react-icons/bs';
 import styled from "styled-components";
 import '../index.css';
+import { Antenna, AntennaIcon, AppleIcon, AppWindow, LucideHome, SatelliteDish, ShoppingBag } from "lucide-react";
 
 const Icon = styled.div`
 position: fixed;
@@ -26,10 +27,10 @@ a {
 `;
 
 const navItems = [
-    { href: "#/home", label: "Home", icon: <BsHouse style={{ height:'25px', width:'25px' }} /> },
-    { href: "#/market", label: "Apps", icon: <BsApp style={{ height:'25px' ,width:'25px' }} /> },
-    { href: "#/marketplace", label: "Store", icon: <BsShop style={{ height:'25px', width:'25px' }} /> },
-    { href: "#/discover", label: "Discover", icon: <BsLightningCharge style={{ height:'25px', width:'25px' }} /> },
+    { href: "#/home", label: "Home", icon: <LucideHome style={{ height:'22px', width:'22px' }} /> },
+    { href: "#/market", label: "Apps", icon: <AppWindow style={{ height:'22px' ,width:'22px' }} /> },
+    { href: "#/marketplace", label: "Store", icon: <ShoppingBag style={{ height:'22px', width:'22px' }} /> },
+    { href: "#/discover", label: "Discover", icon: <SatelliteDish style={{ height:'22px', width:'22px' }} /> },
 ];
 
 const FootNavig = () => {

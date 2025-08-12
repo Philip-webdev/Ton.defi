@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import Api from "./api";
 import '../index.css';
 import styled from "styled-components";
- 
+import { LucideHome } from "lucide-react";
 import 'react-icons/bs';
 import 'react-icons/fa';
 import {    BsEye, BsEyeSlash, BsGear, BsHeadset      } from "react-icons/bs";
@@ -215,16 +215,16 @@ const load = ()=>{
         swiperComponent.style.transform = 'translateX(' + (0) + '%)';
        }
       //  const [AccountBalance, setAccountBalance] = useState({totalBalance});
-       const [Nohide, hide] = useState(<BsEye style={{ height:'25px', width:'25px'}}/>);
+       const [Nohide, hide] = useState(<BsEye style={{ height:'22px', width:'22px'}}/>);
 
         function Hide(){
        
        const balanceArea = document.getElementById('balance') as HTMLElement | null;
        if(balanceArea != null &&  balanceArea.style.display == 'block'){
-        hide( <BsEyeSlash style={{ height:'25px', width:'25px'}}/>);
+        hide( <BsEyeSlash style={{ height:'22px', width:'22px'}}/>);
         balanceArea.style.display = 'none'; 
       } else if (balanceArea != null && balanceArea.style.display == 'none') {
-        hide(<BsEye style={{ height:'25px', width:'25px'}}/>);
+        hide(<BsEye style={{ height:'22px', width:'22px'}}/>);
 
       }
       
@@ -244,33 +244,33 @@ const load = ()=>{
                     <div  id="header" style={{display:'flex', justifyContent:'space-between', margin:'0',fontFamily: 'Lexend'}}>
                   <div >
                       <a href='#/tools' style={{color:'black', textDecoration:'none'}}>
-                      <Icon> <BsGear style={{height: '25px',  width:'25px'}}/></Icon> </a>
+                      <Icon> <BsGear style={{height: '22px',  width:'22px'}}/></Icon> </a>
                        </div><div style={{fontFamily: 'Lexend'}}> 
                         
                         <div><a href='#/register' style={{color:'grey' , textDecoration:'none'}}> My Account</a></div> 
                         </div><div><a href="/" style={{color:'black'}}>
-                        <Icon><BsHeadset style={{height: '25px',  width:'25px'}}/></Icon></a>
+                        <Icon><BsHeadset style={{height: '22px',  width:'22px'}}/></Icon></a>
                     </div>
                     </div><br/>
                     <div id="showcase" style={{  height:'100px', width: '100%', margin:'auto',justifyContent:'center', marginTop:'5%',marginBottom:'5%',fontFamily: 'Lexend',  borderRadius:'10px'}}>
                       <p style={{margin:'7px',textAlign:'center', color:'grey'}}>Wallet Balance</p>  
                      
-                    <div style={{margin:'auto',justifyContent:'center',textAlign:'center', fontWeight:'700', display:'flex', fontSize:'40px',fontFamily:'helvetica'}}  onClick={Hide}><div id="balance"> ${totalBalance}.00  </div><div style={{margin:'2px',marginTop:'7px', zoom:'70%'}}>{Nohide}</div>
-                    </div></div>
+                    <div style={{margin:'auto',justifyContent:'center',textAlign:'center', fontWeight:'700', display:'flex', fontSize:'40px',fontFamily:'helvetica'}}  onClick={Hide}><div id="balance" style={{display : "flex"}}> ${totalBalance}.00  <div style={{marginLeft:'2px'}}>{Nohide}</div>
+                    </div></div></div>
 
                 <div style={{fontFamily: 'Lexend',display:'flex',background :'', justifyContent:'space-evenly', borderRadius:'7px' }}>
                     
                 <div style={{borderRadius:'100%',  padding:'10px'}}><a style={{textDecoration:'none'}} href='#/send'>
-                <Icn style={{width:'fit-content'}}><img src="https://i.imgur.com/PjKRm1R.png" height='25px' width='25px' /></Icn></a>
+                <Icn style={{width:'fit-content'}}><img src="https://i.imgur.com/PjKRm1R.png" height='17px' width='17px' /></Icn></a>
                 <br/>send</div>
                 <div style={{borderRadius:'100%',  padding:'10px',}}><Icn style={{width:'fit-content', marginLeft:'7px'}}><a style={{textDecoration:'none'}} href='#/register'>
-                <img src="https://i.imgur.com/L3iZQca.png" height='25px' width='25px' /></a></Icn>
+                <img src="https://i.imgur.com/L3iZQca.png" height='17px' width='17px' /></a></Icn>
                 <br/>receive</div>
                 <div style={{borderRadius:'100%',  padding:'10px'}}><a style={{textDecoration:'none'}} href='#/buy'>
-                <Icn style={{width:'fit-content'}}><img src="https://i.imgur.com/gayUD73.png" height='25px' width='25px'/></Icn></a>
+                <Icn style={{width:'fit-content'}}><img src="https://i.imgur.com/gayUD73.png" height='17px' width='17px'/></Icn></a>
                 <br/>buy</div>
                 <div style={{borderRadius:'100%',  padding:'10px'}}><a style={{textDecoration:'none'}} href='#/swap'>
-                <Icn style={{width:'fit-content'}}><img src="https://i.imgur.com/FRi5bbx.png" height='25px' width='25px' /></Icn></a>
+                <Icn style={{width:'fit-content'}}><img src="https://i.imgur.com/FRi5bbx.png" height='17px' width='17px' /></Icn></a>
                 <br/>swap</div></div>
                    <br/>
 
@@ -288,7 +288,7 @@ const load = ()=>{
 {/* the announcement panel#87CEEB// */}
 <Announcement style={{margin:'auto',justifyContent:'center', display:'flex', gap:'20px', borderRadius:'7px', height:'37px'}}>
   <div id="publicity-logo" style={{padding:'10px', background:'rgb(36, 172, 242)', borderRadius:'7px'}}><img src='https://i.imgur.com/5d6m9T7.png' height='20px' width='20px'/></div>
-  <div  id='InfoContainer' style={{zIndex:'0',marginLeft:'10px' , width:'100%', height:'30px', overflowY:'hidden',  border:'none', borderRadius:'7px', justifySelf:'center'}}>
+  <div  id='InfoContainer' style={{zIndex:'0',marginLeft:'10px' , width:'100%', height:'30px', overflowY:'hidden',  border:'none', borderRadius:'7px', justifySelf:'center', color: "white"}}>
   <div id='InfoContents' style={{height:'fit-content', width:'auto',  transition:'1s ease'}}>
   <div id="publcity" style={{marginTop:'7px'}}>Store on nekstpei is coming soon</div>
   <div id="publcity" style={{marginTop:'35px'}}> Buy TON USDT for now </div>
