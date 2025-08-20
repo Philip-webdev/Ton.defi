@@ -15,7 +15,7 @@ font-family: Lexend;
      background-color: rgb(15,15,15);
      color: white ;
 }
-  height: 100vh;
+  height: 500vh;
   padding: 20px 20px;
 `;
 
@@ -28,21 +28,46 @@ function marketplace() {
     const Products = [
     {
       id: '1',
-      title: 'Cosmic Warrior #3847',
-      creator: 'PixelMaster',
-      price: '2.5',
-      image: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=400&h=400&fit=crop',
-      
-      rarity: 'legendary' as const,
+      title: 'Spinach',
+      creator: 'CryptoPhil',
+      price: '1.8',
+      image: '/spinachNft.jpg',
+       rarity: 'legendary' as const,
     },
     {
-      id: '2',
-      title: 'Neon Dreams Collection',
-      creator: 'CyberArtist',
+    id: '2',
+      title: 'Tomato',
+      creator: 'CryptoPhil',
       price: '1.8',
-      image: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400&h=400&fit=crop',
-       
+      image: '/spinachNft.jpg',       
       rarity: 'epic' as const,
+    },
+    {
+      id: '3',
+      title: 'Spinach',
+      creator: 'CryptoPhil',
+      price: '1.8',
+      image: '/spinachNft.jpg',
+       
+      rarity: 'rare'  as const,
+    },
+     {
+      id: '4',
+      title: 'tomato',
+      creator: 'CryptoPhil',
+      price: '1.8',
+      image: '/tomatoNft.jpg',
+       
+      rarity: 'rare' as const,
+    },
+     {
+      id: '5',
+      title: 'Spinach',
+      creator: 'CryptoPhil',
+      price: '1.8',
+      image: '/riceNft.jpg',
+       
+      rarity: 'rare' as const,
     }
     ];
  // ADD DATA FROM ADMIN SIDE
@@ -74,9 +99,11 @@ function marketplace() {
                 onChange={(e) => handleSearch(e.target.value)}
                style={{ height: '40px', width: 'auto', background:'transparent', color:'white', border:'none'}}/>
             </div></header> <br/>
-  <div style={{display:'flex', gap: '20px'}}>
+  <div style={{display:'flex' }}>
             {filteredProducts.map((product) => (
-              <ProductCard key={product.id} {...product} />
+              
+               <ProductCard key={product.id} {...product} />
+               
             ))}
           </div>  <div><FootNavig/></div>
         </StyledApp>

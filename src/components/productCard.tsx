@@ -35,7 +35,8 @@ const ProductCard = ({ title, creator, price, image,    rarity = 'common' }: Pro
         borderRadius: '16px',
         overflow: 'hidden',
         transition: 'all 0.3s ease',
-        position: 'relative',
+        margin:'7px'
+        
       }}
       className="group hover:scale-105 hover:shadow-2xl hover:shadow-purple-500/20"
     >
@@ -59,7 +60,7 @@ const ProductCard = ({ title, creator, price, image,    rarity = 'common' }: Pro
       </div>
 
       {/* Image Container */}
-      <div style={{ position: 'relative', aspectRatio: '1' }}>
+      <div className='' style={{  aspectRatio: '1' }}>
         <img
           src={image}
           alt={title}
@@ -91,7 +92,7 @@ const ProductCard = ({ title, creator, price, image,    rarity = 'common' }: Pro
       </div>
 
       {/* Content */}
-      <div style={{ padding: '20px' }}>
+      <div style={{ padding: '7px' }}>
         <h3 
           style={{
             color: 'white',
