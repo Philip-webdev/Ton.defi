@@ -99,7 +99,7 @@ function marketplace() {
                 onChange={(e) => handleSearch(e.target.value)}
                style={{ height: '40px', width: 'auto', background:'transparent', color:'white', border:'none'}}/>
             </div></header> <br/>
-  <div style={{display:'flex' }}>
+  <div style={{}}>
             {filteredProducts.map((product) => (
               
                <ProductCard key={product.id} {...product} />

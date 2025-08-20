@@ -145,8 +145,19 @@ function Home(){
   const [totalBalance, setTotalBalance] = useState<number>(0); // Initialize total balance state
 const [pretext, setText] = useState(<div style={{color:'gray'}}>Loading tokens...</div>);
  
+ function Hide(){
+       const balanceArea = document.getElementById('balanceArea') as HTMLElement | null;
+       if(balanceArea != null &&  balanceArea.style.display == ' '){
+        // hide( <BsEyeSlash style={{ height:'22px', width:'22px'}}/>);
+        balanceArea.style.display = 'none'; 
+      // } else {
+      //   hide(<BsEye style={{ height:'22px', width:'22px'}}/>);
+      //     balanceArea.style.display = 'block'; 
+      }
+      
 
-
+       } 
+     
 const load = ()=>{
   setText(<div>
     <Api/></div>)
@@ -215,20 +226,10 @@ const load = ()=>{
         swiperComponent.style.transform = 'translateX(' + (0) + '%)';
        }
       //  const [AccountBalance, setAccountBalance] = useState({totalBalance});
-       const [Nohide, hide] = useState(<BsEye style={{ height:'22px', width:'22px'}}/>);
+       const [Nohide, hide] = useState(<BsEyeSlash style={{ height:'22px', width:'22px'}}/>);
 
-        function Hide(){
-       
-       const balanceArea = document.getElementById('balance') as HTMLElement | null;
-       if(balanceArea != null &&  balanceArea.style.display == 'block'){
-        hide( <BsEyeSlash style={{ height:'22px', width:'22px'}}/>);
-        balanceArea.style.display = 'none'; 
-      } else if (balanceArea != null && balanceArea.style.display == 'none') {
-        hide(<BsEye style={{ height:'22px', width:'22px'}}/>);
 
-      }
-      
-       }
+   
     
        
 
@@ -255,7 +256,9 @@ const load = ()=>{
                     <div id="showcase" style={{  height:'100px', width: '100%', margin:'auto',justifyContent:'center', marginTop:'5%',marginBottom:'5%',fontFamily: 'Lexend',  borderRadius:'10px'}}>
                       <p style={{margin:'7px',textAlign:'center', color:'grey'}}>Wallet Balance</p>  
                      
-                    <div style={{margin:'auto',justifyContent:'center',textAlign:'center', fontWeight:'700', display:'flex', fontSize:'40px',fontFamily:'helvetica'}}  onClick={Hide}><div id="balance" style={{display : "flex"}}> ${totalBalance}.00  <div style={{marginLeft:'2px'}}>{Nohide}</div>
+                    <div style={{margin:'auto',justifyContent:'center',textAlign:'center', fontWeight:'700', display:'flex', fontSize:'40px',fontFamily:'helvetica'}}  ><div  style={{display : "flex"}}>
+                     <div id="balanceArea" > ${totalBalance}.00 </div>  <div style={{marginLeft:'2px'}} >
+                      <button onClick={Hide} style={{background: 'none'}}>{Nohide}</button></div>
                     </div></div></div>
 
                 <div style={{fontFamily: 'Lexend',display:'flex',background :'', justifyContent:'space-evenly', borderRadius:'7px' }}>
