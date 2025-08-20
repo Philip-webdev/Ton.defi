@@ -145,18 +145,11 @@ function Home(){
   const [totalBalance, setTotalBalance] = useState<number>(0); // Initialize total balance state
 const [pretext, setText] = useState(<div style={{color:'gray'}}>Loading tokens...</div>);
  
- function Hide(){
-       const balanceArea = document.getElementById('balanceArea') as HTMLElement | null;
-       if(balanceArea != null &&  balanceArea.style.display == ' '){
-        // hide( <BsEyeSlash style={{ height:'22px', width:'22px'}}/>);
-        balanceArea.style.display = 'none'; 
-      // } else {
-      //   hide(<BsEye style={{ height:'22px', width:'22px'}}/>);
-      //     balanceArea.style.display = 'block'; 
-      }
-      
+  const [isHidden, setIsHidden] = useState(false);
 
-       } 
+  const toggleHide = () => {
+    setIsHidden(!isHidden);
+  };
      
 const load = ()=>{
   setText(<div>
@@ -257,8 +250,9 @@ const load = ()=>{
                       <p style={{margin:'7px',textAlign:'center', color:'grey'}}>Wallet Balance</p>  
                      
                     <div style={{margin:'auto',justifyContent:'center',textAlign:'center', fontWeight:'700', display:'flex', fontSize:'40px',fontFamily:'helvetica'}}  ><div  style={{display : "flex"}}>
-                     <div id="balanceArea" > ${totalBalance}.00 </div>  <div style={{marginLeft:'2px'}} >
-                      <button onClick={Hide} style={{background: 'none'}}>{Nohide}</button></div>
+                      <div>{isHidden ? "****" : `$${totalBalance}.00`}</div>    <button onClick={toggleHide} style={{ background: "none", border: "none" }}>
+                  {isHidden ? ( <BsEye style={{ height: "22px", width: "22px" }} />) : (<BsEyeSlash style={{ height: "22px", width: "22px" }} /> )}
+                </button>
                     </div></div></div>
 
                 <div style={{fontFamily: 'Lexend',display:'flex',background :'', justifyContent:'space-evenly', borderRadius:'7px' }}>
