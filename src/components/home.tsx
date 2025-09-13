@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import Api from "./api";
 import '../index.css';
 import styled from "styled-components";
-import { LucideHome } from "lucide-react";
 import 'react-icons/bs';
 import 'react-icons/fa';
 import {    BsEye, BsEyeSlash, BsGear, BsHeadset      } from "react-icons/bs";
@@ -11,7 +10,8 @@ import { IResponse } from "multichain-crypto-wallet/dist/common/utils/types";
 import NftApi from "./nftApi";
 import WalletHistoryApi from "./history";
 import FootNavig from "./footnavig";
-import { removeListener } from "process";
+import RemindMarket from "./Reminder";
+import { Megaphone } from "lucide-react";
 const StyledApp = styled.div`
   background-color: #F9F9F9;
   color: black;
@@ -30,11 +30,16 @@ font-family: Lexend;
 
 const Announcement = styled.div`
 background-color: white;
+padding: 20px;
  color:black;
  @media (prefers-color-scheme: dark) {
      background-color:rgb(1,1,1) ;
        color: rgb(36, 172, 242);
+           &:hover {
+         box-shadow: 0 0 10px rgb(36,172,242);
+       }
   }
+
 `;
 
 
@@ -52,9 +57,11 @@ background-color: white;
  border-radius:7px;  
  justify-content:center;
   padding:7px;
+  box-shadow: 0 0 10px rgb(36,172,242);
  @media (prefers-color-scheme: dark) {
      background-color: rgb(1,1,1);
         padding:7px;
+         box-shadow: 0 0 3px rgb(36,172,242);
   }
 `;
  
@@ -257,16 +264,16 @@ const load = ()=>{
 
                 <div style={{fontFamily: 'Lexend',display:'flex',background :'', justifyContent:'space-evenly', borderRadius:'7px' }}>
                     
-                <div style={{borderRadius:'100%',  padding:'10px'}}><a style={{textDecoration:'none'}} href='#/send'>
+                <div style={{borderRadius:'100%',  padding:'10px'}} ><a style={{textDecoration:'none'}} href='#/send'>
                 <Icn style={{width:'fit-content'}}><img src="https://i.imgur.com/PjKRm1R.png" height='17px' width='17px' /></Icn></a>
                 <br/>send</div>
-                <div style={{borderRadius:'100%',  padding:'10px',}}><Icn style={{width:'fit-content', marginLeft:'7px'}}><a style={{textDecoration:'none'}} href='#/register'>
+                <div style={{borderRadius:'100%',  padding:'10px',}} ><Icn style={{width:'fit-content', marginLeft:'7px'}}><a style={{textDecoration:'none'}} href='#/register'>
                 <img src="https://i.imgur.com/L3iZQca.png" height='17px' width='17px' /></a></Icn>
                 <br/>receive</div>
-                <div style={{borderRadius:'100%',  padding:'10px'}}><a style={{textDecoration:'none'}} href='#/buy'>
+                <div style={{borderRadius:'100%',  padding:'10px'}} ><a style={{textDecoration:'none'}} href='#/buy'>
                 <Icn style={{width:'fit-content'}}><img src="https://i.imgur.com/gayUD73.png" height='17px' width='17px'/></Icn></a>
                 <br/>buy</div>
-                <div style={{borderRadius:'100%',  padding:'10px'}}><a style={{textDecoration:'none'}} href='#/swap'>
+                <div style={{borderRadius:'100%',  padding:'10px'}} ><a style={{textDecoration:'none'}} href='#/swap'>
                 <Icn style={{width:'fit-content'}}><img src="https://i.imgur.com/FRi5bbx.png" height='17px' width='17px' /></Icn></a>
                 <br/>swap</div></div>
                    <br/>
@@ -283,8 +290,8 @@ const load = ()=>{
 <br/> <br/>
 
 {/* the announcement panel#87CEEB// */}
-<Announcement style={{margin:'auto',justifyContent:'center', display:'flex', gap:'20px', borderRadius:'7px', height:'37px'}}>
-  <div id="publicity-logo" style={{padding:'10px', background:'rgb(36, 172, 242)', borderRadius:'7px'}}><img src='https://i.imgur.com/5d6m9T7.png' height='20px' width='20px'/></div>
+<Announcement style={{margin:'auto',justifyContent:'center', display:'flex', gap:'20px', borderRadius:'7px', height:'37px'}}  >
+  <div id="publicity-logo" style={{padding:'10px' , borderRadius:'7px'}}><Megaphone height='20px' width='20px'/></div>
   <div  id='InfoContainer' style={{zIndex:'0',marginLeft:'10px' , width:'100%', height:'30px', overflowY:'hidden',  border:'none', borderRadius:'7px', justifySelf:'center', color: "white"}}>
   <div id='InfoContents' style={{height:'fit-content', width:'auto',  transition:'1s ease'}}>
   <div id="publcity" style={{marginTop:'7px'}}>Store on nekstpei is coming soon</div>
@@ -292,8 +299,9 @@ const load = ()=>{
   </div></div>
 </Announcement>
 <br/>
-
-
+{/* market next up */}
+<div style={{borderRadius:'10px', margin: '7px', borderWidth:'1px'} } id='shadowbut'><RemindMarket/></div> 
+<br/><br/>
 <div>
     <div style={{display :'flex', background:"transparent", alignContent:'center', borderRadius:'7px', width:'fit-content'}}>
       <div style={{ padding:'10px',borderRightColor:'red', borderStyle:'groove', borderLeft:'none',borderTop:'none',borderBottom:'none',borderWidth:'1px'}} onClick={swipeBack}>Tokens</div>
@@ -321,7 +329,7 @@ const load = ()=>{
     </div>
   </div>
                 </div>
-  
+  .
                <div><FootNavig/></div>
             </AppContainer>
         </StyledApp>

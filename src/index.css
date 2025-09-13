@@ -1,6 +1,15 @@
 @import url('https://fonts.googleapis.com/css2?family=Lexend&display=swap');
 
 .boxx{animation : rotate 10s infinite;  }
+@keyframes color-changing {
+  0% {
+    color: red;
+  }
+  
+  100% {
+    color: rgb(36, 172, 242);
+  }
+}
     @keyframes  rotate {
         0% {
             transform: rotate(0deg);
@@ -9,7 +18,7 @@
             transform: rotate(360deg);
         }
     }
-  
+
  .active_buttons.active {
     color: rgb(36, 172, 242);
 }
@@ -79,6 +88,10 @@ button:hover {
     background-color: white;
     color: #000;
 }
+#order-button:hover{
+    background-color: white;
+    color: #000;
+}
 #swapper{
     width:100px;
 }
@@ -95,6 +108,14 @@ button:hover {
     text-align: center;
 }
 
-.hidden {
-    display: none;
+
+
+  #shadowbut:hover{
+     box-shadow:0 0 10px rgb(36,172,242);
 }
+#shadowbut{
+    border-radius: 10px;
+     
+    transition: box-shadow 0.3s ease-in-out;
+}
+

@@ -29,6 +29,8 @@ import Latest from "./components/latest";
 import Scan from "./components/scan";
 import AgroApp from "./components/agro";
 import Marketplace from "./components/marketplace";
+import SuiWallet from "./components/sui";
+import RemindMarket from "./components/Reminder";
 
 function AppWrapper() {
   return (
@@ -95,7 +97,9 @@ function App() {
         <Route path="/usdt" element={<Usdt />} />
         <Route path="/scan" element={<Scan />} />
         <Route path="/Agro" element={<AgroApp />} />
+         <Route path="/sui" element={<SuiWallet />} />
         <Route path="/marketplace" element={<Marketplace />} />
+        <Route path="/reminders" element={<RemindMarket/>}/>
           <Route path="/welcome" element={<Welcome />} />
       </Routes>
     </div>

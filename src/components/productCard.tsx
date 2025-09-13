@@ -1,4 +1,4 @@
-
+import React, { useState } from 'react';
 import { Heart, Eye, ShoppingCart } from 'lucide-react';
 
 interface ProductCardProps {
@@ -7,11 +7,14 @@ interface ProductCardProps {
   creator: string;
   price: string;
   image: string;
-   
+  button?: { label: string; onClick: () => void }; 
   rarity?: 'common' | 'rare' | 'epic' | 'legendary';
 }
 
-const ProductCard = ({ title, creator, price, image,    rarity = 'common' }: ProductCardProps) => {
+const ProductCard = ({ title, creator, price, image, button, rarity = 'common' }: ProductCardProps) => {
+
+
+
   const rarityColors = {
     common: 'rgba(156, 163, 175, 0.3)',
     rare: 'rgba(59, 130, 246, 0.3)',
@@ -148,7 +151,7 @@ const ProductCard = ({ title, creator, price, image,    rarity = 'common' }: Pro
             className="hover:shadow-lg hover:shadow-purple-500/30"
           >
             <ShoppingCart className="w-4 h-4" />
-            Buy Now
+            {button?.label}
           </button>
         </div>
       </div>
