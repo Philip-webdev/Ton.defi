@@ -28,15 +28,15 @@ export function useFaucetJettonContract() {
     ) as OpenedContract<FaucetJettonWallet>;
   }, [faucetJettonContract, client]);
 
-  const { data, isFetching } = useQuery(
-    ["jetton"],
-    async () => {
+  const { data, isFetching } = useQuery({
+    queryKey: ["jetton"],
+    queryFn: async () => {
       if (!jwContract) return null;
 
       return (await jwContract.getBalance()).toString();
     },
-    { refetchInterval: 3000 }
-  );
+    refetchInterval: 3000
+  });
 
   return {
     mint: () => {

@@ -23,14 +23,14 @@ export function useCounterContract() {
     return (client as any).open(contract) as OpenedContract<Counter>;
   }, [client]);
 
-  const { data, isFetching } = useQuery(
-    ["counter"],
-    async () => {
+  const { data, isFetching } = useQuery({
+    queryKey: ["counter"],
+    queryFn: async () => {
       if (!counterContract) return null;
       return (await counterContract!.getCounter()).toString();
     },
-    { refetchInterval: 3000 }
-  );
+    refetchInterval: 3000
+  });
 
   return {
     value: isFetching ? null : data,
