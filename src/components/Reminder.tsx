@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { Button } from "./styled/styled";
 import { ChevronDown, ChevronUp, Dock, ListTodo, Store} from "lucide-react"; 
 import '../index.css';
-
+import { useNavigate } from "react-router-dom";
 
 const Wrap = styled.div`
 border-radius: 10px;
@@ -31,6 +31,7 @@ background-color: white;
   }
 `;
 const remindMarket = () => {
+    const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
   const [clicked , setClicked] = useState(false);
     const [listClicked , setListClicked] = useState(false);
@@ -100,6 +101,10 @@ const switchButton = ()=>{
   
 
 }
+
+const navig = ()=> {
+  navigate('/send',  { state: {cartList} })
+}
   return (
     <div className="backdrop-blur-sm border-border/90 shadow-lg" >
        { clicked && ( <div style={{
@@ -131,8 +136,8 @@ const switchButton = ()=>{
                         </div> ))}
                         </div>
                         <div id="coupon" style={{display:'none'}}><input placeholder="coupon here" type="tel" style={{background:'transparent', border:'none', color:'white'}} onFocus={switchButton}/></div>
-                        <div style={{display:'flex', justifyContent:'space-between'}}><div style={{marginTop:'20px'}} className="flex gap-3"><Button style={{background:'green'}} id="order-button" onClick={() => {  }}>Send Crypto</Button></div>
-                        <div style={{marginTop:'20px'}} className="flex gap-3"> <Button style={{background:'green'}} id="order-button" onClick={() => {toggleVisibility()}}>{label}</Button> </div></div>
+                        <div style={{display:'flex', justifyContent:'space-between'}}><div style={{marginTop:'20px'}} className="flex gap-3"><Button style={{background:'green'}} id="order-button" onClick={() => { navig() }}>Send Crypto</Button></div>
+                        <div style={{marginTop:'20px'}} className="flex gap-3"> <Button style={{background:'green'}} id="order-button" onClick={() => {toggleVisibility(); }}>{label}</Button> </div></div>
                         </div>
                         
                     

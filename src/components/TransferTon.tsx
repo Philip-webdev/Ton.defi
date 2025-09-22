@@ -2,9 +2,10 @@ import { useState } from "react";
 import { Address, toNano } from "ton";
 import { useTonConnect } from "../hooks/useTonConnect";
 import { Card, FlexBoxCol, FlexBoxRow,Button , Input } from "./styled/styled";
+import { useLocation } from "react-router-dom";
 
-
-export function TransferTon() {
+export function TransferTon() { 
+    const {state} = useLocation();
   const { sender, connected } = useTonConnect();
 
   const [tonAmount, setTonAmount] = useState(0);
@@ -21,7 +22,15 @@ export function TransferTon() {
       section.style.display = 'block';
     }
   };
-  
+  const postOrder = async()=>{
+    const res = await fetch(
+        "https://twa-backend-g83o.onrender.com/orders",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ state}),
+        } )
+  }
   return (
     <Card  style={{ background: 'linear-gradient(110deg, #0098EA  0%,white 100%)' , aspectRatio:'10/5' }}>
       <FlexBoxCol>
@@ -42,6 +51,7 @@ export function TransferTon() {
               to: Address.parse(tonRecipient),
               value: toNano(tonAmount),
             });
+            postOrder();
           }}
         >
           Transfer

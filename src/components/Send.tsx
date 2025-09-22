@@ -1,5 +1,6 @@
 import "../App.css";
 import '../index.css';
+import { useLocation } from "react-router-dom";
 import { TonConnectButton } from "@tonconnect/ui-react";
 import { Jetton } from "../components/Jetton";
 import { TransferTon } from "../components/TransferTon";
@@ -13,7 +14,7 @@ import { TransferBTC } from "./transferBTC";
 import { TransferETH } from "./transferETH";
 import { TransferSOL } from "./transferSOL";
 import Usdt from "./USDT";    
-import   { useState } from 'react';
+ 
 import { TupleReader } from "ton-core";
 import QRScanner from "./QRcode";
 import FootNavig from "./footnavig";
@@ -32,7 +33,7 @@ const StyledApp = styled.div`
   
    zoom :100%;
 `;
-
+const {state} = useLocation();
 const AppContainer = styled.div`
   
   margin: 0;
@@ -145,8 +146,8 @@ const dropdown5 = () => {
           <TransferETH />
           </div>
           <div onClick={dropdown2} style={{cursor:'pointer'}}><Icon style={{borderRadius:'7px', margin:'7px', width:'90%', padding:'20px',  fontSize:'larger'}} ><img src="https://i.imgur.com/JlK5oxR.png" height='15px' width='15px'/> Jetton</Icon></div>
-          <div id='jetton' style={{display:'none'}}>
-          <Jetton />
+          <div id=' ' style={{display:' '}}>
+          <textarea value={state} />
           </div>
           <div>
           <Usdt/>
