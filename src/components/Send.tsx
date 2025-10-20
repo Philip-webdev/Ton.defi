@@ -55,22 +55,22 @@ function SendCoin() {
   const { network } = useTonConnect();
 
   
-  useEffect(() => {
-    if (state && Array.isArray(state)) {
-      const formatted = state
-        .map((item: any) => {
-          // if state is {name, quantity}
-          if (typeof item === "object") {
-            return `${item.quantity} × ${item.name}`;
-          }
+  // useEffect(() => {
+  //   if (state && Array.isArray(state)) {
+  //     const formatted = state
+  //       .map((item: any) => {
+  //         // if state is {name, quantity}
+  //         if (typeof item === "object") {
+  //           return `${item.quantity} × ${item.name}`;
+  //         }
     
-          return String(item);
-        })
-        .join("\n");
+  //         return String(item);
+  //       })
+  //       .join("\n");
 
-      setList(formatted);
-    }
-  }, [state]);
+  //     setList(formatted);
+  //   }
+  // }, [state]);
 
   return (
     <StyledApp>
