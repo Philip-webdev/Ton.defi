@@ -113,9 +113,14 @@ button:hover {
   #shadowbut:hover{
      box-shadow:0 0 10px rgb(36,172,242);
 }
-#shadowbut{
-    border-radius: 10px;
-     
-    transition: box-shadow 0.3s ease-in-out;
-}
 
+
+@keyframes color-changing {
+  0% {
+    color: white;
+  }
+  
+  100% {
+    color: hsl(142 76% 36%);
+  }
+}

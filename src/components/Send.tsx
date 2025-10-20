@@ -1,123 +1,82 @@
 import "../App.css";
-import '../index.css';
+import "../index.css";
 import { useLocation } from "react-router-dom";
 import { TonConnectButton } from "@tonconnect/ui-react";
-import { Jetton } from "../components/Jetton";
 import { TransferTon } from "../components/TransferTon";
 import styled from "styled-components";
 import { Button, FlexBoxCol, FlexBoxRow } from "../components/styled/styled";
 import { useTonConnect } from "../hooks/useTonConnect";
 import { CHAIN } from "@tonconnect/protocol";
 import "@twa-dev/sdk";
-import { BsHouse, BsWallet2,  BsLightningCharge, BsCashStack, BsQrCodeScan, BsCopy, BsApp } from "react-icons/bs";
+import { BsQrCodeScan } from "react-icons/bs";
 import { TransferBTC } from "./transferBTC";
 import { TransferETH } from "./transferETH";
 import { TransferSOL } from "./transferSOL";
-import Usdt from "./USDT";    
- 
-import { TupleReader } from "ton-core";
-import QRScanner from "./QRcode";
+import Usdt from "./USDT";
+import { useState, useEffect } from "react";
 import FootNavig from "./footnavig";
 
 const StyledApp = styled.div`
-  background-color:  #F9F9F9;
+  background-color: #f9f9f9;
   color: black;
   font-family: Lexend;
   @media (prefers-color-scheme: dark) {
-     background-color: rgb(33,33,33);
-      color: white ;
+    background-color: rgb(33, 33, 33);
+    color: white;
   }
   min-height: 250vh;
-  padding:40px 40px;
-  margin:0;
-  
-   zoom :100%;
-`;
-const {state} = useLocation();
-const AppContainer = styled.div`
-  
+  padding: 40px 40px;
   margin: 0;
 `;
+
+const AppContainer = styled.div`
+  margin: 0;
+`;
+
 const Icon = styled.div`
-background-color: white;
-   
-  
- @media (prefers-color-scheme: dark) {
-     background-color: rgb(15,15,15);
-        color:grey;
+  background-color: white;
+  @media (prefers-color-scheme: dark) {
+    background-color: rgb(15, 15, 15);
+    color: grey;
   }
 `;
+
  
-
-
-const dropdown = () => {
-   
-  const section = document.getElementById('ton') as HTMLElement | null;
-
-  if (section != null && section.style.display == 'block') {
-      section.style.display = 'none'; 
-  } else if(section != null) {
-    section.style.display = 'block';
-  }
-};
- 
-const dropdown2 = () => {
-   
-  const section = document.getElementById('jetton') as HTMLElement | null;
-
-  if (section != null && section.style.display == 'block') {
-      section.style.display = 'none'; 
-  } else if(section != null) {
-    section.style.display = 'block';
-  }
+const toggleDropdown = (id: string) => {
+  const section = document.getElementById(id) as HTMLElement | null;
+  if (!section) return;
+  section.style.display = section.style.display === "block" ? "none" : "block";
 };
 
-const dropdown3 = () => {
-   
-  const section = document.getElementById('btc') as HTMLElement | null;
-
-  if (section != null && section.style.display == 'block') {
-      section.style.display = 'none'; 
-  } else if(section != null) {
-    section.style.display = 'block';
-  }
-};
-
-const dropdown4 = () => {
-   
-  const section = document.getElementById('sol') as HTMLElement | null;
-
-  if (section != null && section.style.display == 'block') {
-      section.style.display = 'none'; 
-  } else if(section != null) {
-    section.style.display = 'block';
-  }
-};
-
-const dropdown5 = () => {
-   
-  const section = document.getElementById('eth') as HTMLElement | null;
-
-  if (section != null && section.style.display == 'block') {
-      section.style.display = 'none'; 
-  } else if(section != null) {
-    section.style.display = 'block';
-  }
-};
-
- function sendCoin() {
-  
-
+function SendCoin() {
+  const { state } = useLocation();
+  const [list, setList] = useState<string>(""); 
+  //setList(state.quann + state.listt) 
   const { network } = useTonConnect();
 
-  return (
-    <StyledApp >
+  
+  useEffect(() => {
+    if (state && Array.isArray(state)) {
+      const formatted = state
+        .map((item: any) => {
+          // if state is {name, quantity}
+          if (typeof item === "object") {
+            return `${item.quantity} × ${item.name}`;
+          }
+    
+          return String(item);
+        })
+        .join("\n");
 
+      setList(formatted);
+    }
+  }, [state]);
+
+  return (
+    <StyledApp>
       <AppContainer>
-      
         <FlexBoxCol>
           <FlexBoxRow>
-            
             <Button>
               {network
                 ? network === CHAIN.MAINNET
@@ -126,42 +85,81 @@ const dropdown5 = () => {
                 : "N/A"}
             </Button>
             <TonConnectButton />
-            <Button  ><a href="#/scan" style={{color:'white'}}><BsQrCodeScan/></a></Button>
+            <Button>
+              <a href="#/scan" style={{ color: "white" }}>
+                <BsQrCodeScan />
+              </a>
+            </Button>
           </FlexBoxRow>
-          <div style={{justifyContent:"space-evenly"}}>
-         <div onClick={dropdown} style={{cursor:'pointer', left:'0'}}><Icon style={{borderRadius:'7px', width:'90%', padding:'20px',  lineHeight:'17px', margin:'7px', fontSize:'larger'}}><img src="https://i.imgur.com/JlK5oxR.png" height='15px' width='15px'/> TON</Icon></div> 
-          <div id='ton' style={{display:'none'}}>
-          <TransferTon />
-          </div>
-          <div onClick={dropdown3} style={{cursor:'pointer'}}><Icon style={{borderRadius:'7px', width:'90%', padding:'20px',  lineHeight:'17px',  margin:'7px',fontSize:'larger'}}><img src="https://i.imgur.com/sSYmdfQ.png" height='15px' width='15px'/> BTC</Icon></div> 
-          <div id='btc' style={{display:'none'}}>
-          <TransferBTC />
-          </div>
-          <div onClick={dropdown4} style={{cursor:'pointer'}}><Icon style={{borderRadius:'7px', width:'90%', padding:'20px',  lineHeight:'17px',  margin:'7px',fontSize:'larger'}}><img src="https://i.imgur.com/rjWW55s.png" height='15px' width='15px'/> SOL</Icon></div> 
-          <div id='sol' style={{display:'none'}}>
-          <TransferSOL />
-          </div>
-          <div onClick={dropdown5} style={{cursor:'pointer'}}><Icon style={{borderRadius:'7px', width:'90%', padding:'20px',  lineHeight:'17px',  margin:'7px',fontSize:'larger'}}><img src="https://i.imgur.com/dhJjQcO.png" height='15px' width='15px'/> ETH</Icon></div> 
-          <div id='eth' style={{display:'none'}}>
-          <TransferETH />
-          </div>
-          <div onClick={dropdown2} style={{cursor:'pointer'}}><Icon style={{borderRadius:'7px', margin:'7px', width:'90%', padding:'20px',  fontSize:'larger'}} ><img src="https://i.imgur.com/JlK5oxR.png" height='15px' width='15px'/> Jetton</Icon></div>
-          <div id=' ' style={{display:' '}}>
-          <textarea value={state} />
-          </div>
-          <div>
-          <Usdt/>
-          </div>
-          </div>
-        </FlexBoxCol>
-          
-    
-  
 
-        <div><FootNavig/></div>
+          {/* TON */}
+          <div onClick={() => toggleDropdown("ton")} style={{ cursor: "pointer" }}>
+            <Icon style={{ borderRadius: "7px", width: "90%", padding: "20px", margin: "7px" }}>
+              <img src="https://i.imgur.com/JlK5oxR.png" height="15" width="15" /> TON
+            </Icon>
+          </div>
+          <div id="ton" style={{ display: "none" }}>
+            <TransferTon />
+          </div>
+
+        
+          <div onClick={() => toggleDropdown("btc")} style={{ cursor: "pointer" }}>
+            <Icon style={{ borderRadius: "7px", width: "90%", padding: "20px", margin: "7px" }}>
+              <img src="https://i.imgur.com/sSYmdfQ.png" height="15" width="15" /> BTC
+            </Icon>
+          </div>
+          <div id="btc" style={{ display: "none" }}>
+            <TransferBTC />
+          </div>
+  
+          <div onClick={() => toggleDropdown("sol")} style={{ cursor: "pointer" }}>
+            <Icon style={{ borderRadius: "7px", width: "90%", padding: "20px", margin: "7px" }}>
+              <img src="https://i.imgur.com/rjWW55s.png" height="15" width="15" /> SOL
+            </Icon>
+          </div>
+          <div id="sol" style={{ display: "none" }}>
+            <TransferSOL />
+          </div>
+
+    
+          <div onClick={() => toggleDropdown("eth")} style={{ cursor: "pointer" }}>
+            <Icon style={{ borderRadius: "7px", width: "90%", padding: "20px", margin: "7px" }}>
+              <img src="https://i.imgur.com/dhJjQcO.png" height="15" width="15" /> ETH
+            </Icon>
+          </div>
+          <div id="eth" style={{ display: "none" }}>
+            <TransferETH />
+          </div>
+ 
+          <div>
+            <Usdt />
+          </div>
+
+          <br />
+
+           
+          <textarea
+            placeholder="cart summary..."
+            value={list}
+            readOnly
+            style={{
+              marginLeft: "9px",
+              width: "100%",
+              height: "100px",
+              background: "none",
+              outline: "none",
+              border: "none",
+              color: "white",
+            }}
+          />
+        </FlexBoxCol>
+
+        <div>
+          <FootNavig />
+        </div>
       </AppContainer>
     </StyledApp>
   );
 }
 
-export default sendCoin;
+export default SendCoin;

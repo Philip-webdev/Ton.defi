@@ -5,24 +5,25 @@ import { Card, FlexBoxCol, FlexBoxRow,Button , Input } from "./styled/styled";
 import { useLocation } from "react-router-dom";
 
 export function TransferTon() { 
-    const {state} = useLocation();
+
   const { sender, connected } = useTonConnect();
 
   const [tonAmount, setTonAmount] = useState(0);
   const [tonRecipient, setTonRecipient] = useState(
     "UQBx_jqTG0klK4UJZlaEfK0J5TvJmj3B3-vbpFBTmYdOODMR"
   );
-  const dropdown = () => {
+  // const dropdown = () => {
    
-    const section = document.getElementById('ton-qr') as HTMLElement | null;
+  //   const section = document.getElementById('ton-qr') as HTMLElement | null;
   
-    if (section != null && section.style.display == 'block') {
-        section.style.display = 'none'; 
-    } else if(section != null) {
-      section.style.display = 'block';
-    }
-  };
+  //   if (section != null && section.style.display == 'block') {
+  //       section.style.display = 'none'; 
+  //   } else if(section != null) {
+  //     section.style.display = 'block';
+  //   }
+  // };
   const postOrder = async()=>{
+   const {state} = useLocation();
     const res = await fetch(
         "https://twa-backend-g83o.onrender.com/orders",
         {

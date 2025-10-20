@@ -34,7 +34,7 @@ padding: 20px;
  color:black;
  @media (prefers-color-scheme: dark) {
      background-color:rgb(1,1,1) ;
-       color: rgb(36, 172, 242);
+       color: white;
            &:hover {
          box-shadow: 0 0 10px rgb(36,172,242);
        }
@@ -57,11 +57,11 @@ background-color: white;
  border-radius:7px;  
  justify-content:center;
   padding:7px;
-  box-shadow: 0 0 10px rgb(36,172,242);
+  
  @media (prefers-color-scheme: dark) {
      background-color: rgb(1,1,1);
         padding:7px;
-         box-shadow: 0 0 3px rgb(36,172,242);
+        
   }
 `;
  
@@ -292,7 +292,7 @@ const load = ()=>{
 {/* the announcement panel#87CEEB// */}
 <Announcement style={{margin:'auto',justifyContent:'center', display:'flex', gap:'20px', borderRadius:'7px', height:'37px'}}  >
   <div id="publicity-logo" style={{padding:'10px' , borderRadius:'7px'}}><Megaphone height='20px' width='20px'/></div>
-  <div  id='InfoContainer' style={{zIndex:'0',marginLeft:'10px' , width:'100%', height:'30px', overflowY:'hidden',  border:'none', borderRadius:'7px', justifySelf:'center', color: "white"}}>
+  <div  id='InfoContainer' style={{zIndex:'0',marginLeft:'10px' , width:'100%', height:'30px', overflowY:'hidden',  border:'none', borderRadius:'7px', justifySelf:'center'}}>
   <div id='InfoContents' style={{height:'fit-content', width:'auto',  transition:'1s ease'}}>
   <div id="publcity" style={{marginTop:'7px'}}>Store on nekstpei is coming soon</div>
   <div id="publcity" style={{marginTop:'35px'}}> Buy TON USDT for now </div>
@@ -300,7 +300,7 @@ const load = ()=>{
 </Announcement>
 <br/>
 {/* market next up */}
-<div style={{borderRadius:'10px', margin: '7px', borderWidth:'1px'} } id='shadowbut'><RemindMarket/></div> 
+<RemindMarket/> 
 <br/><br/>
 <div>
     <div style={{display :'flex', background:"transparent", alignContent:'center', borderRadius:'7px', width:'fit-content'}}>
