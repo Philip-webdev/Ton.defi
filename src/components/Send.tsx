@@ -1,6 +1,6 @@
 import "../App.css";
 import "../index.css";
-import { useLocation } from "react-router-dom";
+
 import { TonConnectButton } from "@tonconnect/ui-react";
 import { TransferTon } from "../components/TransferTon";
 import styled from "styled-components";
@@ -49,7 +49,7 @@ const toggleDropdown = (id: string) => {
 };
 
 function SendCoin() {
-  const { state } = useLocation();
+ 
   const [list, setList] = useState<string>(""); 
   //setList(state.quann + state.listt) 
   const { network } = useTonConnect();
