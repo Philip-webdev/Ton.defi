@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Address, toNano } from "ton";
 import { useTonConnect } from "../hooks/useTonConnect";
 import { Card, FlexBoxCol, FlexBoxRow,Button , Input } from "./styled/styled";
-import { useLocation } from "react-router-dom";
+ 
 
 export function TransferTon() { 
 
@@ -23,7 +23,7 @@ export function TransferTon() {
   //   }
   // };
   const postOrder = async()=>{
-   const {state} = useLocation();
+   //const {state} = useLocation();
     const res = await fetch(
         "https://twa-backend-g83o.onrender.com/orders",
         {

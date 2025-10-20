@@ -2,11 +2,9 @@ import { useState } from "react";
 import { Address, toNano } from "ton";
  
 import { Card, FlexBoxCol, FlexBoxRow,Button , Input } from "./styled/styled";
-import { useLocation } from "react-router-dom";
 
-export default  function cartList() { 
 
-   const {state} = useLocation() ;
+export default  function cartList() {     
   const [content , setContent] = useState();
   setContent(state)
    
