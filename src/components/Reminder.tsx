@@ -45,8 +45,9 @@ background-color: white;
    
   }
 `;
-const remindMarket = () => {
 const navigate = useNavigate();
+const remindMarket = () => {
+
   const [isOpen, setIsOpen] = useState(false);
   const [clicked , setClicked] = useState(false);
     const [listClicked , setListClicked] = useState(false);
