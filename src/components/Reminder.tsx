@@ -45,7 +45,6 @@ background-color: white;
    
   }
 `;
-const navigate = useNavigate();
 const remindMarket = () => {
 
   const [isOpen, setIsOpen] = useState(false);
@@ -53,6 +52,8 @@ const remindMarket = () => {
     const [listClicked , setListClicked] = useState(false);
     const [visible, setVisible] = useState(true);
 const [listt, setListt] = useState('');
+
+const navigate = useNavigate();
 const [quann, setQuan] = useState('');
     const [cartList, setCartList] = useState<string[]>(['No items in cart']);
     const Item = 

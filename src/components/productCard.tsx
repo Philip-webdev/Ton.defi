@@ -1,162 +1,86 @@
-import React, { useState } from 'react';
-import { Heart, Eye, ShoppingCart } from 'lucide-react';
+// components/ProductCard.tsx
+import React from 'react';
+import styled from 'styled-components';
 
-interface ProductCardProps {
+const Card = styled.div`
+  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+  border-radius: 12px;
+  padding: 12px ;
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+  border: 1px solid rgba(255,255,255,0.04);
+  transition: transform .16s ease, box-shadow .16s ease;
+  &:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 12px 34px rgba(11, 178, 255, 0.08);
+  }
+`;
+
+const ImgWrap = styled.div`
+  width:100%;
+  aspect-ratio: 4/3;
+  border-radius:10px;
+  overflow:hidden;
+  background:linear-gradient(90deg,#071018,#0f1114);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+`;
+
+const Title = styled.div`
+  font-weight:700;
+  color:#e6eef8;
+  font-size:16px;
+`;
+
+const Meta = styled.div`
+  font-size:12px;
+  color:#9fb6c6;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+`;
+
+const AddBtn = styled.button`
+  margin-top:auto;
+  background: linear-gradient(90deg,#12e6ff,#8b5cff);
+  color:#071018;
+  border:none;
+  padding:8px 10px;
+  border-radius:10px;
+  cursor:pointer;
+  font-weight:700;
+  box-shadow: 0 8px 20px rgba(139,92,255,0.12);
+`;
+
+type Product = {
   id: string;
   title: string;
   creator: string;
-  price: string;
+  price: number;
   image: string;
-  button?: { label: string; onClick: () => void }; 
-  rarity?: 'common' | 'rare' | 'epic' | 'legendary';
-}
-
-const ProductCard = ({ title, creator, price, image, button, rarity = 'common' }: ProductCardProps) => {
-
-
-
-  const rarityColors = {
-    common: 'rgba(156, 163, 175, 0.3)',
-    rare: 'rgba(59, 130, 246, 0.3)',
-    epic: 'rgba(139, 92, 246, 0.3)',
-    legendary: 'rgba(245, 158, 11, 0.3)',
-  };
-
-  const rarityGradients = {
-    common: 'linear-gradient(45deg, #6B7280, #9CA3AF)',
-    rare: 'linear-gradient(45deg, #3B82F6, #60A5FA)',
-    epic: 'linear-gradient(45deg, #8B5CF6, #A78BFA)',
-    legendary: 'linear-gradient(45deg, #F59E0B, #FBBF24)',
-  };
-
-  return (
-    <div 
-      style={{
-        background: 'rgba(17, 17, 17, 0.8)',
-        backdropFilter: 'blur(20px)',
-        border: `1px solid ${rarityColors[rarity]}`,
-        borderRadius: '16px',
-        overflow: 'hidden',
-        transition: 'all 0.3s ease',
-        margin:'7px'
-        
-      }}
-      className="group hover:scale-105 hover:shadow-2xl hover:shadow-purple-500/20"
-    >
-      {/* Rarity Badge */}
-      <div 
-        style={{
-          position: 'absolute',
-          top: '12px',
-          right: '12px', 
-          background: rarityGradients[rarity],
-          padding: '4px 10px',
-          borderRadius: '6px',
-          fontSize: '0.75rem',
-          fontWeight: '600',
-          color: 'white',
-          textTransform: 'uppercase',
-          zIndex: 10,
-        }}
-      >
-        {rarity}
-      </div>
-
-      {/* Image Container */}
-      <div className='' style={{  aspectRatio: '1' }}>
-        <img
-          src={image}
-          alt={title}
-          style={{
-            width: '100%',
-            height: '100%',
-            objectFit: 'cover',
-            transition: 'transform 0.3s ease',
-          }}
-          className="group-hover:scale-110"
-        />
-        
-        {/* Overlay on Hover */}
-        <div 
-          style={{
-            position: 'absolute',
-            inset: 0,
-            background: 'linear-gradient(135deg, rgba(139, 92, 246, 0.8), rgba(6, 182, 212, 0.8))',
-            opacity: 0,
-            transition: 'opacity 0.3s ease',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-          }}
-          className="group-hover:opacity-100"
-        >
-     
-        </div>
-      </div>
-
-      {/* Content */}
-      <div style={{ padding: '7px' }}>
-        <h3 
-          style={{
-            color: 'white',
-            fontSize: '1.125rem',
-            fontWeight: '600',
-            marginBottom: '8px',
-            lineHeight: '1.4',
-          }}
-          className="line-clamp-2"
-        >
-          {title}
-        </h3>
-        
-        <p style={{ color: '#9CA3AF', fontSize: '0.875rem', marginBottom: '16px' }}>
-          by {creator}
-        </p>
-
-       
-          
-
-        {/* Price and Buy Button */}
-        <div className="flex items-center justify-between">
-          <div>
-            <div style={{ color: '#9CA3AF', fontSize: '0.75rem' }}>Current Price</div>
-            <div 
-              style={{
-                background: rarityGradients[rarity],
-                WebkitBackgroundClip: 'text',
-                WebkitTextFillColor: 'transparent',
-                backgroundClip: 'text',
-                fontSize: '1.25rem',
-                fontWeight: '700',
-              }}
-            >
-              {price} TON
-            </div>
-          </div>
-          
-          <button 
-            style={{
-              background: 'linear-gradient(45deg, #8B5CF6, #06B6D4)',
-              border: 'none',
-              borderRadius: '8px',
-              padding: '8px 16px',
-              color: 'white',
-              fontWeight: '600',
-              fontSize: '0.875rem',
-              transition: 'all 0.3s ease',
-              display: 'flex',
-              alignItems: 'center',
-              gap: '6px',
-            }}
-            className="hover:shadow-lg hover:shadow-purple-500/30"
-          >
-            <ShoppingCart className="w-4 h-4" />
-            {button?.label}
-          </button>
-        </div>
-      </div>
-    </div>
-  );
+  rarity: string;
 };
 
-export default ProductCard;
+export default function ProductCard({ product, onAdd }: { product: Product; onAdd: () => void; }) {
+  return (
+    <Card>
+      <ImgWrap>
+        <img src={product.image} alt={product.title} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+      </ImgWrap>
+
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+        <Title>{product.title}</Title>
+        <Meta>
+          <div>{product.creator}</div>
+          <div style={{ color: '#9ff', fontWeight: 700 }}>₦{product.price.toLocaleString()}</div>
+        </Meta>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 8 }}>
+          <div style={{ fontSize: 12, color: '#a0cbd9' }}>{product.rarity}</div>
+          <AddBtn onClick={onAdd}>Add</AddBtn>
+        </div>
+      </div>
+    </Card>
+  );
+}
