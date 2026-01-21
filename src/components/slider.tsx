@@ -111,11 +111,27 @@ const ImageSlider = () => {
 
       {/* Navigation buttons */}
       <ChevronLeft 
-        style={{ ...navButtonStyle, left: '10px' }} 
+        style={{   position: 'absolute',
+    top: '50%',
+    transform: 'translateY(-50%)',
+    zIndex: 10,
+    cursor: 'pointer',
+    color: 'white',
+    backgroundColor: 'rgba(0,0,0,0.3)',
+    borderRadius: '50%',
+    padding: '4px', left: '10px' }} 
         onClick={prevSlide} 
       />
       <ChevronRight 
-        style={{ ...navButtonStyle, right: '10px' }} 
+        style={{   position: 'absolute',
+    top: '50%',
+    transform: 'translateY(-50%)',
+    zIndex: 10,
+    cursor: 'pointer',
+    color: 'white',
+    backgroundColor: 'rgba(0,0,0,0.3)',
+    borderRadius: '50%',
+    padding: '4px', right: '10px' }} 
         onClick={nextSlide} 
       />
 
