@@ -1,5 +1,12 @@
 @import url('https://fonts.googleapis.com/css2?family=Lexend&display=swap');
 
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+a{
+  color: inherit;
+}
 .boxx{animation : rotate 10s infinite;  }
 @keyframes color-changing {
   0% {

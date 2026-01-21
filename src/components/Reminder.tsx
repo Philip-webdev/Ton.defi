@@ -170,46 +170,7 @@ const navig = ()=> {
     </div>)}
     {/* the list of prices */}
 
-        { listClicked && ( <div style={{
-    position: 'fixed',
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
-    backgroundColor: 'rgba(0,0,0,0.6)',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    zIndex: 50,
-    backdropFilter: 'blur(4px)'
-  }}>
-           <div className="bg-none  p-8 text-center flex flex-col items-center">
-                     
-                     <div style={{display:'flex', justifyContent:'space-between', alignItems:'center', width:'100%'}}> 
-                      <div className="text-gray-700 text-lg font-medium">
-                       <h2>Prices of commodities</h2>
-                      </div><div><Button style={{background:'red', marginLeft:'70px', width:'fit-content'}} id="order-button" onClick={() =>  setListClicked(false)}>Close</Button></div>
-                    </div>
-                    <ul>
-                      <li>Yam - NGN 2000</li>
-                         <li>Egg - NGN 2000</li>
-                            <li>Sugar - NGN 2000</li>
-                               <li>Rice - NGN 2000</li>
-                                  <li>Beans - NGN 2000</li>
-                                     <li>Wheat - NGN 2000</li>
-                                        <li>Bread - NGN 2000</li>
-                                           <li>Tin tomato - NGN 2000</li>
-                                              <li>Spaghetti - NGN 2000</li>
-                                                 <li>Ramen - NGN 2000</li>
-                                                    <li>Butter - NGN 2000</li>
-                                                       <li>Tooth Paste - NGN 2000</li>
-                                                       <li>Potatoes - NGN 2000</li>
-                                                          <li>Palm oil & Groundnut oil - NGN 2000</li>
-                      </ul> 
-                   </div>
-                    
-    
-    </div>)}
+       
 
       <div
         className="cursor-pointer"

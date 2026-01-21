@@ -4,17 +4,20 @@ import '../index.css';
 import styled from "styled-components";
 import 'react-icons/bs';
 import 'react-icons/fa';
-import {    BsEye, BsEyeSlash, BsGear, BsHeadset      } from "react-icons/bs";
+import {    BsCash, BsCashStack, BsEye, BsEyeSlash, BsGear, BsHeadset      } from "react-icons/bs";
 import * as multichainWallet from 'multichain-crypto-wallet';
 import { IResponse } from "multichain-crypto-wallet/dist/common/utils/types";
 import NftApi from "./nftApi";
 import WalletHistoryApi from "./history";
 import FootNavig from "./footnavig";
-import RemindMarket from "./Reminder";
-import { Megaphone } from "lucide-react";
+import VerticalTicker from "./ticker";
+import Ctanavig from "./mainCta";
+import { LucideDroplet, Megaphone, Send, SendHorizontal } from "lucide-react";
+import ImageSlider from "./slider";
+import PackagesPage from "./package";
 const StyledApp = styled.div`
   background-color: #F9F9F9;
-  color: black;
+  color: rgb(34, 34, 34);
   margin:0;
 font-family: Lexend;
  
@@ -22,7 +25,7 @@ font-family: Lexend;
      background-color: rgb(15,15,15);
      color: white ;
 }
-      height : 190vh;
+      height : 300vh;
   padding: 20px;
    zoom :100%;
    
@@ -52,18 +55,7 @@ background-color: white;
         color:grey;
   }
 `;
-const Icn = styled.div`
-background-color: white;
- border-radius:7px;  
- justify-content:center;
-  padding:7px;
-  
- @media (prefers-color-scheme: dark) {
-     background-color: rgb(1,1,1);
-        padding:7px;
-        
-  }
-`;
+
  
 const AppContainer = styled.div`
   width: 100%;
@@ -99,7 +91,7 @@ async function getTotalBalance() {
         const ethBalanceResponse: IResponse = await multichainWallet.getBalance({
           address: ethAddress,
           network: 'ethereum',
-          rpcUrl: 'https://eth-mainnet.alchemyapi.io/v2/fY6etQ0_E-PnuaKp5g9npALfvpJ4IGRq',
+          rpcUrl: 'https://eth-mainnet.g.alchemy.com/v2/fY6etQ0_E-PnuaKp5g9npALfvpJ4IGRq',
         });
         const ethUsdPrice = Number(await usdPrice('ETH'));
         accountBalanceEth = Number(ethBalanceResponse.balance ?? 0) * ethUsdPrice;   
@@ -172,36 +164,6 @@ const load = ()=>{
   }, []);
 
 
-    const slide = ()=>{
-        const slideContents = document.getElementById('slideContents');
-        
-        var currentIndex = 0;
-        function changeSlide(){
-            const slidex = ['1', '2'];
-            currentIndex = (currentIndex + 1) % slidex.length;
-            if (slideContents != null){
-            slideContents.style.transform = 'translateX(' + (currentIndex * -280.0) + 'px)';
-    
-            }
-        }
-        setInterval(changeSlide, 2000);
-
-        const InfoContents = document.getElementById('InfoContents');
-       
-        var currentIndex = 0;
-        function swipeInfo(){
-            const slider = ['1', '2' ];
-            currentIndex = (currentIndex ) % slider.length;
-            if (InfoContents != null){
-            InfoContents.style.transform = 'translateY(' + (currentIndex * -65.0) + 'px)';
-    
-            }
-        }
-        setInterval(swipeInfo, 5000);
-       }
-    useEffect(()=>{
-       slide();} ,[])
-
        function  swiper(){
         const nftElement = document.getElementById('nft');
         if (nftElement) {
@@ -227,21 +189,13 @@ const load = ()=>{
        }
       //  const [AccountBalance, setAccountBalance] = useState({totalBalance});
        const [Nohide, hide] = useState(<BsEyeSlash style={{ height:'22px', width:'22px'}}/>);
-
-
-   
-    
-       
-
-      
-       
- 
       
     return(
-        <StyledApp style={{fontWeight:'100', overflowX:'hidden'}} >
+        <StyledApp style={{fontWeight:'70', width:'inherit', margin:'auto', height:'max-content', overflowY:'scroll'}} >
             
             <AppContainer onLoad={load}>
                 <div>
+          
                     <div  id="header" style={{display:'flex', justifyContent:'space-between', margin:'0',fontFamily: 'Lexend'}}>
                   <div >
                       <a href='#/tools' style={{color:'black', textDecoration:'none'}}>
@@ -261,47 +215,19 @@ const load = ()=>{
                   {isHidden ? ( <BsEye style={{ height: "22px", width: "22px" }} />) : (<BsEyeSlash style={{ height: "22px", width: "22px" }} /> )}
                 </button>
                     </div></div></div>
-
-                <div style={{fontFamily: 'Lexend',display:'flex',background :'', justifyContent:'space-evenly', borderRadius:'7px' }}>
-                    
-                <div style={{borderRadius:'100%',  padding:'10px'}} ><a style={{textDecoration:'none'}} href='#/send'>
-                <Icn style={{width:'fit-content'}}><img src="https://i.imgur.com/PjKRm1R.png" height='17px' width='17px' /></Icn></a>
-                <br/>send</div>
-                <div style={{borderRadius:'100%',  padding:'10px',}} ><Icn style={{width:'fit-content', marginLeft:'7px'}}><a style={{textDecoration:'none'}} href='#/register'>
-                <img src="https://i.imgur.com/L3iZQca.png" height='17px' width='17px' /></a></Icn>
-                <br/>receive</div>
-                <div style={{borderRadius:'100%',  padding:'10px'}} ><a style={{textDecoration:'none'}} href='#/buy'>
-                <Icn style={{width:'fit-content'}}><img src="https://i.imgur.com/gayUD73.png" height='17px' width='17px'/></Icn></a>
-                <br/>buy</div>
-                <div style={{borderRadius:'100%',  padding:'10px'}} ><a style={{textDecoration:'none'}} href='#/swap'>
-                <Icn style={{width:'fit-content'}}><img src="https://i.imgur.com/FRi5bbx.png" height='17px' width='17px' /></Icn></a>
-                <br/>swap</div></div>
                    <br/>
-
-                <div style={{ margin:'0', width:'100%', justifyContent:'center'}}>
-    <div  id='slideContainer' style={{zIndex:'0',marginLeft:'10px' , width:'100%', height:'fit-content', overflow:'scroll',  border:'none', borderRadius:'7px', justifySelf:'center'}}>
-        <div id='slideContents' style={{height:'fit-content', width:'auto', display:'flex',  transition:'1s ease'}}>
-
- <a href ='#/tokenomics'  ><div style={{  position:'absolute',marginLeft:'10px',  color: 'white',  width:'70%',margin:'10px', backdropFilter: 'blur(15px)',bottom:'0'}}>Tokenomics? </div><img src='https://img.freepik.com/free-vector/blue-bitcoin-word-constructed-with-numbers_1217-2567.jpg?ga=GA1.1.92224753.1734105421&semt=ais_hybrid&w=740' height='170px' width='350px' style={{borderRadius:'7px'}}/> </a>
- <a href ='#/tontools' ><div style={{  position:'absolute',marginLeft:'10px',  color: 'white',  width:'70%',margin:'10px',  backdropFilter: 'blur(10px)',bottom:'0'}}>Nekstpei & StableCoin</div><img src='https://raw.githubusercontent.com/Philip-webdev/nexr-landing-hub/refs/heads/main/2205_w037_n003_379b_p1_379.svg' height='170px' width='350px' style={{marginLeft:'7px',borderRadius:'7px'}}/> </a>
-        </div></div>
-    
-</div> 
+                  <div style={{display:'flex', justifyContent:'center'}}><Ctanavig/></div>
+<div><PackagesPage/></div>
+<br/><br/>
+  <div><ImageSlider/></div>
 <br/> <br/>
 
 {/* the announcement panel#87CEEB// */}
-<Announcement style={{margin:'auto',justifyContent:'center', display:'flex', gap:'20px', borderRadius:'7px', height:'37px'}}  >
-  <div id="publicity-logo" style={{padding:'10px' , borderRadius:'7px'}}><Megaphone height='20px' width='20px'/></div>
-  <div  id='InfoContainer' style={{zIndex:'0',marginLeft:'10px' , width:'100%', height:'30px', overflowY:'hidden',  border:'none', borderRadius:'7px', justifySelf:'center'}}>
-  <div id='InfoContents' style={{height:'fit-content', width:'auto',  transition:'1s ease'}}>
-  <div id="publcity" style={{marginTop:'7px'}}>Store on nekstpei is coming soon</div>
-  <div id="publcity" style={{marginTop:'35px'}}> Buy TON USDT for now </div>
-  </div></div>
-</Announcement>
+<VerticalTicker/>
 <br/>
 {/* market next up */}
-<RemindMarket/> 
-<br/><br/>
+{/* <RemindMarket/>  */}
+
 <div>
     <div style={{display :'flex', background:"transparent", alignContent:'center', borderRadius:'7px', width:'fit-content'}}>
       <div style={{ padding:'10px',borderRightColor:'red', borderStyle:'groove', borderLeft:'none',borderTop:'none',borderBottom:'none',borderWidth:'1px'}} onClick={swipeBack}>Tokens</div>
@@ -318,18 +244,21 @@ const load = ()=>{
 {pretext}  
 </div>  
 </section></div>
-<section style={{marginLeft:'30px' ,padding:'2px', height:'100%', width:'100%'}}><div style={{ padding:'2px',borderRadius:'7px', height:'100%', width:'100%'}}><NftApi /></div> </section>
+<section style={{marginLeft:'30px' ,padding:'2px', height:'fit-content', width:'100%'}}><div style={{ padding:'2px',borderRadius:'7px', height:'100%', width:'100%'}}>
+  <NftApi />
+</div> </section>
                 </div> 
 
-                
-                <div style={{ padding:'2px',borderRadius:'7px', height:'auto', width:'auto'}}>
+                <div style={{ padding:'2px',borderRadius:'7px', height:'max-content', width:'auto'}}>
     <h3>Wallet History</h3>
+  
     <div style={{ padding:'4px',borderRadius:'7px', height:'100%', width:'100%'}}>
       <WalletHistoryApi/>
+      
     </div>
   </div>
                 </div>
-  .
+  
                <div><FootNavig/></div>
             </AppContainer>
         </StyledApp>
