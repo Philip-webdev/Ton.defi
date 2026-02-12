@@ -2,7 +2,7 @@ import { useAsyncInitialize } from "./useAsyncInitialize";
 import { useTonClient } from "./useTonClient";
 import { useTonConnect } from "./useTonConnect";
 import FaucetJetton from "../contracts/faucetJetton";
-import { Address, OpenedContract } from "ton-core";
+import { Address, OpenedContract } from "@ton/core";
 import FaucetJettonWallet from "../contracts/faucetJettonWallet";
 import { useQuery } from "@tanstack/react-query";
 
@@ -13,34 +13,37 @@ export function useFaucetJettonContract() {
   const faucetJettonContract = useAsyncInitialize(async () => {
     if (!client || !wallet) return;
     const contract = new FaucetJetton(
-      Address.parse("EQB8StgTQXidy32a8xfu7j4HMoWYV0b0cFM8nXsP2cza_b7Y") // replace with your address from tutorial 2 step 8
+      Address.parse("UQBx_jqTG0klK4UJZlaEfK0J5TvJmj3B3-vbpFBTmYdOODMR") 
     );
-    return client.open(contract) as OpenedContract<FaucetJetton>;
+    return client.open(contract);
   }, [client, wallet]);
 
   const jwContract = useAsyncInitialize(async () => {
-    if (!faucetJettonContract || !client) return;
-    const jettonWalletAddress = await faucetJettonContract!.getWalletAddress(
-      Address.parse(wallet!)
+    if (!faucetJettonContract || !client || !wallet) return;
+    const jettonWalletAddress = await faucetJettonContract.getWalletAddress(
+      Address.parse(wallet)
     );
-    return client!.open(
+    return client.open(
       new FaucetJettonWallet(Address.parse(jettonWalletAddress))
-    ) as OpenedContract<FaucetJettonWallet>;
-  }, [faucetJettonContract, client]);
+    );
+  }, [faucetJettonContract, client, wallet]);
 
   const { data, isFetching } = useQuery({
     queryKey: ["jetton"],
     queryFn: async () => {
       if (!jwContract) return null;
 
-      return (await jwContract.getBalance()).toString();
+      const balance = await jwContract.getBalance();
+      return balance.toString();
     },
     refetchInterval: 3000
   });
 
   return {
     mint: () => {
-      faucetJettonContract?.sendMintFromFaucet(sender, Address.parse(wallet!));
+      if (faucetJettonContract && wallet) {
+        faucetJettonContract.sendMintFromFaucet(sender, Address.parse(wallet));
+      }
     },
     jettonWalletAddress: jwContract?.address.toString(),
     balance: isFetching ? null : data,

@@ -1,12 +1,11 @@
-import { fromNano } from "ton";
+import { fromNano } from "@ton/core";
 import {
   Contract,
   ContractProvider,
-  
   Address,
   Cell,
- 
-} from "ton-core";
+} from "@ton/core";
+
 //   contractAddress,
 // beginCell,
 // toNano,Sender,
