@@ -3,11 +3,13 @@ import { useState } from "react";
 import { Button, FlexBoxCol, FlexBoxRow, Input, Card} from "../components/styled/styled";
 import * as multichainWallet from 'multichain-crypto-wallet';
 import { url } from "inspector";
- 
+import { useLocation } from "react-router-dom";
  
 
 export  function TransferETH() {
-    const [ETHAmount, setETHAmount] = useState<number>(0);
+  const { state } = useLocation();
+  const price = state.priceTosend;
+    const [ETHAmount, setETHAmount] = useState<number>(price);
     const [ETHRecipient, setETHRecipient] = useState<string>("");
     var ethprivatekey = localStorage.getItem('ethereumWalletkey') as string ;
     var messageElement = document.getElementById('message');

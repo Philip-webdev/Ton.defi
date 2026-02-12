@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
+// import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 import   { useEffect , useRef} from 'react';
 import styled from "styled-components";
 // @ts-ignore
@@ -76,12 +76,12 @@ const AgroApp = () => {
         }
 
         // Controls for 3D feel
-        const controls = new OrbitControls(camera, renderer.domElement);
-        controls.enableDamping = true;
-        controls.dampingFactor = 0.05;
-        controls.enablePan = false;
-        controls.zoom0 = 0;
-        controls.zoomToCursor = false;
+        // const controls = new OrbitControls(camera, renderer.domElement);
+        // controls.enableDamping = true;
+        // controls.dampingFactor = 0.05;
+        // controls.enablePan = false;
+        // controls.zoom0 = 0;
+        // controls.zoomToCursor = false;
        
         // Lighting
         const light = new THREE.DirectionalLight(0xffffff, 0.8);
@@ -112,7 +112,7 @@ const AgroApp = () => {
         }
         animate();
 
-        // Handle resizing
+
         const handleResize = () => {
             if (mountRef.current) {
                 const { clientWidth, clientHeight } = mountRef.current;

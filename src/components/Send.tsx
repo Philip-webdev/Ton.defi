@@ -15,6 +15,8 @@ import { TransferSOL } from "./transferSOL";
 import Usdt from "./USDT";
 import { useState, useEffect } from "react";
 import FootNavig from "./footnavig";
+import { useLocation } from "react-router-dom";
+
 
 const StyledApp = styled.div`
   background-color: #f9f9f9;

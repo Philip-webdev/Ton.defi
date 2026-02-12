@@ -1,10 +1,13 @@
 import { Button, FlexBoxCol, FlexBoxRow, Input, Card} from "../components/styled/styled";
 import * as multichainWallet from 'multichain-crypto-wallet';
 import { useState } from "react";
+import { useLocation } from "react-router-dom";
 
 
 export  function TransferBTC() {
-    const [BTCAmount, setBTCAmount] = useState<number>(0);
+    const { state } = useLocation();
+    const price = state.priceTosend;
+    const [BTCAmount, setBTCAmount] = useState<number>(price);
     const [BTCRecipient, setBTCRecipient] = useState<string>("");
     var bitprivatekey = localStorage.getItem('bitcoinWalletkey') as string ;
 

@@ -30,6 +30,7 @@ import Scan from "./components/scan";
 import AgroApp from "./components/agro";
 import Marketplace from "./components/marketplace";
 // import SuiWallet from "./components/sui";
+import CheckoutContainer from "./components/checkout";
 import RemindMarket from "./components/Reminder";
 
 function AppWrapper() {
@@ -76,6 +77,7 @@ function App() {
       
         <Route path="/user" element={<UserLogin />} />
         <Route path="/home" element={<Home />} />
+        <Route path="/checkout" element={<CheckoutContainer />} />
         <Route path="/send" element={<Send />} />
         <Route path="/swap" element={<Swap />} />
         <Route path="/register" element={<Register />} />
@@ -101,6 +103,7 @@ function App() {
         <Route path="/marketplace" element={<Marketplace />} />
         <Route path="/reminders" element={<RemindMarket/>}/>
           <Route path="/welcome" element={<Welcome />} />
+         
       </Routes>
     </div>
   );
