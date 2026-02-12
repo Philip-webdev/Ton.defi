@@ -6,7 +6,7 @@ import {
   Cell,
   contractAddress,
   beginCell,
-} from "ton-core";
+} from "@ton/core";
 
 export default class Counter implements Contract {
   static createForDeploy(code: Cell, initialCounterValue: number): Counter {
