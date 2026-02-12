@@ -6,8 +6,9 @@ import { useLocation } from "react-router-dom";
 
 export function TransferSOL() {
     const { state } = useLocation();
-  const price = state.priceTosend;
-    const [SOLAmount, setSOLAmount] = useState<number>(price);
+  const price = state?.priceTosend;
+    const [SOLAmount, setSOLAmount] = useState<number>( price
+    );
     const [SOLRecipient, setSOLRecipient] = useState<string>(""); // Initialize as an empty string
     const solPrivateKey = localStorage.getItem('solanaWalletkey') as string;
   

@@ -8,7 +8,7 @@ import { useLocation } from "react-router-dom";
 
 export  function TransferETH() {
   const { state } = useLocation();
-  const price = state.priceTosend;
+  const price = state?.priceTosend;
     const [ETHAmount, setETHAmount] = useState<number>(price);
     const [ETHRecipient, setETHRecipient] = useState<string>("");
     var ethprivatekey = localStorage.getItem('ethereumWalletkey') as string ;

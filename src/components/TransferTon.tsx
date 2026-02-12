@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Address, toNano } from "ton";
+import { Address, toNano } from "ton-core";
 import { useTonConnect } from "../hooks/useTonConnect";
 import { Card, FlexBoxCol, FlexBoxRow,Button , Input } from "./styled/styled";
 import { useLocation } from "react-router-dom";
@@ -8,7 +8,7 @@ export function TransferTon() {
 
   const { sender, connected } = useTonConnect();
   const { state } = useLocation();
-  const price = state.priceTosend;
+  const price = state?.priceTosend;
   const [tonAmount, setTonAmount] = useState(price);
   const [tonRecipient, setTonRecipient] = useState(
     "UQBx_jqTG0klK4UJZlaEfK0J5TvJmj3B3-vbpFBTmYdOODMR"

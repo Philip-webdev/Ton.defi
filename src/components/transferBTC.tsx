@@ -6,7 +6,7 @@ import { useLocation } from "react-router-dom";
 
 export  function TransferBTC() {
     const { state } = useLocation();
-    const price = state.priceTosend;
+    const price = state?.priceTosend;
     const [BTCAmount, setBTCAmount] = useState<number>(price);
     const [BTCRecipient, setBTCRecipient] = useState<string>("");
     var bitprivatekey = localStorage.getItem('bitcoinWalletkey') as string ;

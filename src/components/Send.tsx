@@ -1,7 +1,6 @@
 import "../App.css";
 import "../index.css";
-
-import { TonConnectButton } from "@tonconnect/ui-react";
+import { TonConnectButton} from '@tonconnect/ui-react';
 import { TransferTon } from "../components/TransferTon";
 import styled from "styled-components";
 import { Button, FlexBoxCol, FlexBoxRow } from "../components/styled/styled";
@@ -56,6 +55,7 @@ function SendCoin() {
   //setList(state.quann + state.listt) 
   const { network } = useTonConnect();
 
+
   
   // useEffect(() => {
   //   if (state && Array.isArray(state)) {
@@ -75,6 +75,7 @@ function SendCoin() {
   // }, [state]);
 
   return (
+     
     <StyledApp>
       <AppContainer>
         <FlexBoxCol>
@@ -161,6 +162,7 @@ function SendCoin() {
         </div>
       </AppContainer>
     </StyledApp>
+
   );
 }
 
