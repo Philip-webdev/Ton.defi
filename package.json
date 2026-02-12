@@ -42,8 +42,6 @@
     "react-query": "^3.39.3",
     "react-router-dom": "^7.0.2",
     "styled-components": "^5.3.6",
-    "tailwind": "^2.3.1",
-    "tailwindcss": "^4.1.18",
     "three": "^0.177.0",
     "ton": "^6.13.1",
     "ton-core": "^0.53.0",
