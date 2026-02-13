@@ -63,16 +63,18 @@ const PackagesPage = () => {
     <div style={{display:'flex', justifyContent:'center'}}><h2>Food Packages</h2></div>
 
     <div style={{display:'grid', gridTemplateColumns:'auto auto auto'}}> 
-      <Packages  onClick={() => navigate('/checkout', {state:{type: 'starter', price: '$20'}})}><TypeOf style={{background:'rgb(51, 232, 191)'}} ><div style={{height:'auto'}}><img src="/close-up-fork-with-broccoli-tomato-fusilli (1).jpg"style={{width:'100%', borderRadius:'7px'}}/>
-      </div>Starter <br/><small style={{ fontSize:'smaller', marginTop:'100px'}}>A basic food plan</small>
+      <Packages  onClick={() => navigate('/checkout', {state:{type: 'starter', price: 30}})}><TypeOf style={{background:'rgb(51, 232, 191)'}} ><div style={{height:'auto'}}><img src="/close-up-fork-with-broccoli-tomato-fusilli (1).jpg"style={{width:'100%', borderRadius:'7px'}}/>
+      </div>Starter <br/><small style={{ fontSize:'smaller', marginTop:'100px'}}>30-50K naira spent judiciously on foodstuff</small>
       <br/><Button>Get</Button></TypeOf>
     </Packages>
-       <Packages onClick={() => navigate('', {state:{type: 'frequent', price: '$50'}})}><TypeOf style={{background:'rgb(139, 48, 241)'}}><div style={{height:'auto'}}><img src="/close-up-fork-with-broccoli-tomato-fusilli (1).jpg"style={{width:'100%', borderRadius:'7px'}}/></div>
-      Mini<br/><small style={{fontSize:'smaller'}}>A compact food plan</small>
+       <Packages onClick={() => navigate('/checkout', {state:{type: 'mini', price: 10}})}><TypeOf style={{background:'rgb(139, 48, 241)'}}><div style={{height:'auto'}}><img src="/close-up-fork-with-broccoli-tomato-fusilli (1).jpg"style={{width:'100%', borderRadius:'7px'}}/></div>
+      Mini<br/><small style={{fontSize:'smaller'}}>10-30K on a compact food purchase</small>
        <br/><Button>Get</Button></TypeOf>
      </Packages>
-        <Packages onClick={() => navigate('', {state:{type: 'maestro', price: '$100'}})}><TypeOf style={{background:'rgb(250, 117, 52)'}}><div><img src="/close-up-fork-with-broccoli-tomato-fusilli (1).jpg"style={{width:'100%' ,height:'10%', borderRadius:'7px'}}/></div>
-        Maestro<br/><small style={{fontSize:'smaller'}}>A top food plan</small>
+        <Packages onClick={() => navigate('/checkout', {state:{type: 'regular', price: 0
+
+        }})}><TypeOf style={{background:'rgb(250, 117, 52)'}}><div><img src="/close-up-fork-with-broccoli-tomato-fusilli (1).jpg"style={{width:'100%' ,height:'10%', borderRadius:'7px'}}/></div>
+        Regular<br/><small style={{fontSize:'smaller'}}>Short plans and instant food deliverables </small>
         <br/><Button>Get</Button></TypeOf>
       </Packages>
     </div>

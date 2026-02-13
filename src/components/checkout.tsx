@@ -172,7 +172,7 @@ const CheckoutContainer = () => {
         boxShadow: selectedMethod === 'CRYPTO' ? '0 4px 6px -1px rgba(0, 0, 0, 0.1)' : 'none'
       }}>
          <button 
-          onClick={() =>{ setSelectedMethod('CRYPTO'); navigate('/send', {state:{ priceTosend: '$20'}});}}
+          onClick={() =>{ setSelectedMethod('CRYPTO'); navigate('/send', {state:{ priceTosend: initiatedPrice}});}}
           style={{ background: 'none', border: 'none', display: 'flex', alignItems: 'center', justifyContent: 'space-between', cursor: 'pointer', width: '100%' }}
         >
           <div style={{ display: 'flex', flexWrap:'wrap' ,alignItems: 'center', gap: '1rem' }}>
