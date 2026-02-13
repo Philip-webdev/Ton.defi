@@ -120,9 +120,9 @@ const PackagesPage = () => {
   
   return (
     <div>
-      <PageTitle>
+      {/* <PageTitle>
         <h2>Food Packages</h2>
-      </PageTitle>
+      </PageTitle> */}
 
       <PackagesGrid> 
         <Packages onClick={() => navigate('/checkout', {state: {type: 'starter', price: 30000}})}>

@@ -1,77 +1,104 @@
 import styled from "styled-components";
 import { useNavigate } from 'react-router-dom';
-import Send from "./Send";
-import { CurrencyIcon, LucideDroplet, SendHorizonal, SendIcon } from "lucide-react";
-import { BsCashStack, BsCurrencyExchange } from "react-icons/bs";
-import { FaExchangeAlt } from "react-icons/fa";
+import { LucideDroplet, SendIcon } from "lucide-react";
+import { BsCurrencyExchange } from "react-icons/bs";
 
-
-
-const TypeOf = styled.div`
-border-style: solid;
-border-left: none;
-border-top: none;
-border-bottom: none;
-padding: 7px;
-border-width: 2px;
-
+const CTAContainer = styled.div`
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  gap: 16px;
+  width: 100%;
+  max-width: 400px;
+  margin: 0 auto;
 `;
-const Icn = styled.div`
-background-color: white;
- border-radius:20px;  
- justify-content:center;
-  padding:40px;
-  color: gray;
- @media (prefers-color-scheme: dark) {
-     background-color: rgb(1, 1, 1);
-     
-        padding:40px;
-        
+
+const CTAWrapper = styled.a`
+  text-decoration: none;
+  flex: 1;
+  display: flex;
+  justify-content: center;
+`;
+
+const CTAButton = styled.div`
+  background-color: white;
+  border-radius: 20px;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  min-height: 100px;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+  }
+  
+  @media (prefers-color-scheme: dark) {
+    background-color: rgb(1, 1, 1);
+    
+    &:hover {
+      box-shadow: 0 8px 16px rgba(36, 172, 242, 0.2);
+    }
   }
 `;
 
+const IconWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  color: rgb(36, 172, 242);
+`;
 
-const ctanavig = () => {
-   const navigate = useNavigate();
+const CTALabel = styled.div`
+  font-size: 12px;
+  font-weight: 500;
+  color: gray;
+  text-align: center;
+  
+  @media (prefers-color-scheme: dark) {
+    color: lightgray;
+  }
+`;
+
+const Ctanavig = () => {
   return (
-  <div>
-<div style={{fontFamily: 'Lexend',display:'flex', justifyContent:'flex-start', flexDirection:'row', gridTemplateColumns:'20px 20px', zoom:'90%', borderRadius:'7px', width:'inherit'}}>
-                    
-                <div style={{borderRadius:'100%',  padding:'10px'}} ><a style={{textDecoration:'none'}} href='#/send'>
+    <CTAContainer>
+      <CTAWrapper href='#/send'>
+        <CTAButton>
+          <IconWrapper>
+            <SendIcon size={28} />
+          </IconWrapper>
+          <CTALabel>Send</CTALabel>
+        </CTAButton>
+      </CTAWrapper>
 
-                <Icn><SendIcon style={{scale:'1.5'}}/><br/><div ><small>Send</small></div></Icn></a>                
-                </div>
+      <CTAWrapper href='#/register'>
+        <CTAButton>
+          <IconWrapper>
+            <LucideDroplet size={28} />
+          </IconWrapper>
+          <CTALabel>Get</CTALabel>
+        </CTAButton>
+      </CTAWrapper>
 
-                <div style={{borderRadius:'100%',  padding:'10px'}} ><a style={{textDecoration:'none'}} href='#/register'>
-
-                <Icn><LucideDroplet style={{scale:'1.5'}} /><br/><div><small>Get</small></div></Icn></a>                
-                </div>
-
-                <div style={{borderRadius:'100%',  padding:'12px'}} ><a style={{textDecoration:'none'}} href='#/buy'>
-
-                <Icn> <BsCurrencyExchange style={{scale:'1.7'}} /><br/><div><small>Change</small></div></Icn></a>                
-                </div>
-
-
-                {/* <div style={{borderRadius:'100%',  padding:'10px',}} > 
-                  <a style={{textDecoration:'none'}} href='#/register'>
-                  <Icn style={{width:'150px', height:'150px' }}>
-                <LucideDroplet /> <br/><p>Receive Coin</p></Icn></a>
-                </div> */}
-
-                {/* <div style={{borderRadius:'100%',  padding:'10px'}} >
-                  <a style={{textDecoration:'none'}} href='#/buy'>
-                <Icn style={{width:'150px', height:'150px'}}>
-                  <BsCashStack /><br/><p style={{marginTop:'30%', marginLeft:'20%'}}>Buy Tokens</p></Icn></a>
-                </div> */}
-                {/* <div style={{borderRadius:'100%',  padding:'10px'}} ><a style={{textDecoration:'none'}} href='#/swap'>
-                <Icn style={{width:'150px', height:'150px'}}><FaExchangeAlt  />
-                <br/><p style={{marginTop:'30%', marginLeft:'30%'}}>swap</p></Icn></a>
-                </div> */}
-                
-                </div>
-  </div>
+      <CTAWrapper href='#/buy'>
+        <CTAButton>
+          <IconWrapper>
+            <BsCurrencyExchange size={28} />
+          </IconWrapper>
+          <CTALabel>Change</CTALabel>
+        </CTAButton>
+      </CTAWrapper>
+    </CTAContainer>
   );
 };
 
-export default ctanavig;
+export default Ctanavig;

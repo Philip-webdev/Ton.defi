@@ -51,11 +51,15 @@ const FAB = styled.button`
   transform: translateX(-50%);
   width: 56px;
   height: 56px;
+  Color:black;
   border-radius: 50%;
   background: none;
   border: none;
   cursor: pointer;
   z-index: 1001;
+   @media (prefers-color-scheme: dark) {
+    color:  white;
+  }
 `;
 
 const NavItem = styled.button<NavItemProps>`
