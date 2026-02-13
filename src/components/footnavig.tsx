@@ -1,14 +1,14 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
+import { useNavigate, useLocation } from "react-router-dom";
 import {
   LayoutPanelLeft,
-  Logs,
   ScanTextIcon,
   ShoppingCart,
-  House
+  House,
+  Bike
 } from "lucide-react";
 import { GoogleGenAI } from "@google/genai";
-
 
 interface NavItemProps {
   $active?: boolean;
@@ -23,8 +23,6 @@ async function planner(prompt: string) {
   });
   return response.text;
 }
-
-
 
 const NavContainer = styled.nav`
   position: fixed;
@@ -60,12 +58,25 @@ const FAB = styled.button`
   z-index: 1001;
 `;
 
-const NavItem = styled.a<NavItemProps>`
+const NavItem = styled.button<NavItemProps>`
   display: flex;
   flex-direction: column;
   align-items: center;
   font-size: 11px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: ${p => p.$active ? 'rgb(36,172,242)' : 'inherit'};
   opacity: ${p => (p.$active ? 1 : 0.6)};
+  transition: all 0.3s ease;
+  
+  &:hover {
+    opacity: 1;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    color: ${p => p.$active ? 'rgb(36,172,242);' : 'white'};
+  }
 `;
 
 const ModalOverlay = styled.div`
@@ -92,15 +103,15 @@ const inputStyle: React.CSSProperties = {
 };
 
 const navItems = [
-  { href: "#/home", icon: <House /> },
-  { href: "#/market", icon: <LayoutPanelLeft /> },
-  { href: "#/home", icon: <ShoppingCart /> },
-  { href: "#/discover", icon: <Logs /> }
+  { path: "/home", icon: House },
+  { path: "/market", icon: LayoutPanelLeft },
+  { path: "/marketplace", icon: ShoppingCart },
+  { path: "/discover", icon: Bike }
 ];
 
-
 const FootNavig: React.FC = () => {
-  const [active, setActive] = useState("#/home");
+  const navigate = useNavigate();
+  const location = useLocation();
   const [isAsking, setIsAsking] = useState(false);
   const [budget, setBudget] = useState("");
   const [duration, setDuration] = useState("");
@@ -143,6 +154,10 @@ Output clearly using headings and tables where useful.
     }
 
     setIsAsking(false);
+  };
+
+  const handleNavClick = (path: string) => {
+    navigate(path);
   };
 
   return (
@@ -221,20 +236,24 @@ Output clearly using headings and tables where useful.
           <ScanTextIcon size={26} />
         </FAB>
 
-        {navItems.map((item, index) => (
-          <NavItem
-            key={item.href}
-            href={item.href}
-            $active={active === item.href}
-            onClick={() => setActive(item.href)}
-            style={{
-              marginRight: index === 1 ? "45px" : "0",
-              marginLeft: index === 2 ? "45px" : "0"
-            }}
-          >
-            {item.icon}
-          </NavItem>
-        ))}
+        {navItems.map((item, index) => {
+          const Icon = item.icon;
+          const isActive = location.pathname === item.path;
+          
+          return (
+            <NavItem
+              key={item.path}
+              $active={isActive}
+              onClick={() => handleNavClick(item.path)}
+              style={{
+                marginRight: index === 1 ? "45px" : "0",
+                marginLeft: index === 2 ? "45px" : "0"
+              }}
+            >
+              <Icon size={24} />
+            </NavItem>
+          );
+        })}
       </NavContainer>
     </>
   );

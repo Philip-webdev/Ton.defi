@@ -32,6 +32,7 @@ import Marketplace from "./components/marketplace";
 // import SuiWallet from "./components/sui";
 import CheckoutContainer from "./components/checkout";
 import RemindMarket from "./components/Reminder";
+import UnderConstruction from "./components/UnderConstruction";
 
 function AppWrapper() {
   return (
@@ -83,7 +84,9 @@ function App() {
         <Route path="/register" element={<Register />} />
         <Route path="/tools" element={<Tools />} />
         <Route path="/market" element={<Market />} />
-        <Route path="/discover" element={<Discover />} />
+        <Route path="/discover" element={<UnderConstruction />} />
+        <Route path="/marketplace" element={<UnderConstruction />} />
+        {/* <Route path="/discover" element={<Discover />} /> */}
         <Route path="/tokenomics" element={<Tokenomics />} />
         <Route path="/tontools" element={<Tontools />} />
         <Route path="/buy" element={<Buy />} />
@@ -100,7 +103,7 @@ function App() {
         <Route path="/scan" element={<Scan />} />
         <Route path="/Agro" element={<AgroApp />} />
          {/* <Route path="/sui" element={<SuiWallet />} /> */}
-        <Route path="/marketplace" element={<Marketplace />} />
+        {/* <Route path="/marketplace" element={<Marketplace />} /> */}
         <Route path="/reminders" element={<RemindMarket/>}/>
           <Route path="/welcome" element={<Welcome />} />
          
