@@ -94,7 +94,7 @@ const inputStyle: React.CSSProperties = {
 const navItems = [
   { href: "#/home", icon: <House /> },
   { href: "#/market", icon: <LayoutPanelLeft /> },
-  { href: "#/marketplace", icon: <ShoppingCart /> },
+  { href: "#/home", icon: <ShoppingCart /> },
   { href: "#/discover", icon: <Logs /> }
 ];
 
