@@ -59,7 +59,7 @@ function App() {
     if (loading) {
       navigate("/welcome"); // ✔ Correct way to navigate
     } else {
-      navigate("/home"); // ✔ Navigate after loading
+      navigate("/user"); // ✔ Navigate after loading
     }
   }, [loading]);
 
