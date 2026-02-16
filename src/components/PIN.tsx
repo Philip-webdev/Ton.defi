@@ -15,7 +15,7 @@ const StyledApp = styled.div`
   color: black;
   margin:0;
   font-size: 17px;
-font-family: Lexend;
+font-family: orbitron;
  zoom :100%;
    @media (prefers-color-scheme: dark) {
      background-color: rgb(15,15,15);
@@ -44,7 +44,7 @@ padding: 10px;
 width: 95%;
 height: 40px;
 font-size: 17px;
-font-family: Lexend;
+font-family: orbitron;
 placeholder :transparent;
  @media (prefers-color-scheme: dark) {
      background-color: rgb(15,15,15);
@@ -66,7 +66,7 @@ const AppContainer = styled.div`
    width: 100%;
   height:fit-content;
   margin: 0;
-  font-family: Lexend ;
+  font-family: orbitron ;
 `;
 
 
@@ -187,7 +187,7 @@ async function joinNodeRequest(){
     alertBox.style.borderTopLeftRadius = '5px';
     alertBox.style.borderTopRightRadius = '5px';
     alertBox.style.boxShadow = '0 2px 5px rgba(0, 0, 0, 0.3)';
-    alertBox.style.fontFamily = 'Lexend';
+    alertBox.style.fontFamily = 'orbitron';
     alertBox.style.zIndex = '1000';
     document.body.appendChild(alertBox);
     setTimeout(() => {

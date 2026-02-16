@@ -11,7 +11,7 @@ import FootNavig from './footnavig';
 const StyledApp = styled.div`
   background-color:  #F9F9F9;
   color: black;
-  font-family: Lexend;
+  font-family: orbitron;
   @media (prefers-color-scheme: dark) {
      background-color: rgb(33,33,33);
       color: white ;

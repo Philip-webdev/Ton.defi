@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 
 const Container = styled.div`
   display: flex;
-  font-family: Lexend;
+  font-family: orbitron;
   flex-direction: column;
   align-items: center;
   justify-content: center;

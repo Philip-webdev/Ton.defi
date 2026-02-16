@@ -13,7 +13,7 @@ const StyledApp = styled.div`
   background-color:  #F9F9F9;
   color:inherit;
   
-  font-family: Lexend;
+  font-family: orbitron;
   @media (prefers-color-scheme: dark) {
      background-color: rgb(33,33,33);
       color: white ;
@@ -52,7 +52,7 @@ const AppContainer = styled.div`
    alertBox.style.padding = '10px 20px';
    alertBox.style.borderRadius = '5px';
    alertBox.style.boxShadow = '0 2px 5px rgba(0, 0, 0, 0.3)';
-   alertBox.style.fontFamily = 'Lexend';
+   alertBox.style.fontFamily = 'orbitron';
    alertBox.style.zIndex = '1000';
    document.body.appendChild(alertBox);
    setTimeout(() => {

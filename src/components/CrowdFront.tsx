@@ -8,7 +8,7 @@ import styled from "styled-components";
 const StyledApp = styled.div`
   background-color: rgb(36, 172, 242);
    
-font-family: Lexend ;
+font-family: orbitron ;
   @media (prefers-color-scheme: dark) {
     
         color:white;

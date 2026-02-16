@@ -20,7 +20,7 @@ const StyledApp = styled.div`
   background-color: #F9F9F9;
   color: rgb(34, 34, 34);
   margin: 0;
-  font-family: Lexend;
+  font-family: orbitron;
   min-height: 100vh;
   padding: 20px;
   padding-bottom: 100px;
@@ -99,7 +99,7 @@ const HeaderTitle = styled.a`
 `;
 
 const BalanceCard = styled.div`
-  background: linear-gradient(135deg, rgb(36,172,242), rgb(139, 48, 241));
+  background: linear-gradient(135deg, rgb(36,172,242), blue);
   border-radius: 20px;
   padding: 32px 24px;
   margin: 24px 0;
@@ -285,7 +285,7 @@ const CollapsibleTitle = styled.div`
 `;
 
 const IconWrapper = styled.div`
-  background: linear-gradient(135deg, rgb(36,172,242), rgb(139, 48, 241));
+  background: linear-gradient(135deg, rgb(36,172,242),blue);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -330,7 +330,7 @@ const ToggleButton = styled.button<{ $active: boolean }>`
   padding: 10px 24px;
   border: none;
   border-radius: 10px;
-  background: ${props => props.$active ? 'linear-gradient(135deg, rgb(36,172,242), rgb(139, 48, 241))' : 'transparent'};
+  background: ${props => props.$active ? 'linear-gradient(135deg, rgb(36,172,242), blue)' : 'transparent'};
   color: ${props => props.$active ? 'white' : 'gray'};
   font-weight: ${props => props.$active ? '600' : '400'};
   cursor: pointer;

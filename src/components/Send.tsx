@@ -20,7 +20,7 @@ import { useLocation } from "react-router-dom";
 const StyledApp = styled.div`
   background-color: #f9f9f9;
   color: black;
-  font-family: Lexend;
+  font-family: orbitron;
   @media (prefers-color-scheme: dark) {
     background-color: rgb(33, 33, 33);
     color: white;

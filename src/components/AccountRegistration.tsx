@@ -14,7 +14,7 @@ const StyledApp = styled.div`
   background-color: #F9F9F9;
   color: black;
   
-  font-family: Lexend;
+  font-family: orbitron;
    min-height: 250vh;
   padding: 20px;
  zoom :100%;
@@ -38,7 +38,7 @@ const AppContainer = styled.div`
    width: 100%;
    height: fit-content;
    margin: 0;
-   font-family: Lexend;
+   font-family: orbitron;
 `;
 
 const Icon = styled.div`
@@ -272,7 +272,7 @@ else{
       alertBox.style.padding = '10px 20px';
       alertBox.style.borderRadius = '5px';
       alertBox.style.boxShadow = '0 2px 5px rgba(0, 0, 0, 0.3)';
-      alertBox.style.fontFamily = 'Lexend';
+      alertBox.style.fontFamily = 'orbitron';
       alertBox.style.zIndex = '1000';
       document.body.appendChild(alertBox);
       setTimeout(() => {
@@ -299,7 +299,7 @@ else{
       alertBox.style.padding = '10px 20px';
       alertBox.style.borderRadius = '5px';
       alertBox.style.boxShadow = '0 2px 5px rgba(0, 0, 0, 0.3)';
-      alertBox.style.fontFamily = 'Lexend';
+      alertBox.style.fontFamily = 'orbitron';
       alertBox.style.zIndex = '1000';
       document.body.appendChild(alertBox);
       setTimeout(() => {
@@ -325,7 +325,7 @@ else{
       alertBox.style.padding = '10px 20px';
       alertBox.style.borderRadius = '5px';
       alertBox.style.boxShadow = '0 2px 5px rgba(0, 0, 0, 0.3)';
-      alertBox.style.fontFamily = 'Lexend';
+      alertBox.style.fontFamily = 'orbitron';
       alertBox.style.zIndex = '1000';
       document.body.appendChild(alertBox);
       setTimeout(() => {
@@ -351,7 +351,7 @@ else{
       alertBox.style.padding = '10px 20px';
       alertBox.style.borderRadius = '5px';
       alertBox.style.boxShadow = '0 2px 5px rgba(0, 0, 0, 0.3)';
-      alertBox.style.fontFamily = 'Lexend';
+      alertBox.style.fontFamily = 'orbitron';
       alertBox.style.zIndex = '1000';
       document.body.appendChild(alertBox);
 
@@ -428,7 +428,7 @@ else{
             <div id="QRcode3"  style={{position: 'absolute',top: '50%', left: '50%',transform: 'translate(-50%, -50%)'}}> </div>
             <div id="QRcode4"  style={{position: 'absolute',top: '50%', left: '50%',transform: 'translate(-50%, -50%)'}}> </div>
             </div>
-              <div style={{right:'0', display:'flex'}}><Button onClick={alreadyExists} style={{fontSize:'inherit'}}  >Import</Button> <Button onClick={createWallets} style={{fontSize:'14px'}} >Create</Button>  <Button onClick={showQR}><BsQrCode/></Button> <div   style={{  left: '85%', height:'34.5px'  }}> <select id="QRcodeChoice" style={{height:'34.5px', background:'transparent', border:'none', color:'gray', fontFamily:'Lexend'}}  onChange={showQR}   >
+              <div style={{right:'0', display:'flex'}}><Button onClick={alreadyExists} style={{fontSize:'inherit'}}  >Import</Button> <Button onClick={createWallets} style={{fontSize:'14px'}} >Create</Button>  <Button onClick={showQR}><BsQrCode/></Button> <div   style={{  left: '85%', height:'34.5px'  }}> <select id="QRcodeChoice" style={{height:'34.5px', background:'transparent', border:'none', color:'gray', fontFamily:'orbitron'}}  onChange={showQR}   >
               <option  value="eth">eth</option>
               <option  value="btc">btc</option>
               <option value="sol">sol</option>

@@ -10,7 +10,7 @@ const StyledApp = styled.div`
   background: black;
 
     background-size:cover;
-font-family: Lexend ;
+font-family: orbitron ;
   @media (prefers-color-scheme: dark) {
     
         color:white;

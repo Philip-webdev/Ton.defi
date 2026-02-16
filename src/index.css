@@ -1,4 +1,5 @@
-@import url('https://fonts.googleapis.com/css2?family=Lexend&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Geom:ital,wght@0,300..900;1,300..900&family=Orbitron:wght@400..900&display=swap');
+
 
 @tailwind base;
 @tailwind components;
@@ -60,7 +61,7 @@ h1 {
 
 .input-group {
     margin: 10px;
-    font-family: Lexend;
+    font-family: orbitron;
 }
 input:focus{
     border:none;

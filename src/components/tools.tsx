@@ -8,7 +8,7 @@ const StyledApp = styled.div`
   background-color: #F9F9F9;
   color: black;
   margin:0;
-font-family: Lexend;
+font-family: orbitron;
   zoom :100%;
    @media (prefers-color-scheme: dark) {
      background-color: rgb(15,15,15);
@@ -32,7 +32,7 @@ const AppContainer = styled.div`
    width: 100%;
   height:fit-content;
   margin: 0;
-  font-family: Lexend ;
+  font-family: orbitron ;
 `;
 
 function tools(){

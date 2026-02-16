@@ -8,7 +8,7 @@ const StyledApp = styled.div`
   background-color: #F9F9F9;
   color: black;
  zoom :90%;
-    font-family: Lexend ;
+    font-family: orbitron ;
    @media (prefers-color-scheme: dark) {
      background-color: rgb(33,33,33);
       color: white ;
@@ -28,7 +28,7 @@ const AppContainer = styled.div`
    width: 100%;
   height:fit-content;
   margin: 0;
-  font-family: Lexend ;
+  font-family: orbitron ;
 `;
 
 const Icon = styled.div`

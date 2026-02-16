@@ -9,7 +9,7 @@ const StyledApp = styled.div`
   background-color: #F9F9F9;
   color: black;
  zoom :100%;
-    font-family: Lexend ;
+    font-family: orbitron ;
   @media (prefers-color-scheme: dark) {
     background-color: rgb(15,15,15);
     
@@ -38,7 +38,7 @@ const AppContainer = styled.div`
   height:fit-content;
   margin: auto;
   
-  font-family: Lexend ;
+  font-family: orbitron ;
 `;
 function discover() {
 

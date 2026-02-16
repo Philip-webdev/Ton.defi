@@ -10,7 +10,7 @@ const StyledApp = styled.div`
   background-color: #F9F9F9;
   color: black;
   
-  font-family: Lexend;
+  font-family: orbitron;
    min-height: 250vh;
   padding: 20px;
  zoom :100%;
@@ -34,7 +34,7 @@ const AppContainer = styled.div`
    width: 100%;
   height:fit-content;
   margin: 0;
-  font-family: Lexend ;
+  font-family: orbitron ;
 `;
 
 const StyledInputWrapper = styled.div`
@@ -48,7 +48,7 @@ const StyledInput = styled.input`
   border: 1px solid #ccc;
   border-radius: 4px;
   font-size: 16px;
-  font-family: Lexend;
+  font-family: orbitron;
   background: white;
   color: black;
   @media (prefers-color-scheme: dark) {

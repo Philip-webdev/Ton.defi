@@ -12,7 +12,7 @@ const StyledApp = styled.div`
   background-color: #F9F9F9;
   color: black;
   border-radius: 17px;
-  font-family: Lexend;
+  font-family: orbitron;
 
 
   @media (prefers-color-scheme: dark) {
@@ -27,7 +27,7 @@ const AppContainer = styled.div`
    width: 100%;
    height: fit-content;
    margin: 0;
-   font-family: Lexend;
+   font-family: orbitron;
 `;
 
 
@@ -38,7 +38,7 @@ width: 90%;
 height:40px;
 border-color: black;
 font-size: 16px;
-font-family: Lexend;
+font-family: orbitron;
 placeholder :transparent;
  @media (prefers-color-scheme: dark) {
      background-color: rgb(15,15,15);
@@ -64,7 +64,7 @@ width: 90%;
 height:70px;
 
 font-size: 16px;
-font-family: Lexend;
+font-family: orbitron;
  @media (prefers-color-scheme: dark) {
      background-color: rgb(15,15,15);
     

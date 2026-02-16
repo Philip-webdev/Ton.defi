@@ -16,7 +16,7 @@ import styled from 'styled-components';
 const StyledApp = styled.div`
   background-color: #F9F9F9;
   color: black;
-  font-family: Lexend;
+  font-family: orbitron;
   min-height: 100vh;
   padding: 20px;
  

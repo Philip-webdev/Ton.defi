@@ -9,7 +9,7 @@ width: 90%;
 height: 40px;
 border-color: black;
 font-size: 30px;
-font-family: Lexend;
+font-family: orbitron;
 placeholder :transparent;
  @media (prefers-color-scheme: dark) {
      background-color: rgb(15,15,15);

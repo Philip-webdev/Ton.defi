@@ -6,7 +6,7 @@ const StyledApp = styled.div`
   background-color: #F9F9F9;
   color: black;
   
-  font-family: Lexend;
+  font-family: orbitron;
    min-height: 150vh;
   padding: 20px;
  zoom :100%;
@@ -27,7 +27,7 @@ width: 90%;
 height: 40px;
 
 font-size: 16px;
-font-family: Lexend;
+font-family: orbitron;
 placeholder :transparent;
  @media (prefers-color-scheme: dark) {
      background-color: rgb(15,15,15);
