@@ -99,7 +99,7 @@ const HeaderTitle = styled.a`
 `;
 
 const BalanceCard = styled.div`
-  background: linear-gradient(135deg, rgb(36,172,242), blue);
+  background: linear-gradient(90deg, RGB(0,131,208) );
   border-radius: 20px;
   padding: 32px 24px;
   margin: 24px 0;
@@ -285,7 +285,7 @@ const CollapsibleTitle = styled.div`
 `;
 
 const IconWrapper = styled.div`
-  background: linear-gradient(135deg, rgb(36,172,242),blue);
+  background: linear-gradient(135deg, RGB(0,131,208));
   display: flex;
   align-items: center;
   justify-content: center;
@@ -330,7 +330,7 @@ const ToggleButton = styled.button<{ $active: boolean }>`
   padding: 10px 24px;
   border: none;
   border-radius: 10px;
-  background: ${props => props.$active ? 'linear-gradient(135deg, rgb(36,172,242), blue)' : 'transparent'};
+  background: ${props => props.$active ? 'linear-gradient(135deg, RGB(0,131,208))' : 'transparent'};
   color: ${props => props.$active ? 'white' : 'gray'};
   font-weight: ${props => props.$active ? '600' : '400'};
   cursor: pointer;
