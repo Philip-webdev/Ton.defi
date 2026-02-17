@@ -77,10 +77,10 @@ function App() {
       <Routes>
       
         <Route path="/user" element={<UserLogin />} />
-        <Route path="/home" element={<Home />} />
+        {/* <Route path="/home" element={<Home />} /> */}
         <Route path="/checkout" element={<CheckoutContainer />} />
-        <Route path="/send" element={<Send />} />
-        <Route path="/swap" element={<Swap />} />
+        {/* <Route path="/send" element={<Send />} /> */}
+        {/* <Route path="/swap" element={<Swap />} /> */}
         <Route path="/register" element={<Register />} />
         <Route path="/tools" element={<Tools />} />
         <Route path="/market" element={<Market />} />
@@ -89,17 +89,17 @@ function App() {
         {/* <Route path="/discover" element={<Discover />} /> */}
         <Route path="/tokenomics" element={<Tokenomics />} />
         <Route path="/tontools" element={<Tontools />} />
-        <Route path="/buy" element={<Buy />} />
+        {/* <Route path="/buy" element={<Buy />} /> */}
         <Route path="/latest" element={<Latest />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/agenda" element={<Agenda />} />
         <Route path="/security" element={<Security />} />
         <Route path="/settings" element={<Settings />} />
         <Route path="/organizer" element={<Organizer />} />
-        <Route path="/stake" element={<Stake />} />
-        <Route path="/rwa" element={<RWA />} />
+        {/* <Route path="/stake" element={<Stake />} /> */}
+        {/* <Route path="/rwa" element={<RWA />} /> */}
         <Route path="/pin" element={<PIN />} />
-        <Route path="/usdt" element={<Usdt />} />
+        {/* <Route path="/usdt" element={<Usdt />} /> */}
         <Route path="/scan" element={<Scan />} />
         <Route path="/Agro" element={<AgroApp />} />
          {/* <Route path="/sui" element={<SuiWallet />} /> */}

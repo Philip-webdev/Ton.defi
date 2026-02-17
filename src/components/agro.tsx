@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-// import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import   { useEffect , useRef} from 'react';
 import styled from "styled-components";
 // @ts-ignore
@@ -12,11 +12,12 @@ const StyledApp = styled.div`
   background-color:  #F9F9F9;
   color: black;
   font-family: orbitron;
+  left:70%;
   @media (prefers-color-scheme: dark) {
      background-color: rgb(33,33,33);
       color: white ;
   }
-  min-height: 250vh;
+  min-height: 10vh;
   padding:20px;
   margin:0;
   
@@ -54,7 +55,7 @@ const AgroApp = () => {
     const mountRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
-        // Scene setup
+        
         const scene = new THREE.Scene();
         
 
@@ -74,14 +75,13 @@ const AgroApp = () => {
         if (mountRef.current) {
             mountRef.current.appendChild(renderer.domElement);
         }
-
-        // Controls for 3D feel
-        // const controls = new OrbitControls(camera, renderer.domElement);
-        // controls.enableDamping = true;
-        // controls.dampingFactor = 0.05;
-        // controls.enablePan = false;
-        // controls.zoom0 = 0;
-        // controls.zoomToCursor = false;
+ 
+        const controls = new OrbitControls(camera, renderer.domElement);
+        controls.enableDamping = true;
+        controls.dampingFactor = 0.05;
+        controls.enablePan = false;
+        controls.zoom0 = 0;
+        controls.zoomToCursor = false;
        
         // Lighting
         const light = new THREE.DirectionalLight(0xffffff, 0.8);

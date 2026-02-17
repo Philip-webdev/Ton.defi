@@ -3,7 +3,7 @@ import { TonConnectUIProvider } from "@tonconnect/ui-react";
 import ReactDOM from "react-dom/client";
 import App from "./App";
 import "./index.css";
-import './manifest.json';
+import '/manifest.json';
 
 
  
