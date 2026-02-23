@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { Home, Lock, BookOpen, ShoppingCart, BarChart2, Coins, ArrowDownIcon, PenSquareIcon, ChartCandlestickIcon, LeafyGreenIcon, SoupIcon } from "lucide-react";
 import Homme from "./web3";
-import { BsEyeSlash, BsGear } from "react-icons/bs";
+import { BsBodyText, BsEyeSlash, BsGear, BsPerson } from "react-icons/bs";
 import styled from "styled-components";
 import { FaBoxOpen, FaBreadSlice, FaEgg } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
@@ -497,7 +497,7 @@ Output clearly using headings and tables where useful.
                        </HeaderIcon>
               <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
                 <span className="tag-sdg">🌱 SDG 2</span>
-                <div className="avatar">👤</div>
+                <div className="avatar"><BsPerson/></div>
               </div>
             </div>
 
