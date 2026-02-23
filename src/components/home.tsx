@@ -187,7 +187,7 @@ function DonutChart({ data }: { data: ChartDatum[] }) {
 export default function CampusPlanner() {
   const navigate = useNavigate();
   const [screen, setScreen]           = useState<Screen>("home");
-  const [vaultBalance, setVaultBalance] = useState<number>(34400);
+  const [vaultBalance, setVaultBalance] = useState<number>(0);
   const [budget, setBudget]           = useState<BudgetMap>({
     food: 15000, transport: 5000, books: 3000, health: 2000, savings: 5000, misc: 2000,
   });
