@@ -173,7 +173,7 @@ export default function CampusPlanner() {
      const email = localStorage.getItem('email');
   const navigate = useNavigate();
  async function fetchCurrent(){
-    const request = await fetch(`${process.env.BACKEND_URL}/currentBalance/${email}`);
+    const request = await fetch(`${import.meta.env.VITE_BACKEND_URL}/currentBalance/${email}`);
     const result = await request.json();
 
     return result.Balance as number;
@@ -232,7 +232,7 @@ export default function CampusPlanner() {
 
 
   const addBalance = async()=>{
-    const request = await fetch(`${process.env.BACKEND_URL}/loadBalance/${email}`);
+    const request = await fetch(`${import.meta.env.VITE_BACKEND_URL}/loadBalance/${email}`);
     const result = await request.json();
 
     setDepositAmt(result.data.amount);
@@ -243,7 +243,7 @@ export default function CampusPlanner() {
 //record current account balance
 const recordCurrent = async () => {
   try {
-    const response = await fetch(`${process.env.BACKEND_URL}/updateBalance/${email}`, {
+    const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/updateBalance/${email}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
