@@ -46,23 +46,20 @@ function AppWrapper() {
 function App() {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    // Simulate loading
+ useEffect(() => {
     const timer = setTimeout(() => {
       setLoading(false);
-    },7000);
-
+    }, 2000);
     return () => clearTimeout(timer);
   }, []);
 
   useEffect(() => {
-    if (loading) {
-      navigate("/welcome"); // ✔ Correct way to navigate
-    } else {
-      navigate("/home"); // ✔ Navigate after loading
+  if (!loading) {
+    if (location.pathname === "/welcome" || location.pathname === "/") {
+      navigate("/user");
     }
-  }, [loading]);
+  }
+}, [loading, location.pathname]);
 
   return (
     <div
@@ -76,8 +73,8 @@ function App() {
       }}
     >
       <Routes>
-{/*       
-        <Route path="/user" element={<UserLogin />} /> */}
+      
+        <Route path="/user" element={<UserLogin />} />
         <Route path="/home" element={<Home />} />
         <Route path="/checkout" element={<CheckoutContainer />} />
          <Route path="/send" element={<Send />} />

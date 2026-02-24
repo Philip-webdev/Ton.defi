@@ -326,7 +326,7 @@ function UserLogin() {
   const [isLoading, setIsLoading] = useState(false);
 const generateAcc = async () => {
   try {
-    const fetchAcc = await fetch(`${process.env.NEW_WALLET}`, {
+    const fetchAcc = await fetch(`${import.meta.env.VITE_NEW_WALLET}`, {
       method: 'POST',
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -334,8 +334,8 @@ const generateAcc = async () => {
         account_reference: fullName,
         permanent: true,
         bank_code: '035',
-        customer: { email: email, name: `${process.env.NAME}` },
-        kyc: { nin: `${process.env.NIN}`, bvn: `${process.env.BVN}` }
+        customer: { email: email },
+       
       })
     });
 
@@ -352,56 +352,34 @@ const generateAcc = async () => {
   }
 }
 
-  const handleRegister = async (e: React.FormEvent) => {
-    e.preventDefault();
+ const handleRegister = async (e: React.FormEvent) => {
+  e.preventDefault();
+  
+  setIsLoading(true);
+  setStatus({ type: 'loading', message: 'Creating your account...' });
+
+  try {
     
-    if (!email || !password) {
-      setStatus({ type: 'error', message: 'Please fill in all fields' });
-      return;
-    }
+    const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/register`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ fullName, email, password })
+    });
 
-    if (password.length < 6) {
-      setStatus({ type: 'error', message: 'Password must be at least 6 characters' });
-      return;
-    }
+    if (!response.ok) throw new Error('Registration failed');
 
-    setIsLoading(true);
-    setStatus({ type: 'loading', message: 'Creating your account...' });
+    await generateAcc(); 
 
-    try {
-      const response = await fetch(`${process.env.BACKEND_URL}/register`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        credentials: "include",
-        body: JSON.stringify({ email, password, fullName })
+    setStatus({ type: 'success', message: 'Account created successfully!' });
+    // navigate('/home'); 
 
-        
-      });
+  } catch (error: any) {
+    setStatus({ type: 'error', message: error.message });
+  } finally {
+    setIsLoading(false);
+  }
+};
 
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.message || 'Registration failed');
-      }
-      //else generate account number
-      generateAcc();
-
-      setStatus({ type: 'success', message: 'Registration successful! You can now login.' });
-      setTimeout(() => {
-        setMode('login');
-        setStatus({ type: null, message: '' });
-      }, 2000);
-
-      setEmail('');
-      setName('');
-      setPassword('');
-    }
-     catch (error: any) {
-      setStatus({ type: 'error', message: error.message || 'Registration failed. Please try again.' });
-    } 
-    finally {
-      setIsLoading(false);
-    }
-  };
 
 
   //handle the login
@@ -418,7 +396,7 @@ const generateAcc = async () => {
     setStatus({ type: 'loading', message: 'Signing you in...' });
 
     try {
-      const response = await fetch(`${process.env.BACKEND_URL}/login`, {
+      const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         credentials: "include",
@@ -438,7 +416,7 @@ const generateAcc = async () => {
         window.location.href = '#/home';
       
         if (window.Telegram?.WebApp) {
-          window.Telegram.WebApp.openTelegramLink(`${process.env.FRONTEND_URL}/#/home`);
+          window.Telegram.WebApp.openTelegramLink(`${import.meta.env.VITE_FRONTEND_URL}/#/home`);
         }
       }, 1500);
     } catch (error: any) {
@@ -461,7 +439,7 @@ const generateAcc = async () => {
     <PageContainer>
       <LoginCard>
         <Logo>
-       <img src='https://i.imgur.com/ySoWviB.png'/>
+       <img src='https://i.imgur.com/ySoWviB.png' style={{height:'150px', width:'150px'}}/>
         </Logo>
 
         <TabContainer>
