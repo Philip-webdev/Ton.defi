@@ -324,15 +324,34 @@ function UserLogin() {
   const [showPassword, setShowPassword] = useState(false);
   const [status, setStatus] = useState<StatusType>({ type: null, message: '' });
   const [isLoading, setIsLoading] = useState(false);
+const generateAcc = async () => {
+  try {
+    const fetchAcc = await fetch(`${process.env.NEW_WALLET}`, {
+      method: 'POST',
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        account_name: fullName,
+        account_reference: fullName,
+        permanent: true,
+        bank_code: '035',
+        customer: { email: email, name: `${process.env.NAME}` },
+        kyc: { nin: `${process.env.NIN}`, bvn: `${process.env.BVN}` }
+      })
+    });
 
-const fetchAcc = async()=> await fetch(`${process.env.NEW_WALLET}`, {
-  method: 'POST',
-  headers: { "Content-Type": "application/json" },
-  body: JSON.stringify({ account_name:fullName, bank_code:'035',
-    customer:{email:email, name:`${process.env.NAME}`}, 
-kyc:{nin:`${process.env.NIN}`, bvn:`${process.env.BVN}`}})
+    if (!fetchAcc.ok) {
+      const errorData = await fetchAcc.json();
+      throw new Error(errorData.message || `HTTP error! status: ${fetchAcc.status}`);
+    }
+    
+    localStorage.setItem('fullName', fullName);
+    localStorage.setItem('email', email);
 
-});
+  } catch (error) {
+    console.log( error);
+  }
+}
+
   const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
     
@@ -364,7 +383,7 @@ kyc:{nin:`${process.env.NIN}`, bvn:`${process.env.BVN}`}})
         throw new Error(errorData.message || 'Registration failed');
       }
       //else generate account number
-      fetchAcc();
+      generateAcc();
 
       setStatus({ type: 'success', message: 'Registration successful! You can now login.' });
       setTimeout(() => {
@@ -417,6 +436,7 @@ kyc:{nin:`${process.env.NIN}`, bvn:`${process.env.BVN}`}})
       
       setTimeout(() => {
         window.location.href = '#/home';
+      
         if (window.Telegram?.WebApp) {
           window.Telegram.WebApp.openTelegramLink(`${process.env.FRONTEND_URL}/#/home`);
         }

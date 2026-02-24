@@ -87,7 +87,6 @@ type BudgetMap = Record<CategoryId, number>;
 
 type Screen = "home" | "Coins" | "Budget" | "market" | "stats" | "deposits";
 
-// ─── Static Data ──────────────────────────────────────────────────────────────
 
 const CATEGORIES: Category[] = [
   { id: "food",      label: "Food & Meals",     icon: "🍽️", color: "#E8763A" },
@@ -124,21 +123,7 @@ const SPENT_BY_CATEGORY: Partial<Record<CategoryId, number>> = {
 function AnimatedNumber({ value, prefix = "" }: { value: number; prefix?: string }) {
   const [display, setDisplay] = useState<number>(0);
 
-  useEffect(() => {
-    let start = 0;
-    const duration = 800;
-    const step = value / (duration / 16);
-    const timer = setInterval(() => {
-      start += step;
-      if (start >= value) {
-        setDisplay(value);
-        clearInterval(timer);
-      } else {
-        setDisplay(Math.floor(start));
-      }
-    }, 16);
-    return () => clearInterval(timer);
-  }, [value]);
+
 
   return <span>{prefix}{display.toLocaleString()}</span>;
 }
@@ -185,10 +170,30 @@ function DonutChart({ data }: { data: ChartDatum[] }) {
 
 
 export default function CampusPlanner() {
+     const email = localStorage.getItem('email');
   const navigate = useNavigate();
-  const [accountNumber, setNumber] = useState('****')
+ async function fetchCurrent(){
+    const request = await fetch(`${process.env.BACKEND_URL}/currentBalance/${email}`);
+    const result = await request.json();
+
+    return result.Balance as number;
+  }
+  const [accountNumber, setNumber] = useState('****');
   const [screen, setScreen]           = useState<Screen>("home");
   const [vaultBalance, setVaultBalance] = useState<number>(0);
+
+  useEffect(() => {
+  const getBalance = async () => {
+    try {
+      const result = await fetchCurrent();
+      setVaultBalance(result);
+    } catch (error) {
+      console.error("Failed to load balance:", error);
+    }
+  };
+  getBalance();
+}, []);
+
   const [budget, setBudget]           = useState<BudgetMap>({
     food: 15000, transport: 5000, books: 3000, health: 2000, savings: 5000, misc: 2000,
   });
@@ -199,6 +204,17 @@ export default function CampusPlanner() {
   const [editBudget, setEditBudget]   = useState<BudgetMap>({ ...budget });
   const [hidden, setHidden]           = useState<boolean>(false);
   const [cryptoBalance]               = useState<number>(18450);
+
+
+  const fetch_account_details = async()=>{
+
+    const fullName = localStorage.getItem('fullName'); //what about for apps or on new browser, brb!
+    const action = await fetch(`${process.env.BACKEND_URL}/walletdetails/${fullName}`);
+    const finAct = await action.json();
+
+    setNumber(finAct.data.account_number);
+  }
+  fetch_account_details();
 
   const totalBudgeted = Object.values(budget).reduce((a, b) => a + b, 0);
   //the total amount deposited - -currentbalance
@@ -213,6 +229,44 @@ export default function CampusPlanner() {
     });
   };
 
+
+
+  const addBalance = async()=>{
+    const request = await fetch(`${process.env.BACKEND_URL}/loadBalance/${email}`);
+    const result = await request.json();
+
+    setDepositAmt(result.data.amount);
+  }
+  addBalance();
+
+
+//record current account balance
+const recordCurrent = async () => {
+  try {
+    const response = await fetch(`${process.env.BACKEND_URL}/updateBalance/${email}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ balance: vaultBalance }) 
+    });
+
+    if (!response.ok) throw new Error('Failed to update balance');
+    
+    console.log("Balance synced to DB");
+  } catch (err) {
+    console.error("Sync error:", err);
+  }
+};
+
+useEffect(() => {
+  if (vaultBalance !== undefined && vaultBalance !== null) {
+    recordCurrent();
+  }
+}, [vaultBalance]); 
+
+  //deposit handling
+
   const handleDeposit = (): void => {
     const amt = parseFloat(depositAmt);
     if (amt > 0) {
@@ -221,6 +275,10 @@ export default function CampusPlanner() {
       setTimeout(() => { setDepositDone(false); setDepositAmt(""); }, 2000);
     }
   };
+
+  //fire to listen
+ handleDeposit();
+
 
   const savePlan = (): void => {
     const total = Object.values(editBudget).reduce((a, b) => a + b, 0);
@@ -581,8 +639,8 @@ Output clearly using headings and tables where useful.
 
             <div className="section-title" style={{ marginBottom: "12px" }}>Deposit to Vault</div>
             
-            <div>{accountNumber}</div>
-          <div className="flex justify-center mt-6">Transfer to this account number to deposit</div>
+            <div className="flex justify-center">{accountNumber}</div>
+          <div className="flex justify-center text-xsm">Transfer to this account number to deposit</div>
     
 
             <div className="divider" />
@@ -699,18 +757,6 @@ Output clearly using headings and tables where useful.
               <div  style={{ display:"flex", fontSize: "16px", margin:'10%', marginLeft:'50%'}}>Packages</div>
              
             </div>
-{/* 
-            <div style={{ marginBottom: "16px" }}>
-              <span className="chip active">All</span>
-              <span className="chip">Food</span>
-              <span className="chip">Supplies</span>
-              <span className="chip">Snacks</span>
-            </div> */}
-
-            {/* <div style={{ background: "#1A1A1A", borderRadius: "14px", padding: "12px 16px", marginBottom: "20px", display: "flex", alignItems: "center", gap: "10px", border: "1px solid #222" }}>
-              <span>🔍</span>
-              <span style={{ color: "#444", fontSize: "14px" }}>Search campus food packages…</span>
-            </div> */}
 
             <div className="market-grid">
               {FOOD_PACKAGES.map((pkg) => (
