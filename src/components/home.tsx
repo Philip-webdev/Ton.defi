@@ -85,7 +85,7 @@ interface ChartDatum {
 
 type BudgetMap = Record<CategoryId, number>;
 
-type Screen = "home" | "Coins" | "Budget" | "market" | "stats";
+type Screen = "home" | "Coins" | "Budget" | "market" | "stats" | "deposits";
 
 // ─── Static Data ──────────────────────────────────────────────────────────────
 
@@ -182,10 +182,11 @@ function DonutChart({ data }: { data: ChartDatum[] }) {
   );
 }
 
-// ─── Main Component ───────────────────────────────────────────────────────────
+
 
 export default function CampusPlanner() {
   const navigate = useNavigate();
+  const [accountNumber, setNumber] = useState('****')
   const [screen, setScreen]           = useState<Screen>("home");
   const [vaultBalance, setVaultBalance] = useState<number>(0);
   const [budget, setBudget]           = useState<BudgetMap>({
@@ -517,7 +518,7 @@ Output clearly using headings and tables where useful.
             </div>
 
             <div className="quick-grid">
-              <button className="quick-btn" onClick={() => setScreen("Coins")}>
+              <button className="quick-btn" onClick={() => setScreen("deposits")}>
                 <span className="qb-icon"><ArrowDownIcon/></span><span className="qb-label">Deposit</span>
               </button>
               <button className="quick-btn" onClick={() => setScreen("Budget")}>
@@ -563,78 +564,62 @@ Output clearly using headings and tables where useful.
             ))}
           </div>
         )}
+{screen === "deposits" && (
+   <div className="screen">
+            <div className="top-bar">
+              <button className="btn-secondary" onClick={() => setScreen("home")}>← Back</button>
+              <div className="logo">nekst<span>pei</span></div>
+              <div style={{ width: 60 }} />
+            </div>
 
+            <div className="vault-card">
+              <div className="vault-icon">🔐</div>
+              <div className="vault-bal-label">Total Vault Balance</div>
+              <div className="vault-bal">₦{vaultBalance.toLocaleString()}</div>
+              <div style={{ fontSize: "12px", color: "#555" }}>Safe & Planned</div>
+            </div>
+
+            <div className="section-title" style={{ marginBottom: "12px" }}>Deposit to Vault</div>
+            
+            <div>{accountNumber}</div>
+          <div className="flex justify-center mt-6">Transfer to this account number to deposit</div>
+    
+
+            <div className="divider" />
+
+            {/* <div className="section-title">Stablecoin Wallet</div>
+            <div className="stablecoin-card">
+              <div className="sc-icon">🔗</div>
+              <div className="sc-info">
+                <div className="sc-label">USDT Balance</div>
+                <div className="sc-amt">${(cryptoBalance / 1650).toFixed(2)}</div>
+                <div className="sc-sub">≈ ₦{cryptoBalance.toLocaleString()} · Ethereum Network</div>
+              </div>
+              <button className="btn-primary" style={{ padding: "10px 14px", fontSize: "12px" }}>
+                Convert
+              </button>
+            </div> */}
+
+            <div className="divider" />
+
+            {/* <div className="section-title">Vault History</div>
+            {TRANSACTIONS.map((t) => (
+              <div className="txn-item" key={t.id}>
+                <div className="txn-icon" style={{ background: txnBg(t.type) }}>{txnIcon(t.type)}</div>
+                <div className="txn-info">
+                  <div className="txn-desc">{t.desc}</div>
+                  <div className="txn-date">{t.date}</div>
+                </div>
+                <div className={`txn-amt ${t.amount > 0 ? "positive" : "negative"}`}>
+                  {t.amount > 0 ? "+" : ""}₦{Math.abs(t.amount).toLocaleString()}
+                </div>
+              </div>
+            ))} */}
+          </div>
+
+)}
         {/* ===== VAULT ===== */}
         {screen === "Coins" && (<Homme/>
-          // <div className="screen">
-          //   <div className="top-bar">
-          //     <button className="btn-secondary" onClick={() => setScreen("home")}>← Back</button>
-          //     <div className="logo">nekst<span>pei</span></div>
-          //     <div style={{ width: 60 }} />
-          //   </div>
-
-          //   <div className="vault-card">
-          //     <div className="vault-icon">🔐</div>
-          //     <div className="vault-bal-label">Total Vault Balance</div>
-          //     <div className="vault-bal">₦{vaultBalance.toLocaleString()}</div>
-          //     <div style={{ fontSize: "12px", color: "#555" }}>Safe & Planned</div>
-          //   </div>
-
-          //   <div className="section-title" style={{ marginBottom: "12px" }}>Deposit to Vault</div>
-          //   <div className="input-row">
-          //     <input
-          //       className="amt-input"
-          //       type="number"
-          //       placeholder="₦ Enter amount"
-          //       value={depositAmt}
-          //       onChange={(e: React.ChangeEvent<HTMLInputElement>) => setDepositAmt(e.target.value)}
-          //     />
-          //     <button
-          //       className={`btn-primary${depositDone ? " success" : ""}`}
-          //       onClick={handleDeposit}
-          //     >
-          //       {depositDone ? "✓ Added!" : "Deposit"}
-          //     </button>
-          //   </div>
-          //   <div style={{ display: "flex", gap: "8px", marginBottom: "24px" }}>
-          //     {[5000, 10000, 25000].map((amt) => (
-          //       <button key={amt} className="chip active" onClick={() => setDepositAmt(String(amt))}>
-          //         ₦{amt.toLocaleString()}
-          //       </button>
-          //     ))}
-          //   </div>
-
-          //   <div className="divider" />
-
-          //   <div className="section-title">Stablecoin Wallet</div>
-          //   <div className="stablecoin-card">
-          //     <div className="sc-icon">🔗</div>
-          //     <div className="sc-info">
-          //       <div className="sc-label">USDT Balance</div>
-          //       <div className="sc-amt">${(cryptoBalance / 1650).toFixed(2)}</div>
-          //       <div className="sc-sub">≈ ₦{cryptoBalance.toLocaleString()} · Ethereum Network</div>
-          //     </div>
-          //     <button className="btn-primary" style={{ padding: "10px 14px", fontSize: "12px" }}>
-          //       Convert
-          //     </button>
-          //   </div>
-
-          //   <div className="divider" />
-
-          //   <div className="section-title">Vault History</div>
-          //   {TRANSACTIONS.map((t) => (
-          //     <div className="txn-item" key={t.id}>
-          //       <div className="txn-icon" style={{ background: txnBg(t.type) }}>{txnIcon(t.type)}</div>
-          //       <div className="txn-info">
-          //         <div className="txn-desc">{t.desc}</div>
-          //         <div className="txn-date">{t.date}</div>
-          //       </div>
-          //       <div className={`txn-amt ${t.amount > 0 ? "positive" : "negative"}`}>
-          //         {t.amount > 0 ? "+" : ""}₦{Math.abs(t.amount).toLocaleString()}
-          //       </div>
-          //     </div>
-          //   ))}
-          // </div>
         )}
 
         {/* ===== PLAN ===== */}

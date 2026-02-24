@@ -319,11 +319,20 @@ type StatusType = {
 function UserLogin() {
   const [mode, setMode] = useState<'login' | 'register'>('login');
   const [email, setEmail] = useState('');
+  const [fullName, setName] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [status, setStatus] = useState<StatusType>({ type: null, message: '' });
   const [isLoading, setIsLoading] = useState(false);
 
+const fetchAcc = async()=> await fetch(`${process.env.NEW_WALLET}`, {
+  method: 'POST',
+  headers: { "Content-Type": "application/json" },
+  body: JSON.stringify({ account_name:fullName, bank_code:'035',
+    customer:{email:email, name:`${process.env.NAME}`}, 
+kyc:{nin:`${process.env.NIN}`, bvn:`${process.env.BVN}`}})
+
+});
   const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
     
@@ -341,17 +350,21 @@ function UserLogin() {
     setStatus({ type: 'loading', message: 'Creating your account...' });
 
     try {
-      const response = await fetch("https://twa-backend-g83o.onrender.com/register", {
+      const response = await fetch(`${process.env.BACKEND_URL}/register`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         credentials: "include",
-        body: JSON.stringify({ email, password })
+        body: JSON.stringify({ email, password, fullName })
+
+        
       });
 
       if (!response.ok) {
         const errorData = await response.json();
         throw new Error(errorData.message || 'Registration failed');
       }
+      //else generate account number
+      fetchAcc();
 
       setStatus({ type: 'success', message: 'Registration successful! You can now login.' });
       setTimeout(() => {
@@ -360,13 +373,19 @@ function UserLogin() {
       }, 2000);
 
       setEmail('');
+      setName('');
       setPassword('');
-    } catch (error: any) {
+    }
+     catch (error: any) {
       setStatus({ type: 'error', message: error.message || 'Registration failed. Please try again.' });
-    } finally {
+    } 
+    finally {
       setIsLoading(false);
     }
   };
+
+
+  //handle the login
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -380,7 +399,7 @@ function UserLogin() {
     setStatus({ type: 'loading', message: 'Signing you in...' });
 
     try {
-      const response = await fetch("https://twa-backend-g83o.onrender.com/login", {
+      const response = await fetch(`${process.env.BACKEND_URL}/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         credentials: "include",
@@ -399,7 +418,7 @@ function UserLogin() {
       setTimeout(() => {
         window.location.href = '#/home';
         if (window.Telegram?.WebApp) {
-          window.Telegram.WebApp.openTelegramLink('https://app.nekstpei.com/#/home');
+          window.Telegram.WebApp.openTelegramLink(`${process.env.FRONTEND_URL}/#/home`);
         }
       }, 1500);
     } catch (error: any) {
@@ -409,6 +428,7 @@ function UserLogin() {
     }
   };
 
+  //submission
   const handleSubmit = (e: React.FormEvent) => {
     if (mode === 'login') {
       handleLogin(e);
@@ -421,8 +441,7 @@ function UserLogin() {
     <PageContainer>
       <LoginCard>
         <Logo>
-          <LogoText>nekstpei</LogoText>
-          <Subtitle>Food & Price tracking</Subtitle>
+       <img src='https://i.imgur.com/ySoWviB.png'/>
         </Logo>
 
         <TabContainer>
@@ -450,7 +469,21 @@ function UserLogin() {
               />
             </InputWrapper>
           </FormGroup>
-
+  <FormGroup>
+            <Label htmlFor="name">Full Name</Label>
+            <InputWrapper>
+             
+              <Input
+                id="name"
+                type="text"
+                placeholder="John Akpan"
+                value={fullName}
+                onChange={(e) => setName(e.target.value)}
+                disabled={isLoading}
+                autoComplete="name"
+              />
+            </InputWrapper>
+          </FormGroup>
           <FormGroup>
             <Label htmlFor="password">Password</Label>
             <InputWrapper>
