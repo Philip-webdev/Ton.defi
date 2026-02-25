@@ -209,7 +209,7 @@ export default function CampusPlanner() {
   const fetch_account_details = async()=>{
 
     const fullName = localStorage.getItem('fullName'); //what about for apps or on new browser, brb!
-    const action = await fetch(`${process.env.BACKEND_URL}/walletdetails/${fullName}`);
+    const action = await fetch(`${import.meta.env.BACKEND_URL}/walletdetails/${fullName}`);
     const finAct = await action.json();
 
     setNumber(finAct.data.account_number);

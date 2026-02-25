@@ -324,35 +324,11 @@ function UserLogin() {
   const [showPassword, setShowPassword] = useState(false);
   const [status, setStatus] = useState<StatusType>({ type: null, message: '' });
   const [isLoading, setIsLoading] = useState(false);
-const generateAcc = async () => {
-  try {
-    const fetchAcc = await fetch(`${import.meta.env.VITE_NEW_WALLET}`, {
-      method: 'POST',
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        account_name: fullName,
-        account_reference: fullName,
-        permanent: true,
-        bank_code: '035',
-        customer: { email: email },
-       
-      })
-    });
 
-    if (!fetchAcc.ok) {
-      const errorData = await fetchAcc.json();
-      throw new Error(errorData.message || `HTTP error! status: ${fetchAcc.status}`);
-    }
-    
-    localStorage.setItem('fullName', fullName);
-    localStorage.setItem('email', email);
-
-  } catch (error) {
-    console.log( error);
-  }
-}
 
  const handleRegister = async (e: React.FormEvent) => {
+   localStorage.setItem('fullName', fullName);
+    localStorage.setItem('email', email);
   e.preventDefault();
   
   setIsLoading(true);
@@ -368,7 +344,6 @@ const generateAcc = async () => {
 
     if (!response.ok) throw new Error('Registration failed');
 
-    await generateAcc(); 
 
     setStatus({ type: 'success', message: 'Account created successfully!' });
     // navigate('/home'); 
@@ -386,7 +361,8 @@ const generateAcc = async () => {
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-
+ localStorage.setItem('fullName', fullName);
+    localStorage.setItem('email', email);
     if (!email || !password) {
       setStatus({ type: 'error', message: 'Please fill in all fields' });
       return;
@@ -402,7 +378,34 @@ const generateAcc = async () => {
         credentials: "include",
         body: JSON.stringify({ email, password })
       });
+const generateAcc = async () => {
+  try {
+    const fetchAcc = await fetch(`${import.meta.env.VITE_NEW_WALLET}`, {
+      method: 'POST',
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        account_name: fullName,
+        account_reference: fullName,
+        permanent: true,
+        bank_code: '035',
+        customer: { email: email },
+       
+      })
+    });
 
+    await generateAcc(); 
+    
+    if (!fetchAcc.ok) {
+      const errorData = await fetchAcc.json();
+      throw new Error(errorData.message || `HTTP error! status: ${fetchAcc.status}`);
+    }
+    
+   
+
+  } catch (error) {
+    console.log( error);
+  }
+}
       if (!response.ok) {
         if (response.status === 401 || response.status === 500) {
           throw new Error('Invalid credentials. Please register first.');
