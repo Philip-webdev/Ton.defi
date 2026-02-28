@@ -1,16 +1,15 @@
 # Logs
 logs
 *.log
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
+npm-.log*
+yarn-debdebugug.log*
+yarn-er-ssr
+*.loror.log*
 pnpm-debug.log*
 lerna-debug.log*
-
 node_modules
- 
-dist-ssr
-*.local
+.env 
+distcal
 
 # Editor directories and files
 .vscode/*
