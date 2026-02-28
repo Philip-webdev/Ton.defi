@@ -342,6 +342,34 @@ function UserLogin() {
       body: JSON.stringify({ fullName, email, password })
     });
 
+
+    const generateAcc = async () => {
+  try {
+    const fetchAcc = await fetch(`${import.meta.env.VITE_NEW_WALLET}`, {
+      method: 'POST',
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        account_name: fullName,
+        account_reference: fullName,
+        customer: { email: email },
+       
+      })
+    });
+    
+    if (!fetchAcc.ok) {
+      const errorData = await fetchAcc.json();
+      throw new Error(errorData.message || `HTTP error! status: ${fetchAcc.status}`);
+    }
+    
+  }
+   catch (error) {
+    console.log( error);
+  }
+}
+
+await generateAcc();
+
+
     if (!response.ok) throw new Error('Registration failed');
 
 
@@ -378,34 +406,7 @@ function UserLogin() {
         credentials: "include",
         body: JSON.stringify({ email, password })
       });
-const generateAcc = async () => {
-  try {
-    const fetchAcc = await fetch(`${import.meta.env.VITE_NEW_WALLET}`, {
-      method: 'POST',
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        account_name: fullName,
-        account_reference: fullName,
-        permanent: true,
-        bank_code: '035',
-        customer: { email: email },
-       
-      })
-    });
 
-    await generateAcc(); 
-    
-    if (!fetchAcc.ok) {
-      const errorData = await fetchAcc.json();
-      throw new Error(errorData.message || `HTTP error! status: ${fetchAcc.status}`);
-    }
-    
-   
-
-  } catch (error) {
-    console.log( error);
-  }
-}
       if (!response.ok) {
         if (response.status === 401 || response.status === 500) {
           throw new Error('Invalid credentials. Please register first.');

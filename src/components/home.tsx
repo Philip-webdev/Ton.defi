@@ -176,9 +176,11 @@ export default function CampusPlanner() {
     const request = await fetch(`${import.meta.env.VITE_BACKEND_URL}/currentBalance/${email}`);
     const result = await request.json();
 
-    return result.Balance as number;
+    setNumber(result.account_number);
+    setVaultBalance(result.Balance);
   }
   const [accountNumber, setNumber] = useState('****');
+  const [bankName, setName] = useState(' ');
   const [screen, setScreen]           = useState<Screen>("home");
   const [vaultBalance, setVaultBalance] = useState<number>(0);
 
@@ -186,7 +188,6 @@ export default function CampusPlanner() {
   const getBalance = async () => {
     try {
       const result = await fetchCurrent();
-      setVaultBalance(result);
     } catch (error) {
       console.error("Failed to load balance:", error);
     }
@@ -208,11 +209,12 @@ export default function CampusPlanner() {
 
   const fetch_account_details = async()=>{
 
-    const fullName = localStorage.getItem('fullName'); //what about for apps or on new browser, brb!
-    const action = await fetch(`${import.meta.env.VITE_BACKEND_URL}/walletdetails/${fullName}`);
+   // const fullName = localStorage.getItem('fullName'); //what about for apps or on new browser, brb!
+    const action = await fetch(`${import.meta.env.VITE_BACKEND_URL}/currentBalance/${email}`);
     const finAct = await action.json();
 
-    setNumber(finAct.data.account_number);
+    setNumber(finAct.data.bank_account);
+    setName(finAct.data.bank_name);
   }
   fetch_account_details();
 
@@ -237,7 +239,7 @@ export default function CampusPlanner() {
 
     setDepositAmt(result.data.amount);
   }
-  addBalance();
+ // addBalance();
 
 
 //record current account balance
@@ -640,6 +642,7 @@ Output clearly using headings and tables where useful.
             <div className="section-title" style={{ marginBottom: "12px" }}>Deposit to Vault</div>
             
             <div className="flex justify-center">{accountNumber}</div>
+            <div className="flex justify-center">{bankName}</div>
           <div className="flex justify-center text-xsm">Transfer to this account number to deposit</div>
     
 
