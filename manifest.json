@@ -1,9 +1,57 @@
-{
-    "url": "https://app.nekstpei.com/", 
-    "app_name": "nekstpei",                   
-    "name": "Next Exchanger", 
-    "short_name": "nekstpei",                   
-    "iconUrl": "https://i.imgur.com/PZlLQcl.png",            
-    "termsOfUseUrl": "<terms-of-use-url>",    
-    "privacyPolicyUrl": "<privacy-policy-url>" 
-  }
+  {
+  "name": "nekstpei",
+  "short_name": "nekstpei",
+  "description": "Manage your funds, buy at correct prices",
+  "start_url": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#060610",
+  "theme_color": "#2563EB",
+  "icons": [
+    {
+      "src": "https://i.imgur.com/PZlLQcl.png",
+      "sizes": "72x72",
+      "type": "image/png"
+    },
+    {
+      "src": "https://i.imgur.com/PZlLQcl.png",
+      "sizes": "96x96",
+      "type": "image/png"
+    },
+    {
+      "src": "https://i.imgur.com/PZlLQcl.png",
+      "sizes": "128x128",
+      "type": "image/png"
+    },
+    {
+      "src": "https://i.imgur.com/PZlLQcl.png",
+      "sizes": "144x144",
+      "type": "image/png"
+    },
+    {
+      "src": "https://i.imgur.com/PZlLQcl.png",
+      "sizes": "152x152",
+      "type": "image/png"
+    },
+    {
+      "src": "https://i.imgur.com/PZlLQcl.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "https://i.imgur.com/PZlLQcl.png",
+      "sizes": "384x384",
+      "type": "image/png"
+    },
+    {
+      "src": "https://i.imgur.com/PZlLQcl.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["management", "market", "stablecoin"],
+  "lang": "en",
+  "scope": "/"
+}

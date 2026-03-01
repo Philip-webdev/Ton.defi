@@ -21,3 +21,11 @@ ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
     </QueryClientProvider>
   </TonConnectUIProvider>
 );
+
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('/service-worker.js')
+      .then((reg) => console.log('[SW] Registered:', reg.scope))
+      .catch((err) => console.error('[SW] Registration failed:', err));
+  });
+}
