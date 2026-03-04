@@ -104,7 +104,7 @@ function App() {
        <Route path="/marketplace" element={<Marketplace />} /> 
         <Route path="/reminders" element={<RemindMarket/>}/>
           <Route path="/welcome" element={<Welcome />} />
-          <Route path="/wallet" element={< CampusPlanner />} />
+          <Route path="/wallet" element={<UnderConstruction />} />
          
       </Routes>
     </div>
