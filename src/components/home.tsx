@@ -589,7 +589,7 @@ export default function CampusPlanner() {
         )}
 
         
-        {screen === "Coins" && <Home />}
+        {screen === "Coins" && <UnderConstruction onBack={() => setScreen("home")} />}
 
       
         {screen === "Budget" && (
