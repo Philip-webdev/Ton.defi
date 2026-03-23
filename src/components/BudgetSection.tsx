@@ -1,20 +1,24 @@
 import { useState, useEffect } from "react";
 import {
-  Home, BookOpen, ShoppingCart, BarChart2, Coins,
+  Home, BookOpen, ShoppingCart, BarChart2,
   ArrowDownIcon, PenSquareIcon, ChartCandlestickIcon,
   LeafyGreenIcon, SoupIcon, Construction, ArrowLeft,
 } from "lucide-react";
-import Homme from "./web3";
-import { BsEyeSlash, BsGear, BsPerson } from "react-icons/bs";
-import styled from "styled-components";
+import { BsEyeSlash, BsGear, BsPerson, BsEye } from "react-icons/bs";
+import styled, { keyframes } from "styled-components";
 import { FaBoxOpen, FaBreadSlice, FaEgg } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
-import BudgetSection from "./BudgetSection";
+
+// ── Animations ────────────────────────────────────────────────────
+const bounceAnim = keyframes`
+  0%, 100% { transform: translateY(0); }
+  50%       { transform: translateY(-10px); }
+`;
 
 // ── Styled Components ─────────────────────────────────────────────
 const Container = styled.div`
   display: flex;
-  font-family: orbitron;
+  font-family: Orbitron;
   flex-direction: column;
   align-items: center;
   justify-content: center;
@@ -27,23 +31,16 @@ const Container = styled.div`
     color: white;
   }
 `;
-
 const IconWrapper = styled.div`
   margin-bottom: 24px;
-  animation: bounce 2s infinite;
-  @keyframes bounce {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-10px); }
-  }
+  animation: ${bounceAnim} 2s infinite;
 `;
-
 const Title = styled.h1`
   font-size: 28px;
   font-weight: bold;
   margin-bottom: 12px;
-  color: rgb(36,172,242);
+  color: rgb(36, 172, 242);
 `;
-
 const Message = styled.p`
   font-size: 16px;
   color: #666;
@@ -51,13 +48,12 @@ const Message = styled.p`
   max-width: 400px;
   @media (prefers-color-scheme: dark) { color: #999; }
 `;
-
 const BackButton = styled.button`
   display: flex;
   align-items: center;
   gap: 8px;
   padding: 12px 24px;
-  background: rgb(36,172,242);
+  background: rgb(36, 172, 242);
   color: black;
   border: none;
   border-radius: 8px;
@@ -67,31 +63,17 @@ const BackButton = styled.button`
   transition: all 0.3s ease;
   &:hover { opacity: 0.9; transform: translateY(-2px); }
 `;
-
 const ComingSoonBadge = styled.span`
   display: inline-block;
   padding: 6px 12px;
   background: rgba(51, 232, 191, 0.1);
-  border: 1px solid rgb(36,172,242);
+  border: 1px solid rgb(36, 172, 242);
   border-radius: 20px;
   font-size: 12px;
-  color: rgb(36,172,242);
+  color: rgb(36, 172, 242);
   margin-bottom: 16px;
   font-weight: 600;
 `;
-
-const BalanceAmount = styled.div`
-  display: flex;
-  justify-self: center;
-  align-items: center;
-  justify-content: center;
-  gap: 12px;
-  font-size: 48px;
-  font-weight: 700;
-  color: white;
-  margin-bottom: 16px;
-`;
-
 const HeaderIcon = styled.a`
   display: flex;
   align-items: center;
@@ -105,9 +87,20 @@ const HeaderIcon = styled.a`
   color: inherit;
   &:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
   @media (prefers-color-scheme: dark) {
-    background: rgb(1,1,1);
-    &:hover { box-shadow: 0 4px 12px rgba(51,232,191,0.2); }
+    background: rgb(1, 1, 1);
+    &:hover { box-shadow: 0 4px 12px rgba(51, 232, 191, 0.2); }
   }
+`;
+const BalanceAmount = styled.div`
+  display: flex;
+  justify-self: center;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  font-size: 48px;
+  font-weight: 700;
+  color: white;
+  margin-bottom: 16px;
 `;
 
 // ── Types ─────────────────────────────────────────────────────────
@@ -125,7 +118,7 @@ interface FoodPackage {
   name: string;
   desc: string;
   price: number;
-  img: any;
+  img: React.ReactNode;
   tag: string;
   portions: number;
   category: string;
@@ -135,11 +128,10 @@ interface CartItem extends FoodPackage {
   qty: number;
 }
 
-// Transaction shape — matches normalised output from backend
 interface Transaction {
   id: number;
   desc: string;
-  amount: number;   // positive = credit, negative = debit
+  amount: number;
   date: string;
   type: "spend" | "deposit";
   category: string;
@@ -152,7 +144,7 @@ interface ChartDatum {
 }
 
 type BudgetMap = Record<CategoryId, number>;
-type Screen = "home" | "Coins" | "Budget" | "market" | "stats" | "deposits";
+type Screen = "home" | "Budget" | "market" | "stats" | "deposits";
 
 // ── Static Data ───────────────────────────────────────────────────
 const CATEGORIES: Category[] = [
@@ -173,6 +165,14 @@ const FOOD_PACKAGES: FoodPackage[] = [
   { id: 6, name: "Seminar Week Meal Prep", desc: "Pre-cooked stew, frozen veggies, pasta packs",   price: 7800, img: <SoupIcon />,       tag: "Exam Season",   portions: 14, category: "food" },
 ];
 
+const TRANSACTIONS: Transaction[] = [
+  { id: 1, desc: "Campus Essentials Box", amount: -4500,  date: "Feb 20", type: "spend",   category: "food"      },
+  { id: 2, desc: "Vault Deposit",         amount: 25000,  date: "Feb 18", type: "deposit", category: "vault"     },
+  { id: 3, desc: "Transport Budget",      amount: -1200,  date: "Feb 17", type: "spend",   category: "transport" },
+  { id: 4, desc: "Account Funding",       amount: 15600,  date: "Feb 15", type: "deposit", category: "vault"     },
+  { id: 5, desc: "Protein Power Pack",    amount: -6200,  date: "Feb 14", type: "spend",   category: "food"      },
+];
+
 const SPENT_BY_CATEGORY: Partial<Record<CategoryId, number>> = {
   food: 0, transport: 0, books: 0, health: 0,
 };
@@ -190,8 +190,7 @@ const UnderConstruction = ({ onBack }: { onBack: () => void }) => (
       you an amazing experience. Check back soon!
     </Message>
     <BackButton onClick={onBack}>
-      <ArrowLeft size={20} />
-      Go Back
+      <ArrowLeft size={20} /> Go Back
     </BackButton>
   </Container>
 );
@@ -245,167 +244,79 @@ function DonutChart({ data }: { data: ChartDatum[] }) {
   );
 }
 
-// ── Normalise raw backend row into Transaction ────────────────────
-// Maps the most common field name variants. Adjust if your API differs.
-function normaliseTransaction(raw: any, index: number): Transaction {
-  const desc =
-    raw.description ?? raw.narration ?? raw.note ??
-    raw.remark ?? raw.title ?? raw.name ?? "Transaction";
-
-  // Signed amount, or separate credit/debit fields
-  const amount =
-    raw.amount != null  ? Number(raw.amount)  :
-    raw.credit != null  ? Number(raw.credit)  :
-    raw.debit  != null  ? -Number(raw.debit)  :
-    0;
-
-  // Format date if it's an ISO / timestamp string
-  let date: string = raw.date ?? raw.created_at ?? raw.createdAt ?? raw.transaction_date ?? "";
-  if (date) {
-    const parsed = new Date(date);
-    if (!isNaN(parsed.getTime())) {
-      date = parsed.toLocaleDateString("en-NG", { month: "short", day: "numeric" });
-    }
-  }
-
-  const type: Transaction["type"] = amount >= 0 ? "deposit" : "spend";
-  const category = raw.category ?? raw.type ?? (amount >= 0 ? "vault" : "misc");
-
-  return { id: raw.id ?? index, desc, amount, date, type, category };
-}
-
 // ── Main Component ────────────────────────────────────────────────
 export default function CampusPlanner() {
   const email    = localStorage.getItem("email");
   const navigate = useNavigate();
 
-  const [accountNumber, setNumber]      = useState("****");
-  const [bankName, setName]             = useState(" ");
-  const [screen, setScreen]             = useState<Screen>("home");
+  const [screen,       setScreen]       = useState<Screen>("home");
   const [vaultBalance, setVaultBalance] = useState<number>(0);
-  const [budget, setBudget]             = useState<BudgetMap>({ food: 15000, transport: 5000, books: 3000, health: 2000, savings: 5000, misc: 2000 });
-  const [cart, setCart]                 = useState<CartItem[]>([]);
-  const [depositAmt, setDepositAmt]     = useState<string>("");
-  const [depositDone, setDepositDone]   = useState<boolean>(false);
-  const [planEditing, setPlanEditing]   = useState<boolean>(false);
-  const [editBudget, setEditBudget]     = useState<BudgetMap>({ ...budget });
-  const [hidden, setHidden]             = useState<boolean>(false);
+  const [budget,       setBudget]       = useState<BudgetMap>({ food: 15000, transport: 5000, books: 3000, health: 2000, savings: 5000, misc: 2000 });
+  const [cart,         setCart]         = useState<CartItem[]>([]);
+  const [hidden,       setHidden]       = useState<boolean>(false);
 
-  // ── Transactions state ────────────────────────────────────────
-  const [transactions, setTransactions] = useState<Transaction[]>([]);
-  const [txnLoading, setTxnLoading]     = useState<boolean>(true);
-  const [txnError, setTxnError]         = useState<string | null>(null);
-  const [txnRetry, setTxnRetry]         = useState<number>(0); // bump to re-fetch
+  // Budget edit state
+  const [planEditing, setPlanEditing] = useState<boolean>(false);
+  const [editBudget,  setEditBudget]  = useState<BudgetMap>({ ...budget });
 
   // ── Fetch balance ─────────────────────────────────────────────
   useEffect(() => {
     const fetchCurrent = async () => {
       try {
-        const request = await fetch(`${import.meta.env.VITE_BACKEND_URL}/currentBalance/${email}`);
-        const result  = await request.json();
-        setNumber(result.account_number ?? "****");
+        const req    = await fetch(`${import.meta.env.VITE_BACKEND_URL}/currentBalance/${email}`);
+        const result = await req.json();
         setVaultBalance(result.Balance ?? 0);
-      } catch (error) {
-        console.error("Failed to load balance:", error);
-      }
+      } catch (e) { console.error("Failed to load balance:", e); }
     };
     fetchCurrent();
-  }, [email]);
-
-  // ── Fetch account details ─────────────────────────────────────
-  useEffect(() => {
-    const fetchAccountDetails = async () => {
-      try {
-        const action = await fetch(`${import.meta.env.VITE_BACKEND_URL}/currentBalance/${email}`);
-        const finAct  = await action.json();
-        setNumber(finAct.data?.bank_account ?? "****");
-        setName(finAct.data?.bank_name ?? " ");
-      } catch (error) {
-        console.error("Failed to load account details:", error);
-      }
-    };
-    fetchAccountDetails();
   }, [email]);
 
   // ── Sync balance to DB ────────────────────────────────────────
   useEffect(() => {
     if (vaultBalance === 0) return;
-    const recordCurrent = async () => {
+    const sync = async () => {
       try {
-        const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/updateBalance/${email}`, {
+        await fetch(`${import.meta.env.VITE_BACKEND_URL}/updateBalance/${email}`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ balance: vaultBalance }),
         });
-        if (!response.ok) throw new Error("Failed to update balance");
-      } catch (err) {
-        console.error("Sync error:", err);
-      }
+      } catch (e) { console.error("Sync error:", e); }
     };
-    recordCurrent();
+    sync();
   }, [vaultBalance]);
-  // Fetch real transactions
-  // Endpoint: GET /transactions/:email
-  // Change the path below if your backend uses a different route.
-  useEffect(() => {
-    if (!email) return;
-    let cancelled = false;
 
-    const fetchTransactions = async () => {
-      setTxnLoading(true);
-      setTxnError(null);
-      try {
-        const res  = await fetch(`${import.meta.env.VITE_BACKEND_URL}/transactions/${email}`);
-        if (!res.ok) throw new Error(`HTTP ${res.status}`);
-        const json = await res.json();
-    // Accept: plain array | { data: [] } | { transactions: [] }
-        const raw: any[] =
-          Array.isArray(json)              ? json               :
-          Array.isArray(json.data)         ? json.data          :
-          Array.isArray(json.transactions) ? json.transactions  :
-          [];
-
-        if (!cancelled) setTransactions(raw.map(normaliseTransaction));
-      } catch (err: any) {
-        console.error("Failed to load transactions:", err);
-        if (!cancelled) setTxnError("No recent activity.");
-      } finally {
-        if (!cancelled) setTxnLoading(false);
-      }
-    };
-
-    fetchTransactions();
-    return () => { cancelled = true; };
-  }, [email, txnRetry]);
-
-  // ── Derived values ────────────────────────────────────────────
-  const totalBudgeted = Object.values(budget).reduce((a, b) => a + b, 0);
-  const totalSpent    = 0;
-  const cartTotal     = cart.reduce((s, item) => s + item.price * item.qty, 0);
+  // ── Derived ───────────────────────────────────────────────────
+  const totalBudgeted  = Object.values(budget).reduce((a, b) => a + b, 0);
+  const totalEditing   = Object.values(editBudget).reduce((a, b) => a + b, 0);
+  const totalSpent     = 0;
+  const cartTotal      = cart.reduce((s, i) => s + i.price * i.qty, 0);
 
   const addToCart = (pkg: FoodPackage) => {
     setCart((prev) => {
-      const existing = prev.find((c) => c.id === pkg.id);
-      if (existing) return prev.map((c) => c.id === pkg.id ? { ...c, qty: c.qty + 1 } : c);
+      const ex = prev.find((c) => c.id === pkg.id);
+      if (ex) return prev.map((c) => c.id === pkg.id ? { ...c, qty: c.qty + 1 } : c);
       return [...prev, { ...pkg, qty: 1 }];
     });
   };
 
-  const handleDeposit = () => {
-    const amt = parseFloat(depositAmt);
-    if (amt > 0) {
-      setVaultBalance((prev) => prev + amt);
-      setDepositDone(true);
-      setTimeout(() => { setDepositDone(false); setDepositAmt(""); }, 2000);
-    }
+  const startEditing = () => {
+    setEditBudget({ ...budget });
+    setPlanEditing(true);
   };
 
   const savePlan = () => {
-    const total = Object.values(editBudget).reduce((a, b) => a + b, 0);
-    if (total <= vaultBalance) {
-      setBudget({ ...editBudget });
-      setPlanEditing(false);
-    }
+    setBudget({ ...editBudget });
+    setPlanEditing(false);
+  };
+
+  const cancelEditing = () => {
+    setEditBudget({ ...budget });
+    setPlanEditing(false);
+  };
+
+  const setEditVal = (id: CategoryId, value: number) => {
+    setEditBudget((prev) => ({ ...prev, [id]: Math.max(0, value) }));
   };
 
   const chartData: ChartDatum[] = CATEGORIES.map((c) => ({
@@ -415,16 +326,16 @@ export default function CampusPlanner() {
   }));
 
   const navItems: { id: Screen; icon: React.ReactNode; label: string }[] = [
-    { id: "home",   icon: <Home size={20} />,         label: "Home"         },
-    { id: "Coins",  icon: <Coins size={20} />,        label: "Chain Wallet" },
-    { id: "Budget", icon: <BookOpen size={20} />,     label: "Budget"       },
-    { id: "market", icon: <ShoppingCart size={20} />, label: "Market"       },
-    { id: "stats",  icon: <BarChart2 size={20} />,    label: "Stats"        },
+    { id: "home",   icon: <Home size={20} />,         label: "Home"    },
+    { id: "Budget", icon: <BookOpen size={20} />,     label: "Budget"  },
+    { id: "market", icon: <ShoppingCart size={20} />, label: "Market"  },
+    { id: "stats",  icon: <BarChart2 size={20} />,    label: "Stats"   },
   ];
 
   const txnBg   = (type: Transaction["type"]) => type === "deposit" ? "rgba(58,232,127,0.1)" : "rgba(232,118,58,0.1)";
   const txnIcon = (type: Transaction["type"]) => type === "deposit" ? "⬇️" : "🛍️";
 
+  // ── Render ────────────────────────────────────────────────────
   return (
     <>
       <style>{`
@@ -432,33 +343,88 @@ export default function CampusPlanner() {
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body { background: #F9F9F9; }
         @media (prefers-color-scheme: dark) { body { background: rgb(15,15,15); } }
-        .app { font-family: 'Orbitron', sans-serif; background: #F9F9F9; min-height: 100svh; max-width: 430px; margin: 0 auto; color: rgb(34,34,34); position: relative; overflow-x: hidden; padding: 20px; padding-bottom: 100px; }
+
+        .app {
+          font-family: 'Orbitron', sans-serif;
+          background: #F9F9F9;
+          min-height: 100svh;
+          max-width: 430px;
+          margin: 0 auto;
+          color: rgb(34,34,34);
+          position: relative;
+          overflow-x: hidden;
+          padding: 20px;
+          padding-bottom: 100px;
+        }
         @media (prefers-color-scheme: dark) { .app { background: rgb(15,15,15); color: white; } }
+
         .screen { min-height: 100svh; }
-        .top-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 28px; }
+
+        .top-bar {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          margin-bottom: 28px;
+        }
+
         .logo { font-family: 'Orbitron', sans-serif; font-weight: 800; font-size: 18px; letter-spacing: 1px; color: rgb(34,34,34); }
         @media (prefers-color-scheme: dark) { .logo { color: white; } }
         .logo span { color: RGB(0,131,208); }
-        .avatar { width: 44px; height: 44px; background: linear-gradient(135deg, RGB(0,131,208), rgb(51,232,191)); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 18px; cursor: pointer; transition: all 0.3s ease; }
+
+        .avatar {
+          width: 44px; height: 44px;
+          background: linear-gradient(135deg, RGB(0,131,208), rgb(51,232,191));
+          border-radius: 12px;
+          display: flex; align-items: center; justify-content: center;
+          font-size: 18px; cursor: pointer; transition: all 0.3s ease;
+        }
         .avatar:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,131,208,0.3); }
-        .balance-card { background: linear-gradient(90deg, RGB(0,131,208)); border-radius: 20px; padding: 32px 24px; margin-bottom: 24px; position: relative; overflow: hidden; animation: fadeIn 0.5s ease-in; }
+
+        .balance-card {
+          background: linear-gradient(90deg, RGB(0,131,208));
+          border-radius: 20px;
+          padding: 32px 24px;
+          margin-bottom: 24px;
+          position: relative;
+          overflow: hidden;
+          animation: fadeIn 0.5s ease-in;
+        }
         @media (prefers-color-scheme: dark) { .balance-card { background: black; } }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
         .balance-label { font-size: 12px; color: rgba(255,255,255,0.85); text-transform: uppercase; letter-spacing: 1.5px; font-weight: 500; margin-bottom: 8px; text-align: center; }
         .balance-amount { font-family: 'Orbitron', sans-serif; font-size: 36px; font-weight: 700; color: white; display: flex; align-items: center; justify-content: center; gap: 12px; margin-bottom: 16px; }
-        .eye-btn { background: rgba(255,255,255,0.2); border: none; border-radius: 50%; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.3s ease; color: white; font-size: 16px; }
+
+        .eye-btn {
+          background: rgba(255,255,255,0.2); border: none; border-radius: 50%;
+          width: 40px; height: 40px; display: flex; align-items: center; justify-content: center;
+          cursor: pointer; transition: all 0.3s ease; color: white; font-size: 16px;
+        }
         .eye-btn:hover { background: rgba(255,255,255,0.3); transform: scale(1.1); }
+
         .quick-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 28px; }
-        .quick-btn { background: white; border: none; border-radius: 16px; padding: 14px 8px; display: flex; flex-direction: column; align-items: center; gap: 8px; cursor: pointer; transition: all 0.3s ease; color: inherit; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
+        .quick-btn {
+          background: white; border: none; border-radius: 16px; padding: 14px 8px;
+          display: flex; flex-direction: column; align-items: center; gap: 8px;
+          cursor: pointer; transition: all 0.3s ease; color: inherit;
+          box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
         .quick-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0,131,208,0.15); }
         @media (prefers-color-scheme: dark) { .quick-btn { background: rgb(1,1,1); } }
         .quick-btn .qb-icon { font-size: 22px; }
         .quick-btn .qb-label { font-size: 9px; color: grey; font-weight: 500; text-align: center; }
-        .section-title { font-family: 'Orbitron', sans-serif; font-size: 14px; font-weight: 600; color: rgb(34,34,34); margin-bottom: 14px; display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+
+        .section-title {
+          font-family: 'Orbitron', sans-serif; font-size: 14px; font-weight: 600;
+          color: rgb(34,34,34); margin-bottom: 14px;
+          display: flex; align-items: center; justify-content: space-between; gap: 8px;
+        }
         @media (prefers-color-scheme: dark) { .section-title { color: white; } }
         .section-title .see-all { font-size: 11px; color: rgb(36,172,242); font-weight: 500; cursor: pointer; }
+
         .package-scroll { display: flex; gap: 12px; overflow-x: auto; padding-bottom: 8px; scrollbar-width: none; margin-bottom: 28px; }
         .package-scroll::-webkit-scrollbar { display: none; }
+
         .pkg-card { min-width: 160px; background: white; border-radius: 20px; padding: 16px; cursor: pointer; transition: all 0.3s ease; flex-shrink: 0; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
         .pkg-card:hover { transform: translateY(-3px); box-shadow: 0 6px 20px rgba(0,131,208,0.15); }
         @media (prefers-color-scheme: dark) { .pkg-card { background: rgb(1,1,1); } }
@@ -467,8 +433,7 @@ export default function CampusPlanner() {
         .pkg-name { font-family: 'Orbitron', sans-serif; font-size: 11px; font-weight: 700; color: rgb(34,34,34); margin-bottom: 4px; line-height: 1.4; }
         @media (prefers-color-scheme: dark) { .pkg-name { color: white; } }
         .pkg-price { font-size: 13px; font-weight: 700; color: rgb(51,232,191); margin-top: 8px; }
-        .content-wrapper { background: white; border-radius: 16px; padding: 16px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
-        @media (prefers-color-scheme: dark) { .content-wrapper { background: rgb(1,1,1); } }
+
         .txn-item { display: flex; align-items: center; gap: 12px; padding: 12px 0; border-bottom: 1px solid rgba(0,0,0,0.05); }
         @media (prefers-color-scheme: dark) { .txn-item { border-bottom-color: rgba(255,255,255,0.05); } }
         .txn-icon { width: 40px; height: 40px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; }
@@ -480,56 +445,102 @@ export default function CampusPlanner() {
         .txn-amt.positive { color: rgb(51,232,191); }
         .txn-amt.negative { color: RGB(0,131,208); }
 
-        /* Skeleton shimmer */
-        .txn-skeleton { display: flex; align-items: center; gap: 12px; padding: 12px 0; border-bottom: 1px solid rgba(0,0,0,0.04); }
-        .skeleton { background: linear-gradient(90deg, #f0f0f0 25%, #e8e8e8 50%, #f0f0f0 75%); background-size: 200% 100%; animation: shimmer 1.4s infinite; border-radius: 8px; }
-        @media (prefers-color-scheme: dark) { .skeleton { background: linear-gradient(90deg, #1c1c1c 25%, #242424 50%, #1c1c1c 75%); background-size: 200% 100%; } }
-        @keyframes shimmer { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
-        .skel-icon { width: 40px; height: 40px; border-radius: 12px; flex-shrink: 0; }
-        .skel-lines { flex: 1; display: flex; flex-direction: column; gap: 7px; }
-        .skel-line { height: 10px; border-radius: 5px; }
-        .skel-amt { width: 58px; height: 14px; border-radius: 6px; }
+        /* ── Budget Screen ───────────────────────────────────── */
+        .budget-header-card {
+          background: white;
+          border-radius: 20px;
+          padding: 20px 24px;
+          margin-bottom: 16px;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+        @media (prefers-color-scheme: dark) { .budget-header-card { background: rgb(1,1,1); } }
 
-        /* Empty / error */
-        .txn-empty { text-align: center; padding: 28px 0 16px; color: #aaa; font-size: 11px; line-height: 1.6; }
-        .txn-empty-icon { font-size: 34px; margin-bottom: 8px; }
-        .txn-retry { background: none; border: 1px solid rgba(0,131,208,0.35); border-radius: 8px; padding: 6px 16px; color: RGB(0,131,208); font-size: 10px; font-family: 'Orbitron', sans-serif; font-weight: 600; cursor: pointer; margin-top: 10px; transition: background 0.2s; }
-        .txn-retry:hover { background: rgba(0,131,208,0.08); }
+        .budget-cat-row {
+          background: white;
+          border-radius: 16px;
+          padding: 14px 16px;
+          margin-bottom: 10px;
+          display: flex;
+          align-items: center;
+          gap: 12px;
+          box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+          transition: transform 0.2s;
+        }
+        .budget-cat-row:hover { transform: translateY(-1px); }
+        @media (prefers-color-scheme: dark) { .budget-cat-row { background: rgb(1,1,1); } }
 
-        .vault-card { background: linear-gradient(90deg, RGB(0,131,208)); border-radius: 20px; padding: 28px 24px; margin-bottom: 20px; text-align: center; }
-        @media (prefers-color-scheme: dark) { .vault-card { background: black; } }
-        .input-row { display: flex; gap: 10px; margin-bottom: 12px; align-items: center; }
-        .amt-input { flex: 1; background: white; border: 1px solid rgba(0,131,208,0.2); border-radius: 14px; padding: 14px 16px; color: rgb(34,34,34); font-size: 14px; font-family: 'Orbitron', sans-serif; font-weight: 600; outline: none; transition: border-color 0.2s; }
-        .amt-input:focus { border-color: RGB(0,131,208); box-shadow: 0 0 0 3px rgba(0,131,208,0.1); }
-        .amt-input::placeholder { color: #bbb; }
-        @media (prefers-color-scheme: dark) { .amt-input { background: rgb(1,1,1); border-color: rgba(51,232,191,0.2); color: white; } }
-        .btn-primary { background: linear-gradient(135deg, RGB(0,131,208), rgb(36,172,242)); border: none; border-radius: 14px; padding: 14px 20px; color: white; font-family: 'Orbitron', sans-serif; font-size: 12px; font-weight: 700; cursor: pointer; transition: all 0.3s ease; white-space: nowrap; letter-spacing: 0.5px; }
-        .btn-primary:hover { opacity: 0.9; transform: translateY(-1px); box-shadow: 0 4px 12px rgba(0,131,208,0.3); }
-        .btn-primary.success { background: linear-gradient(135deg, rgb(51,232,191), rgb(36,200,160)); }
-        .plan-header-card { background: white; border-radius: 20px; padding: 20px; margin-bottom: 20px; display: flex; align-items: center; justify-content: space-between; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
-        @media (prefers-color-scheme: dark) { .plan-header-card { background: rgb(1,1,1); } }
-        .plan-cat-item { background: white; border-radius: 16px; padding: 16px; margin-bottom: 10px; display: flex; align-items: center; gap: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); transition: all 0.3s ease; }
-        .plan-cat-item:hover { transform: translateY(-2px); }
-        @media (prefers-color-scheme: dark) { .plan-cat-item { background: rgb(1,1,1); } }
-        .cat-name { font-size: 11px; font-weight: 600; color: rgb(34,34,34); flex: 1; }
-        @media (prefers-color-scheme: dark) { .cat-name { color: white; } }
-        .cat-bar-wrap { height: 4px; background: rgba(0,0,0,0.07); border-radius: 2px; margin-top: 6px; overflow: hidden; }
-        @media (prefers-color-scheme: dark) { .cat-bar-wrap { background: rgba(255,255,255,0.07); } }
-        .cat-bar { height: 100%; border-radius: 2px; transition: width 0.6s ease; }
-        .cat-amt { font-family: 'Orbitron', sans-serif; font-size: 12px; font-weight: 700; color: rgb(34,34,34); min-width: 80px; text-align: right; }
-        @media (prefers-color-scheme: dark) { .cat-amt { color: white; } }
-        .plan-input { background: #f5f5f5; border: 1px solid rgba(0,131,208,0.2); border-radius: 10px; padding: 8px 12px; color: rgb(34,34,34); font-size: 12px; font-family: 'Orbitron', sans-serif; font-weight: 600; outline: none; width: 90px; text-align: right; }
-        @media (prefers-color-scheme: dark) { .plan-input { background: rgb(20,20,20); color: white; } }
-        .btn-secondary { background: transparent; border: 1px solid rgba(0,131,208,0.3); border-radius: 12px; padding: 10px 18px; color: RGB(0,131,208); font-size: 11px; font-weight: 600; cursor: pointer; transition: all 0.3s ease; font-family: 'Orbitron', sans-serif; }
-        .btn-secondary:hover { background: rgba(0,131,208,0.08); transform: translateY(-1px); }
+        .budget-bar-wrap { height: 4px; background: rgba(0,0,0,0.07); border-radius: 2px; margin-top: 6px; overflow: hidden; }
+        @media (prefers-color-scheme: dark) { .budget-bar-wrap { background: rgba(255,255,255,0.07); } }
+        .budget-bar-fill { height: 100%; border-radius: 2px; transition: width 0.5s ease; }
+
+        .budget-amount-input {
+          width: 110px;
+          text-align: right;
+          font-family: 'Orbitron', sans-serif;
+          font-size: 13px;
+          font-weight: 700;
+          color: rgb(34,34,34);
+          background: rgba(0,131,208,0.06);
+          border: 1.5px solid rgba(0,131,208,0.25);
+          border-radius: 10px;
+          padding: 7px 10px;
+          outline: none;
+          transition: border-color 0.2s, box-shadow 0.2s;
+          -moz-appearance: textfield;
+        }
+        .budget-amount-input:focus {
+          border-color: RGB(0,131,208);
+          box-shadow: 0 0 0 3px rgba(0,131,208,0.1);
+        }
+        .budget-amount-input::-webkit-inner-spin-button,
+        .budget-amount-input::-webkit-outer-spin-button { -webkit-appearance: none; }
+        @media (prefers-color-scheme: dark) { .budget-amount-input { background: rgba(0,131,208,0.1); color: white; } }
+
+        .stepper-btn {
+          width: 28px; height: 28px;
+          border-radius: 50%;
+          border: 1.5px solid rgba(0,131,208,0.3);
+          background: transparent;
+          color: RGB(0,131,208);
+          font-size: 16px; font-weight: 700;
+          cursor: pointer;
+          display: flex; align-items: center; justify-content: center;
+          transition: background 0.15s;
+          flex-shrink: 0;
+        }
+        .stepper-btn:hover { background: rgba(0,131,208,0.1); }
+
+        .budget-total-live {
+          font-family: 'Orbitron', sans-serif;
+          font-size: 11px; font-weight: 600;
+          color: #888;
+          text-align: center;
+          margin-bottom: 12px;
+        }
+        .budget-total-live span { color: RGB(0,131,208); }
+
+        /* ── Market ──────────────────────────────────────────── */
         .market-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
         .market-card { background: white; border-radius: 20px; padding: 16px; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
         .market-card:hover { transform: translateY(-2px); }
         @media (prefers-color-scheme: dark) { .market-card { background: rgb(1,1,1); } }
         .add-btn { width: 100%; background: rgba(0,131,208,0.08); border: 1px dashed rgba(0,131,208,0.3); border-radius: 10px; padding: 8px; color: RGB(0,131,208); font-size: 10px; font-weight: 700; cursor: pointer; margin-top: 10px; transition: all 0.2s; font-family: 'Orbitron', sans-serif; }
-        .cart-float { position: fixed; bottom: 88px; left: 50%; transform: translateX(-50%); background: linear-gradient(135deg, RGB(0,131,208), rgb(36,172,242)); border-radius: 20px; padding: 14px 28px; display: flex; align-items: center; gap: 12px; cursor: pointer; box-shadow: 0 8px 32px rgba(0,131,208,0.4); z-index: 50; animation: slideUp 0.3s ease; white-space: nowrap; }
+        .cart-float {
+          position: fixed; bottom: 88px; left: 50%; transform: translateX(-50%);
+          background: linear-gradient(135deg, RGB(0,131,208), rgb(36,172,242));
+          border-radius: 20px; padding: 14px 28px;
+          display: flex; align-items: center; gap: 12px;
+          cursor: pointer; box-shadow: 0 8px 32px rgba(0,131,208,0.4);
+          z-index: 50; white-space: nowrap;
+          animation: slideUp 0.3s ease;
+        }
         @keyframes slideUp { from { transform: translateX(-50%) translateY(20px); opacity: 0; } to { transform: translateX(-50%) translateY(0); opacity: 1; } }
         .cart-label { font-family: 'Orbitron', sans-serif; font-size: 12px; font-weight: 700; color: white; }
+
+        /* ── Stats ───────────────────────────────────────────── */
         .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 20px; }
         .stat-card { background: white; border-radius: 18px; padding: 18px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
         @media (prefers-color-scheme: dark) { .stat-card { background: rgb(1,1,1); } }
@@ -555,18 +566,29 @@ export default function CampusPlanner() {
         .progress-bar-bg   { height: 6px; background: rgba(0,0,0,0.07); border-radius: 3px; overflow: hidden; }
         @media (prefers-color-scheme: dark) { .progress-bar-bg { background: rgba(255,255,255,0.07); } }
         .progress-bar-fill { height: 100%; border-radius: 3px; transition: width 0.8s ease; }
-        .bottom-nav { position: fixed; bottom: 0; left: 50%; transform: translateX(-50%); width: 100%; max-width: 430px; background: white; border-top: 1px solid rgba(0,0,0,0.06); display: flex; justify-content: space-around; padding: 10px 0 20px; z-index: 100; }
-        @media (prefers-color-scheme: dark) { .bottom-nav { background: rgb(15,15,15); border-top-color: rgba(255,255,255,0.06); } }
-        .nav-item { display: flex; flex-direction: column; align-items: center; gap: 4px; cursor: pointer; padding: 6px 12px; border-radius: 12px; transition: all 0.2s; border: none; background: transparent; color: inherit; font-family: 'Orbitron', sans-serif; }
-        .nav-item .nav-icon { display: flex; align-items: center; justify-content: center; color: #aaa; transition: color 0.2s; }
-        .nav-item.active .nav-icon { color: RGB(0,131,208); }
-        .nav-item .nav-label { font-size: 8px; color: grey; font-weight: 500; }
-        .nav-item.active .nav-label { color: RGB(0,131,208); }
-        .nav-item.active { background: rgba(0,131,208,0.08); }
+
+        /* ── Shared Buttons ──────────────────────────────────── */
+        .btn-primary {
+          background: linear-gradient(135deg, RGB(0,131,208), rgb(36,172,242));
+          border: none; border-radius: 14px; padding: 14px 20px;
+          color: white; font-family: 'Orbitron', sans-serif; font-size: 12px; font-weight: 700;
+          cursor: pointer; transition: all 0.3s ease; white-space: nowrap; letter-spacing: 0.5px;
+        }
+        .btn-primary:hover { opacity: 0.9; transform: translateY(-1px); box-shadow: 0 4px 12px rgba(0,131,208,0.3); }
+
+        .btn-secondary {
+          background: transparent;
+          border: 1px solid rgba(0,131,208,0.3);
+          border-radius: 12px; padding: 10px 18px;
+          color: RGB(0,131,208); font-size: 11px; font-weight: 600;
+          cursor: pointer; transition: all 0.3s ease; font-family: 'Orbitron', sans-serif;
+        }
+        .btn-secondary:hover { background: rgba(0,131,208,0.08); transform: translateY(-1px); }
+
+        /* ── Misc ────────────────────────────────────────────── */
         .tag-sdg { display: inline-flex; align-items: center; gap: 4px; background: rgba(51,232,191,0.1); border: 1px solid rgba(51,232,191,0.25); border-radius: 8px; padding: 3px 8px; font-size: 9px; color: rgb(51,232,191); font-weight: 700; letter-spacing: 0.5px; }
         .divider { height: 1px; background: rgba(0,0,0,0.06); margin: 16px 0; }
         @media (prefers-color-scheme: dark) { .divider { background: rgba(255,255,255,0.06); } }
-        .warning-banner { background: rgba(232,58,58,0.08); border: 1px solid rgba(232,58,58,0.2); border-radius: 12px; padding: 12px 16px; font-size: 11px; color: #E85A5A; margin-bottom: 16px; display: flex; align-items: center; gap: 8px; }
       `}</style>
 
       <div className="app">
@@ -590,7 +612,7 @@ export default function CampusPlanner() {
                 <BalanceAmount>
                   {hidden ? "••••••" : <AnimatedNumber value={vaultBalance} prefix="₦" />}
                   <button className="eye-btn" onClick={() => setHidden(!hidden)}>
-                    {hidden ? "👁" : <BsEyeSlash />}
+                    {hidden ? <BsEye /> : <BsEyeSlash />}
                   </button>
                 </BalanceAmount>
               </div>
@@ -630,51 +652,10 @@ export default function CampusPlanner() {
               ))}
             </div>
 
-            {/* ── Recent Activity ────────────────────────────────── */}
-            <div className="section-title">
-              Recent Activity
-              {!txnLoading && transactions.length > 4 && (
-                <span className="see-all">See all →</span>
-              )}
-            </div>
-
-            {/* Loading: shimmer skeletons */}
-            {txnLoading && [1, 2, 3].map((n) => (
-              <div className="txn-skeleton" key={n}>
-                <div className="skeleton skel-icon" />
-                <div className="skel-lines">
-                  <div className="skeleton skel-line" style={{ width: "58%" }} />
-                  <div className="skeleton skel-line" style={{ width: "32%" }} />
-                </div>
-                <div className="skeleton skel-amt" />
-              </div>
-            ))}
-
-            {/* Error state */}
-            {!txnLoading && txnError && (
-              <div className="txn-empty">
-                <div className="txn-empty-icon"></div>
-                <div>{txnError}</div>
-                <button className="txn-retry" onClick={() => setTxnRetry((n) => n + 1)}>
-                  Retry
-                </button>
-              </div>
-            )}
-
-            {/* Empty state */}
-            {!txnLoading && !txnError && transactions.length === 0 && (
-              <div className="txn-empty">
-                <div className="txn-empty-icon">🧾</div>
-                <div>No transactions yet</div>
-              </div>
-            )}
-
-            {/* Live transaction rows */}
-            {!txnLoading && !txnError && transactions.slice(0, 4).map((t) => (
+            <div className="section-title">Recent Activity</div>
+            {TRANSACTIONS.slice(0, 4).map((t) => (
               <div className="txn-item" key={t.id}>
-                <div className="txn-icon" style={{ background: txnBg(t.type) }}>
-                  {txnIcon(t.type)}
-                </div>
+                <div className="txn-icon" style={{ background: txnBg(t.type) }}>{txnIcon(t.type)}</div>
                 <div className="txn-info">
                   <div className="txn-desc">{t.desc}</div>
                   <div className="txn-date">{t.date}</div>
@@ -687,51 +668,117 @@ export default function CampusPlanner() {
           </div>
         )}
 
-       {screen === "deposits" && (
-  <div className="screen">
+        {/* ── DEPOSITS ──────────────────────────────────────────── */}
+        {screen === "deposits" && (
+          <UnderConstruction onBack={() => setScreen("home")} />
+        )}
 
-    {/* Header */}
-    <div className="top-bar">
-      <button className="btn-secondary" onClick={() => setScreen("home")}>
-        ← Back
-      </button>
-      <div className="logo" style={{ fontSize: "16px" }}>Deposit</div>
-      <div style={{ width: 60 }} />
-    </div>
-
-    {/* Account Card */}
-    <div className="vault-card">
-      <div className="balance-label">Account Details</div>
-
-      <div style={{ marginTop: "12px", marginBottom: "20px" }}>
-        <div style={{ fontSize: "11px", color: "rgba(255,255,255,0.7)" }}>
-          Account Number
-        </div>
-
-        <div className="balance-amount" style={{ fontSize: "28px" }}>
-          {accountNumber}
-        </div>
-
-        <div style={{ fontSize: "11px", color: "rgba(255,255,255,0.7)" }}>
-          Bank Name
-        </div>
-
-        <div style={{ fontSize: "14px", fontWeight: "600", marginTop: "4px" }}>
-          {bankName || "NEXR Bank"}
-        </div>
-      </div>
-
-      <div style={{ fontSize: "11px", color: "rgba(255,255,255,0.6)" }}>
-        Transfer funds to this account to fund your vault instantly.
-      </div>
-    </div>
-    </div>
-    )}
-
-        {screen === "Coins" && <UnderConstruction onBack={() => setScreen("home")} />}
-
+        {/* ── BUDGET ────────────────────────────────────────────── */}
         {screen === "Budget" && (
-          <BudgetSection />
+          <div className="screen">
+            <div className="top-bar">
+              <button className="btn-secondary" onClick={() => setScreen("home")}>← Back</button>
+              <div className="logo" style={{ fontSize: "16px" }}>Budget <span>Plan</span></div>
+              <button
+                className="btn-primary"
+                style={{ padding: "8px 14px", fontSize: "12px" }}
+                onClick={planEditing ? cancelEditing : startEditing}
+              >
+                {planEditing ? "Cancel" : "Edit"}
+              </button>
+            </div>
+
+            {/* Summary card */}
+            <div className="budget-header-card">
+              <div>
+                <div style={{ fontSize: "11px", color: "#888", textTransform: "uppercase", letterSpacing: "1px", marginBottom: "4px" }}>
+                  Monthly Budget
+                </div>
+                <div style={{ fontFamily: "Orbitron", fontSize: "26px", fontWeight: 800 }}>
+                  ₦{(planEditing ? totalEditing : totalBudgeted).toLocaleString()}
+                </div>
+              </div>
+              <div style={{ textAlign: "right" }}>
+                <div style={{ fontSize: "11px", color: "#888", textTransform: "uppercase", letterSpacing: "1px", marginBottom: "4px" }}>
+                  Remaining
+                </div>
+                <div style={{ fontFamily: "Orbitron", fontSize: "26px", fontWeight: 800, color: "#3AE87F" }}>
+                  ₦{(vaultBalance - totalSpent).toLocaleString()}
+                </div>
+              </div>
+            </div>
+
+            {/* Live running total while editing */}
+            {planEditing && (
+              <p className="budget-total-live">
+                Allocating <span>₦{totalEditing.toLocaleString()}</span> across {CATEGORIES.length} categories
+              </p>
+            )}
+
+            {/* Category rows */}
+            {CATEGORIES.map((cat) => {
+              const displayVal = planEditing ? (editBudget[cat.id] ?? 0) : (budget[cat.id] ?? 0);
+              const base       = planEditing ? totalEditing : totalBudgeted;
+              const pct        = base > 0 ? Math.min((displayVal / base) * 100, 100) : 0;
+
+              return (
+                <div className="budget-cat-row" key={cat.id}>
+                  <span style={{ fontSize: "22px" }}>{cat.icon}</span>
+
+                  <div style={{ flex: 1 }}>
+                    <div style={{ fontSize: "11px", fontWeight: 600 }}>{cat.label}</div>
+                    <div className="budget-bar-wrap">
+                      <div className="budget-bar-fill" style={{ width: `${pct}%`, background: cat.color }} />
+                    </div>
+                  </div>
+
+                  {planEditing ? (
+                    <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
+                      {/* Decrement */}
+                      <button
+                        className="stepper-btn"
+                        onClick={() => setEditVal(cat.id, (editBudget[cat.id] ?? 0) - 500)}
+                      >−</button>
+
+                      {/* Free-type input */}
+                      <input
+                        className="budget-amount-input"
+                        type="number"
+                        min="0"
+                        step="500"
+                        value={editBudget[cat.id] ?? 0}
+                        onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                          setEditVal(cat.id, Number(e.target.value) || 0)
+                        }
+                      />
+
+                      {/* Increment */}
+                      <button
+                        className="stepper-btn"
+                        onClick={() => setEditVal(cat.id, (editBudget[cat.id] ?? 0) + 500)}
+                      >+</button>
+                    </div>
+                  ) : (
+                    <div style={{ fontFamily: "Orbitron", fontSize: "12px", fontWeight: 700, minWidth: 80, textAlign: "right" }}>
+                      ₦{displayVal.toLocaleString()}
+                    </div>
+                  )}
+                </div>
+              );
+            })}
+
+            {/* Save / Cancel */}
+            {planEditing && (
+              <div style={{ display: "flex", gap: "10px", marginTop: "16px" }}>
+                <button className="btn-secondary" style={{ flex: 1 }} onClick={cancelEditing}>
+                  Cancel
+                </button>
+                <button className="btn-primary" style={{ flex: 2 }} onClick={savePlan}>
+                  Save Plan
+                </button>
+              </div>
+            )}
+          </div>
         )}
 
         {/* ── MARKET ────────────────────────────────────────────── */}
@@ -788,9 +835,9 @@ export default function CampusPlanner() {
 
             <div className="stats-grid">
               <div className="stat-card"><div className="stat-label">Budgeted</div><div className="stat-value dark">₦{(totalBudgeted / 1000).toFixed(0)}k</div></div>
-              <div className="stat-card"><div className="stat-label">Spent</div><div className="stat-value blue">₦{(totalSpent / 1000).toFixed(0)}k</div></div>
-              <div className="stat-card"><div className="stat-label">Saved</div><div className="stat-value green">₦{((totalBudgeted - totalSpent) / 1000).toFixed(0)}k</div></div>
-              <div className="stat-card"><div className="stat-label">Save Rate</div><div className="stat-value green">{Math.round(((totalBudgeted - totalSpent) / totalBudgeted) * 100)}%</div></div>
+              <div className="stat-card"><div className="stat-label">Spent</div>   <div className="stat-value blue">₦{(totalSpent / 1000).toFixed(0)}k</div></div>
+              <div className="stat-card"><div className="stat-label">Saved</div>   <div className="stat-value green">₦{((totalBudgeted - totalSpent) / 1000).toFixed(0)}k</div></div>
+              <div className="stat-card"><div className="stat-label">Save Rate</div><div className="stat-value green">{Math.round(((totalBudgeted - totalSpent) / totalBudgeted) * 100) || 0}%</div></div>
             </div>
 
             <div className="donut-section">
@@ -843,18 +890,25 @@ export default function CampusPlanner() {
         )}
 
         {/* ── BOTTOM NAV ────────────────────────────────────────── */}
-        <nav className="bottom-nav">
+        <nav style={{ position: "fixed", bottom: 0, left: "50%", transform: "translateX(-50%)", width: "100%", maxWidth: 430, background: "white", borderTop: "1px solid rgba(0,0,0,0.06)", display: "flex", justifyContent: "space-around", padding: "10px 0 20px", zIndex: 100 }}>
           {navItems.map((item) => (
             <button
               key={item.id}
-              className={`nav-item${screen === item.id ? " active" : ""}`}
               onClick={() => setScreen(item.id)}
+              style={{
+                display: "flex", flexDirection: "column", alignItems: "center", gap: 4,
+                cursor: "pointer", padding: "6px 12px", borderRadius: 12,
+                border: "none", background: screen === item.id ? "rgba(0,131,208,0.08)" : "transparent",
+                color: screen === item.id ? "RGB(0,131,208)" : "#aaa",
+                fontFamily: "Orbitron", transition: "all 0.2s",
+              }}
             >
-              <span className="nav-icon">{item.icon}</span>
-              <span className="nav-label">{item.label}</span>
+              {item.icon}
+              <span style={{ fontSize: 8, fontWeight: 500 }}>{item.label}</span>
             </button>
           ))}
         </nav>
+
       </div>
     </>
   );
