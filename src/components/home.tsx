@@ -10,7 +10,7 @@ import styled from "styled-components";
 import { FaBoxOpen, FaBreadSlice, FaEgg } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import BudgetSection from "./BudgetSection";
-
+import {backend_url} from 'helper';
 // ── Styled Components ─────────────────────────────────────────────
 const Container = styled.div`
   display: flex;
@@ -291,17 +291,17 @@ export default function CampusPlanner() {
   const [editBudget, setEditBudget]     = useState<BudgetMap>({ ...budget });
   const [hidden, setHidden]             = useState<boolean>(false);
 
-  // ── Transactions state ────────────────────────────────────────
+  // Transactions state 
   const [transactions, setTransactions] = useState<Transaction[]>([]);
   const [txnLoading, setTxnLoading]     = useState<boolean>(true);
   const [txnError, setTxnError]         = useState<string | null>(null);
   const [txnRetry, setTxnRetry]         = useState<number>(0); // bump to re-fetch
 
-  // ── Fetch balance ─────────────────────────────────────────────
+  //Fetch balance 
   useEffect(() => {
     const fetchCurrent = async () => {
       try {
-        const request = await fetch(`${import.meta.env.VITE_BACKEND_URL}/currentBalance/${email}`);
+        const request = await fetch(`${backend_url}/currentBalance/${email}`);
         const result  = await request.json();
         setNumber(result.account_number ?? "****");
         setVaultBalance(result.Balance ?? 0);
@@ -310,13 +310,13 @@ export default function CampusPlanner() {
       }
     };
     fetchCurrent();
-  }, [email]);
+  }, []);
 
-  // ── Fetch account details ─────────────────────────────────────
+  // ── Fetch account details 
   useEffect(() => {
     const fetchAccountDetails = async () => {
       try {
-        const action = await fetch(`${import.meta.env.VITE_BACKEND_URL}/currentBalance/${email}`);
+        const action = await fetch(`${backend_url}/currentBalance/${email}`);
         const finAct  = await action.json();
         setNumber(finAct.data?.bank_account ?? "****");
         setName(finAct.data?.bank_name ?? " ");
@@ -325,14 +325,14 @@ export default function CampusPlanner() {
       }
     };
     fetchAccountDetails();
-  }, [email]);
+  }, []);
 
-  // ── Sync balance to DB ────────────────────────────────────────
+  // ── Sync balance to DB 
   useEffect(() => {
     if (vaultBalance === 0) return;
     const recordCurrent = async () => {
       try {
-        const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/updateBalance/${email}`, {
+        const response = await fetch(`${backend_url}/updateBalance/${email}`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ balance: vaultBalance }),
@@ -355,7 +355,7 @@ export default function CampusPlanner() {
       setTxnLoading(true);
       setTxnError(null);
       try {
-        const res  = await fetch(`${import.meta.env.VITE_BACKEND_URL}/transactions/${email}`);
+        const res  = await fetch(`${backend_url}/transactions/${email}`);
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
         const json = await res.json();
     // Accept: plain array | { data: [] } | { transactions: [] }
@@ -378,7 +378,7 @@ export default function CampusPlanner() {
     return () => { cancelled = true; };
   }, [email, txnRetry]);
 
-  // ── Derived values ────────────────────────────────────────────
+  // ── Derived values bac
   const totalBudgeted = Object.values(budget).reduce((a, b) => a + b, 0);
   const totalSpent    = 0;
   const cartTotal     = cart.reduce((s, item) => s + item.price * item.qty, 0);

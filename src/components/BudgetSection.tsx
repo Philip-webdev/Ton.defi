@@ -8,6 +8,7 @@ import { BsEyeSlash, BsGear, BsPerson, BsEye } from "react-icons/bs";
 import styled, { keyframes } from "styled-components";
 import { FaBoxOpen, FaBreadSlice, FaEgg } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
+import { backend_url } from "helper";
 
 // ── Animations ────────────────────────────────────────────────────
 const bounceAnim = keyframes`
@@ -263,7 +264,7 @@ export default function CampusPlanner() {
   useEffect(() => {
     const fetchCurrent = async () => {
       try {
-        const req    = await fetch(`${import.meta.env.VITE_BACKEND_URL}/currentBalance/${email}`);
+        const req    = await fetch(`${backend_url}/currentBalance/${email}`);
         const result = await req.json();
         setVaultBalance(result.Balance ?? 0);
       } catch (e) { console.error("Failed to load balance:", e); }
@@ -276,7 +277,7 @@ export default function CampusPlanner() {
     if (vaultBalance === 0) return;
     const sync = async () => {
       try {
-        await fetch(`${import.meta.env.VITE_BACKEND_URL}/updateBalance/${email}`, {
+        await fetch(`${backend_url}/updateBalance/${email}`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ balance: vaultBalance }),
