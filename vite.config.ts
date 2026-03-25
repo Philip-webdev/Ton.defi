@@ -10,7 +10,10 @@ export default defineConfig({
   base: ((process.env.GITHUB_REPOSITORY ?? "") + "/").match(/(\/.*)/)?.[1],
   build: {
     target: 'esnext',
-  } ,
+     rollupOptions: {
+    external: ['helper'],
+  } 
+},
   css: {
     devSourcemap: true,
   },
