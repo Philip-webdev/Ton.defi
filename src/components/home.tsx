@@ -5,12 +5,7 @@ import { BsEyeSlash, BsGear, BsPerson } from "react-icons/bs";
 import styled from "styled-components";
 import { FaBoxOpen, FaBreadSlice, FaEgg } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
-<<<<<<< HEAD
-import BudgetSection from "./BudgetSection";
-import {backend_url} from 'helper';
-=======
 
->>>>>>> parent of 601a7d7 (	modified:   src/components/home.tsx)
 // ── Styled Components ─────────────────────────────────────────────
 const Container = styled.div`
   display: flex;
@@ -280,21 +275,6 @@ export default function CampusPlanner() {
   const [editBudget, setEditBudget]      = useState<BudgetMap>({ ...budget });
   const [hidden, setHidden]              = useState<boolean>(false);
 
-<<<<<<< HEAD
-  // Transactions state 
-  const [transactions, setTransactions] = useState<Transaction[]>([]);
-  const [txnLoading, setTxnLoading]     = useState<boolean>(true);
-  const [txnError, setTxnError]         = useState<string | null>(null);
-  const [txnRetry, setTxnRetry]         = useState<number>(0); // bump to re-fetch
-
-  //Fetch balance 
-  useEffect(() => {
-    const fetchCurrent = async () => {
-      try {
-        const request = await fetch(`${backend_url}/currentBalance/${email}`);
-        const result  = await request.json();
-        setNumber(result.account_number ?? "****");
-=======
   // ── Fetch balance on mount ──────────────────────────────────────
   useEffect(() => {
     const fetchCurrent = async () => {
@@ -302,7 +282,6 @@ export default function CampusPlanner() {
         const request = await fetch(`${import.meta.env.VITE_BACKEND_URL}/currentBalance/${email}`);
         const result = await request.json();
         setNumber(result.account_number ?? '****');
->>>>>>> parent of 601a7d7 (	modified:   src/components/home.tsx)
         setVaultBalance(result.Balance ?? 0);
       } catch (error) {
         console.error("Failed to load balance:", error);
@@ -311,16 +290,6 @@ export default function CampusPlanner() {
     fetchCurrent();
   }, []);
 
-<<<<<<< HEAD
-  // ── Fetch account details 
-  useEffect(() => {
-    const fetchAccountDetails = async () => {
-      try {
-        const action = await fetch(`${backend_url}/currentBalance/${email}`);
-        const finAct  = await action.json();
-        setNumber(finAct.data?.bank_account ?? "****");
-        setName(finAct.data?.bank_name ?? " ");
-=======
   // ── Fetch account details on mount ─────────────────────────────
   useEffect(() => {
     const fetchAccountDetails = async () => {
@@ -329,7 +298,6 @@ export default function CampusPlanner() {
         const finAct = await action.json();
         setNumber(finAct.data?.bank_account ?? '****');
         setName(finAct.data?.bank_name ?? ' ');
->>>>>>> parent of 601a7d7 (	modified:   src/components/home.tsx)
       } catch (error) {
         console.error("Failed to load account details:", error);
       }
@@ -337,24 +305,14 @@ export default function CampusPlanner() {
     fetchAccountDetails();
   }, []);
 
-<<<<<<< HEAD
-  // ── Sync balance to DB 
-=======
   // ── Sync balance to DB when it changes ─────────────────────────
->>>>>>> parent of 601a7d7 (	modified:   src/components/home.tsx)
   useEffect(() => {
     if (vaultBalance === 0) return;
     const recordCurrent = async () => {
       try {
-<<<<<<< HEAD
-        const response = await fetch(`${backend_url}/updateBalance/${email}`, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-=======
         const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/updateBalance/${email}`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
->>>>>>> parent of 601a7d7 (	modified:   src/components/home.tsx)
           body: JSON.stringify({ balance: vaultBalance }),
         });
         if (!response.ok) throw new Error('Failed to update balance');
@@ -366,38 +324,7 @@ export default function CampusPlanner() {
     recordCurrent();
   }, [vaultBalance]);
 
-<<<<<<< HEAD
-    const fetchTransactions = async () => {
-      setTxnLoading(true);
-      setTxnError(null);
-      try {
-        const res  = await fetch(`${backend_url}/transactions/${email}`);
-        if (!res.ok) throw new Error(`HTTP ${res.status}`);
-        const json = await res.json();
-    // Accept: plain array | { data: [] } | { transactions: [] }
-        const raw: any[] =
-          Array.isArray(json)              ? json               :
-          Array.isArray(json.data)         ? json.data          :
-          Array.isArray(json.transactions) ? json.transactions  :
-          [];
-
-        if (!cancelled) setTransactions(raw.map(normaliseTransaction));
-      } catch (err: any) {
-        console.error("Failed to load transactions:", err);
-        if (!cancelled) setTxnError("No recent activity.");
-      } finally {
-        if (!cancelled) setTxnLoading(false);
-      }
-    };
-
-    fetchTransactions();
-    return () => { cancelled = true; };
-  }, [email, txnRetry]);
-
-  // ── Derived values bac
-=======
   // ── Derived values ──────────────────────────────────────────────
->>>>>>> parent of 601a7d7 (	modified:   src/components/home.tsx)
   const totalBudgeted = Object.values(budget).reduce((a, b) => a + b, 0);
   const totalSpent    = 0;
   const cartTotal     = cart.reduce((s, item) => s + item.price * item.qty, 0);
