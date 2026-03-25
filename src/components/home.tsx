@@ -1,16 +1,16 @@
 import { useState, useEffect } from "react";
-import {
-  Home, BookOpen, ShoppingCart, BarChart2, Coins,
-  ArrowDownIcon, PenSquareIcon, ChartCandlestickIcon,
-  LeafyGreenIcon, SoupIcon, Construction, ArrowLeft,
-} from "lucide-react";
+import { Home, BookOpen, ShoppingCart, BarChart2, Coins, ArrowDownIcon, PenSquareIcon, ChartCandlestickIcon, LeafyGreenIcon, SoupIcon, Construction, ArrowLeft } from "lucide-react";
 import Homme from "./web3";
 import { BsEyeSlash, BsGear, BsPerson } from "react-icons/bs";
 import styled from "styled-components";
 import { FaBoxOpen, FaBreadSlice, FaEgg } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
+<<<<<<< HEAD
 import BudgetSection from "./BudgetSection";
 import {backend_url} from 'helper';
+=======
+
+>>>>>>> parent of 601a7d7 (	modified:   src/components/home.tsx)
 // ── Styled Components ─────────────────────────────────────────────
 const Container = styled.div`
   display: flex;
@@ -135,13 +135,12 @@ interface CartItem extends FoodPackage {
   qty: number;
 }
 
-// Transaction shape — matches normalised output from backend
 interface Transaction {
   id: number;
   desc: string;
-  amount: number;   // positive = credit, negative = debit
+  amount: number;
   date: string;
-  type: "spend" | "deposit";
+  type: "spend" | "deposit" | "crypto";
   category: string;
 }
 
@@ -165,19 +164,27 @@ const CATEGORIES: Category[] = [
 ];
 
 const FOOD_PACKAGES: FoodPackage[] = [
-  { id: 1, name: "Campus Essentials Box",  desc: "Rice, beans, garri, palm oil — weekly staples",  price: 4500, img: <FaBoxOpen />,      tag: "SDG 2",         portions: 7,  category: "food" },
-  { id: 2, name: "Protein Power Pack",     desc: "Eggs, canned fish, groundnuts, soy milk",        price: 6200, img: <FaEgg />,          tag: "High Protein",  portions: 14, category: "food" },
-  { id: 3, name: "Veggie Fresh Bundle",    desc: "Tomatoes, peppers, onions, leafy greens",        price: 3800, img: <LeafyGreenIcon />, tag: "Fresh Daily",   portions: 5,  category: "food" },
-  { id: 4, name: "Snack & Study Kit",      desc: "Biscuits, chin-chin, zobo drink, cashews",       price: 2500, img: "🍿",               tag: "Study Fuel",    portions: 10, category: "misc" },
-  { id: 5, name: "Breakfast Starter",      desc: "Oats, bread, peanut butter, powdered milk",      price: 3200, img: <FaBreadSlice />,   tag: "Morning Boost", portions: 7,  category: "food" },
-  { id: 6, name: "Seminar Week Meal Prep", desc: "Pre-cooked stew, frozen veggies, pasta packs",   price: 7800, img: <SoupIcon />,       tag: "Exam Season",   portions: 14, category: "food" },
+  { id: 1, name: "Campus Essentials Box",  desc: "Rice, beans, garri, palm oil — weekly staples",    price: 4500, img: <FaBoxOpen />,      tag: "SDG 2",        portions: 7,  category: "food" },
+  { id: 2, name: "Protein Power Pack",     desc: "Eggs, canned fish, groundnuts, soy milk",          price: 6200, img: <FaEgg />,          tag: "High Protein", portions: 14, category: "food" },
+  { id: 3, name: "Veggie Fresh Bundle",    desc: "Tomatoes, peppers, onions, leafy greens",          price: 3800, img: <LeafyGreenIcon />, tag: "Fresh Daily",  portions: 5,  category: "food" },
+  { id: 4, name: "Snack & Study Kit",      desc: "Biscuits, chin-chin, zobo drink, cashews",         price: 2500, img: "🍿",               tag: "Study Fuel",   portions: 10, category: "misc" },
+  { id: 5, name: "Breakfast Starter",      desc: "Oats, bread, peanut butter, powdered milk",        price: 3200, img: <FaBreadSlice />,   tag: "Morning Boost",portions: 7,  category: "food" },
+  { id: 6, name: "Seminar Week Meal Prep", desc: "Pre-cooked stew, frozen veggies, pasta packs",     price: 7800, img: <SoupIcon />,       tag: "Exam Season",  portions: 14, category: "food" },
+];
+
+const TRANSACTIONS: Transaction[] = [
+  { id: 1, desc: "Campus Essentials Box",      amount: -4500,  date: "Feb 20", type: "spend",   category: "food"      },
+  { id: 2, desc: "Vault Deposit",              amount: 25000,  date: "Feb 18", type: "deposit", category: "vault"     },
+  { id: 3, desc: "Transport Budget",           amount: -1200,  date: "Feb 17", type: "spend",   category: "transport" },
+  { id: 4, desc: "Stablecoin Received (USDT)", amount: 15600,  date: "Feb 15", type: "crypto",  category: "vault"     },
+  { id: 5, desc: "Protein Power Pack",         amount: -6200,  date: "Feb 14", type: "spend",   category: "food"      },
 ];
 
 const SPENT_BY_CATEGORY: Partial<Record<CategoryId, number>> = {
   food: 0, transport: 0, books: 0, health: 0,
 };
 
-// ── Under Construction ────────────────────────────────────────────
+// ── Under Construction Screen ─────────────────────────────────────
 const UnderConstruction = ({ onBack }: { onBack: () => void }) => (
   <Container>
     <ComingSoonBadge>COMING SOON</ComingSoonBadge>
@@ -186,8 +193,7 @@ const UnderConstruction = ({ onBack }: { onBack: () => void }) => (
     </IconWrapper>
     <Title>We're Building Something Great!</Title>
     <Message>
-      This feature is currently under construction. We're working hard to bring
-      you an amazing experience. Check back soon!
+      This feature is currently under construction. We're working hard to bring you an amazing experience. Check back soon!
     </Message>
     <BackButton onClick={onBack}>
       <ArrowLeft size={20} />
@@ -199,6 +205,7 @@ const UnderConstruction = ({ onBack }: { onBack: () => void }) => (
 // ── Animated Number ───────────────────────────────────────────────
 function AnimatedNumber({ value, prefix = "" }: { value: number; prefix?: string }) {
   const [display, setDisplay] = useState(0);
+
   useEffect(() => {
     if (value === 0) { setDisplay(0); return; }
     const steps = 40;
@@ -206,11 +213,16 @@ function AnimatedNumber({ value, prefix = "" }: { value: number; prefix?: string
     let current = 0;
     const timer = setInterval(() => {
       current += increment;
-      if (current >= value) { setDisplay(value); clearInterval(timer); }
-      else setDisplay(Math.floor(current));
+      if (current >= value) {
+        setDisplay(value);
+        clearInterval(timer);
+      } else {
+        setDisplay(Math.floor(current));
+      }
     }, 30);
     return () => clearInterval(timer);
   }, [value]);
+
   return <span>{prefix}{display.toLocaleString()}</span>;
 }
 
@@ -220,6 +232,7 @@ function DonutChart({ data }: { data: ChartDatum[] }) {
   let cumulative = 0;
   const cx = 60, cy = 60, r = 48, stroke = 14;
   const circ = 2 * Math.PI * r;
+
   const segments = data.map((d) => {
     const pct = d.value / total;
     const dash = pct * circ;
@@ -228,69 +241,46 @@ function DonutChart({ data }: { data: ChartDatum[] }) {
     cumulative += pct;
     return { ...d, dash, gap, offset };
   });
+
+  const totalLabel = (total / 1000).toFixed(0);
+
   return (
     <svg width="120" height="120" viewBox="0 0 120 120">
       <circle cx={cx} cy={cy} r={r} fill="none" stroke="#1a1a1a" strokeWidth={stroke} />
       {segments.map((s, i) => (
-        <circle key={i} cx={cx} cy={cy} r={r} fill="none" stroke={s.color}
-          strokeWidth={stroke} strokeDasharray={`${s.dash} ${s.gap}`}
+        <circle
+          key={i} cx={cx} cy={cy} r={r}
+          fill="none" stroke={s.color} strokeWidth={stroke}
+          strokeDasharray={`${s.dash} ${s.gap}`}
           strokeDashoffset={s.offset}
           style={{ transition: "stroke-dasharray 0.6s ease" }}
           transform={`rotate(-90 ${cx} ${cy})`}
         />
       ))}
-      <text x={cx} y={cy - 4}  textAnchor="middle" fill="white"          fontSize="9" fontWeight="700" fontFamily="Orbitron">SPENT</text>
-      <text x={cx} y={cy + 10} textAnchor="middle" fill="rgb(0,131,208)" fontSize="8" fontFamily="Orbitron">₦{(total / 1000).toFixed(0)}k</text>
+      <text x={cx} y={cy - 4}  textAnchor="middle" fill="white"         fontSize="9" fontWeight="700" fontFamily="Orbitron">SPENT</text>
+      <text x={cx} y={cy + 10} textAnchor="middle" fill="rgb(0,131,208)" fontSize="8" fontFamily="Orbitron">₦{totalLabel}k</text>
     </svg>
   );
 }
 
-// ── Normalise raw backend row into Transaction ────────────────────
-// Maps the most common field name variants. Adjust if your API differs.
-function normaliseTransaction(raw: any, index: number): Transaction {
-  const desc =
-    raw.description ?? raw.narration ?? raw.note ??
-    raw.remark ?? raw.title ?? raw.name ?? "Transaction";
-
-  // Signed amount, or separate credit/debit fields
-  const amount =
-    raw.amount != null  ? Number(raw.amount)  :
-    raw.credit != null  ? Number(raw.credit)  :
-    raw.debit  != null  ? -Number(raw.debit)  :
-    0;
-
-  // Format date if it's an ISO / timestamp string
-  let date: string = raw.date ?? raw.created_at ?? raw.createdAt ?? raw.transaction_date ?? "";
-  if (date) {
-    const parsed = new Date(date);
-    if (!isNaN(parsed.getTime())) {
-      date = parsed.toLocaleDateString("en-NG", { month: "short", day: "numeric" });
-    }
-  }
-
-  const type: Transaction["type"] = amount >= 0 ? "deposit" : "spend";
-  const category = raw.category ?? raw.type ?? (amount >= 0 ? "vault" : "misc");
-
-  return { id: raw.id ?? index, desc, amount, date, type, category };
-}
-
 // ── Main Component ────────────────────────────────────────────────
 export default function CampusPlanner() {
-  const email    = localStorage.getItem("email");
+  const email = localStorage.getItem('email');
   const navigate = useNavigate();
 
-  const [accountNumber, setNumber]      = useState("****");
-  const [bankName, setName]             = useState(" ");
-  const [screen, setScreen]             = useState<Screen>("home");
-  const [vaultBalance, setVaultBalance] = useState<number>(0);
-  const [budget, setBudget]             = useState<BudgetMap>({ food: 15000, transport: 5000, books: 3000, health: 2000, savings: 5000, misc: 2000 });
-  const [cart, setCart]                 = useState<CartItem[]>([]);
-  const [depositAmt, setDepositAmt]     = useState<string>("");
-  const [depositDone, setDepositDone]   = useState<boolean>(false);
-  const [planEditing, setPlanEditing]   = useState<boolean>(false);
-  const [editBudget, setEditBudget]     = useState<BudgetMap>({ ...budget });
-  const [hidden, setHidden]             = useState<boolean>(false);
+  const [accountNumber, setNumber]       = useState('****');
+  const [bankName, setName]              = useState(' ');
+  const [screen, setScreen]              = useState<Screen>("home");
+  const [vaultBalance, setVaultBalance]  = useState<number>(0);
+  const [budget, setBudget]              = useState<BudgetMap>({ food: 15000, transport: 5000, books: 3000, health: 2000, savings: 5000, misc: 2000 });
+  const [cart, setCart]                  = useState<CartItem[]>([]);
+  const [depositAmt, setDepositAmt]      = useState<string>("");
+  const [depositDone, setDepositDone]    = useState<boolean>(false);
+  const [planEditing, setPlanEditing]    = useState<boolean>(false);
+  const [editBudget, setEditBudget]      = useState<BudgetMap>({ ...budget });
+  const [hidden, setHidden]              = useState<boolean>(false);
 
+<<<<<<< HEAD
   // Transactions state 
   const [transactions, setTransactions] = useState<Transaction[]>([]);
   const [txnLoading, setTxnLoading]     = useState<boolean>(true);
@@ -304,6 +294,15 @@ export default function CampusPlanner() {
         const request = await fetch(`${backend_url}/currentBalance/${email}`);
         const result  = await request.json();
         setNumber(result.account_number ?? "****");
+=======
+  // ── Fetch balance on mount ──────────────────────────────────────
+  useEffect(() => {
+    const fetchCurrent = async () => {
+      try {
+        const request = await fetch(`${import.meta.env.VITE_BACKEND_URL}/currentBalance/${email}`);
+        const result = await request.json();
+        setNumber(result.account_number ?? '****');
+>>>>>>> parent of 601a7d7 (	modified:   src/components/home.tsx)
         setVaultBalance(result.Balance ?? 0);
       } catch (error) {
         console.error("Failed to load balance:", error);
@@ -312,6 +311,7 @@ export default function CampusPlanner() {
     fetchCurrent();
   }, []);
 
+<<<<<<< HEAD
   // ── Fetch account details 
   useEffect(() => {
     const fetchAccountDetails = async () => {
@@ -320,6 +320,16 @@ export default function CampusPlanner() {
         const finAct  = await action.json();
         setNumber(finAct.data?.bank_account ?? "****");
         setName(finAct.data?.bank_name ?? " ");
+=======
+  // ── Fetch account details on mount ─────────────────────────────
+  useEffect(() => {
+    const fetchAccountDetails = async () => {
+      try {
+        const action = await fetch(`${import.meta.env.VITE_BACKEND_URL}/currentBalance/${email}`);
+        const finAct = await action.json();
+        setNumber(finAct.data?.bank_account ?? '****');
+        setName(finAct.data?.bank_name ?? ' ');
+>>>>>>> parent of 601a7d7 (	modified:   src/components/home.tsx)
       } catch (error) {
         console.error("Failed to load account details:", error);
       }
@@ -327,30 +337,36 @@ export default function CampusPlanner() {
     fetchAccountDetails();
   }, []);
 
+<<<<<<< HEAD
   // ── Sync balance to DB 
+=======
+  // ── Sync balance to DB when it changes ─────────────────────────
+>>>>>>> parent of 601a7d7 (	modified:   src/components/home.tsx)
   useEffect(() => {
     if (vaultBalance === 0) return;
     const recordCurrent = async () => {
       try {
+<<<<<<< HEAD
         const response = await fetch(`${backend_url}/updateBalance/${email}`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
+=======
+        const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/updateBalance/${email}`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+>>>>>>> parent of 601a7d7 (	modified:   src/components/home.tsx)
           body: JSON.stringify({ balance: vaultBalance }),
         });
-        if (!response.ok) throw new Error("Failed to update balance");
+        if (!response.ok) throw new Error('Failed to update balance');
+        console.log("Balance synced to DB");
       } catch (err) {
         console.error("Sync error:", err);
       }
     };
     recordCurrent();
   }, [vaultBalance]);
-  // Fetch real transactions
-  // Endpoint: GET /transactions/:email
-  // Change the path below if your backend uses a different route.
-  useEffect(() => {
-    if (!email) return;
-    let cancelled = false;
 
+<<<<<<< HEAD
     const fetchTransactions = async () => {
       setTxnLoading(true);
       setTxnError(null);
@@ -379,6 +395,9 @@ export default function CampusPlanner() {
   }, [email, txnRetry]);
 
   // ── Derived values bac
+=======
+  // ── Derived values ──────────────────────────────────────────────
+>>>>>>> parent of 601a7d7 (	modified:   src/components/home.tsx)
   const totalBudgeted = Object.values(budget).reduce((a, b) => a + b, 0);
   const totalSpent    = 0;
   const cartTotal     = cart.reduce((s, item) => s + item.price * item.qty, 0);
@@ -422,8 +441,17 @@ export default function CampusPlanner() {
     { id: "stats",  icon: <BarChart2 size={20} />,    label: "Stats"        },
   ];
 
-  const txnBg   = (type: Transaction["type"]) => type === "deposit" ? "rgba(58,232,127,0.1)" : "rgba(232,118,58,0.1)";
-  const txnIcon = (type: Transaction["type"]) => type === "deposit" ? "⬇️" : "🛍️";
+  const txnBg = (type: Transaction["type"]) => {
+    if (type === "deposit") return "rgba(58,232,127,0.1)";
+    if (type === "crypto")  return "rgba(58,200,232,0.1)";
+    return "rgba(232,118,58,0.1)";
+  };
+
+  const txnIcon = (type: Transaction["type"]) => {
+    if (type === "deposit") return "⬇️";
+    if (type === "crypto")  return "🔗";
+    return "🛍️";
+  };
 
   return (
     <>
@@ -479,23 +507,6 @@ export default function CampusPlanner() {
         .txn-amt { font-family: 'Orbitron', sans-serif; font-size: 13px; font-weight: 700; }
         .txn-amt.positive { color: rgb(51,232,191); }
         .txn-amt.negative { color: RGB(0,131,208); }
-
-        /* Skeleton shimmer */
-        .txn-skeleton { display: flex; align-items: center; gap: 12px; padding: 12px 0; border-bottom: 1px solid rgba(0,0,0,0.04); }
-        .skeleton { background: linear-gradient(90deg, #f0f0f0 25%, #e8e8e8 50%, #f0f0f0 75%); background-size: 200% 100%; animation: shimmer 1.4s infinite; border-radius: 8px; }
-        @media (prefers-color-scheme: dark) { .skeleton { background: linear-gradient(90deg, #1c1c1c 25%, #242424 50%, #1c1c1c 75%); background-size: 200% 100%; } }
-        @keyframes shimmer { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
-        .skel-icon { width: 40px; height: 40px; border-radius: 12px; flex-shrink: 0; }
-        .skel-lines { flex: 1; display: flex; flex-direction: column; gap: 7px; }
-        .skel-line { height: 10px; border-radius: 5px; }
-        .skel-amt { width: 58px; height: 14px; border-radius: 6px; }
-
-        /* Empty / error */
-        .txn-empty { text-align: center; padding: 28px 0 16px; color: #aaa; font-size: 11px; line-height: 1.6; }
-        .txn-empty-icon { font-size: 34px; margin-bottom: 8px; }
-        .txn-retry { background: none; border: 1px solid rgba(0,131,208,0.35); border-radius: 8px; padding: 6px 16px; color: RGB(0,131,208); font-size: 10px; font-family: 'Orbitron', sans-serif; font-weight: 600; cursor: pointer; margin-top: 10px; transition: background 0.2s; }
-        .txn-retry:hover { background: rgba(0,131,208,0.08); }
-
         .vault-card { background: linear-gradient(90deg, RGB(0,131,208)); border-radius: 20px; padding: 28px 24px; margin-bottom: 20px; text-align: center; }
         @media (prefers-color-scheme: dark) { .vault-card { background: black; } }
         .input-row { display: flex; gap: 10px; margin-bottom: 12px; align-items: center; }
@@ -575,8 +586,8 @@ export default function CampusPlanner() {
         {screen === "home" && (
           <div className="screen">
             <div className="top-bar">
-              <HeaderIcon href="#/tools">
-                <BsGear style={{ height: "20px", width: "20px" }} />
+              <HeaderIcon href='#/tools'>
+                <BsGear style={{ height: '20px', width: '20px' }} />
               </HeaderIcon>
               <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
                 <span className="tag-sdg">🌱 SDG 2</span>
@@ -630,51 +641,10 @@ export default function CampusPlanner() {
               ))}
             </div>
 
-            {/* ── Recent Activity ────────────────────────────────── */}
-            <div className="section-title">
-              Recent Activity
-              {!txnLoading && transactions.length > 4 && (
-                <span className="see-all">See all →</span>
-              )}
-            </div>
-
-            {/* Loading: shimmer skeletons */}
-            {txnLoading && [1, 2, 3].map((n) => (
-              <div className="txn-skeleton" key={n}>
-                <div className="skeleton skel-icon" />
-                <div className="skel-lines">
-                  <div className="skeleton skel-line" style={{ width: "58%" }} />
-                  <div className="skeleton skel-line" style={{ width: "32%" }} />
-                </div>
-                <div className="skeleton skel-amt" />
-              </div>
-            ))}
-
-            {/* Error state */}
-            {!txnLoading && txnError && (
-              <div className="txn-empty">
-                <div className="txn-empty-icon"></div>
-                <div>{txnError}</div>
-                <button className="txn-retry" onClick={() => setTxnRetry((n) => n + 1)}>
-                  Retry
-                </button>
-              </div>
-            )}
-
-            {/* Empty state */}
-            {!txnLoading && !txnError && transactions.length === 0 && (
-              <div className="txn-empty">
-                <div className="txn-empty-icon">🧾</div>
-                <div>No transactions yet</div>
-              </div>
-            )}
-
-            {/* Live transaction rows */}
-            {!txnLoading && !txnError && transactions.slice(0, 4).map((t) => (
+            <div className="section-title">Recent Activity</div>
+            {TRANSACTIONS.slice(0, 4).map((t) => (
               <div className="txn-item" key={t.id}>
-                <div className="txn-icon" style={{ background: txnBg(t.type) }}>
-                  {txnIcon(t.type)}
-                </div>
+                <div className="txn-icon" style={{ background: txnBg(t.type) }}>{txnIcon(t.type)}</div>
                 <div className="txn-info">
                   <div className="txn-desc">{t.desc}</div>
                   <div className="txn-date">{t.date}</div>
@@ -686,58 +656,87 @@ export default function CampusPlanner() {
             ))}
           </div>
         )}
+ 
+        {screen === "deposits" && (
+          <UnderConstruction onBack={() => setScreen("home")} />
+        )}
 
-       {screen === "deposits" && (
-  <div className="screen">
-
-    {/* Header */}
-    <div className="top-bar">
-      <button className="btn-secondary" onClick={() => setScreen("home")}>
-        ← Back
-      </button>
-      <div className="logo" style={{ fontSize: "16px" }}>Deposit</div>
-      <div style={{ width: 60 }} />
-    </div>
-
-    {/* Account Card */}
-    <div className="vault-card">
-      <div className="balance-label">Account Details</div>
-
-      <div style={{ marginTop: "12px", marginBottom: "20px" }}>
-        <div style={{ fontSize: "11px", color: "rgba(255,255,255,0.7)" }}>
-          Account Number
-        </div>
-
-        <div className="balance-amount" style={{ fontSize: "28px" }}>
-          {accountNumber}
-        </div>
-
-        <div style={{ fontSize: "11px", color: "rgba(255,255,255,0.7)" }}>
-          Bank Name
-        </div>
-
-        <div style={{ fontSize: "14px", fontWeight: "600", marginTop: "4px" }}>
-          {bankName || "NEXR Bank"}
-        </div>
-      </div>
-
-      <div style={{ fontSize: "11px", color: "rgba(255,255,255,0.6)" }}>
-        Transfer funds to this account to fund your vault instantly.
-      </div>
-    </div>
-    </div>
-    )}
-
+        
         {screen === "Coins" && <UnderConstruction onBack={() => setScreen("home")} />}
 
+      
         {screen === "Budget" && (
-          <BudgetSection />
+          <div className="screen">
+            <div className="top-bar">
+              <button className="btn-secondary" onClick={() => setScreen("home")}>← Back</button>
+              <div className="logo" style={{ fontSize: "16px" }}>Budget <span>Plan</span></div>
+              <button
+                className="btn-primary"
+                style={{ padding: "8px 14px", fontSize: "12px" }}
+                onClick={() => { setEditBudget({ ...budget }); setPlanEditing(!planEditing); }}
+              >
+                {planEditing ? "Cancel" : "Edit"}
+              </button>
+            </div>
+
+            <div className="plan-header-card">
+              <div>
+                <div style={{ fontSize: "11px", color: "#555", textTransform: "uppercase", letterSpacing: "1px", marginBottom: "4px" }}>Monthly Budget</div>
+                <div style={{ fontFamily: "Orbitron", fontSize: "28px", fontWeight: 800 }}>₦{totalBudgeted.toLocaleString()}</div>
+              </div>
+              <div style={{ textAlign: "right" }}>
+                <div style={{ fontSize: "11px", color: "#555", textTransform: "uppercase", letterSpacing: "1px", marginBottom: "4px" }}>Remaining</div>
+                <div style={{ fontFamily: "Orbitron", fontSize: "28px", fontWeight: 800, color: "#3AE87F" }}>₦{(vaultBalance - totalSpent).toLocaleString()}</div>
+              </div>
+            </div>
+
+            {totalBudgeted > vaultBalance && (
+              <div className="warning-banner">
+                ⚠️ Budget exceeds vault balance by ₦{(totalBudgeted - vaultBalance).toLocaleString()}
+              </div>
+            )}
+
+            {CATEGORIES.map((cat) => {
+              const val = planEditing ? editBudget[cat.id] : budget[cat.id];
+              const pct = Math.min((val / totalBudgeted) * 100, 100);
+              return (
+                <div className="plan-cat-item" key={cat.id}>
+                  <span style={{ fontSize: "22px" }}>{cat.icon}</span>
+                  <div style={{ flex: 1 }}>
+                    <div className="cat-name">{cat.label}</div>
+                    <div className="cat-bar-wrap">
+                      <div className="cat-bar" style={{ width: `${pct}%`, background: cat.color }} />
+                    </div>
+                  </div>
+                  {planEditing ? (
+                    <input
+                      className="plan-input"
+                      type="number"
+                      value={editBudget[cat.id]}
+                      onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                        setEditBudget((prev) => ({ ...prev, [cat.id]: Number(e.target.value) }))
+                      }
+                    />
+                  ) : (
+                    <div className="cat-amt">₦{val.toLocaleString()}</div>
+                  )}
+                </div>
+              );
+            })}
+
+            {planEditing && (
+              <div style={{ display: "flex", gap: "10px", marginTop: "16px" }}>
+                <button className="btn-secondary" style={{ flex: 1 }} onClick={() => setPlanEditing(false)}>Cancel</button>
+                <button className="btn-primary"   style={{ flex: 2 }} onClick={savePlan}>Save Plan</button>
+              </div>
+            )}
+          </div>
         )}
 
         {/* ── MARKET ────────────────────────────────────────────── */}
         {screen === "market" && (
           <div className="screen">
-            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 20 }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 20 }}>
               <button className="btn-secondary" onClick={() => setScreen("home")}>Back</button>
               <div className="logo" style={{ fontSize: "16px" }}>Packages</div>
               <div style={{ width: 60 }} />
@@ -768,7 +767,7 @@ export default function CampusPlanner() {
                 </div>
                 <span
                   style={{ color: "white", fontFamily: "Orbitron", fontWeight: 700, cursor: "pointer" }}
-                  onClick={() => navigate("/checkout", { state: { price: { cartTotal } } })}
+                  onClick={() => navigate('/checkout', { state: { price: { cartTotal } } })}
                 >
                   Pay →
                 </span>
