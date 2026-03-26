@@ -10,7 +10,7 @@ const PageContainer = styled.div`
   align-items: center;
   justify-content: center;
   padding: 20px;
-  font-family: 'Orbitron', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-family: 'Sora', sans-serif;
   position: relative;
   overflow: hidden;
 
@@ -310,7 +310,7 @@ function UserLogin() {
     }
   };
 
-  // ── Login ───────────────────────────────────────────────────────
+
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault(); // ← must be first
 
@@ -367,7 +367,7 @@ function UserLogin() {
     mode === 'login' ? handleLogin(e) : handleRegister(e);
   };
 
-  // ── Render ──────────────────────────────────────────────────────
+
   return (
     <PageContainer>
       <LoginCard>
@@ -477,7 +477,7 @@ function UserLogin() {
       </LoginCard>
 
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;800&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&display=swap');
         .spin { animation: spin 1s linear infinite; }
         @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
       `}</style>

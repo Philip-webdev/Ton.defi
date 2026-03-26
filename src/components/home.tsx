@@ -1,539 +1,655 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import {
   Home, BookOpen, ShoppingCart, BarChart2, Coins,
   ArrowDownIcon, PenSquareIcon, ChartCandlestickIcon,
-  LeafyGreenIcon, SoupIcon, Construction, ArrowLeft,
-  Copy, CheckCircle, RefreshCw, Sliders
+  LeafyGreenIcon, SoupIcon, ArrowLeft,
+  Copy, CheckCircle, RefreshCw, Sliders, Plus, Minus,
+  TrendingUp, TrendingDown, Target, Zap, Bell, Edit3,
+  Check, X, ChevronRight, Award, Calendar, DollarSign
 } from "lucide-react";
-import Homme from "./web3";
-import { BsEyeSlash, BsGear, BsPerson } from "react-icons/bs";
-import styled, { keyframes } from "styled-components";
+import { BsCash, BsEyeSlash, BsGear, BsPerson } from "react-icons/bs";
 import { FaBoxOpen, FaBreadSlice, FaEgg } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
-import BudgetSection from "./BudgetSection";
 
-// ── Animations ────────────────────────────────────────────────────
-const spin = keyframes`from { transform: rotate(0deg); } to { transform: rotate(360deg); }`;
+// ─── Types ────────────────────────────────────────────────────────
+type CategoryId = "food" | "transport" | "books" | "health" | "savings" | "misc";
+interface Category { id: CategoryId; label: string; icon: string; color: string; gradient: string }
+interface FoodPackage { id: number; name: string; desc: string; price: number; img: any; tag: string; portions: number; category: string }
+interface CartItem extends FoodPackage { qty: number }
+interface Transaction { id: number; desc: string; amount: number; date: string; type: "spend" | "deposit"; category: string }
+type BudgetMap = Record<CategoryId, number>;
+type Screen = "home" | "Coins" | "Budget" | "market" | "stats" | "deposits" | "profile";
 
-// ── Styled Components ─────────────────────────────────────────────
-const Container = styled.div`
-  display: flex; font-family: orbitron; flex-direction: column;
-  align-items: center; justify-content: center; min-height: 100vh;
-  padding: 20px; text-align: center; background: white;
-  @media (prefers-color-scheme: dark) { background: rgb(1,1,1); color: white; }
-`;
-const IconWrapper = styled.div`
-  margin-bottom: 24px;
-  animation: bounce 2s infinite;
-  @keyframes bounce { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-10px)} }
-`;
-const Title       = styled.h1`font-size:28px;font-weight:bold;margin-bottom:12px;color:rgb(36,172,242)`;
-const Message     = styled.p`font-size:16px;color:#666;margin-bottom:32px;max-width:400px;@media(prefers-color-scheme:dark){color:#999}`;
-const BackButton  = styled.button`
-  display:flex;align-items:center;gap:8px;padding:12px 24px;
-  background:rgb(36,172,242);color:black;border:none;border-radius:8px;
-  font-size:16px;font-weight:600;cursor:pointer;transition:all .3s;
-  &:hover{opacity:.9;transform:translateY(-2px)}
-`;
-const ComingSoonBadge = styled.span`
-  display:inline-block;padding:6px 12px;background:rgba(51,232,191,.1);
-  border:1px solid rgb(36,172,242);border-radius:20px;font-size:12px;
-  color:rgb(36,172,242);margin-bottom:16px;font-weight:600;
-`;
-const BalanceAmount = styled.div`
-  display:flex;justify-self:center;align-items:center;justify-content:center;
-  gap:12px;font-size:48px;font-weight:700;color:white;margin-bottom:16px;
-`;
-const HeaderIcon = styled.a`
-  display:flex;align-items:center;justify-content:center;width:44px;height:44px;
-  background:white;border-radius:12px;transition:all .3s;text-decoration:none;color:inherit;
-  &:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(0,0,0,.1)}
-  @media(prefers-color-scheme:dark){background:rgb(1,1,1);
-    &:hover{box-shadow:0 4px 12px rgba(51,232,191,.2)}}
-`;
-
-// ── Types ─────────────────────────────────────────────────────────
-type CategoryId = "food"|"transport"|"books"|"health"|"savings"|"misc";
-interface Category  { id:CategoryId; label:string; icon:string; color:string }
-interface FoodPackage { id:number; name:string; desc:string; price:number; img:any; tag:string; portions:number; category:string }
-interface CartItem extends FoodPackage { qty:number }
-interface Transaction { id:number; desc:string; amount:number; date:string; type:"spend"|"deposit"; category:string }
-interface ChartDatum  { label:string; value:number; color:string }
-type BudgetMap = Record<CategoryId,number>;
-type Screen = "home"|"Coins"|"Budget"|"market"|"stats"|"deposits";
-
-// ── Static Data ───────────────────────────────────────────────────
+// ─── Static Data ─────────────────────────────────────────────────
 const CATEGORIES: Category[] = [
-  { id:"food",      label:"Food & Meals",    icon:"🍽️", color:"#E8763A" },
-  { id:"transport", label:"Transport",        icon:"🚌", color:"#3A8FE8" },
-  { id:"books",     label:"Books & Supplies", icon:"📚", color:"#8F3AE8" },
-  { id:"health",    label:"Health",           icon:"💊", color:"#E83A6B" },
-  { id:"savings",   label:"Savings",          icon:"🏦", color:"#3AE87F" },
-  { id:"misc",      label:"Miscellaneous",    icon:"🎯", color:"#E8D43A" },
+  { id: "food",      label: "Food & Meals",    icon: "🍽️", color: "#F97316", gradient: "linear-gradient(135deg,#FED7AA,#FCA572)" },
+  { id: "transport", label: "Transport",        icon: "🚌", color: "#3B82F6", gradient: "linear-gradient(135deg,#BFDBFE,#93C5FD)" },
+  { id: "books",     label: "Books & Supplies", icon: "📚", color: "#8B5CF6", gradient: "linear-gradient(135deg,#DDD6FE,#C4B5FD)" },
+  { id: "health",    label: "Health",           icon: "💊", color: "#EC4899", gradient: "linear-gradient(135deg,#FBCFE8,#F9A8D4)" },
+  { id: "savings",   label: "Savings",          icon: "🏦", color: "#10B981", gradient: "linear-gradient(135deg,#A7F3D0,#6EE7B7)" },
+  { id: "misc",      label: "Miscellaneous",    icon: "🎯", color: "#F59E0B", gradient: "linear-gradient(135deg,#FDE68A,#FCD34D)" },
 ];
+
 const FOOD_PACKAGES: FoodPackage[] = [
-  { id:1, name:"Campus Essentials Box",  desc:"Rice, beans, garri, palm oil — weekly staples",  price:4500, img:<FaBoxOpen />,      tag:"SDG 2",         portions:7,  category:"food" },
-  { id:2, name:"Protein Power Pack",     desc:"Eggs, canned fish, groundnuts, soy milk",        price:6200, img:<FaEgg />,          tag:"High Protein",  portions:14, category:"food" },
-  { id:3, name:"Veggie Fresh Bundle",    desc:"Tomatoes, peppers, onions, leafy greens",        price:3800, img:<LeafyGreenIcon />, tag:"Fresh Daily",   portions:5,  category:"food" },
-  { id:4, name:"Snack & Study Kit",      desc:"Biscuits, chin-chin, zobo drink, cashews",       price:2500, img:"🍿",               tag:"Study Fuel",    portions:10, category:"misc" },
-  { id:5, name:"Breakfast Starter",      desc:"Oats, bread, peanut butter, powdered milk",      price:3200, img:<FaBreadSlice />,   tag:"Morning Boost", portions:7,  category:"food" },
-  { id:6, name:"Seminar Week Meal Prep", desc:"Pre-cooked stew, frozen veggies, pasta packs",   price:7800, img:<SoupIcon />,       tag:"Exam Season",   portions:14, category:"food" },
+  { id: 1, name: "Campus Essentials Box",  desc: "Rice, beans, garri, palm oil — weekly staples",   price: 4500, img: <FaBoxOpen />,      tag: "SDG 2",        portions: 7,  category: "food" },
+  { id: 2, name: "Protein Power Pack",     desc: "Eggs, canned fish, groundnuts, soy milk",          price: 6200, img: <FaEgg />,          tag: "High Protein", portions: 14, category: "food" },
+  { id: 3, name: "Veggie Fresh Bundle",    desc: "Tomatoes, peppers, onions, leafy greens",          price: 3800, img: <LeafyGreenIcon />, tag: "Fresh Daily",  portions: 5,  category: "food" },
+  { id: 4, name: "Snack & Study Kit",      desc: "Biscuits, chin-chin, zobo drink, cashews",         price: 2500, img: "🍿",               tag: "Study Fuel",   portions: 10, category: "misc" },
+  { id: 5, name: "Breakfast Starter",      desc: "Oats, bread, peanut butter, powdered milk",        price: 3200, img: <FaBreadSlice />,   tag: "Morning Boost",portions: 7,  category: "food" },
+  { id: 6, name: "Seminar Meal Prep",      desc: "Pre-cooked stew, frozen veggies, pasta packs",     price: 7800, img: <SoupIcon />,       tag: "Exam Season",  portions: 14, category: "food" },
 ];
-const SPENT_BY_CATEGORY: Partial<Record<CategoryId,number>> = { food:0, transport:0, books:0, health:0 };
 
-// ── Under Construction ────────────────────────────────────────────
-const UnderConstruction = ({ onBack }: { onBack:()=>void }) => (
-  <Container>
-    <ComingSoonBadge>COMING SOON</ComingSoonBadge>
-    <IconWrapper><Construction size={80} color="rgb(36,172,242)" /></IconWrapper>
-    <Title>We're Building Something Great!</Title>
-    <Message>This feature is currently under construction. We're working hard to bring you an amazing experience. Check back soon!</Message>
-    <BackButton onClick={onBack}><ArrowLeft size={20} />Go Back</BackButton>
-  </Container>
-);
+const BUDGET_TIPS = [
+  { icon: "💡", tip: "Allocate food budget first — it's your most consistent spend.", accent: "#F97316" },
+  { icon: "🏦", tip: "Set aside at least 10% of income to savings every month.", accent: "#10B981" },
+  { icon: "📊", tip: "Track spending weekly so small leaks don't become big holes.", accent: "#3B82F6" },
+  { icon: "🎯", tip: "Batch-cook on weekends to cut your food spend by up to 30%.", accent: "#8B5CF6" },
+];
 
-// ── Animated Number ───────────────────────────────────────────────
-function AnimatedNumber({ value, prefix="" }: { value:number; prefix?:string }) {
+// ─── Helpers ──────────────────────────────────────────────────────
+function normaliseTransaction(raw: any, index: number): Transaction {
+  const desc = raw.description ?? raw.narration ?? raw.note ?? raw.remark ?? raw.title ?? raw.name ?? "Transaction";
+  const amount = raw.amount != null ? Number(raw.amount) : raw.credit != null ? Number(raw.credit) : raw.debit != null ? -Number(raw.debit) : 0;
+  let date: string = raw.date ?? raw.created_at ?? raw.createdAt ?? raw.transaction_date ?? "";
+  if (date) { const p = new Date(date); if (!isNaN(p.getTime())) date = p.toLocaleDateString("en-NG", { month: "short", day: "numeric" }) }
+  return { id: raw.id ?? index, desc, amount, date, type: amount >= 0 ? "deposit" : "spend", category: raw.category ?? raw.type ?? (amount >= 0 ? "vault" : "misc") };
+}
+
+// ─── Animated Number ──────────────────────────────────────────────
+function AnimatedNumber({ value, prefix = "" }: { value: number; prefix?: string }) {
   const [display, setDisplay] = useState(0);
   useEffect(() => {
-    if(value===0){setDisplay(0);return}
-    const steps=40, inc=value/steps; let cur=0;
-    const t=setInterval(()=>{ cur+=inc; if(cur>=value){setDisplay(value);clearInterval(t)}else setDisplay(Math.floor(cur)) },30);
-    return ()=>clearInterval(t);
-  },[value]);
+    if (value === 0) { setDisplay(0); return; }
+    const steps = 50, inc = value / steps; let cur = 0;
+    const t = setInterval(() => { cur += inc; if (cur >= value) { setDisplay(value); clearInterval(t); } else setDisplay(Math.floor(cur)); }, 25);
+    return () => clearInterval(t);
+  }, [value]);
   return <span>{prefix}{display.toLocaleString()}</span>;
 }
 
-// ── Donut Chart ───────────────────────────────────────────────────
-function DonutChart({ data }: { data:ChartDatum[] }) {
-  
-  const total=data.reduce((s,d)=>s+d.value,0);
-  if (total === 0) {
-  return <div style={{ color: "#888", fontSize: 12 }}>No data</div>;
-}
-  let cum=0; const cx=60,cy=60,r=48,stroke=14,circ=2*Math.PI*r;
-  const segs=data.map(d=>{ const pct=d.value/total,dash=pct*circ,gap=circ-dash,offset=circ-cum*circ; cum+=pct; return{...d,dash,gap,offset} });
+// ─── Donut Chart ─────────────────────────────────────────────────
+function DonutChart({ data, size = 140 }: { data: { label: string; value: number; color: string }[]; size?: number }) {
+  const total = data.reduce((s, d) => s + d.value, 0);
+  if (total === 0) return <div style={{ width: size, height: size, display: "flex", alignItems: "center", justifyContent: "center", color: "#888", fontSize: 11 }}>No data</div>;
+  const cx = size / 2, cy = size / 2, r = size * 0.36, stroke = size * 0.1, circ = 2 * Math.PI * r;
+  let cum = 0;
+  const segs = data.map(d => { const pct = d.value / total, dash = pct * circ, gap = circ - dash, offset = circ - cum * circ; cum += pct; return { ...d, dash, gap, offset }; });
   return (
-    <svg width="120" height="120" viewBox="0 0 120 120">
-      <circle cx={cx} cy={cy} r={r} fill="none" stroke="#1a1a1a" strokeWidth={stroke} />
-      {segs.map((s,i)=>(
+    <svg width={size} height={size} viewBox={`0 0 ${size} ${size}`}>
+      <circle cx={cx} cy={cy} r={r} fill="none" stroke="rgba(255,255,255,0.06)" strokeWidth={stroke} />
+      {segs.map((s, i) => (
         <circle key={i} cx={cx} cy={cy} r={r} fill="none" stroke={s.color} strokeWidth={stroke}
           strokeDasharray={`${s.dash} ${s.gap}`} strokeDashoffset={s.offset}
-          style={{transition:"stroke-dasharray .6s ease"}} transform={`rotate(-90 ${cx} ${cy})`} />
+          style={{ transition: "stroke-dasharray .8s cubic-bezier(.4,0,.2,1)" }} transform={`rotate(-90 ${cx} ${cy})`} />
       ))}
-      <text x={cx} y={cy-4}  textAnchor="middle" fill="white"          fontSize="9" fontWeight="700" fontFamily="Orbitron">SPENT</text>
-      <text x={cx} y={cy+10} textAnchor="middle" fill="rgb(0,131,208)" fontSize="8" fontFamily="Orbitron">₦{(total/1000).toFixed(0)}k</text>
+      <text x={cx} y={cy - 6} textAnchor="middle" fill="rgba(255,255,255,0.6)" fontSize={size * 0.075} fontFamily="'Sora',sans-serif" fontWeight="500">SPENT</text>
+      <text x={cx} y={cy + 12} textAnchor="middle" fill="white" fontSize={size * 0.1} fontFamily="'Sora',sans-serif" fontWeight="700">₦{(total / 1000).toFixed(0)}k</text>
     </svg>
   );
 }
 
-// ── Normalise transaction ─────────────────────────────────────────
-function normaliseTransaction(raw:any, index:number): Transaction {
-  const desc = raw.description??raw.narration??raw.note??raw.remark??raw.title??raw.name??"Transaction";
-  const amount = raw.amount!=null?Number(raw.amount):raw.credit!=null?Number(raw.credit):raw.debit!=null?-Number(raw.debit):0;
-  let date:string = raw.date??raw.created_at??raw.createdAt??raw.transaction_date??"";
-  if(date){ const p=new Date(date); if(!isNaN(p.getTime())) date=p.toLocaleDateString("en-NG",{month:"short",day:"numeric"}) }
-  const type:Transaction["type"] = amount>=0?"deposit":"spend";
-  const category = raw.category??raw.type??(amount>=0?"vault":"misc");
-  return { id:raw.id??index, desc, amount, date, type, category };
+// ─── Budget Edit Modal ────────────────────────────────────────────
+function BudgetModal({ budget, onSave, onClose, vaultBalance }: {
+  budget: BudgetMap; onSave: (b: BudgetMap) => void; onClose: () => void; vaultBalance: number;
+}) {
+  const [draft, setDraft] = useState<BudgetMap>({ ...budget });
+  const total = Object.values(draft).reduce((a, b) => a + b, 0);
+  const over = total > vaultBalance;
+
+  const adjust = (id: CategoryId, delta: number) => {
+    setDraft(prev => ({ ...prev, [id]: Math.max(0, (prev[id] ?? 0) + delta) }));
+  };
+
+  return (
+    <div style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,0.6)", zIndex: 200, display: "flex", alignItems: "flex-end", justifyContent: "center" }} onClick={onClose}>
+      <div onClick={e => e.stopPropagation()} style={{ background: "rgb(15,17,23)", borderRadius: "24px 24px 0 0", padding: "28px 24px 40px", width: "100%", maxWidth: 430, maxHeight: "80vh", overflowY: "auto" }}>
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 24 }}>
+          <div style={{ fontFamily: "'Sora',sans-serif", fontSize: 17, fontWeight: 700, color: "white" }}>Adjust Budget</div>
+          <button onClick={onClose} style={{ background: "rgba(255,255,255,0.08)", border: "none", borderRadius: 10, width: 36, height: 36, display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer", color: "white" }}><X size={16} /></button>
+        </div>
+
+        <div style={{ background: over ? "rgba(239,68,68,0.1)" : "rgba(16,185,129,0.08)", border: `1px solid ${over ? "rgba(239,68,68,0.3)" : "rgba(16,185,129,0.2)"}`, borderRadius: 14, padding: "12px 16px", marginBottom: 20, display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+          <div>
+            <div style={{ fontSize: 10, color: "rgba(255,255,255,0.5)", marginBottom: 2, textTransform: "uppercase", letterSpacing: 1 }}>Total Allocated</div>
+            <div style={{ fontFamily: "'Sora',sans-serif", fontSize: 22, fontWeight: 800, color: over ? "#EF4444" : "#10B981" }}>₦{total.toLocaleString()}</div>
+          </div>
+          <div style={{ textAlign: "right" }}>
+            <div style={{ fontSize: 10, color: "rgba(255,255,255,0.5)", marginBottom: 2, textTransform: "uppercase", letterSpacing: 1 }}>Vault Balance</div>
+            <div style={{ fontFamily: "'Sora',sans-serif", fontSize: 22, fontWeight: 800, color: "white" }}>₦{vaultBalance.toLocaleString()}</div>
+          </div>
+        </div>
+
+        {CATEGORIES.map(cat => (
+          <div key={cat.id} style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 16 }}>
+            <div style={{ width: 40, height: 40, borderRadius: 12, background: cat.gradient, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 18, flexShrink: 0 }}>{cat.icon}</div>
+            <div style={{ flex: 1 }}>
+              <div style={{ fontSize: 11, fontWeight: 600, color: "rgba(255,255,255,0.8)", marginBottom: 4 }}>{cat.label}</div>
+              <div style={{ height: 3, background: "rgba(255,255,255,0.08)", borderRadius: 2, overflow: "hidden" }}>
+                <div style={{ height: "100%", background: cat.color, width: `${total > 0 ? Math.min((draft[cat.id] / total) * 100, 100) : 0}%`, transition: "width .4s", borderRadius: 2 }} />
+              </div>
+            </div>
+            <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+              <button onClick={() => adjust(cat.id, -500)} style={{ width: 28, height: 28, borderRadius: 8, background: "rgba(255,255,255,0.06)", border: "1px solid rgba(255,255,255,0.1)", cursor: "pointer", color: "white", display: "flex", alignItems: "center", justifyContent: "center" }}><Minus size={12} /></button>
+              <div style={{ fontFamily: "'Sora',sans-serif", fontSize: 12, fontWeight: 700, color: "white", minWidth: 52, textAlign: "center" }}>₦{(draft[cat.id] / 1000).toFixed(1)}k</div>
+              <button onClick={() => adjust(cat.id, 500)} style={{ width: 28, height: 28, borderRadius: 8, background: "rgba(255,255,255,0.06)", border: "1px solid rgba(255,255,255,0.1)", cursor: "pointer", color: "white", display: "flex", alignItems: "center", justifyContent: "center" }}><Plus size={12} /></button>
+            </div>
+          </div>
+        ))}
+
+        <button disabled={over} onClick={() => { onSave(draft); onClose(); }} style={{ width: "100%", padding: "15px", background: over ? "rgba(255,255,255,0.08)" : "linear-gradient(135deg,#0083D0,#24ACF2)", border: "none", borderRadius: 14, fontFamily: "'Sora',sans-serif", fontSize: 13, fontWeight: 700, color: over ? "#666" : "white", cursor: over ? "not-allowed" : "pointer", transition: "all .2s", marginTop: 8 }}>
+          {over ? "Total exceeds vault balance" : "Save Budget Plan"}
+        </button>
+      </div>
+    </div>
+  );
 }
 
-// ── Deposit Screen ────────────────────────────────────────────────
-function DepositScreen({
-  accountNumber, bankName, vaultBalance, onBack, onRefresh, refreshing,
-}: {
-  accountNumber: string;
-  bankName: string;
-  vaultBalance: number;
-  onBack: () => void;
-  onRefresh: () => void;
-  refreshing: boolean;
+// ─── Profile Screen ───────────────────────────────────────────────
+function ProfileScreen({ onBack }: { onBack: () => void }) {
+  const email = localStorage.getItem("email") ?? "user@gmail.com";
+  const storedName = localStorage.getItem("userName") ?? "";
+  const [editingName, setEditingName] = useState(false);
+  const [name, setName] = useState(storedName || email.split("@")[0].replace(/[._]/g, " ").replace(/\b\w/g, c => c.toUpperCase()));
+  const [tempName, setTempName] = useState(name);
+  const [joined] = useState("March 2025");
+
+  const saveName = () => { setName(tempName); localStorage.setItem("userName", tempName); setEditingName(false); };
+  const initials = name.split(" ").map(w => w[0]).join("").toUpperCase().slice(0, 2);
+
+  const badges = [
+    { icon: "🏆", label: "First Deposit", earned: true },
+    { icon: "📊", label: "Budget Pro", earned: true },
+    { icon: "🎯", label: "Goal Setter", earned: false },
+    { icon: "🌱", label: "SDG Champion", earned: false },
+  ];
+
+  const stats = [
+    { label: "Saved", value: "₦0", icon: <TrendingUp size={14} />, color: "#10B981" },
+    { label: "Deposited", value: "₦0", icon: <BsCash size={14} />, color: "#08c938" },
+    { label: "Packages", value: "0", icon: <Award size={14} />, color: "#8B5CF6" },
+   
+  ];
+
+  return (
+    <div className="screen" style={{ paddingBottom: 40 }}>
+      <div style={{ display: "flex", alignItems: "center", marginBottom: 28 }}>
+        <button className="btn-ghost" style={{marginLeft: '-4px'}} onClick={onBack}><ArrowLeft size={18} /></button>
+        <div style={{ fontFamily: "'Sora',sans-serif", fontSize: 15, fontWeight: 700, color: "white", position:'absolute', left:'45%' }}>Profile</div>
+        <div style={{ width: 36 }} />
+      </div>
+
+      {/* Hero card */}
+      <div style={{ background: "transparent", borderRadius: 28, padding: "32px 24px 28px", marginBottom: 20, position: "relative", overflow: "hidden" }}>
+        <div style={{ position: "absolute", top: -40, right: -40, width: 160, height: 160, borderRadius: "50%", background: "rgba(255,255,255,0.05)" }} />
+        <div style={{ position: "absolute", bottom: -20, left: -20, width: 100, height: 100, borderRadius: "50%", background: "rgba(255,255,255,0.04)" }} />
+
+        <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 14, position: "relative" }}>
+          <div style={{ width: 80, height: 80, borderRadius: 24, background: "rgba(255,255,255,0.15)", border: "2px solid rgba(255,255,255,0.25)", display: "flex", alignItems: "center", justifyContent: "center", fontFamily: "'Sora',sans-serif", fontSize: 28, fontWeight: 800, color: "white", backdropFilter: "blur(10px)" }}>
+            {initials}
+          </div>
+
+          {editingName ? (
+            <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+              <input value={tempName} onChange={e => setTempName(e.target.value)} onKeyDown={e => e.key === "Enter" && saveName()}
+                style={{ background: "rgba(255,255,255,0.15)", border: "1px solid rgba(255,255,255,0.3)", borderRadius: 10, padding: "8px 12px", color: "white", fontFamily: "'Sora',sans-serif", fontSize: 16, fontWeight: 700, textAlign: "center", outline: "none", width: 180 }} />
+              <button onClick={saveName} style={{ background: "rgba(16,185,129,0.3)", border: "none", borderRadius: 8, width: 32, height: 32, display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer", color: "#6EE7B7" }}><Check size={14} /></button>
+              <button onClick={() => setEditingName(false)} style={{ background: "rgba(239,68,68,0.2)", border: "none", borderRadius: 8, width: 32, height: 32, display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer", color: "#FCA5A5" }}><X size={14} /></button>
+            </div>
+          ) : (
+            <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+              <div style={{ fontFamily: "'Sora',sans-serif", fontSize: 22, fontWeight: 800, color: "white" }}>{name}</div>
+              <button onClick={() => { setTempName(name); setEditingName(true); }} style={{ background: "rgba(255,255,255,0.12)", border: "none", borderRadius: 8, width: 28, height: 28, display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer", color: "rgba(255,255,255,0.7)" }}><Edit3 size={12} /></button>
+            </div>
+          )}
+
+          <div style={{ fontSize: 12, color: "rgba(255,255,255,0.65)", letterSpacing: 0.3 }}>{email}</div>
+          {/* <div style={{ display: "inline-flex", alignItems: "center", gap: 6, background: "rgba(16,185,129,0.2)", border: "1px solid rgba(16,185,129,0.35)", borderRadius: 20, padding: "4px 12px" }}>
+            <div style={{ width: 6, height: 6, borderRadius: "50%", background: "#10B981" }} />
+          </div> */}
+        </div>
+      </div>
+
+      {/* Stats grid */}
+      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10, marginBottom: 20 }}>
+        {stats.map((s, i) => (
+          <div key={i} style={{ background: "rgb(20,22,30)", border: "1px solid rgba(255,255,255,0.06)", borderRadius: 18, padding: "16px 14px" }}>
+            <div style={{ display: "flex", alignItems: "center", gap: 6, marginBottom: 8 }}>
+              <span style={{ color: s.color }}>{s.icon}</span>
+              <span style={{ fontSize: 10, color: "rgba(255,255,255,0.4)", textTransform: "uppercase", letterSpacing: 0.8 }}>{s.label}</span>
+            </div>
+            <div style={{ fontFamily: "'Sora',sans-serif", fontSize: 16, fontWeight: 800, color: "white" }}>{s.value}</div>
+          </div>
+        ))}
+      </div>
+
+      {/* Badges */}
+      {/* <div style={{ background: "rgb(20,22,30)", border: "1px solid rgba(255,255,255,0.06)", borderRadius: 20, padding: 20, marginBottom: 16 }}>
+        <div style={{ fontFamily: "'Sora',sans-serif", fontSize: 13, fontWeight: 700, color: "white", marginBottom: 16 }}>Achievements</div>
+        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10 }}>
+          {badges.map((b, i) => (
+            <div key={i} style={{ display: "flex", alignItems: "center", gap: 10, padding: "10px 12px", background: b.earned ? "rgba(255,255,255,0.04)" : "rgba(255,255,255,0.02)", border: `1px solid ${b.earned ? "rgba(255,255,255,0.1)" : "rgba(255,255,255,0.04)"}`, borderRadius: 12 }}>
+              <span style={{ fontSize: 22, opacity: b.earned ? 1 : 0.25 }}>{b.icon}</span>
+              <div>
+                <div style={{ fontSize: 10, fontWeight: 600, color: b.earned ? "white" : "rgba(255,255,255,0.3)" }}>{b.label}</div>
+                <div style={{ fontSize: 9, color: b.earned ? "#10B981" : "rgba(255,255,255,0.2)", marginTop: 2 }}>{b.earned ? "Earned" : "Locked"}</div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div> */}
+
+      {/* Account section */}
+      {/* <div style={{ background: "rgb(20,22,30)", border: "1px solid rgba(255,255,255,0.06)", borderRadius: 20, overflow: "hidden", marginBottom: 16 }}>
+        {[
+          { icon: "🔔", label: "Notifications", sub: "Budget alerts & reminders" },
+          { icon: "🔒", label: "Privacy & Security", sub: "PIN, biometrics" },
+          { icon: "🎨", label: "Appearance", sub: "Theme & display" },
+          { icon: "💬", label: "Help & Support", sub: "FAQs, contact us" },
+        ].map((item, i, arr) => (
+          <div key={i} style={{ display: "flex", alignItems: "center", gap: 12, padding: "14px 18px", borderBottom: i < arr.length - 1 ? "1px solid rgba(255,255,255,0.04)" : "none", cursor: "pointer" }}>
+            <span style={{ fontSize: 20 }}>{item.icon}</span>
+            <div style={{ flex: 1 }}>
+              <div style={{ fontSize: 13, fontWeight: 600, color: "white" }}>{item.label}</div>
+              <div style={{ fontSize: 11, color: "rgba(255,255,255,0.4)", marginTop: 2 }}>{item.sub}</div>
+            </div>
+            <ChevronRight size={14} color="rgba(255,255,255,0.3)" />
+          </div>
+        ))}
+      </div> */}
+
+      {/* <div style={{ background: "rgba(239,68,68,0.08)", border: "1px solid rgba(239,68,68,0.15)", borderRadius: 16, padding: "14px 18px", display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer" }}>
+        <span style={{ fontFamily: "'Sora',sans-serif", fontSize: 13, fontWeight: 700, color: "#EF4444" }}>Sign Out</span>
+      </div> */}
+    </div>
+  );
+}
+
+// Deposit Screen 
+function DepositScreen({ accountNumber, bankName, vaultBalance, onBack, onRefresh, refreshing }: {
+  accountNumber: string; bankName: string; vaultBalance: number;
+  onBack: () => void; onRefresh: () => void; refreshing: boolean;
 }) {
   const [copied, setCopied] = useState(false);
+  const accountReady = accountNumber && accountNumber !== "****";
 
   const copyAccount = () => {
-    if (accountNumber && accountNumber !== "****") {
-if (navigator?.clipboard) {
-  navigator.clipboard.writeText(accountNumber);
-        setCopied(true);
-        setTimeout(() => setCopied(false), 2500);
-      };
+    if (accountReady && navigator?.clipboard) {
+      navigator.clipboard.writeText(accountNumber);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2500);
     }
   };
 
-  const accountReady = accountNumber && accountNumber !== "****";
-
   return (
     <div className="screen">
-      {/* Top bar */}
-      <div className="top-bar">
-        <button className="btn-secondary" onClick={onBack}>← Back</button>
-        <div className="logo" style={{ fontSize: "16px" }}>Fund Vault</div>
-        <button
-          onClick={onRefresh}
-          style={{ background: "none", border: "none", cursor: "pointer", color: "RGB(0,131,208)", display: "flex", alignItems: "center", gap: 4, fontFamily: "Orbitron", fontSize: 10, fontWeight: 700 }}
-        >
-          <RefreshCw size={14} style={{ animation: refreshing ? `spin 1s linear infinite` : "none" }} />
+      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 28 }}>
+        <button className="btn-ghost" onClick={onBack}><ArrowLeft size={18} /></button>
+        <div style={{ fontFamily: "'Sora',sans-serif", fontSize: 15, fontWeight: 700, color: "white" }}>Fund Vault</div>
+        <button onClick={onRefresh} style={{ background: "none", border: "none", cursor: "pointer", color: "#24ACF2", display: "flex", alignItems: "center", gap: 4, fontFamily: "'Sora',sans-serif", fontSize: 11, fontWeight: 700 }}>
+          <RefreshCw size={14} style={{ animation: refreshing ? "spin 1s linear infinite" : "none" }} />
           {refreshing ? "..." : "Refresh"}
         </button>
       </div>
 
-      {/* Current balance pill */}
-      <div style={{ textAlign: "center", marginBottom: 24 }}>
-        <div style={{ fontSize: 10, color: "#888", textTransform: "uppercase", letterSpacing: 1.5, marginBottom: 6 }}>Current Vault Balance</div>
-        <div style={{ fontFamily: "Orbitron", fontSize: 32, fontWeight: 800, color: "white" }}>
-          ₦{vaultBalance.toLocaleString()}
-        </div>
+      <div style={{ textAlign: "center", marginBottom: 28 }}>
+        <div style={{ fontSize: 11, color: "rgba(255,255,255,0.45)", textTransform: "uppercase", letterSpacing: 2, marginBottom: 8 }}>Current Vault Balance</div>
+        <div style={{ fontFamily: "'Sora',sans-serif", fontSize: 38, fontWeight: 800, color: "white" }}>₦{vaultBalance.toLocaleString()}</div>
       </div>
 
-      {/* Virtual account card */}
-      <div style={{
-        background: "linear-gradient(135deg, RGB(0,131,208), rgb(0,90,160))",
-        borderRadius: 24, padding: "28px 24px", marginBottom: 20, position: "relative", overflow: "hidden",
-      }}>
-        {/* Decorative circles */}
-        <div style={{ position: "absolute", top: -30, right: -30, width: 120, height: 120, borderRadius: "50%", background: "rgba(255,255,255,.06)" }} />
-        <div style={{ position: "absolute", bottom: -20, left: -20, width: 80, height: 80, borderRadius: "50%", background: "rgba(255,255,255,.04)" }} />
-
-        <div style={{ fontSize: 10, color: "rgba(255,255,255,.7)", textTransform: "uppercase", letterSpacing: 2, marginBottom: 20 }}>
-          Your Dedicated Account
-        </div>
-
-        {/* Bank name */}
-        <div style={{ fontSize: 11, color: "rgba(255,255,255,.75)", marginBottom: 6, letterSpacing: 0.5 }}>
-          {accountReady ? bankName || "Wema Bank" : "Loading..."}
-        </div>
-
-        {/* Account number */}
+      <div style={{ background: "linear-gradient(135deg,rgb(0,95,165),rgb(0,60,110))", borderRadius: 24, padding: "28px 24px", marginBottom: 20, position: "relative", overflow: "hidden" }}>
+        <div style={{ position: "absolute", top: -30, right: -30, width: 120, height: 120, borderRadius: "50%", background: "rgba(255,255,255,0.05)" }} />
+        <div style={{ fontSize: 11, color: "rgba(255,255,255,0.6)", textTransform: "uppercase", letterSpacing: 2, marginBottom: 18 }}>Your Dedicated Account</div>
+        <div style={{ fontSize: 12, color: "rgba(255,255,255,0.65)", marginBottom: 6 }}>{accountReady ? bankName || "Wema Bank" : "Loading..."}</div>
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 20 }}>
-          <div style={{ fontFamily: "Orbitron", fontSize: 28, fontWeight: 800, color: "white", letterSpacing: 3 }}>
-            {accountReady
-              ? accountNumber.replace(/(\d{4})(\d{3})(\d{3})/, "$1 $2 $3")
-              : "—— ——— ———"}
+          <div style={{ fontFamily: "'Sora',sans-serif", fontSize: 28, fontWeight: 800, color: "white", letterSpacing: 4 }}>
+            {accountReady ? accountNumber.replace(/(\d{4})(\d{3})(\d{3})/, "$1 $2 $3") : "—— ——— ———"}
           </div>
           {accountReady && (
-            <button onClick={copyAccount} style={{
-              background: copied ? "rgba(58,232,127,.25)" : "rgba(255,255,255,.15)",
-              border: `1px solid ${copied ? "rgba(58,232,127,.5)" : "rgba(255,255,255,.25)"}`,
-              borderRadius: 10, padding: "8px 12px", cursor: "pointer",
-              display: "flex", alignItems: "center", gap: 6, transition: "all .2s",
-              color: "white", fontFamily: "Orbitron", fontSize: 10, fontWeight: 700,
-            }}>
+            <button onClick={copyAccount} style={{ background: copied ? "rgba(16,185,129,0.25)" : "rgba(255,255,255,0.12)", border: `1px solid ${copied ? "rgba(16,185,129,0.4)" : "rgba(255,255,255,0.2)"}`, borderRadius: 10, padding: "8px 12px", cursor: "pointer", display: "flex", alignItems: "center", gap: 6, color: "white", fontSize: 11, fontWeight: 700, fontFamily: "'Sora',sans-serif" }}>
               {copied ? <CheckCircle size={14} /> : <Copy size={14} />}
               {copied ? "Copied!" : "Copy"}
             </button>
           )}
         </div>
-
-        {/* Account name */}
-        <div style={{ fontSize: 10, color: "rgba(255,255,255,.6)", textTransform: "uppercase", letterSpacing: 1, marginBottom: 4 }}>Account Name</div>
-        <div style={{ fontFamily: "Orbitron", fontSize: 13, fontWeight: 700, color: "white" }}>
-          {accountReady ? (bankName || "Nekstpei User") : "—"}
-        </div>
+        <div style={{ fontSize: 10, color: "rgba(255,255,255,0.5)", textTransform: "uppercase", letterSpacing: 1, marginBottom: 4 }}>Account Name</div>
+        <div style={{ fontFamily: "'Sora',sans-serif", fontSize: 14, fontWeight: 700, color: "white" }}>{accountReady ? (bankName || "Nekstpei User") : "—"}</div>
       </div>
 
-      {/* How to deposit steps */}
-      <div style={{ background: "transparent", borderRadius: 20, padding: "20px", marginBottom: 16, boxShadow: "0 2px 8px rgba(0,0,0,.05)" }}>
-        <div style={{ fontFamily: "Orbitron", fontSize: 12, fontWeight: 700, marginBottom: 16, color: "white" }}>
-          How to Fund Your Vault
-        </div>
+      <div style={{ borderRadius: 20, marginBottom: 16 }}>
+        <div style={{ fontFamily: "'Sora',sans-serif", fontSize: 13, fontWeight: 700, marginBottom: 16, color: "white" }}>How to Fund Your Vault</div>
         {[
-          { step: "01", text: "Open your bank app or USSD", icon: "✅" },
-          { step: "02", text: "Transfer any amount to the account number above", icon: "✅"},
+          { step: "01", text: "Open your bank app or USSD", icon: "📱" },
+          { step: "02", text: "Transfer any amount to the account number above", icon: "💸" },
           { step: "03", text: "Your vault balance updates automatically", icon: "✅" },
-        ].map((s) => (
-          <div key={s.step} style={{ display: "flex", alignItems: "flex-start", gap: 14, marginBottom: 14 }}>
-            <div style={{
-              width: 36, height: 36, borderRadius: 10, flexShrink: 0,
-              background: "rgba(0,131,208,.08)", display: "flex", alignItems: "center",
-              justifyContent: "center", fontSize: 18,
-            }}>{s.icon}</div>
+        ].map(s => (
+          <div key={s.step} style={{ display: "flex", alignItems: "flex-start", gap: 14, marginBottom: 16 }}>
+            <div style={{ width: 38, height: 38, borderRadius: 12, background: "rgba(0,131,208,0.1)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 18, flexShrink: 0 }}>{s.icon}</div>
             <div>
-              <div style={{ fontSize: 9, color: "RGB(0,131,208)", fontWeight: 700, letterSpacing: 1, marginBottom: 2 }}>STEP {s.step}</div>
-              <div style={{ fontSize: 12, color: "rgb(34,34,34)", fontWeight: 500, lineHeight: 1.4 }}>{s.text}</div>
+              <div style={{ fontSize: 9, color: "#24ACF2", fontWeight: 700, letterSpacing: 1, marginBottom: 2 }}>STEP {s.step}</div>
+              <div style={{ fontSize: 12, color: "rgba(255,255,255,0.7)", lineHeight: 1.5 }}>{s.text}</div>
             </div>
           </div>
         ))}
       </div>
 
-      {/* Info note */}
-      <div style={{
-        background: "rgba(58,232,127,.06)", border: "1px solid rgba(58,232,127,.2)",
-        borderRadius: 14, padding: "12px 16px", display: "flex", gap: 10, alignItems: "flex-start",
-      }}>
+      <div style={{ background: "rgba(16,185,129,0.06)", border: "1px solid rgba(16,185,129,0.18)", borderRadius: 14, padding: "12px 16px", display: "flex", gap: 10, alignItems: "flex-start" }}>
         <span style={{ fontSize: 16, flexShrink: 0 }}>💡</span>
-        <div style={{ fontSize: 10, color: "#555", lineHeight: 1.6 }}>
-          This is a <strong>dedicated virtual account</strong> assigned only to you. Transfers reflect within minutes. Use the Refresh button above to update your balance after a transfer.
+        <div style={{ fontSize: 11, color: "rgba(255,255,255,0.55)", lineHeight: 1.6 }}>
+          This is a <strong style={{ color: "rgba(255,255,255,0.8)" }}>dedicated virtual account</strong> assigned only to you. Transfers reflect within minutes. Use Refresh to update your balance.
         </div>
       </div>
     </div>
   );
 }
 
-// ── Main Component ────────────────────────────────────────────────
+// ─── Main Component ───────────────────────────────────────────────
 export default function CampusPlanner() {
-  const email    = localStorage.getItem("email");
+  const email = localStorage.getItem("email");
   const navigate = useNavigate();
 
-  const [accountNumber, setNumber]      = useState("****");
-  const [bankName,      setName]        = useState("");
-  const [screen,        setScreen]      = useState<Screen>("home");
-  const [vaultBalance,  setVaultBalance]= useState<number>(0);
-  const [budget,        setBudget]      = useState<BudgetMap>({ food:15000, transport:5000, books:3000, health:2000, savings:5000, misc:2000 });
-  const [cart,          setCart]        = useState<CartItem[]>([]);
-  const [depositAmt,    setDepositAmt]  = useState<string>("");
-  const [depositDone,   setDepositDone] = useState<boolean>(false);
-  const [planEditing,   setPlanEditing] = useState<boolean>(false);
-  const [editBudget,    setEditBudget]  = useState<BudgetMap>({ ...budget });
-  const [hidden,        setHidden]      = useState<boolean>(false);
-  const [balRefreshing, setBalRefreshing] = useState<boolean>(false);
-  const [showBudgetModal, setShowBudgetModal] = useState<boolean>(false);
+  const [accountNumber, setNumber] = useState("****");
+  const [bankName, setName] = useState("");
+  const [screen, setScreen] = useState<Screen>("home");
+  const [vaultBalance, setVaultBalance] = useState<number>(0);
+  const [budget, setBudget] = useState<BudgetMap>({ food: 15000, transport: 5000, books: 3000, health: 2000, savings: 5000, misc: 2000 });
+  const [cart, setCart] = useState<CartItem[]>([]);
+  const [hidden, setHidden] = useState(false);
+  const [balRefreshing, setBalRefreshing] = useState(false);
+  const [showBudgetModal, setShowBudgetModal] = useState(false);
+  const [transactions, setTransactions] = useState<Transaction[]>([]);
+  const [txnLoading, setTxnLoading] = useState(true);
+  const [txnError, setTxnError] = useState<string | null>(null);
+  const [txnRetry, setTxnRetry] = useState(0);
+  const [activeFilter, setActiveFilter] = useState<"all" | "deposit" | "spend">("all");
 
-  // Transactions state
-  const [transactions,  setTransactions] = useState<Transaction[]>([]);
-  const [txnLoading,    setTxnLoading]   = useState<boolean>(true);
-  const [txnError,      setTxnError]     = useState<string|null>(null);
-  const [txnRetry,      setTxnRetry]     = useState<number>(0);
-
-  // ── Shared balance + account fetch ───────────────────────────
   const fetchBalance = async (showSpinner = false) => {
     if (showSpinner) setBalRefreshing(true);
     try {
-      const req    = await fetch(`${import.meta.env.VITE_BACKEND_URL}/currentBalance/${email}`);
+      const req = await fetch(`${import.meta.env.VITE_BACKEND_URL}/currentBalance/${email}`);
       const result = await req.json();
       setVaultBalance(result.Balance ?? 0);
-      // Account details live on the same endpoint
       setNumber(result.data?.bank_account ?? result.account_number ?? "****");
       setName(result.data?.bank_name ?? "");
-    } catch(e) {
-      console.error("Failed to load balance:", e);
-    } finally {
-      if (showSpinner) setBalRefreshing(false);
-    }
+    } catch (e) { console.error("Failed to load balance:", e); }
+    finally { if (showSpinner) setBalRefreshing(false); }
   };
 
   useEffect(() => { fetchBalance(); }, [email]);
 
-  // ── Sync balance to DB ────────────────────────────────────────
   useEffect(() => {
- if (vaultBalance == null) return;
+    if (vaultBalance == null) return;
     const sync = async () => {
       try {
         await fetch(`${import.meta.env.VITE_BACKEND_URL}/updateBalance/${email}`, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
+          method: "POST", headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ balance: vaultBalance }),
         });
-      } catch(e) { console.error("Sync error:", e) }
+      } catch (e) { console.error("Sync error:", e); }
     };
     sync();
   }, [vaultBalance]);
 
-  // ── Fetch transactions ────────────────────────────────────────
   useEffect(() => {
     if (!email) return;
     let cancelled = false;
     const fetchTxns = async () => {
       setTxnLoading(true); setTxnError(null);
       try {
-        const res  = await fetch(`${import.meta.env.VITE_BACKEND_URL}/transactions/${email}`);
+        const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/transactions/${email}`);
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
         const json = await res.json();
-        const raw: any[] =
-          Array.isArray(json)              ? json :
-          Array.isArray(json.data)         ? json.data :
-          Array.isArray(json.transactions) ? json.transactions : [];
+        const raw: any[] = Array.isArray(json) ? json : Array.isArray(json.data) ? json.data : Array.isArray(json.transactions) ? json.transactions : [];
         if (!cancelled) setTransactions(raw.map((r, i) => normaliseTransaction(r, i)));
-      } catch(e:any) {
+      } catch (e: any) {
         if (!cancelled) setTxnError("No recent activity.");
       } finally {
         if (!cancelled) setTxnLoading(false);
       }
     };
     fetchTxns();
-    return () => { cancelled = true };
+    return () => { cancelled = true; };
   }, [email, txnRetry]);
 
-  // ── Derived ───────────────────────────────────────────────────
-  const totalBudgeted = Object.values(budget).reduce((a,b)=>a+(b??0),0);
-  const totalSpent    = 0;
-  const cartTotal     = cart.reduce((s,i)=>s+i.price*i.qty,0);
+  const totalBudgeted = Object.values(budget).reduce((a, b) => a + (b ?? 0), 0);
+  const totalSpent = 0;
+  const cartTotal = cart.reduce((s, i) => s + i.price * i.qty, 0);
 
   const addToCart = (pkg: FoodPackage) => {
     setCart(prev => {
-      const ex = prev.find(c=>c.id===pkg.id);
-      if(ex) return prev.map(c=>c.id===pkg.id?{...c,qty:c.qty+1}:c);
-      return [...prev, {...pkg, qty:1}];
+      const ex = prev.find(c => c.id === pkg.id);
+      if (ex) return prev.map(c => c.id === pkg.id ? { ...c, qty: c.qty + 1 } : c);
+      return [...prev, { ...pkg, qty: 1 }];
     });
   };
 
-  const savePlan = () => {
-    const total = Object.values(editBudget).reduce((a,b)=>a+b,0);
-    if(total<=vaultBalance){ setBudget({...editBudget}); setPlanEditing(false) }
-  };
+  const filteredTxns = transactions.filter(t => activeFilter === "all" ? true : t.type === activeFilter);
+  const chartData = CATEGORIES.map(c => ({ label: c.label, value: budget[c.id], color: c.color }));
 
-  const chartData: ChartDatum[] = CATEGORIES.map(c=>({ label:c.label, value:budget[c.id], color:c.color }));
-
-  const navItems: { id:Screen; icon:React.ReactNode; label:string }[] = [
-    { id:"home",   icon:<Home size={20}/>,         label:"Home"         },
-    { id:"Coins",  icon:<Coins size={20}/>,        label:"Chain Wallet" },
-    { id:"Budget", icon:<BookOpen size={20}/>,     label:"Budget"       },
-    { id:"market", icon:<ShoppingCart size={20}/>, label:"Market"       },
-    { id:"stats",  icon:<BarChart2 size={20}/>,    label:"Stats"        },
+  const navItems: { id: Screen; icon: React.ReactNode; label: string }[] = [
+    { id: "home",   icon: <Home size={18} />,         label: "Home" },
+    { id: "Coins",  icon: <Coins size={18} />,        label: "Wallet" },
+    { id: "Budget", icon: <BookOpen size={18} />,     label: "Budget" },
+    { id: "market", icon: <ShoppingCart size={18} />, label: "Market" },
+    { id: "stats",  icon: <BarChart2 size={18} />,    label: "Stats" },
   ];
-
-  const txnBg   = (type:Transaction["type"]) => type==="deposit"?"rgba(58,232,127,.1)":"rgba(232,118,58,.1)";
-  const txnIcon = (type:Transaction["type"]) => type==="deposit"?"⬇️":"🛍️";
 
   return (
     <>
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&display=swap');
+
         * { box-sizing: border-box; margin: 0; padding: 0; }
-        body { background: #F9F9F9; }
-        @media (prefers-color-scheme: dark) { body { background: rgb(15,15,15); } }
-        .app { font-family:'Orbitron',sans-serif; background:#F9F9F9; min-height:100svh; max-width:430px; margin:0 auto; color:rgb(34,34,34); position:relative; overflow-x:hidden; padding:20px; padding-bottom:100px; }
-        @media (prefers-color-scheme:dark) { .app { background:rgb(15,15,15); color:white; } }
-        .screen { min-height:100svh; }
-        .top-bar { display:flex; justify-content:space-between; align-items:center; margin-bottom:28px; }
-        .logo { font-family:'Orbitron',sans-serif; font-weight:800; font-size:18px; letter-spacing:1px; color:rgb(34,34,34); }
-        @media (prefers-color-scheme:dark) { .logo { color:white; } }
-        .logo span { color:RGB(0,131,208); }
-        .avatar { width:44px; height:44px;  border-radius:12px; display:flex; align-items:center; justify-content:center; font-size:18px; cursor:pointer; transition:all .3s; }
-        .avatar:hover { transform:translateY(-2px); box-shadow:0 4px 12px rgba(0,131,208,.3); }
-        .balance-card { background:linear-gradient(90deg,RGB(0,131,208)); border-radius:20px; padding:32px 24px; margin-bottom:24px; position:relative; overflow:hidden; animation:fadeIn .5s ease-in; }
-        @media (prefers-color-scheme:dark) { .balance-card { background:black; } }
-        @keyframes fadeIn { from{opacity:0;transform:translateY(10px)} to{opacity:1;transform:translateY(0)} }
-        @keyframes spin { from{transform:rotate(0deg)} to{transform:rotate(360deg)} }
-        .balance-label { font-size:12px; color:rgba(255,255,255,.85); text-transform:uppercase; letter-spacing:1.5px; font-weight:500; margin-bottom:8px; text-align:center; }
-        .balance-amount { font-family:'Orbitron',sans-serif; font-size:36px; font-weight:700; color:white; display:flex; align-items:center; justify-content:center; gap:12px; margin-bottom:16px; }
-        .eye-btn { background:rgba(255,255,255,.2); border:none; border-radius:50%; width:40px; height:40px; display:flex; align-items:center; justify-content:center; cursor:pointer; transition:all .3s; color:white; font-size:16px; }
-        .eye-btn:hover { background:rgba(255,255,255,.3); transform:scale(1.1); }
-        .quick-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:10px; margin-bottom:28px; }
-        .quick-btn { background:white; border:none; border-radius:16px; padding:14px 8px; display:flex; flex-direction:column; align-items:center; gap:8px; cursor:pointer; transition:all .3s; color:inherit; box-shadow:0 2px 8px rgba(0,0,0,.05); }
-        .quick-btn:hover { transform:translateY(-2px); box-shadow:0 6px 20px rgba(0,131,208,.15); }
-        @media (prefers-color-scheme:dark) { .quick-btn { background:rgb(1,1,1); } }
-        .quick-btn .qb-icon { font-size:22px; }
-        .quick-btn .qb-label { font-size:9px; color:grey; font-weight:500; text-align:center; }
-        .section-title { font-family:'Orbitron',sans-serif; font-size:14px; font-weight:600; color:rgb(34,34,34); margin-bottom:14px; display:flex; align-items:center; justify-content:space-between; gap:8px; }
-        @media (prefers-color-scheme:dark) { .section-title { color:white; } }
-        .section-title .see-all { font-size:11px; color:rgb(36,172,242); font-weight:500; cursor:pointer; }
-        .package-scroll { display:flex; gap:12px; overflow-x:auto; padding-bottom:8px; scrollbar-width:none; margin-bottom:28px; }
-        .package-scroll::-webkit-scrollbar { display:none; }
-        .pkg-card { min-width:160px; background:white; border-radius:20px; padding:16px; cursor:pointer; transition:all .3s; flex-shrink:0; box-shadow:0 2px 8px rgba(0,0,0,.05); }
-        .pkg-card:hover { transform:translateY(-3px); box-shadow:0 6px 20px rgba(0,131,208,.15); }
-        @media (prefers-color-scheme:dark) { .pkg-card { background:rgb(1,1,1); } }
-        .pkg-icon { font-size:32px; margin-bottom:10px; }
-        .pkg-tag { font-size:9px; background:rgba(0,131,208,.1); color:RGB(0,131,208); border-radius:6px; padding:2px 6px; font-weight:700; letter-spacing:.5px; text-transform:uppercase; display:inline-block; margin-bottom:8px; }
-        .pkg-name { font-family:'Orbitron',sans-serif; font-size:11px; font-weight:700; color:rgb(34,34,34); margin-bottom:4px; line-height:1.4; }
-        @media (prefers-color-scheme:dark) { .pkg-name { color:white; } }
-        .pkg-price { font-size:13px; font-weight:700; color:rgb(51,232,191); margin-top:8px; }
-        .txn-item { display:flex; align-items:center; gap:12px; padding:12px 0; border-bottom:1px solid rgba(0,0,0,.05); }
-        @media (prefers-color-scheme:dark) { .txn-item { border-bottom-color:rgba(255,255,255,.05); } }
-        .txn-icon { width:40px; height:40px; border-radius:12px; display:flex; align-items:center; justify-content:center; font-size:18px; flex-shrink:0; }
-        .txn-info { flex:1; }
-        .txn-desc { font-size:11px; font-weight:500; color:rgb(34,34,34); }
-        @media (prefers-color-scheme:dark) { .txn-desc { color:rgba(255,255,255,.85); } }
-        .txn-date { font-size:10px; color:grey; margin-top:2px; }
-        .txn-amt { font-family:'Orbitron',sans-serif; font-size:13px; font-weight:700; }
-        .txn-amt.positive { color:rgb(51,232,191); }
-        .txn-amt.negative { color:RGB(0,131,208); }
-        .txn-skeleton { display:flex; align-items:center; gap:12px; padding:12px 0; border-bottom:1px solid rgba(0,0,0,.04); }
-        .skeleton { background:linear-gradient(90deg,#f0f0f0 25%,#e8e8e8 50%,#f0f0f0 75%); background-size:200% 100%; animation:shimmer 1.4s infinite; border-radius:8px; }
-        @media (prefers-color-scheme:dark) { .skeleton { background:linear-gradient(90deg,#1c1c1c 25%,#242424 50%,#1c1c1c 75%); background-size:200% 100%; } }
+
+        body { background: rgb(10,12,18) !important; }
+
+        .app {
+          font-family: 'Sora', sans-serif;
+          background: rgb(10,12,18);
+          min-height: 100svh;
+          max-width: 430px;
+          margin: 0 auto;
+          color: white;
+          position: relative;
+          overflow-x: hidden;
+          padding: 24px 20px 100px;
+        }
+
+        .screen { min-height: 100svh; }
+
+        /* ── Buttons ── */
+        .btn-ghost {
+          background: rgba(255,255,255,0.07);
+          border: 1px solid rgba(255,255,255,0.08);
+          border-radius: 12px;
+          width: 38px; height: 38px;
+          display: flex; align-items: center; justify-content: center;
+          cursor: pointer; color: white; transition: all .2s;
+        }
+        .btn-ghost:hover { background: rgba(255,255,255,0.12); }
+        .btn-primary {
+          background: linear-gradient(135deg,#0083D0,#24ACF2);
+          border: none; border-radius: 14px;
+          padding: 14px 22px; color: white;
+          font-family: 'Sora', sans-serif; font-size: 13px; font-weight: 700;
+          cursor: pointer; transition: all .25s; letter-spacing: .3px;
+        }
+        .btn-primary:hover { opacity: .9; transform: translateY(-1px); box-shadow: 0 8px 24px rgba(0,131,208,.3); }
+        .btn-secondary {
+          background: transparent;
+          border: 1px solid rgba(0,131,208,.35);
+          border-radius: 12px; padding: 9px 18px;
+          color: #24ACF2; font-size: 12px; font-weight: 700;
+          cursor: pointer; transition: all .2s; font-family: 'Sora', sans-serif;
+        }
+        .btn-secondary:hover { background: rgba(0,131,208,.08); }
+
+        /* ── Balance card ── */
+        .balance-card {
+          background: linear-gradient(145deg, rgb(0,65,120), rgb(0,45,90));
+          border-radius: 24px; padding: 28px 24px;
+          margin-bottom: 20px; position: relative; overflow: hidden;
+          border: 1px solid rgba(255,255,255,0.06);
+        }
+        .balance-card::before {
+          content: ''; position: absolute;
+          top: -50%; right: -20%;
+          width: 200px; height: 200px; border-radius: 50%;
+          background: rgba(36,172,242,.08);
+        }
+
+        /* ── Quick grid ── */
+        .quick-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 10px; margin-bottom: 28px; }
+        .quick-btn {
+          background: rgb(18,21,30);
+          border: 1px solid rgba(255,255,255,0.06);
+          border-radius: 18px; padding: 16px 8px;
+          display: flex; flex-direction: column; align-items: center; gap: 8px;
+          cursor: pointer; transition: all .25s; color: white;
+        }
+        .quick-btn:hover { transform: translateY(-2px); border-color: rgba(36,172,242,.3); background: rgb(20,25,38); }
+        .quick-btn .qb-icon { font-size: 20px; color: #24ACF2; }
+        .quick-btn .qb-label { font-size: 9px; color: rgba(255,255,255,.45); font-weight: 600; text-align: center; letter-spacing: .3px; }
+
+        /* ── Section title ── */
+        .section-title {
+          font-family: 'Sora', sans-serif; font-size: 14px; font-weight: 700;
+          color: white; margin-bottom: 14px;
+          display: flex; align-items: center; justify-content: space-between;
+        }
+        .see-all { font-size: 11px; color: #24ACF2; font-weight: 600; cursor: pointer; }
+
+        /* ── Package scroll ── */
+        .package-scroll { display: flex; gap: 12px; overflow-x: auto; padding-bottom: 8px; scrollbar-width: none; margin-bottom: 28px; }
+        .package-scroll::-webkit-scrollbar { display: none; }
+        .pkg-card {
+          min-width: 155px; background: rgb(18,21,30);
+          border: 1px solid rgba(255,255,255,0.06);
+          border-radius: 20px; padding: 16px; cursor: pointer;
+          transition: all .25s; flex-shrink: 0;
+        }
+        .pkg-card:hover { transform: translateY(-3px); border-color: rgba(36,172,242,.25); }
+        .pkg-icon { font-size: 28px; margin-bottom: 10px; }
+        .pkg-tag { font-size: 9px; background: rgba(0,131,208,.12); color: #24ACF2; border-radius: 6px; padding: 3px 7px; font-weight: 700; letter-spacing: .5px; text-transform: uppercase; display: inline-block; margin-bottom: 8px; }
+        .pkg-name { font-size: 11px; font-weight: 700; color: white; margin-bottom: 4px; line-height: 1.4; }
+        .pkg-price { font-size: 14px; font-weight: 800; color: #10B981; margin-top: 8px; }
+
+        /* ── Transactions ── */
+        .txn-item { display: flex; align-items: center; gap: 12px; padding: 13px 0; border-bottom: 1px solid rgba(255,255,255,.04); }
+        .txn-icon { width: 40px; height: 40px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; }
+        .txn-info { flex: 1; }
+        .txn-desc { font-size: 12px; font-weight: 600; color: rgba(255,255,255,.85); }
+        .txn-date { font-size: 10px; color: rgba(255,255,255,.35); margin-top: 3px; }
+        .txn-amt { font-family: 'Sora', sans-serif; font-size: 13px; font-weight: 800; }
+        .txn-amt.positive { color: #10B981; }
+        .txn-amt.negative { color: #24ACF2; }
+        .txn-skeleton { display: flex; align-items: center; gap: 12px; padding: 13px 0; border-bottom: 1px solid rgba(255,255,255,.04); }
+        .skeleton { background: linear-gradient(90deg,rgba(255,255,255,.04) 25%,rgba(255,255,255,.08) 50%,rgba(255,255,255,.04) 75%); background-size: 200% 100%; animation: shimmer 1.5s infinite; border-radius: 8px; }
         @keyframes shimmer { 0%{background-position:200% 0} 100%{background-position:-200% 0} }
-        .skel-icon { width:40px; height:40px; border-radius:12px; flex-shrink:0; }
-        .skel-lines { flex:1; display:flex; flex-direction:column; gap:7px; }
-        .skel-line { height:10px; border-radius:5px; }
-        .skel-amt { width:58px; height:14px; border-radius:6px; }
-        .txn-empty { text-align:center; padding:28px 0 16px; color:#aaa; font-size:11px; line-height:1.6; }
-        .txn-empty-icon { font-size:34px; margin-bottom:8px; }
-        .txn-retry { background:none; border:1px solid rgba(0,131,208,.35); border-radius:8px; padding:6px 16px; color:RGB(0,131,208); font-size:10px; font-family:'Orbitron',sans-serif; font-weight:600; cursor:pointer; margin-top:10px; }
+        .skel-icon { width: 40px; height: 40px; border-radius: 12px; flex-shrink: 0; }
+        .skel-lines { flex: 1; display: flex; flex-direction: column; gap: 8px; }
+        .skel-line { height: 10px; border-radius: 5px; }
 
-        /* Empty state cards */
-        .empty-budget-card { background:white; border-radius:20px; padding:18px; margin-bottom:12px; box-shadow:0 2px 8px rgba(0,0,0,.05); }
-        @media (prefers-color-scheme:dark) { .empty-budget-card { background:rgb(1,1,1); } }
-        .tip-card { background:white; border-radius:16px; padding:16px; display:flex; gap:12px; align-items:flex-start; box-shadow:0 2px 8px rgba(0,0,0,.05); margin-bottom:10px; transition:transform .2s; }
-        .tip-card:hover { transform:translateY(-1px); }
-        @media (prefers-color-scheme:dark) { .tip-card { background:rgb(1,1,1); } }
+        /* ── Market ── */
+        .market-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+        .market-card { background: rgb(18,21,30); border: 1px solid rgba(255,255,255,.06); border-radius: 20px; padding: 16px; cursor: pointer; transition: all .25s; }
+        .market-card:hover { transform: translateY(-2px); border-color: rgba(36,172,242,.2); }
+        .add-btn { width: 100%; background: rgba(0,131,208,.08); border: 1px dashed rgba(0,131,208,.25); border-radius: 10px; padding: 8px; color: #24ACF2; font-size: 10px; font-weight: 700; cursor: pointer; margin-top: 10px; font-family: 'Sora', sans-serif; transition: all .2s; }
+        .add-btn:hover { background: rgba(0,131,208,.14); }
 
-        .btn-primary { background:linear-gradient(135deg,RGB(0,131,208),rgb(36,172,242)); border:none; border-radius:14px; padding:14px 20px; color:white; font-family:'Orbitron',sans-serif; font-size:12px; font-weight:700; cursor:pointer; transition:all .3s; white-space:nowrap; letter-spacing:.5px; }
-        .btn-primary:hover { opacity:.9; transform:translateY(-1px); box-shadow:0 4px 12px rgba(0,131,208,.3); }
-        .btn-secondary { background:transparent; border:1px solid rgba(0,131,208,.3); border-radius:12px; padding:10px 18px; color:RGB(0,131,208); font-size:11px; font-weight:600; cursor:pointer; transition:all .3s; font-family:'Orbitron',sans-serif; }
-        .btn-secondary:hover { background:rgba(0,131,208,.08); transform:translateY(-1px); }
-        .market-grid { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
-        .market-card { background:white; border-radius:20px; padding:16px; cursor:pointer; transition:all .3s; box-shadow:0 2px 8px rgba(0,0,0,.05); }
-        .market-card:hover { transform:translateY(-2px); }
-        @media (prefers-color-scheme:dark) { .market-card { background:rgb(1,1,1); } }
-        .add-btn { width:100%; background:rgba(0,131,208,.08); border:1px dashed rgba(0,131,208,.3); border-radius:10px; padding:8px; color:RGB(0,131,208); font-size:10px; font-weight:700; cursor:pointer; margin-top:10px; transition:all .2s; font-family:'Orbitron',sans-serif; }
-        .cart-float { position:fixed; bottom:88px; left:50%; transform:translateX(-50%); background:linear-gradient(135deg,RGB(0,131,208),rgb(36,172,242)); border-radius:20px; padding:14px 28px; display:flex; align-items:center; gap:12px; cursor:pointer; box-shadow:0 8px 32px rgba(0,131,208,.4); z-index:50; animation:slideUp .3s ease; white-space:nowrap; }
+        /* ── Budget plan ── */
+        .plan-cat-item { display: flex; align-items: center; gap: 12px; background: rgb(18,21,30); border: 1px solid rgba(255,255,255,.05); border-radius: 18px; padding: 16px; margin-bottom: 10px; transition: all .2s; }
+        .plan-cat-item:hover { border-color: rgba(255,255,255,.1); }
+        .cat-name { font-size: 12px; font-weight: 600; color: white; margin-bottom: 6px; }
+        .cat-bar-wrap { height: 5px; background: rgba(255,255,255,.06); border-radius: 3px; overflow: hidden; }
+        .cat-bar { height: 100%; border-radius: 3px; transition: width .8s cubic-bezier(.4,0,.2,1); }
+        .cat-amt { font-family: 'Sora', sans-serif; font-size: 13px; font-weight: 800; color: white; flex-shrink: 0; min-width: 64px; text-align: right; }
+
+        /* ── Stats ── */
+        .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px; }
+        .stat-card { background: rgb(18,21,30); border: 1px solid rgba(255,255,255,.05); border-radius: 18px; padding: 18px; }
+        .stat-label { font-size: 10px; color: rgba(255,255,255,.4); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; }
+        .stat-value { font-family: 'Sora', sans-serif; font-size: 22px; font-weight: 800; }
+        .donut-section { background: rgb(18,21,30); border: 1px solid rgba(255,255,255,.05); border-radius: 22px; padding: 20px; margin-bottom: 18px; display: flex; align-items: center; gap: 20px; }
+        .legend-item { display: flex; align-items: center; gap: 8px; margin-bottom: 9px; }
+        .legend-dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
+        .legend-label { font-size: 10px; color: rgba(255,255,255,.45); flex: 1; }
+        .legend-pct { font-size: 10px; color: white; font-weight: 700; }
+        .progress-row { background: rgb(18,21,30); border: 1px solid rgba(255,255,255,.05); border-radius: 18px; padding: 16px; margin-bottom: 10px; }
+        .progress-header { display: flex; justify-content: space-between; margin-bottom: 10px; align-items: center; }
+        .progress-name { font-size: 12px; font-weight: 600; color: white; }
+        .progress-pct { font-size: 10px; color: rgba(255,255,255,.4); }
+        .progress-bar-bg { height: 5px; background: rgba(255,255,255,.07); border-radius: 3px; overflow: hidden; }
+        .progress-bar-fill { height: 100%; border-radius: 3px; transition: width .8s cubic-bezier(.4,0,.2,1); }
+
+        /* ── Cart float ── */
+        .cart-float { position: fixed; bottom: 92px; left: 50%; transform: translateX(-50%); background: linear-gradient(135deg,#0083D0,#24ACF2); border-radius: 20px; padding: 14px 24px; display: flex; align-items: center; gap: 14px; cursor: pointer; box-shadow: 0 10px 40px rgba(0,131,208,.45); z-index: 50; animation: slideUp .3s ease; white-space: nowrap; }
         @keyframes slideUp { from{transform:translateX(-50%) translateY(20px);opacity:0} to{transform:translateX(-50%) translateY(0);opacity:1} }
-        .cart-label { font-family:'Orbitron',sans-serif; font-size:12px; font-weight:700; color:white; }
-        .stats-grid { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:20px; }
-        .stat-card { background:white; border-radius:18px; padding:18px; box-shadow:0 2px 8px rgba(0,0,0,.05); }
-        @media (prefers-color-scheme:dark) { .stat-card { background:rgb(1,1,1); } }
-        .stat-label { font-size:9px; color:grey; text-transform:uppercase; letter-spacing:1px; margin-bottom:8px; }
-        .stat-value { font-family:'Orbitron',sans-serif; font-size:22px; font-weight:700; }
-        .stat-value.green { color:rgb(51,232,191); }
-        .stat-value.blue  { color:RGB(0,131,208); }
-        .stat-value.dark  { color:rgb(34,34,34); }
-        @media (prefers-color-scheme:dark) { .stat-value.dark { color:white; } }
-        .donut-section { background:white; border-radius:20px; padding:20px; margin-bottom:20px; display:flex; align-items:center; gap:20px; box-shadow:0 2px 8px rgba(0,0,0,.05); }
-        @media (prefers-color-scheme:dark) { .donut-section { background:rgb(1,1,1); } }
-        .legend-item { display:flex; align-items:center; gap:8px; margin-bottom:8px; }
-        .legend-dot  { width:8px; height:8px; border-radius:50%; flex-shrink:0; }
-        .legend-label { font-size:10px; color:grey; }
-        .legend-pct   { font-size:10px; color:rgb(34,34,34); font-weight:700; margin-left:auto; }
-        @media (prefers-color-scheme:dark) { .legend-pct { color:white; } }
-        .progress-row { background:white; border-radius:16px; padding:16px; margin-bottom:10px; box-shadow:0 2px 8px rgba(0,0,0,.05); }
-        @media (prefers-color-scheme:dark) { .progress-row { background:rgb(1,1,1); } }
-        .progress-header { display:flex; justify-content:space-between; margin-bottom:10px; align-items:center; }
-        .progress-name { font-size:11px; font-weight:600; color:rgb(34,34,34); }
-        @media (prefers-color-scheme:dark) { .progress-name { color:white; } }
-        .progress-pct  { font-size:10px; color:grey; }
-        .progress-bar-bg   { height:6px; background:rgba(0,0,0,.07); border-radius:3px; overflow:hidden; }
-        @media (prefers-color-scheme:dark) { .progress-bar-bg { background:rgba(255,255,255,.07); } }
-        .progress-bar-fill { height:100%; border-radius:3px; transition:width .8s ease; }
-        .bottom-nav { position:fixed; bottom:0; left:50%; transform:translateX(-50%); width:100%; max-width:430px; background:white; border-top:1px solid rgba(0,0,0,.06); display:flex; justify-content:space-around; padding:10px 0 20px; z-index:100; }
-        @media (prefers-color-scheme:dark) { .bottom-nav { background:rgb(15,15,15); border-top-color:rgba(255,255,255,.06); } }
-        .nav-item { display:flex; flex-direction:column; align-items:center; gap:4px; cursor:pointer; padding:6px 12px; border-radius:12px; transition:all .2s; border:none; background:transparent; color:inherit; font-family:'Orbitron',sans-serif; }
-        .nav-item .nav-icon { display:flex; align-items:center; justify-content:center; color:#aaa; transition:color .2s; }
-        .nav-item.active .nav-icon { color:RGB(0,131,208); }
-        .nav-item .nav-label { font-size:8px; color:grey; font-weight:500; }
-        .nav-item.active .nav-label { color:RGB(0,131,208); }
-        .nav-item.active { background:rgba(0,131,208,.08); }
-        .tag-sdg { display:inline-flex; align-items:center; gap:4px; background:rgba(51,232,191,.1); border:1px solid rgba(51,232,191,.25); border-radius:8px; padding:3px 8px; font-size:9px; color:rgb(51,232,191); font-weight:700; letter-spacing:.5px; }
-        .divider { height:1px; background:rgba(0,0,0,.06); margin:16px 0; }
-        @media (prefers-color-scheme:dark) { .divider { background:rgba(255,255,255,.06); } }
+        .cart-label { font-family: 'Sora', sans-serif; font-size: 12px; font-weight: 700; color: white; }
+
+        /* ── Bottom nav ── */
+        .bottom-nav { position: fixed; bottom: 0; left: 50%; transform: translateX(-50%); width: 100%; max-width: 430px; background: rgb(12,14,22); border-top: 1px solid rgba(255,255,255,.06); display: flex; justify-content: space-around; padding: 10px 0 22px; z-index: 100; }
+        .nav-item { display: flex; flex-direction: column; align-items: center; gap: 5px; cursor: pointer; padding: 7px 14px; border-radius: 14px; transition: all .2s; border: none; background: transparent; color: inherit; font-family: 'Sora', sans-serif; }
+        .nav-item .nav-icon { color: rgba(255,255,255,.3); transition: color .2s; }
+        .nav-item.active .nav-icon { color: #24ACF2; }
+        .nav-item .nav-label { font-size: 9px; color: rgba(255,255,255,.3); font-weight: 600; letter-spacing: .3px; }
+        .nav-item.active .nav-label { color: #24ACF2; }
+        .nav-item.active { background: rgba(36,172,242,.08); }
+
+        /* ── Misc ── */
+        .divider { height: 1px; background: rgba(255,255,255,.06); margin: 16px 0; }
+        .tag-sdg { display: inline-flex; align-items: center; gap: 4px; background: rgba(16,185,129,.12); border: 1px solid rgba(16,185,129,.25); border-radius: 8px; padding: 3px 9px; font-size: 9px; color: #6EE7B7; font-weight: 700; letter-spacing: .5px; }
+        @keyframes spin { from{transform:rotate(0deg)} to{transform:rotate(360deg)} }
+        .filter-chip { padding: 6px 14px; border-radius: 20px; font-size: 11px; font-weight: 600; border: 1px solid rgba(255,255,255,.08); background: transparent; color: rgba(255,255,255,.45); cursor: pointer; font-family: 'Sora', sans-serif; transition: all .2s; }
+        .filter-chip.active { background: rgba(36,172,242,.12); border-color: rgba(36,172,242,.3); color: #24ACF2; }
+        .sdg-impact { background: linear-gradient(135deg,rgba(16,185,129,.06),rgba(16,185,129,.02)); border: 1px solid rgba(16,185,129,.15); border-radius: 20px; padding: 20px; margin-bottom: 16px; }
+        .tip-card { background: rgb(18,21,30); border: 1px solid rgba(255,255,255,.05); border-radius: 14px; padding: 14px 16px; display: flex; gap: 12px; align-items: flex-start; margin-bottom: 10px; transition: transform .2s; }
+        .tip-card:hover { transform: translateY(-1px); }
       `}</style>
 
       <div className="app">
-
-        {/* ── HOME ──────────────────────────────────────────────── */}
         {screen === "home" && (
           <div className="screen">
-            <div className="top-bar">
-              <HeaderIcon href="#/tools">
-                <BsGear style={{ height:"20px", width:"20px" }} />
-              </HeaderIcon>
-              <div style={{ display:"flex", alignItems:"center", gap:"10px" }}>
-                <span className="tag-sdg">🌱 SDG 2</span>
-                <div className="avatar"> <HeaderIcon><BsPerson /></HeaderIcon></div>
+            {/* Top bar */}
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 24 }}>
+              <button className="btn-ghost"   style={{ marginLeft: "-4px" }} onClick={() => window.location.href = '#/tools'}>
+                <BsGear style={{width: 18, height: 18 }} />
+              </button>
+              <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+                <span className="tag-sdg">♻️</span>
+                <button className="btn-ghost" onClick={() => setScreen("profile")}>
+                  <BsPerson style={{ width: 18, height: 18 }} />
+                </button>
               </div>
             </div>
 
+            {/* Balance card */}
             <div className="balance-card">
-              <div className="balance-label">Vault Balance</div>
-              <div className="balance-amount">
-                <BalanceAmount>
-                  {hidden ? "••••••" : <AnimatedNumber value={vaultBalance} prefix="₦" />}
-                  <button className="eye-btn" onClick={() => setHidden(!hidden)}>
-                    {hidden ? "👁" : <BsEyeSlash />}
-                  </button>
-                </BalanceAmount>
+              <div style={{ fontSize: 11, color: "rgba(255,255,255,.55)", textTransform: "uppercase", letterSpacing: 2, marginBottom: 10, textAlign: "center" }}>Vault Balance</div>
+              <div style={{display: "flex", justifySelf:'center', gap:18, fontSize: 40, fontWeight: 800, color: "white", marginBottom: 18 }}>
+                {hidden ? "••••••" : <AnimatedNumber value={vaultBalance} prefix="₦" />}
+                <button onClick={() => setHidden(!hidden)} style={{ background: "rgba(255,255,255,.12)", border: "none", borderRadius: "50%", width: 38, height: 38, display: "flex", alignItems: "center", justifyContent: "center", marginLeft:'-2px', cursor: "pointer", color: "white", fontSize: 16 }}>
+                  {hidden ? "👁" : <BsEyeSlash />}
+                </button>
+              </div>
+              <div style={{ display: "flex", justifyContent: "space-around" }}>
+                <div style={{ textAlign: "center" }}>
+                  <div style={{ fontSize: 10, color: "rgba(255,255,255,.45)", marginBottom: 4 }}>BUDGETED</div>
+                  <div style={{ fontFamily: "'Sora',sans-serif", fontSize: 14, fontWeight: 700, color: "#24ACF2" }}>₦{(totalBudgeted / 1000).toFixed(0)}k</div>
+                </div>
+                <div style={{ width: 1, background: "rgba(255,255,255,.1)" }} />
+                <div style={{ textAlign: "center" }}>
+                  <div style={{ fontSize: 10, color: "rgba(255,255,255,.45)", marginBottom: 4 }}>SPENT</div>
+                  <div style={{ fontFamily: "'Sora',sans-serif", fontSize: 14, fontWeight: 700, color: "#F97316" }}>₦{(totalSpent / 1000).toFixed(0)}k</div>
+                </div>
+                <div style={{ width: 1, background: "rgba(255,255,255,.1)" }} />
+                <div style={{ textAlign: "center" }}>
+                  <div style={{ fontSize: 10, color: "rgba(255,255,255,.45)", marginBottom: 4 }}>SAVED</div>
+                  <div style={{ fontFamily: "'Sora',sans-serif", fontSize: 14, fontWeight: 700, color: "#10B981" }}>₦{((vaultBalance - totalSpent) / 1000).toFixed(0)}k</div>
+                </div>
               </div>
             </div>
 
+            {/* Quick actions */}
             <div className="quick-grid">
               <button className="quick-btn" onClick={() => setScreen("deposits")}>
                 <span className="qb-icon"><ArrowDownIcon /></span>
@@ -549,10 +665,11 @@ export default function CampusPlanner() {
               </button>
               <button className="quick-btn" onClick={() => setScreen("stats")}>
                 <span className="qb-icon"><ChartCandlestickIcon /></span>
-                <span className="qb-label">Analytics</span>
+                <span className="qb-label">Stats</span>
               </button>
             </div>
 
+            {/* Food packages */}
             <div className="section-title">
               Food Packages
               <span className="see-all" onClick={() => setScreen("market")}>See all →</span>
@@ -568,189 +685,187 @@ export default function CampusPlanner() {
               ))}
             </div>
 
-            {/* ── Recent Activity ──────────────────────────────── */}
+            {/* Recent activity */}
             <div className="section-title">
               Recent Activity
-              {!txnLoading && transactions.length > 4 && (
-                <span className="see-all">See all →</span>
+              {!txnLoading && transactions.length > 0 && (
+                <div style={{ display: "flex", gap: 6 }}>
+                  {(["all", "deposit", "spend"] as const).map(f => (
+                    <button key={f} className={`filter-chip ${activeFilter === f ? "active" : ""}`} onClick={() => setActiveFilter(f)}>
+                      {f === "all" ? "All" : f === "deposit" ? "In" : "Out"}
+                    </button>
+                  ))}
+                </div>
               )}
             </div>
 
-            {/* Loading skeletons */}
-            {txnLoading && [1,2,3].map(n => (
+            {txnLoading && [1, 2, 3].map(n => (
               <div className="txn-skeleton" key={n}>
                 <div className="skeleton skel-icon" />
                 <div className="skel-lines">
-                  <div className="skeleton skel-line" style={{ width:"58%" }} />
-                  <div className="skeleton skel-line" style={{ width:"32%" }} />
+                  <div className="skeleton skel-line" style={{ width: "58%" }} />
+                  <div className="skeleton skel-line" style={{ width: "32%" }} />
                 </div>
-                <div className="skeleton skel-amt" />
+                <div className="skeleton" style={{ width: 58, height: 14, borderRadius: 6 }} />
               </div>
             ))}
 
-            {/* Error */}
             {!txnLoading && txnError && (
-              <div className="txn-empty">
-                <div className="txn-empty-icon">⚠️</div>
+              <div style={{ textAlign: "center", padding: "28px 0", color: "rgba(255,255,255,.4)", fontSize: 12 }}>
+                <div style={{ fontSize: 34, marginBottom: 8 }}>⚠️</div>
                 <div>{txnError}</div>
-                <button className="txn-retry" onClick={() => setTxnRetry(n=>n+1)}>Retry</button>
+                <button style={{ background: "none", border: "1px solid rgba(36,172,242,.35)", borderRadius: 8, padding: "6px 16px", color: "#24ACF2", fontSize: 10, fontFamily: "'Sora',sans-serif", fontWeight: 700, cursor: "pointer", marginTop: 10 }} onClick={() => setTxnRetry(n => n + 1)}>Retry</button>
               </div>
             )}
 
-            {/* ── Empty state — shown when no transactions yet ── */}
             {!txnLoading && !txnError && transactions.length === 0 && (
               <>
                 {/* Budget snapshot */}
-                <div className="empty-budget-card">
-                  <div style={{ display:"flex", justifyContent:"space-between", alignItems:"center", marginBottom:14 }}>
-                    <div style={{ fontFamily:"Orbitron", fontSize:12, fontWeight:700 }}>Budget Snapshot</div>
-                    <button onClick={() => setScreen("Budget")} style={{ background:"rgba(0,131,208,.1)", border:"none", borderRadius:8, padding:"4px 10px", color:"RGB(0,131,208)", fontFamily:"Orbitron", fontSize:9, fontWeight:700, cursor:"pointer" }}>
-                      EDIT →
-                    </button>
+                <div style={{ background: "rgb(18,21,30)", border: "1px solid rgba(255,255,255,.06)", borderRadius: 20, padding: 18, marginBottom: 16 }}>
+                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 16 }}>
+                    <div style={{ fontSize: 13, fontWeight: 700 }}>Budget Snapshot</div>
+                    <button onClick={() => setShowBudgetModal(true)} style={{ background: "rgba(0,131,208,.1)", border: "none", borderRadius: 8, padding: "4px 10px", color: "#24ACF2", fontFamily: "'Sora',sans-serif", fontSize: 9, fontWeight: 700, cursor: "pointer" }}>EDIT →</button>
                   </div>
-                  {CATEGORIES.slice(0,3).map(c => {
-                    const val = (budget[c.id] ?? 0);
+                  {CATEGORIES.slice(0, 3).map(c => {
+                    const val = budget[c.id] ?? 0;
                     const pct = totalBudgeted > 0 ? Math.round((val / totalBudgeted) * 100) : 0;
                     return (
-                    <div key={c.id} style={{ display:"flex", alignItems:"center", gap:10, marginBottom:10 }}>
-                      <span style={{ fontSize:16 }}>{c.icon}</span>
-                      <div style={{ flex:1 }}>
-                        <div style={{ display:"flex", justifyContent:"space-between", marginBottom:4 }}>
-                          <span style={{ fontSize:10, fontWeight:600 }}>{c.label}</span>
-                          <span style={{ fontFamily:"Orbitron", fontSize:10, fontWeight:700, color:c.color }}>₦{(val/1000).toFixed(0)}k</span>
-                        </div>
-                        <div style={{ height:4, background:"rgba(0,0,0,.07)", borderRadius:2, overflow:"hidden" }}>
-                          <div style={{ height:"100%", borderRadius:2, background:c.color, width:`${pct}%`, transition:"width .6s" }} />
+                      <div key={c.id} style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 12 }}>
+                        <span style={{ fontSize: 16 }}>{c.icon}</span>
+                        <div style={{ flex: 1 }}>
+                          <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 5 }}>
+                            <span style={{ fontSize: 11, fontWeight: 600, color: "rgba(255,255,255,.7)" }}>{c.label}</span>
+                            <span style={{ fontSize: 11, fontWeight: 800, color: c.color }}>₦{(val / 1000).toFixed(0)}k</span>
+                          </div>
+                          <div style={{ height: 4, background: "rgba(255,255,255,.06)", borderRadius: 2, overflow: "hidden" }}>
+                            <div style={{ height: "100%", borderRadius: 2, background: c.color, width: `${pct}%`, transition: "width .6s" }} />
+                          </div>
                         </div>
                       </div>
-                    </div>
                     );
                   })}
-                  <div style={{ borderTop:"1px solid rgba(0,0,0,.06)", marginTop:4, paddingTop:12, display:"flex", justifyContent:"space-between" }}>
-                    <span style={{ fontSize:10, color:"#888" }}>Total planned</span>
-                    <span style={{ fontFamily:"Orbitron", fontSize:11, fontWeight:800, color:"RGB(0,131,208)" }}>₦{(totalBudgeted ?? 0).toLocaleString()}</span>
+                  <div style={{ borderTop: "1px solid rgba(255,255,255,.06)", marginTop: 4, paddingTop: 12, display: "flex", justifyContent: "space-between" }}>
+                    <span style={{ fontSize: 11, color: "rgba(255,255,255,.4)" }}>Total planned</span>
+                    <span style={{ fontFamily: "'Sora',sans-serif", fontSize: 13, fontWeight: 800, color: "#24ACF2" }}>₦{(totalBudgeted ?? 0).toLocaleString()}</span>
                   </div>
                 </div>
 
-                {/* SDG impact projection */}
-                <div style={{ background:"linear-gradient(135deg,rgba(58,232,127,.07),rgba(58,232,127,.02))", border:"1px solid rgba(58,232,127,.18)", borderRadius:20, padding:"16px 20px", marginBottom:12 }}>
-                  <div style={{ fontFamily:"Orbitron", fontSize:11, fontWeight:700, color:"#3AE87F", marginBottom:12 }}>🌱 Your Plan Could Cover</div>
-                  <div style={{ display:"flex", justifyContent:"space-around" }}>
+                {/* SDG impact */}
+                <div className="sdg-impact">
+                  <div style={{ fontFamily: "'Sora',sans-serif", fontSize: 12, fontWeight: 700, color: "#6EE7B7", marginBottom: 14 }}>🌱 Your Plan Could Cover</div>
+                  <div style={{ display: "flex", justifyContent: "space-around" }}>
                     {[
-                      { icon:"🍽️", value: Math.floor((budget.food ?? 0) / 320),  label:"Meals" },
-                      { icon:"📦", value: Math.floor((budget.food ?? 0) / 4500), label:"Packages" },
-                      { icon:"📅", value: Math.floor((budget.food ?? 0) / 643),  label:"Days fed" },
+                      { icon: "🍽️", value: Math.floor((budget.food ?? 0) / 320), label: "Meals" },
+                      { icon: "📦", value: Math.floor((budget.food ?? 0) / 4500), label: "Packages" },
+                      { icon: "📅", value: Math.floor((budget.food ?? 0) / 643), label: "Days fed" },
                     ].map(item => (
-                      <div key={item.label} style={{ textAlign:"center" }}>
-                        <div style={{ fontSize:24, marginBottom:4 }}>{item.icon}</div>
-                        <div style={{ fontFamily:"Orbitron", fontSize:18, fontWeight:800, color:"#3AE87F" }}>{item.value}</div>
-                        <div style={{ fontSize:9, color:"#666", marginTop:2 }}>{item.label}</div>
+                      <div key={item.label} style={{ textAlign: "center" }}>
+                        <div style={{ fontSize: 26, marginBottom: 6 }}>{item.icon}</div>
+                        <div style={{ fontFamily: "'Sora',sans-serif", fontSize: 20, fontWeight: 800, color: "#10B981" }}>{item.value}</div>
+                        <div style={{ fontSize: 10, color: "rgba(255,255,255,.45)", marginTop: 3 }}>{item.label}</div>
                       </div>
                     ))}
                   </div>
                 </div>
 
-                {/* Finance tips */}
-                <div className="section-title" style={{ marginTop:4 }}>Quick Tips</div>
-                {[
-                  { icon:"💡", tip:"Allocate food budget first — it's your most consistent spend.", color:"rgba(232,118,58,.08)", border:"rgba(232,118,58,.2)" },
-                  { icon:"🏦", tip:"Set aside at least 10% of your income to savings every month.", color:"rgba(58,232,127,.08)", border:"rgba(58,232,127,.2)" },
-                  { icon:"📊", tip:"Track spending weekly so small leaks don't become big holes.", color:"rgba(0,131,208,.08)", border:"rgba(0,131,208,.2)" },
-                ].map((t,i) => (
-                  <div key={i} className="tip-card" style={{ background:t.color, border:`1px solid ${t.border}`, borderRadius:14 }}>
-                    <span style={{ fontSize:22, flexShrink:0 }}>{t.icon}</span>
-                    <span style={{ fontSize:11, color:"rgb(34,34,34)", lineHeight:1.5 }}>{t.tip}</span>
+                {/* Tips */}
+                <div className="section-title" style={{ marginTop: 4 }}>Quick Tips</div>
+                {BUDGET_TIPS.map((t, i) => (
+                  <div key={i} className="tip-card" style={{ borderLeft: `3px solid ${t.accent}` }}>
+                    <span style={{ fontSize: 22, flexShrink: 0 }}>{t.icon}</span>
+                    <span style={{ fontSize: 12, color: "rgba(255,255,255,.65)", lineHeight: 1.6 }}>{t.tip}</span>
                   </div>
                 ))}
 
-                {/* CTA */}
-                <button className="btn-primary" style={{ width:"100%", marginTop:16 }} onClick={() => setScreen("deposits")}>
+                <button className="btn-primary" style={{ width: "100%", marginTop: 18 }} onClick={() => setScreen("deposits")}>
                   + Fund Your Vault to Get Started
                 </button>
               </>
             )}
 
-            {/* Live transaction rows */}
-            {!txnLoading && !txnError && transactions.slice(0,4).map(t => (
+            {!txnLoading && !txnError && filteredTxns.slice(0, 5).map(t => (
               <div className="txn-item" key={t.id}>
-                <div className="txn-icon" style={{ background:txnBg(t.type) }}>{txnIcon(t.type)}</div>
+                <div className="txn-icon" style={{ background: t.type === "deposit" ? "rgba(16,185,129,.1)" : "rgba(249,115,22,.1)" }}>{t.type === "deposit" ? "⬇️" : "🛍️"}</div>
                 <div className="txn-info">
                   <div className="txn-desc">{t.desc}</div>
                   <div className="txn-date">{t.date}</div>
                 </div>
-                <div className={`txn-amt ${t.amount>0?"positive":"negative"}`}>
-                  {t.amount>0?"+":""}₦{Math.abs(t.amount).toLocaleString()}
+                <div className={`txn-amt ${t.amount > 0 ? "positive" : "negative"}`}>
+                  {t.amount > 0 ? "+" : ""}₦{Math.abs(t.amount).toLocaleString()}
                 </div>
               </div>
             ))}
           </div>
         )}
 
-        {/* ── DEPOSITS ──────────────────────────────────────────── */}
+        {/* ── DEPOSITS ─────────────────────────────────────────── */}
         {screen === "deposits" && (
-          <DepositScreen
-            accountNumber={accountNumber}
-            bankName={bankName}
-            vaultBalance={vaultBalance}
-            onBack={() => setScreen("home")}
-            onRefresh={() => fetchBalance(true)}
-            refreshing={balRefreshing}
-          />
+          <DepositScreen accountNumber={accountNumber} bankName={bankName} vaultBalance={vaultBalance}
+            onBack={() => setScreen("home")} onRefresh={() => fetchBalance(true)} refreshing={balRefreshing} />
         )}
 
-        {screen === "Coins" && <UnderConstruction onBack={() => setScreen("home")} />}
+        {/* ── CHAIN WALLET (placeholder) ───────────────────────── */}
+        {screen === "Coins" && (
+          <div style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", minHeight: "70vh", textAlign: "center" }}>
+            <div style={{ fontSize: 72, marginBottom: 24 }}>⛓️</div>
+            <div style={{ fontFamily: "'Sora',sans-serif", fontSize: 22, fontWeight: 800, color: "#24ACF2", marginBottom: 12 }}>Coming Soon</div>
+            <div style={{ fontSize: 13, color: "rgba(255,255,255,.45)", maxWidth: 280, lineHeight: 1.7, marginBottom: 28 }}>Chain wallet integration is on the way. Stay tuned for crypto & DeFi features.</div>
+            <button className="btn-secondary" onClick={() => setScreen("home")}>← Go Back</button>
+          </div>
+        )}
 
+        {/* ── BUDGET ───────────────────────────────────────────── */}
         {screen === "Budget" && (
           <div className="screen">
-            <div className="top-bar">
-              <button className="btn-secondary" onClick={()=>setScreen("home")}>← Back</button>
-              <div className="logo" style={{fontSize:"16px"}}>Budget <span>Plan</span></div>
-              <button className="btn-primary" style={{padding:"8px 14px",fontSize:"11px"}} onClick={()=>setShowBudgetModal(true)}>
-                <Sliders size={12} style={{display:"inline",marginRight:4}} />Edit
+            <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 24 }}>
+              <button className="btn-ghost" onClick={() => setScreen("home")}><ArrowLeft size={18} /></button>
+              <div style={{ fontFamily: "'Sora',sans-serif", fontSize: 15, fontWeight: 700 }}>Budget Plan</div>
+              <button className="btn-primary" style={{ padding: "8px 14px", fontSize: 11 }} onClick={() => setShowBudgetModal(true)}>
+                <Sliders size={12} style={{ display: "inline", marginRight: 5 }} />Edit
               </button>
             </div>
- 
-            <div style={{background:"white",borderRadius:20,padding:"20px 24px",marginBottom:16,boxShadow:"0 2px 8px rgba(0,0,0,.05)",display:"flex",justifyContent:"space-between",alignItems:"center"}}>
+
+            <div style={{ background: "rgb(18,21,30)", border: "1px solid rgba(255,255,255,.05)", borderRadius: 22, padding: "20px 22px", marginBottom: 18, display: "flex", justifyContent: "space-between", alignItems: "center" }}>
               <div>
-                <div style={{fontSize:11,color:"#555",textTransform:"uppercase",letterSpacing:1,marginBottom:4}}>Total Budget</div>
-                <div style={{fontFamily:"Orbitron",fontSize:28,fontWeight:800}}>₦{totalBudgeted.toLocaleString()}</div>
+                <div style={{ fontSize: 10, color: "rgba(255,255,255,.4)", textTransform: "uppercase", letterSpacing: 1, marginBottom: 6 }}>Total Budget</div>
+                <div style={{ fontFamily: "'Sora',sans-serif", fontSize: 28, fontWeight: 800 }}>₦{totalBudgeted.toLocaleString()}</div>
               </div>
-              <div style={{textAlign:"right"}}>
-                <div style={{fontSize:11,color:"#555",textTransform:"uppercase",letterSpacing:1,marginBottom:4}}>Remaining</div>
-                <div style={{fontFamily:"Orbitron",fontSize:28,fontWeight:800,color:"#3AE87F"}}>₦{(vaultBalance-totalSpent).toLocaleString()}</div>
+              <div style={{ textAlign: "right" }}>
+                <div style={{ fontSize: 10, color: "rgba(255,255,255,.4)", textTransform: "uppercase", letterSpacing: 1, marginBottom: 6 }}>Remaining</div>
+                <div style={{ fontFamily: "'Sora',sans-serif", fontSize: 28, fontWeight: 800, color: "#10B981" }}>₦{(vaultBalance - totalSpent).toLocaleString()}</div>
               </div>
             </div>
- 
-            {CATEGORIES.map(cat=>{
-              const val=budget[cat.id] ?? 0;
-              const pct=Math.min((val/totalBudgeted)*100,100);
+
+            {CATEGORIES.map(cat => {
+              const val = budget[cat.id] ?? 0;
+              const pct = Math.min((val / totalBudgeted) * 100, 100);
               return (
                 <div className="plan-cat-item" key={cat.id}>
-                  <span style={{fontSize:22}}>{cat.icon}</span>
-                  <div style={{flex:1}}>
+                  <div style={{ width: 42, height: 42, borderRadius: 13, background: cat.gradient, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 20, flexShrink: 0 }}>{cat.icon}</div>
+                  <div style={{ flex: 1 }}>
                     <div className="cat-name">{cat.label}</div>
                     <div className="cat-bar-wrap">
-                      <div className="cat-bar" style={{width:`${pct}%`,background:cat.color}} />
+                      <div className="cat-bar" style={{ width: `${pct}%`, background: cat.color }} />
                     </div>
                   </div>
                   <div className="cat-amt">₦{val.toLocaleString()}</div>
                 </div>
               );
             })}
- 
-            <button className="btn-primary" style={{width:"100%",marginTop:16,display:"flex",alignItems:"center",justifyContent:"center",gap:8}} onClick={()=>setShowBudgetModal(true)}>
-              <Sliders size={14}/> Adjust Budget
+
+            <button className="btn-primary" style={{ width: "100%", marginTop: 16, display: "flex", alignItems: "center", justifyContent: "center", gap: 8 }} onClick={() => setShowBudgetModal(true)}>
+              <Sliders size={14} /> Adjust Budget
             </button>
           </div>
         )}
 
-        {/* ── MARKET ────────────────────────────────────────────── */}
+        {/* ── MARKET ───────────────────────────────────────────── */}
         {screen === "market" && (
           <div className="screen">
-            <div style={{ display:"flex", justifyContent:"space-between", alignItems:"center", marginBottom:20 }}>
-              <button className="btn-secondary" onClick={() => setScreen("home")}>Back</button>
-              <div className="logo" style={{ fontSize:"16px" }}>Packages</div>
-              <div style={{ width:60 }} />
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 22 }}>
+              <button className="btn-ghost" style={{marginLeft:'-4px'}} onClick={() => setScreen("home")}><ArrowLeft size={18} /></button>
+              <div style={{ fontFamily: "'Sora',sans-serif", fontSize: 15, fontWeight: 700 , position:'absolute', left:'38%' }}>Food Packages</div>
+              <div style={{ width: 38 }} />
             </div>
             <div className="market-grid">
               {FOOD_PACKAGES.map(pkg => (
@@ -758,10 +873,10 @@ export default function CampusPlanner() {
                   <div className="pkg-icon">{pkg.img}</div>
                   <div className="pkg-tag">{pkg.tag}</div>
                   <div className="pkg-name">{pkg.name}</div>
-                  <div style={{ fontSize:"11px", color:"#555", marginTop:"4px", lineHeight:"1.4" }}>{pkg.desc}</div>
-                  <div style={{ display:"flex", justifyContent:"space-between", alignItems:"center", marginTop:"10px" }}>
+                  <div style={{ fontSize: 11, color: "rgba(255,255,255,.45)", marginTop: 4, lineHeight: 1.5 }}>{pkg.desc}</div>
+                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginTop: 10 }}>
                     <div className="pkg-price">₦{pkg.price.toLocaleString()}</div>
-                    <span style={{ fontSize:"10px", color:"#555" }}>{pkg.portions} meals</span>
+                    <span style={{ fontSize: 10, color: "rgba(255,255,255,.35)" }}>{pkg.portions} meals</span>
                   </div>
                   <button className="add-btn" onClick={() => addToCart(pkg)}>+ Add to Plan</button>
                 </div>
@@ -769,49 +884,52 @@ export default function CampusPlanner() {
             </div>
             {cart.length > 0 && (
               <div className="cart-float">
-                <span style={{ fontSize:"20px" }}>🛒</span>
+                <span style={{ fontSize: 20 }}>🛒</span>
                 <div>
-                  <div className="cart-label">{cart.reduce((s,c)=>s+c.qty,0)} items · ₦{cartTotal.toLocaleString()}</div>
-                  <div style={{ fontSize:"10px", color:"rgba(255,255,255,.7)" }}>From your food budget</div>
+                  <div className="cart-label">{cart.reduce((s, c) => s + c.qty, 0)} items · ₦{cartTotal.toLocaleString()}</div>
+                  <div style={{ fontSize: 10, color: "rgba(255,255,255,.65)" }}>From your food budget</div>
                 </div>
-                <span style={{ color:"white", fontFamily:"Orbitron", fontWeight:700, cursor:"pointer" }}
-                  onClick={() =>navigate("/checkout",{ state:{ cartTotal } })}>Pay →</span>
+                <span style={{ color: "white", fontFamily: "'Sora',sans-serif", fontWeight: 700, cursor: "pointer" }}
+                  onClick={() => navigate("/checkout", { state: { cartTotal } })}>Pay →</span>
               </div>
             )}
           </div>
         )}
 
-        {/* ── STATS ─────────────────────────────────────────────── */}
+        {/* ── STATS ────────────────────────────────────────────── */}
         {screen === "stats" && (
           <div className="screen">
-            <div className="top-bar">
-              <button className="btn-secondary" onClick={() => setScreen("home")}>← Back</button>
-              <div className="logo" style={{ fontSize:"16px" }}>Analytics</div>
-              <div style={{ width:60 }} />
+            <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 24 }}>
+              <button className="btn-ghost" style={{marginLeft:'-4px'}} onClick={() => setScreen("home")}><ArrowLeft size={18} /></button>
+              <div style={{ fontFamily: "'Sora',sans-serif", fontSize: 15, fontWeight: 700 , position:'absolute', left:'40%' }}>Analytics</div>
+              <div style={{ width: 38 }} />
             </div>
+
             <div className="stats-grid">
-              <div className="stat-card"><div className="stat-label">Budgeted</div><div className="stat-value dark">₦{(totalBudgeted/1000).toFixed(0)}k</div></div>
-              <div className="stat-card"><div className="stat-label">Spent</div><div className="stat-value blue">₦{(totalSpent/1000).toFixed(0)}k</div></div>
-              <div className="stat-card"><div className="stat-label">Saved</div><div className="stat-value green">₦{((totalBudgeted-totalSpent)/1000).toFixed(0)}k</div></div>
-              <div className="stat-card"><div className="stat-label">Save Rate</div><div className="stat-value green">{totalBudgeted > 0 ? Math.round(((totalBudgeted - totalSpent) / totalBudgeted) * 100): 0}%</div></div>
+              <div className="stat-card"><div className="stat-label">Budgeted</div><div className="stat-value" style={{ color: "white" }}>₦{(totalBudgeted / 1000).toFixed(0)}k</div></div>
+              <div className="stat-card"><div className="stat-label">Spent</div><div className="stat-value" style={{ color: "#24ACF2" }}>₦{(totalSpent / 1000).toFixed(0)}k</div></div>
+              <div className="stat-card"><div className="stat-label">Saved</div><div className="stat-value" style={{ color: "#10B981" }}>₦{((totalBudgeted - totalSpent) / 1000).toFixed(0)}k</div></div>
+              <div className="stat-card"><div className="stat-label">Save Rate</div><div className="stat-value" style={{ color: "#10B981" }}>{totalBudgeted > 0 ? Math.round(((totalBudgeted - totalSpent) / totalBudgeted) * 100) : 0}%</div></div>
             </div>
+
             <div className="donut-section">
-              <DonutChart data={chartData} />
-              <div style={{ flex:1 }}>
+              <DonutChart data={chartData} size={130} />
+              <div style={{ flex: 1 }}>
                 {CATEGORIES.map(c => (
                   <div className="legend-item" key={c.id}>
-                    <div className="legend-dot" style={{ background:c.color }} />
+                    <div className="legend-dot" style={{ background: c.color }} />
                     <div className="legend-label">{c.label.split(" ")[0]}</div>
-                    <div className="legend-pct">{Math.round((budget[c.id]/totalBudgeted)*100)}%</div>
+                    <div className="legend-pct">{Math.round((budget[c.id] / totalBudgeted) * 100)}%</div>
                   </div>
                 ))}
               </div>
             </div>
+
             <div className="section-title">Category Breakdown</div>
             {CATEGORIES.map(c => {
-              const spent=SPENT_BY_CATEGORY[c.id]??0;
-             const base = budget[c.id] || 1;
-             const pct = Math.min(Math.round((spent / base) * 100), 100);
+              const spent = 0;
+              const base = budget[c.id] || 1;
+              const pct = Math.min(Math.round((spent / base) * 100), 100);
               return (
                 <div className="progress-row" key={c.id}>
                   <div className="progress-header">
@@ -819,19 +937,20 @@ export default function CampusPlanner() {
                     <div className="progress-pct">₦{spent.toLocaleString()} / ₦{budget[c.id].toLocaleString()}</div>
                   </div>
                   <div className="progress-bar-bg">
-                    <div className="progress-bar-fill" style={{ width:`${pct}%`, background:pct>80?"#E85A5A":c.color }} />
+                    <div className="progress-bar-fill" style={{ width: `${pct}%`, background: pct > 80 ? "#EF4444" : c.color }} />
                   </div>
                 </div>
               );
             })}
-            <div className="section-title" style={{ marginTop:"24px" }}>SDG 2 Impact</div>
-            <div style={{ background:"linear-gradient(135deg,rgba(58,232,127,.05),rgba(58,232,127,.02))", border:"1px solid rgba(58,232,127,.15)", borderRadius:"20px", padding:"20px" }}>
-              <div style={{ display:"flex", gap:"24px", justifyContent:"space-around" }}>
-                {[{ icon:"🍽️",value:28,label:"Meals funded"},{icon:"📦",value:3,label:"Packages bought"},{icon:"💚",value:14,label:"Days covered"}].map(item => (
-                  <div key={item.label} style={{ textAlign:"center" }}>
-                    <div style={{ fontSize:"32px", marginBottom:"6px" }}>{item.icon}</div>
-                    <div style={{ fontFamily:"Orbitron", fontSize:"22px", fontWeight:800, color:"#3AE87F" }}>{item.value}</div>
-                    <div style={{ fontSize:"11px", color:"#555" }}>{item.label}</div>
+
+            <div className="section-title" style={{ marginTop: 24 }}>SDG 2 Impact</div>
+            <div className="sdg-impact">
+              <div style={{ display: "flex", gap: 24, justifyContent: "space-around" }}>
+                {[{ icon: "🍽️", value: 28, label: "Meals funded" }, { icon: "📦", value: 3, label: "Packages bought" }, { icon: "💚", value: 14, label: "Days covered" }].map(item => (
+                  <div key={item.label} style={{ textAlign: "center" }}>
+                    <div style={{ fontSize: 30, marginBottom: 6 }}>{item.icon}</div>
+                    <div style={{ fontFamily: "'Sora',sans-serif", fontSize: 22, fontWeight: 800, color: "#10B981" }}>{item.value}</div>
+                    <div style={{ fontSize: 11, color: "rgba(255,255,255,.45)" }}>{item.label}</div>
                   </div>
                 ))}
               </div>
@@ -839,16 +958,27 @@ export default function CampusPlanner() {
           </div>
         )}
 
-        {/* ── BOTTOM NAV ────────────────────────────────────────── */}
-        <nav className="bottom-nav">
-          {navItems.map(item => (
-            <button key={item.id} className={`nav-item${screen===item.id?" active":""}`} onClick={() => setScreen(item.id)}>
-              <span className="nav-icon">{item.icon}</span>
-              <span className="nav-label">{item.label}</span>
-            </button>
-          ))}
-        </nav>
+        {/* ── PROFILE ──────────────────────────────────────────── */}
+        {screen === "profile" && <ProfileScreen onBack={() => setScreen("home")} />}
+
+        {/* ── BOTTOM NAV ───────────────────────────────────────── */}
+        {screen !== "profile" && (
+          <nav className="bottom-nav">
+            {navItems.map(item => (
+              <button key={item.id} className={`nav-item${screen === item.id ? " active" : ""}`} onClick={() => setScreen(item.id)}>
+                <span className="nav-icon">{item.icon}</span>
+                <span className="nav-label">{item.label}</span>
+              </button>
+            ))}
+          </nav>
+        )}
       </div>
+
+      {/* Budget modal */}
+      {showBudgetModal && (
+        <BudgetModal budget={budget} vaultBalance={vaultBalance}
+          onSave={(b) => setBudget(b)} onClose={() => setShowBudgetModal(false)} />
+      )}
     </>
   );
 }
