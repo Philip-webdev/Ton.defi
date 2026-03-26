@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { useState } from 'react';
 import { Mail, Lock, Eye, EyeOff, Loader, CheckCircle, XCircle, ArrowRight } from 'lucide-react';
-import { backend_url, NEW_WALLET } from 'helper';
+//import { backend_url, NEW_WALLET } from 'helper';
 
 const PageContainer = styled.div`
   min-height: 100vh;
@@ -337,7 +337,7 @@ function UserLogin() {
 
   try {
     
-    const response = await fetch(`${backend_url}/register`, {
+    const response = await fetch(`${import.meta.env.BACKEND_URL}/register`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ fullName, email, password })
@@ -346,7 +346,7 @@ function UserLogin() {
 
     const generateAcc = async () => {
   try {
-    const fetchAcc = await fetch(`${NEW_WALLET}`, {
+    const fetchAcc = await fetch(`${import.meta.env.NEW_WALLET}`, {
       method: 'POST',
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -401,7 +401,7 @@ await generateAcc();
     setStatus({ type: 'loading', message: 'Signing you in...' });
 
     try {
-      const response = await fetch(`${backend_url}/login`, {
+      const response = await fetch(`${import.meta.env.BACKEND_URL}/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         credentials: "include",
