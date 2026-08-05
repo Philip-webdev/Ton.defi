@@ -10,7 +10,7 @@ const StyledApp = styled.div`
   background: black;
 
     background-size:cover;
-font-family: orbitron ;
+font-family: 'Sora', sans-serif ;
   @media (prefers-color-scheme: dark) {
     
         color:white;
@@ -46,7 +46,7 @@ function Welcome(){
  
             
           <div  style={{translate:'-50% -50%', top:'50%', left:'50%', position:'absolute', textAlign:'center', color:'white', fontSize:'20px'}}>
-            <img src='https://i.imgur.com/ySoWviB.png' style={{ zoom:'70%' }}/>{Loading()}</div>
+            <img src='https://i.imgur.com/ySoWviB.png' style={{  }}/>{Loading()}</div>
          
         </StyledApp>
         

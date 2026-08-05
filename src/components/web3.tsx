@@ -22,7 +22,7 @@ const StyledApp = styled.div`
   background-color: #F9F9F9;
   color: rgb(34, 34, 34);
   margin: 0;
-  font-family: orbitron;
+  font-family: 'Sora', sans-serif;
   min-height: 100vh;
   padding: 20px;
   padding-bottom: 100px;

@@ -11,7 +11,7 @@ import FootNavig from './footnavig';
 const StyledApp = styled.div`
   background-color:  #F9F9F9;
   color: black;
-  font-family: orbitron;
+  font-family: 'Sora', sans-serif;
   left:70%;
   @media (prefers-color-scheme: dark) {
      background-color: rgb(33,33,33);
@@ -21,7 +21,7 @@ const StyledApp = styled.div`
   padding:20px;
   margin:0;
   
-   zoom :100%;
+   
 `;
 
 const Acc_panel = styled.div`
@@ -145,7 +145,7 @@ const AgroApp = () => {
                  <Iconic><Menu/></Iconic><Iconic><InfoIcon/></Iconic>
                 </Header> <br/>
                 <Acc_panel style={{ height:'150px'}}><p style={{color:'grey', fontSize:'small', textAlign:'center', padding:'7px'}}>Total Earnings</p>
-                 <p style={{ textAlign:'center',  fontFamily:'helvetica',fontWeight:'900',fontSize:'30px'}}> $ 500.00</p>
+                 <p style={{ textAlign:'center',  fontFamily: "'Sora', sans-serif",fontWeight:'900',fontSize:'30px'}}> $ 500.00</p>
                     </Acc_panel>
                 <div
                     ref={mountRef}

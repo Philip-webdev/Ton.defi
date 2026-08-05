@@ -3,6 +3,7 @@ import {
   Home, BookOpen, ShoppingCart, BarChart2,
   ArrowDownIcon, PenSquareIcon, ChartCandlestickIcon,
   LeafyGreenIcon, SoupIcon, Construction, ArrowLeft,
+  Package, Heart, Utensils, Cookie
 } from "lucide-react";
 import { BsEyeSlash, BsGear, BsPerson, BsEye } from "react-icons/bs";
 import styled, { keyframes } from "styled-components";
@@ -18,7 +19,7 @@ const bounceAnim = keyframes`
 // ── Styled Components ─────────────────────────────────────────────
 const Container = styled.div`
   display: flex;
-  font-family: Orbitron;
+  font-family: 'Sora', sans-serif;
   flex-direction: column;
   align-items: center;
   justify-content: center;
@@ -109,7 +110,7 @@ type CategoryId = "food" | "transport" | "books" | "health" | "savings" | "misc"
 interface Category {
   id: CategoryId;
   label: string;
-  icon: string;
+  icon: React.ReactNode;
   color: string;
 }
 
@@ -148,7 +149,7 @@ type Screen = "home" | "Budget" | "market" | "stats" | "deposits";
 
 // ── Static Data ───────────────────────────────────────────────────
 const CATEGORIES: Category[] = [
-  { id: "food",      label: "Food & Meals",    icon: "🍽️", color: "#E8763A" },
+  { id: "food",      label: "Food & Meals",    icon: <Utensils size={16} />, color: "#E8763A" },
   { id: "transport", label: "Transport",        icon: "🚌", color: "#3A8FE8" },
   { id: "books",     label: "Books & Supplies", icon: "📚", color: "#8F3AE8" },
   { id: "health",    label: "Health",           icon: "💊", color: "#E83A6B" },
@@ -160,7 +161,7 @@ const FOOD_PACKAGES: FoodPackage[] = [
   { id: 1, name: "Campus Essentials Box",  desc: "Rice, beans, garri, palm oil — weekly staples",  price: 4500, img: <FaBoxOpen />,      tag: "SDG 2",         portions: 7,  category: "food" },
   { id: 2, name: "Protein Power Pack",     desc: "Eggs, canned fish, groundnuts, soy milk",        price: 6200, img: <FaEgg />,          tag: "High Protein",  portions: 14, category: "food" },
   { id: 3, name: "Veggie Fresh Bundle",    desc: "Tomatoes, peppers, onions, leafy greens",        price: 3800, img: <LeafyGreenIcon />, tag: "Fresh Daily",   portions: 5,  category: "food" },
-  { id: 4, name: "Snack & Study Kit",      desc: "Biscuits, chin-chin, zobo drink, cashews",       price: 2500, img: "🍿",               tag: "Study Fuel",    portions: 10, category: "misc" },
+  { id: 4, name: "Snack & Study Kit",      desc: "Biscuits, chin-chin, zobo drink, cashews",       price: 2500, img: <Cookie size={18} />,               tag: "Study Fuel",    portions: 10, category: "misc" },
   { id: 5, name: "Breakfast Starter",      desc: "Oats, bread, peanut butter, powdered milk",      price: 3200, img: <FaBreadSlice />,   tag: "Morning Boost", portions: 7,  category: "food" },
   { id: 6, name: "Seminar Week Meal Prep", desc: "Pre-cooked stew, frozen veggies, pasta packs",   price: 7800, img: <SoupIcon />,       tag: "Exam Season",   portions: 14, category: "food" },
 ];
@@ -238,8 +239,8 @@ function DonutChart({ data }: { data: ChartDatum[] }) {
           transform={`rotate(-90 ${cx} ${cy})`}
         />
       ))}
-      <text x={cx} y={cy - 4}  textAnchor="middle" fill="white"          fontSize="9" fontWeight="700" fontFamily="Orbitron">SPENT</text>
-      <text x={cx} y={cy + 10} textAnchor="middle" fill="rgb(0,131,208)" fontSize="8" fontFamily="Orbitron">₦{(total / 1000).toFixed(0)}k</text>
+      <text x={cx} y={cy - 4}  textAnchor="middle" fill="white"          fontSize="9" fontWeight="700" fontFamily="'Sora', sans-serif">SPENT</text>
+      <text x={cx} y={cy + 10} textAnchor="middle" fill="rgb(0,131,208)" fontSize="8" fontFamily="'Sora', sans-serif">₦{(total / 1000).toFixed(0)}k</text>
     </svg>
   );
 }
@@ -339,13 +340,12 @@ export default function CampusPlanner() {
   return (
     <>
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800&display=swap');
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body { background: #F9F9F9; }
         @media (prefers-color-scheme: dark) { body { background: rgb(15,15,15); } }
 
         .app {
-          font-family: 'Orbitron', sans-serif;
+          font-family: 'Sora', sans-serif;
           background: #F9F9F9;
           min-height: 100svh;
           max-width: 430px;
@@ -367,7 +367,7 @@ export default function CampusPlanner() {
           margin-bottom: 28px;
         }
 
-        .logo { font-family: 'Orbitron', sans-serif; font-weight: 800; font-size: 18px; letter-spacing: 1px; color: rgb(34,34,34); }
+        .logo { font-family: 'Sora', sans-serif; font-weight: 800; font-size: 18px; letter-spacing: 1px; color: rgb(34,34,34); }
         @media (prefers-color-scheme: dark) { .logo { color: white; } }
         .logo span { color: RGB(0,131,208); }
 
@@ -393,7 +393,7 @@ export default function CampusPlanner() {
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
         .balance-label { font-size: 12px; color: rgba(255,255,255,0.85); text-transform: uppercase; letter-spacing: 1.5px; font-weight: 500; margin-bottom: 8px; text-align: center; }
-        .balance-amount { font-family: 'Orbitron', sans-serif; font-size: 36px; font-weight: 700; color: white; display: flex; align-items: center; justify-content: center; gap: 12px; margin-bottom: 16px; }
+        .balance-amount { font-family: 'Sora', sans-serif; font-size: 36px; font-weight: 700; color: white; display: flex; align-items: center; justify-content: center; gap: 12px; margin-bottom: 16px; }
 
         .eye-btn {
           background: rgba(255,255,255,0.2); border: none; border-radius: 50%;
@@ -415,7 +415,7 @@ export default function CampusPlanner() {
         .quick-btn .qb-label { font-size: 9px; color: grey; font-weight: 500; text-align: center; }
 
         .section-title {
-          font-family: 'Orbitron', sans-serif; font-size: 14px; font-weight: 600;
+          font-family: 'Sora', sans-serif; font-size: 14px; font-weight: 600;
           color: rgb(34,34,34); margin-bottom: 14px;
           display: flex; align-items: center; justify-content: space-between; gap: 8px;
         }
@@ -430,7 +430,7 @@ export default function CampusPlanner() {
         @media (prefers-color-scheme: dark) { .pkg-card { background: rgb(1,1,1); } }
         .pkg-icon { font-size: 32px; margin-bottom: 10px; }
         .pkg-tag { font-size: 9px; background: rgba(0,131,208,0.1); color: RGB(0,131,208); border-radius: 6px; padding: 2px 6px; font-weight: 700; letter-spacing: 0.5px; text-transform: uppercase; display: inline-block; margin-bottom: 8px; }
-        .pkg-name { font-family: 'Orbitron', sans-serif; font-size: 11px; font-weight: 700; color: rgb(34,34,34); margin-bottom: 4px; line-height: 1.4; }
+        .pkg-name { font-family: 'Sora', sans-serif; font-size: 11px; font-weight: 700; color: rgb(34,34,34); margin-bottom: 4px; line-height: 1.4; }
         @media (prefers-color-scheme: dark) { .pkg-name { color: white; } }
         .pkg-price { font-size: 13px; font-weight: 700; color: rgb(51,232,191); margin-top: 8px; }
 
@@ -441,7 +441,7 @@ export default function CampusPlanner() {
         .txn-desc { font-size: 11px; font-weight: 500; color: rgb(34,34,34); }
         @media (prefers-color-scheme: dark) { .txn-desc { color: rgba(255,255,255,0.85); } }
         .txn-date { font-size: 10px; color: grey; margin-top: 2px; }
-        .txn-amt { font-family: 'Orbitron', sans-serif; font-size: 13px; font-weight: 700; }
+        .txn-amt { font-family: 'Sora', sans-serif; font-size: 13px; font-weight: 700; }
         .txn-amt.positive { color: rgb(51,232,191); }
         .txn-amt.negative { color: RGB(0,131,208); }
 
@@ -479,7 +479,7 @@ export default function CampusPlanner() {
         .budget-amount-input {
           width: 110px;
           text-align: right;
-          font-family: 'Orbitron', sans-serif;
+          font-family: 'Sora', sans-serif;
           font-size: 13px;
           font-weight: 700;
           color: rgb(34,34,34);
@@ -514,7 +514,7 @@ export default function CampusPlanner() {
         .stepper-btn:hover { background: rgba(0,131,208,0.1); }
 
         .budget-total-live {
-          font-family: 'Orbitron', sans-serif;
+          font-family: 'Sora', sans-serif;
           font-size: 11px; font-weight: 600;
           color: #888;
           text-align: center;
@@ -527,7 +527,7 @@ export default function CampusPlanner() {
         .market-card { background: white; border-radius: 20px; padding: 16px; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
         .market-card:hover { transform: translateY(-2px); }
         @media (prefers-color-scheme: dark) { .market-card { background: rgb(1,1,1); } }
-        .add-btn { width: 100%; background: rgba(0,131,208,0.08); border: 1px dashed rgba(0,131,208,0.3); border-radius: 10px; padding: 8px; color: RGB(0,131,208); font-size: 10px; font-weight: 700; cursor: pointer; margin-top: 10px; transition: all 0.2s; font-family: 'Orbitron', sans-serif; }
+        .add-btn { width: 100%; background: rgba(0,131,208,0.08); border: 1px dashed rgba(0,131,208,0.3); border-radius: 10px; padding: 8px; color: RGB(0,131,208); font-size: 10px; font-weight: 700; cursor: pointer; margin-top: 10px; transition: all 0.2s; font-family: 'Sora', sans-serif; }
         .cart-float {
           position: fixed; bottom: 88px; left: 50%; transform: translateX(-50%);
           background: linear-gradient(135deg, RGB(0,131,208), rgb(36,172,242));
@@ -538,14 +538,14 @@ export default function CampusPlanner() {
           animation: slideUp 0.3s ease;
         }
         @keyframes slideUp { from { transform: translateX(-50%) translateY(20px); opacity: 0; } to { transform: translateX(-50%) translateY(0); opacity: 1; } }
-        .cart-label { font-family: 'Orbitron', sans-serif; font-size: 12px; font-weight: 700; color: white; }
+        .cart-label { font-family: 'Sora', sans-serif; font-size: 12px; font-weight: 700; color: white; }
 
         /* ── Stats ───────────────────────────────────────────── */
         .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 20px; }
         .stat-card { background: white; border-radius: 18px; padding: 18px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
         @media (prefers-color-scheme: dark) { .stat-card { background: rgb(1,1,1); } }
         .stat-label { font-size: 9px; color: grey; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; }
-        .stat-value { font-family: 'Orbitron', sans-serif; font-size: 22px; font-weight: 700; }
+        .stat-value { font-family: 'Sora', sans-serif; font-size: 22px; font-weight: 700; }
         .stat-value.green { color: rgb(51,232,191); }
         .stat-value.blue  { color: RGB(0,131,208); }
         .stat-value.dark  { color: rgb(34,34,34); }
@@ -571,7 +571,7 @@ export default function CampusPlanner() {
         .btn-primary {
           background: linear-gradient(135deg, RGB(0,131,208), rgb(36,172,242));
           border: none; border-radius: 14px; padding: 14px 20px;
-          color: white; font-family: 'Orbitron', sans-serif; font-size: 12px; font-weight: 700;
+          color: white; font-family: 'Sora', sans-serif; font-size: 12px; font-weight: 700;
           cursor: pointer; transition: all 0.3s ease; white-space: nowrap; letter-spacing: 0.5px;
         }
         .btn-primary:hover { opacity: 0.9; transform: translateY(-1px); box-shadow: 0 4px 12px rgba(0,131,208,0.3); }
@@ -581,7 +581,7 @@ export default function CampusPlanner() {
           border: 1px solid rgba(0,131,208,0.3);
           border-radius: 12px; padding: 10px 18px;
           color: RGB(0,131,208); font-size: 11px; font-weight: 600;
-          cursor: pointer; transition: all 0.3s ease; font-family: 'Orbitron', sans-serif;
+          cursor: pointer; transition: all 0.3s ease; font-family: 'Sora', sans-serif;
         }
         .btn-secondary:hover { background: rgba(0,131,208,0.08); transform: translateY(-1px); }
 
@@ -694,7 +694,7 @@ export default function CampusPlanner() {
                 <div style={{ fontSize: "11px", color: "#888", textTransform: "uppercase", letterSpacing: "1px", marginBottom: "4px" }}>
                   Monthly Budget
                 </div>
-                <div style={{ fontFamily: "Orbitron", fontSize: "26px", fontWeight: 800 }}>
+                <div style={{ fontFamily: "'Sora', sans-serif", fontSize: "26px", fontWeight: 800 }}>
                   ₦{(planEditing ? totalEditing : totalBudgeted).toLocaleString()}
                 </div>
               </div>
@@ -702,7 +702,7 @@ export default function CampusPlanner() {
                 <div style={{ fontSize: "11px", color: "#888", textTransform: "uppercase", letterSpacing: "1px", marginBottom: "4px" }}>
                   Remaining
                 </div>
-                <div style={{ fontFamily: "Orbitron", fontSize: "26px", fontWeight: 800, color: "#3AE87F" }}>
+                <div style={{ fontFamily: "'Sora', sans-serif", fontSize: "26px", fontWeight: 800, color: "#3AE87F" }}>
                   ₦{(vaultBalance - totalSpent).toLocaleString()}
                 </div>
               </div>
@@ -759,7 +759,7 @@ export default function CampusPlanner() {
                       >+</button>
                     </div>
                   ) : (
-                    <div style={{ fontFamily: "Orbitron", fontSize: "12px", fontWeight: 700, minWidth: 80, textAlign: "right" }}>
+                    <div style={{ fontFamily: "'Sora', sans-serif", fontSize: "12px", fontWeight: 700, minWidth: 80, textAlign: "right" }}>
                       ₦{displayVal.toLocaleString()}
                     </div>
                   )}
@@ -808,13 +808,13 @@ export default function CampusPlanner() {
 
             {cart.length > 0 && (
               <div className="cart-float">
-                <span style={{ fontSize: "20px" }}>🛒</span>
+                <span style={{ fontSize: "20px" }}><ShoppingCart size={20} /></span>
                 <div>
                   <div className="cart-label">{cart.reduce((s, c) => s + c.qty, 0)} items · ₦{cartTotal.toLocaleString()}</div>
                   <div style={{ fontSize: "10px", color: "rgba(255,255,255,0.7)" }}>From your food budget</div>
                 </div>
                 <span
-                  style={{ color: "white", fontFamily: "Orbitron", fontWeight: 700, cursor: "pointer" }}
+                  style={{ color: "white", fontFamily: "'Sora', sans-serif", fontWeight: 700, cursor: "pointer" }}
                   onClick={() => navigate("/checkout", { state: { price: { cartTotal } } })}
                 >
                   Pay →
@@ -874,13 +874,13 @@ export default function CampusPlanner() {
             <div style={{ background: "linear-gradient(135deg, rgba(58,232,127,0.05), rgba(58,232,127,0.02))", border: "1px solid rgba(58,232,127,0.15)", borderRadius: "20px", padding: "20px" }}>
               <div style={{ display: "flex", gap: "24px", justifyContent: "space-around" }}>
                 {[
-                  { icon: "🍽️", value: 28, label: "Meals funded"    },
-                  { icon: "📦", value: 3,  label: "Packages bought" },
-                  { icon: "💚", value: 14, label: "Days covered"    },
+                  { icon: <Utensils size={28} />, value: 28, label: "Meals funded"    },
+                  { icon: <Package size={28} />, value: 3,  label: "Packages bought" },
+                  { icon: <Heart size={28} />, value: 14, label: "Days covered"    },
                 ].map((item) => (
                   <div key={item.label} style={{ textAlign: "center" }}>
-                    <div style={{ fontSize: "32px", marginBottom: "6px" }}>{item.icon}</div>
-                    <div style={{ fontFamily: "Orbitron", fontSize: "22px", fontWeight: 800, color: "#3AE87F" }}>{item.value}</div>
+                    <div style={{ marginBottom: "6px", color: "#3AE87F" }}>{item.icon}</div>
+                    <div style={{ fontFamily: "'Sora', sans-serif", fontSize: "22px", fontWeight: 800, color: "#3AE87F" }}>{item.value}</div>
                     <div style={{ fontSize: "11px", color: "#555" }}>{item.label}</div>
                   </div>
                 ))}
@@ -900,7 +900,7 @@ export default function CampusPlanner() {
                 cursor: "pointer", padding: "6px 12px", borderRadius: 12,
                 border: "none", background: screen === item.id ? "rgba(0,131,208,0.08)" : "transparent",
                 color: screen === item.id ? "RGB(0,131,208)" : "#aaa",
-                fontFamily: "Orbitron", transition: "all 0.2s",
+                fontFamily: "'Sora', sans-serif", transition: "all 0.2s",
               }}
             >
               {item.icon}

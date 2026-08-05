@@ -9,16 +9,14 @@ import FootNavig from "./footnavig";
 const StyledApp = styled.div`
   background-color: #F9F9F9;
   color: black;
-  margin:0;
-font-family: orbitron;
- zoom :100%;
-   @media (prefers-color-scheme: dark) {
-     background-color: rgb(15,15,15);
-      color: white ;
+  margin: 0;
+  font-family: 'Sora', sans-serif;
+  @media (prefers-color-scheme: dark) {
+    background-color: rgb(15,15,15);
+    color: white;
   }
-    min-height: 100vh;
-  ;
-  padding: 20px 20px;
+  min-height: 100vh;
+  padding: 20px;
 `;
 
 const Icon = styled.div`
@@ -42,7 +40,7 @@ const AppContainer = styled.div`
    width: 100%;
   height:fit-content;
   margin: 0;
-  font-family: orbitron ;
+  font-family: 'Sora', sans-serif ;
 `;
 function market() {
    
@@ -50,14 +48,12 @@ function market() {
 return(
     <StyledApp>
     <AppContainer>
-    <h3>Earn</h3>
-        <div style={{  justifyContent:'space-around',    borderRadius:'10px'}}>
-<ExPanel style={{display: 'flex'  , gap:'17px',padding:'20px', borderColor:'whitesmoke', borderBottomStyle:'groove', borderWidth:'1px', borderRadius:'10px'}}><div style={{marginLeft:'7px'}}><a href='#/stake' style={{color:'grey', textDecoration:'none'}}>DeFi staking</a></div></ExPanel>
-  <ExPanel  style={{display: 'flex'  , gap:'17px',padding:'20px', borderColor:'whitesmoke', borderBottomStyle:'groove', borderWidth:'1px', borderRadius:'10px'}}><div  style={{marginLeft:'7px'}}><a href="#/pin" style={{color:'grey', textDecoration:'none'}}>DePIN</a></div></ExPanel>
-  <ExPanel  style={{display: 'flex'  , gap:'17px',padding:'20px', borderColor:'whitesmoke', borderBottomStyle:'groove', borderWidth:'1px', borderRadius:'10px'}}><div  style={{marginLeft:'7px'}}><a href="#/rwa" style={{color:'grey', textDecoration:'none'}}>RWA</a></div></ExPanel>
-
-  
-  </div>
+    <h3 style={{ fontSize: '20px', fontWeight: 700, marginBottom: '20px', color: 'inherit' }}>Earn</h3>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', borderRadius: '12px' }}>
+<ExPanel style={{ display: 'flex', gap: '14px', padding: '16px', borderRadius: '12px', border: '1px solid rgba(0,0,0,0.06)' }}><a href='#/stake' style={{ color: 'inherit', textDecoration: 'none', fontSize: '14px', fontWeight: 500, padding: '4px 0' }}>DeFi staking</a></ExPanel>
+  <ExPanel style={{ display: 'flex', gap: '14px', padding: '16px', borderRadius: '12px', border: '1px solid rgba(0,0,0,0.06)' }}><a href="#/pin" style={{ color: 'inherit', textDecoration: 'none', fontSize: '14px', fontWeight: 500, padding: '4px 0' }}>DePIN</a></ExPanel>
+  <ExPanel style={{ display: 'flex', gap: '14px', padding: '16px', borderRadius: '12px', border: '1px solid rgba(0,0,0,0.06)' }}><a href="#/rwa" style={{ color: 'inherit', textDecoration: 'none', fontSize: '14px', fontWeight: 500, padding: '4px 0' }}>RWA</a></ExPanel>
+        </div>
          <div><FootNavig/></div>
     </AppContainer></StyledApp>
 )

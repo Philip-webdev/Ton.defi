@@ -5,11 +5,9 @@ import { BsArrowLeft } from "react-icons/bs";
 const StyledApp = styled.div`
   background-color: #F9F9F9;
   color: black;
-  
-  font-family: orbitron;
-   min-height: 150vh;
+  font-family: 'Sora', sans-serif;
+  min-height: 100vh;
   padding: 20px;
- zoom :100%;
   @media (prefers-color-scheme: dark) {
     background-color: rgb(33,33,33);
     color: white;
@@ -27,7 +25,7 @@ width: 90%;
 height: 40px;
 
 font-size: 16px;
-font-family: orbitron;
+font-family: 'Sora', sans-serif;
 placeholder :transparent;
  @media (prefers-color-scheme: dark) {
      background-color: rgb(15,15,15);

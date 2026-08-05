@@ -2,101 +2,77 @@ import styled from 'styled-components';
 import { useState } from 'react';
 import { Eye, EyeOff, Loader, CheckCircle, XCircle, ArrowRight } from 'lucide-react';
 
-// ── Styled Components ─────────────────────────────────────────────
 const PageContainer = styled.div`
   min-height: 100vh;
-  background: black;
+  background: #0A0A0A;
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 20px;
   font-family: 'Sora', sans-serif;
-  position: relative;
-  overflow: hidden;
-
-  &::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: url('https://i.imgur.com/GWzPhNR.jpeg') center / cover no-repeat;
-    opacity: 0.1;
-    z-index: 0;
-  }
 `;
 
 const LoginCard = styled.div`
-  background: rgba(255, 255, 255, 0.95);
-  backdrop-filter: blur(20px);
+  background: #141414;
+  border: 1px solid rgba(255,255,255,0.06);
   border-radius: 24px;
-  padding: 48px 40px;
+  padding: 44px 36px;
   width: 100%;
   max-width: 440px;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
   position: relative;
   z-index: 1;
   animation: slideUp 0.5s ease-out;
 
   @keyframes slideUp {
-    from { opacity: 0; transform: translateY(30px); }
+    from { opacity: 0; transform: translateY(24px); }
     to   { opacity: 1; transform: translateY(0); }
   }
 
-  @media (prefers-color-scheme: dark) {
-    background: rgba(15, 15, 15, 0.95);
-    color: white;
-  }
-
   @media (max-width: 480px) {
-    padding: 36px 24px;
+    padding: 32px 20px;
   }
 `;
 
 const LogoText = styled.h1`
-  font-size: 32px;
-  font-weight: 800;
-  background: rgb(36, 172, 242);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  font-size: 28px;
+  font-weight: 200;
+  color: #F0EDE8;
   margin: 0;
-  letter-spacing: -1px;
+  letter-spacing: -0.5px;
+  span { color: #B8FF00; font-weight: 700; }
 `;
 
 const Subtitle = styled.p`
-  color: #6b7280;
-  font-size: 14px;
+  color: #555;
+  font-size: 13px;
+  font-weight: 400;
   margin: 8px 0 0 0;
   text-align: center;
-  @media (prefers-color-scheme: dark) { color: #9ca3af; }
+  letter-spacing: 0.2px;
 `;
 
 const TabContainer = styled.div`
   display: flex;
-  background: #f3f4f6;
-  border-radius: 12px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 14px;
   padding: 4px;
-  margin-bottom: 32px;
-  @media (prefers-color-scheme: dark) { background: rgba(255, 255, 255, 0.05); }
+  margin-bottom: 28px;
 `;
 
 const Tab = styled.button<{ $active: boolean }>`
   flex: 1;
   padding: 12px;
   border: none;
-  border-radius: 10px;
+  border-radius: 11px;
   font-weight: 600;
-  font-size: 14px;
+  font-size: 13px;
   font-family: inherit;
   cursor: pointer;
   transition: all 0.3s ease;
-  background: ${p => p.$active ? 'white' : 'transparent'};
-  color: ${p => p.$active ? 'rgb(36,172,242)' : '#6b7280'};
-  box-shadow: ${p => p.$active ? '0 2px 8px rgba(0,0,0,0.1)' : 'none'};
-  &:hover { color: rgb(36,172,242); }
-  @media (prefers-color-scheme: dark) {
-    background: ${p => p.$active ? 'rgba(36,172,242,0.15)' : 'transparent'};
-    color: ${p => p.$active ? 'rgb(36,172,242)' : '#9ca3af'};
-  }
+  background: ${p => p.$active ? '#B8FF00' : 'transparent'};
+  color: ${p => p.$active ? '#0A0A0A' : '#555'};
+  letter-spacing: 0.3px;
 `;
 
 const FormGroup = styled.div`
@@ -105,12 +81,12 @@ const FormGroup = styled.div`
 
 const Label = styled.label`
   display: block;
-  font-size: 13px;
+  font-size: 12px;
   font-weight: 600;
   margin-bottom: 8px;
-  color: #374151;
-  letter-spacing: 0.3px;
-  @media (prefers-color-scheme: dark) { color: #d1d5db; }
+  color: #9A9A9A;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
 `;
 
 const InputWrapper = styled.div`
@@ -119,34 +95,24 @@ const InputWrapper = styled.div`
 
 const Input = styled.input`
   width: 100%;
-  height: 48px;
+  height: 50px;
   padding: 0 44px 0 16px;
-  border: 1.5px solid #e5e7eb;
-  border-radius: 12px;
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 14px;
   font-size: 14px;
   font-family: inherit;
   transition: all 0.2s ease;
-  background: white;
-  color: #1f2937;
+  background: rgba(255,255,255,0.04);
+  color: #F0EDE8;
   box-sizing: border-box;
 
   &:focus {
     outline: none;
-    border-color: rgb(36,172,242);
-    box-shadow: 0 0 0 3px rgba(36,172,242,0.12);
+    border-color: #B8FF00;
+    background: rgba(184,255,0,0.04);
   }
-  &::placeholder { color: #9ca3af; }
-  &:disabled { opacity: 0.6; cursor: not-allowed; }
-
-  @media (prefers-color-scheme: dark) {
-    background: rgba(255,255,255,0.05);
-    border-color: rgba(255,255,255,0.1);
-    color: white;
-    &:focus {
-      border-color: rgb(36,172,242);
-      background: rgba(255,255,255,0.08);
-    }
-  }
+  &::placeholder { color: #555; }
+  &:disabled { opacity: 0.5; cursor: not-allowed; }
 `;
 
 const PasswordToggle = styled.button`
@@ -156,24 +122,24 @@ const PasswordToggle = styled.button`
   transform: translateY(-50%);
   background: none;
   border: none;
-  color: #9ca3af;
+  color: #555;
   cursor: pointer;
   padding: 4px;
   display: flex;
   align-items: center;
-  &:hover { color: rgb(36,172,242); }
+  &:hover { color: #B8FF00; }
   &:disabled { opacity: 0.4; cursor: not-allowed; }
 `;
 
 const SubmitButton = styled.button`
   width: 100%;
   padding: 16px;
-  background: rgb(36,172,242);
-  color: white;
+  background: #B8FF00;
+  color: #0A0A0A;
   border: none;
-  border-radius: 12px;
+  border-radius: 14px;
   font-weight: 700;
-  font-size: 15px;
+  font-size: 14px;
   font-family: inherit;
   cursor: pointer;
   transition: all 0.3s ease;
@@ -185,11 +151,11 @@ const SubmitButton = styled.button`
   letter-spacing: 0.3px;
 
   &:hover:not(:disabled) {
-    transform: translateY(-2px);
-    box-shadow: 0 12px 24px rgba(36,172,242,0.35);
+    transform: translateY(-1px);
+    box-shadow: 0 8px 24px rgba(184,255,0,0.25);
   }
   &:active:not(:disabled) { transform: translateY(0); }
-  &:disabled { opacity: 0.6; cursor: not-allowed; }
+  &:disabled { opacity: 0.5; cursor: not-allowed; }
 `;
 
 const StatusMessage = styled.div<{ $type: 'success' | 'error' | 'loading' }>`
@@ -209,16 +175,13 @@ const StatusMessage = styled.div<{ $type: 'success' | 'error' | 'loading' }>`
   }
 
   ${p => p.$type === 'success' && `
-    background: #dcfce7; color: #166534;
-    @media (prefers-color-scheme: dark) { background: rgba(34,197,94,0.15); color: #86efac; }
+    background: rgba(0,230,118,0.1); color: #00E676;
   `}
   ${p => p.$type === 'error' && `
-    background: #fee2e2; color: #991b1b;
-    @media (prefers-color-scheme: dark) { background: rgba(239,68,68,0.15); color: #fca5a5; }
+    background: rgba(255,82,82,0.1); color: #FF5252;
   `}
   ${p => p.$type === 'loading' && `
-    background: #dbeafe; color: #1e40af;
-    @media (prefers-color-scheme: dark) { background: rgba(59,130,246,0.15); color: #93c5fd; }
+    background: rgba(184,255,0,0.08); color: #B8FF00;
   `}
 `;
 
@@ -226,27 +189,22 @@ const Footer = styled.div`
   text-align: center;
   margin-top: 28px;
   padding-top: 20px;
-  border-top: 1px solid #e5e7eb;
-  @media (prefers-color-scheme: dark) { border-top-color: rgba(255,255,255,0.08); }
+  border-top: 1px solid rgba(255,255,255,0.06);
 `;
 
 const FooterText = styled.p`
-  color: #6b7280; font-size: 12px; margin: 0;
-  @media (prefers-color-scheme: dark) { color: #9ca3af; }
+  color: #555;
+  font-size: 11px;
+  margin: 0;
+  letter-spacing: 0.3px;
 `;
 
-// ── Types ─────────────────────────────────────────────────────────
 type StatusType = {
   type: 'success' | 'error' | 'loading' | null;
   message: string;
 };
 
-// ── Component ─────────────────────────────────────────────────────
-// IMPORTANT: Always render as <UserLogin /> — never call UserLogin() directly.
-// Calling it as a function breaks React's hook tracking and causes
-// "invalid hook call" errors.
 function UserLogin() {
-  // ── All hooks at the top level — never inside conditions/callbacks ──
   const [mode,         setMode]        = useState<'login' | 'register'>('login');
   const [email,        setEmail]       = useState('');
   const [fullName,     setName]        = useState('');
@@ -255,9 +213,8 @@ function UserLogin() {
   const [status,       setStatus]      = useState<StatusType>({ type: null, message: '' });
   const [isLoading,    setIsLoading]   = useState(false);
 
-  // ── Register ────────────────────────────────────────────────────
   const handleRegister = async (e: React.FormEvent) => {
-    e.preventDefault(); // ← must be first
+    e.preventDefault();
 
     if (!fullName.trim() || !email.trim() || !password.trim()) {
       setStatus({ type: 'error', message: 'Please fill in all fields.' });
@@ -272,7 +229,6 @@ function UserLogin() {
     setStatus({ type: 'loading', message: 'Creating your account...' });
 
     try {
-      // 1. Register user
       const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/register`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -280,7 +236,6 @@ function UserLogin() {
       });
       if (!response.ok) throw new Error('Registration failed. Please try again.');
 
-      // 2. Generate virtual wallet / bank account
       const fetchAcc = await fetch(`${import.meta.env.VITE_NEW_WALLET}`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -293,10 +248,8 @@ function UserLogin() {
       if (!fetchAcc.ok) {
         const errData = await fetchAcc.json().catch(() => ({}));
         console.warn('Wallet generation failed:', errData);
-        // Non-fatal — account was still created; wallet can be retried later
       }
 
-      // 3. Persist to localStorage only after successful registration
       localStorage.setItem('fullName', fullName);
       localStorage.setItem('email',    email);
 
@@ -310,9 +263,8 @@ function UserLogin() {
     }
   };
 
-
   const handleLogin = async (e: React.FormEvent) => {
-    e.preventDefault(); // ← must be first
+    e.preventDefault();
 
     if (!email.trim() || !password.trim()) {
       setStatus({ type: 'error', message: 'Please fill in all fields.' });
@@ -340,7 +292,6 @@ function UserLogin() {
         throw new Error('Login failed. Please try again.');
       }
 
-      // Persist only after confirmed login
       localStorage.setItem('fullName', fullName);
       localStorage.setItem('email',    email);
 
@@ -362,38 +313,28 @@ function UserLogin() {
     }
   };
 
-  // ── Single submit dispatcher ────────────────────────────────────
   const handleSubmit = (e: React.FormEvent) => {
     mode === 'login' ? handleLogin(e) : handleRegister(e);
   };
 
-
   return (
     <PageContainer>
       <LoginCard>
-        {/* Logo */}
-        <div style={{ textAlign: 'center', marginBottom: 28 }}>
-          <img
-            src="https://i.imgur.com/ySoWviB.png"
-            style={{ height: 120, width: 120, borderRadius: 16 }}
-            alt="Nekstpei logo"
-          />
+        <div style={{ textAlign: 'center', marginBottom: 32 }}>
+          <LogoText>Nekst<span>.</span></LogoText>
           <Subtitle>
-            {mode === 'login' ? 'Welcome back — sign in to continue' : 'Create your account to get started'}
+            {mode === 'login' ? 'Welcome back' : 'Create your account'}
           </Subtitle>
         </div>
 
-        {/* Login / Register tabs */}
         <TabContainer>
-          <Tab $active={mode === 'login'}    onClick={() => { setMode('login');    setStatus({ type: null, message: '' }); }}>Login</Tab>
+          <Tab $active={mode === 'login'}    onClick={() => { setMode('login');    setStatus({ type: null, message: '' }); }}>Sign In</Tab>
           <Tab $active={mode === 'register'} onClick={() => { setMode('register'); setStatus({ type: null, message: '' }); }}>Register</Tab>
         </TabContainer>
 
         <form onSubmit={handleSubmit} noValidate>
-
-          {/* Email */}
           <FormGroup>
-            <Label htmlFor="email">Email Address</Label>
+            <Label htmlFor="email">Email</Label>
             <InputWrapper>
               <Input
                 id="email"
@@ -408,7 +349,6 @@ function UserLogin() {
             </InputWrapper>
           </FormGroup>
 
-          {/* Full name — register only */}
           {mode === 'register' && (
             <FormGroup>
               <Label htmlFor="name">Full Name</Label>
@@ -427,7 +367,6 @@ function UserLogin() {
             </FormGroup>
           )}
 
-          {/* Password */}
           <FormGroup>
             <Label htmlFor="password">Password</Label>
             <InputWrapper>
@@ -452,15 +391,13 @@ function UserLogin() {
             </InputWrapper>
           </FormGroup>
 
-          {/* Submit */}
           <SubmitButton type="submit" disabled={isLoading}>
             {isLoading
-              ? <><Loader size={18} className="spin" /> Processing...</>
-              : <>{mode === 'login' ? 'Sign In' : 'Create Account'}<ArrowRight size={18} /></>
+              ? <><Loader size={16} className="spin" /> Processing...</>
+              : <>{mode === 'login' ? 'Sign In' : 'Create Account'}<ArrowRight size={16} /></>
             }
           </SubmitButton>
 
-          {/* Status message */}
           {status.type && (
             <StatusMessage $type={status.type}>
               {status.type === 'success' && <CheckCircle size={16} />}
@@ -472,12 +409,11 @@ function UserLogin() {
         </form>
 
         <Footer>
-          <FooterText>nekstpei © 2026 · Secure & Reliable</FooterText>
+          <FooterText>Nekstpei © 2026 · Secure & Reliable</FooterText>
         </Footer>
       </LoginCard>
 
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&display=swap');
         .spin { animation: spin 1s linear infinite; }
         @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
       `}</style>

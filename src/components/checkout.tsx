@@ -1,701 +1,293 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { 
-  ChevronLeft, 
-  CreditCard, 
-  Banknote, 
-  Plus, 
-  Check, 
-  ArrowRight, 
-  Coins,
-  X,
-  Trash2
-} from 'lucide-react';
+import { ChevronLeft, CreditCard, Banknote, Plus, Check, ArrowRight, Coins, X, Trash2 } from 'lucide-react';
 import styled from 'styled-components';
+import { useTheme } from "../contexts/ThemeContext";
 
-const StyledApp = styled.div`
-  background-color: #F9F9F9;
-  color: black;
-  font-family: orbitron;
+const PageContainer = styled.div<{ $bg: string }>`
+  background: ${p => p.$bg};
+  color: #F0EDE8;
+  font-family: 'Sora', sans-serif;
   min-height: 100vh;
   padding: 20px;
- 
-  @media (prefers-color-scheme: dark) {
-    background-color: rgb(15, 15, 15);
-    color: gray;
-  }
 `;
 
-const PageHeader = styled.div`
-  display: flex;
-  justify-self:center;
-  align-items: center;
-  gap: 16px;
-  margin-bottom: 24px;
+const CircleBtn = styled.button<{ $surface: string; $border: string }>`
+  width: 42px; height: 42px; border-radius: 50%;
+  border: 1px solid ${p => p.$border}; background: ${p => p.$surface};
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; color: inherit;
 `;
 
-const BackButton = styled.button`
-  background: white;
-  color:black;
-  border: none;
-  width: 60px;
-  height: 40px;
-  padding:17px;
-  border-radius: 12px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  
-  &:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  }
-  
-  @media (prefers-color-scheme: dark) {
-    background: rgb(1, 1, 1);
-  }
-`;
-
-const PageTitle = styled.h1`
-  font-size: 24px;
-  font-weight: 700;
-  margin: 0;
-  @media (prefers-color-scheme: dark) {
-    color: white;
-  }
-`;
-
-const MethodCard = styled.div<{ $selected: boolean }>`
-  background: white;
-  border-radius: 16px;
-  padding: 16px;
-  border: 2px solid ${props => props.$selected ? 'rgb(36, 172, 242)' : 'transparent'};
+const CardBox = styled.div<{ $surface: string; $border: string; $selected: boolean; $accent: string }>`
+  background: ${p => p.$surface};
+  border-radius: 20px;
+  padding: 18px;
+  border: 1.5px solid ${p => p.$selected ? p.$accent : p.$border};
   transition: all 0.3s ease;
   margin-bottom: 12px;
-  
-  &:hover {
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-  }
-  
-  @media (prefers-color-scheme: dark) {
-    background: rgb(1, 1, 1);
-    border-color: ${props => props.$selected ? 'rgb(36, 172, 242)' : 'rgba(255, 255, 255, 0.1)'};
-  }
 `;
 
-const MethodButton = styled.button`
-  background: none;
-  border: none;
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  cursor: pointer;
-  padding: 0;
+const IconCircle = styled.div<{ $accent: string }>`
+  width: 44px; height: 44px; border-radius: 50%;
+  background: ${p => p.$accent}; display: flex;
+  align-items: center; justify-content: center;
+  color: #0A0A0A;
 `;
 
-const MethodInfo = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 12px;
+const MethodLabel = styled.span<{ $text: string }>`
+  font-weight: 600; font-size: 14px; color: ${p => p.$text};
 `;
 
-const IconBox = styled.div`
-  width: 44px;
-  height: 44px;
-  border-radius: 12px;
-  background: linear-gradient(135deg, rgb(36, 172, 242), rgb(139, 48, 241));
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: white;
+const RadioButton = styled.div<{ $selected: boolean; $accent: string; $border: string }>`
+  width: 20px; height: 20px; border-radius: 50%;
+  border: 2px solid ${p => p.$selected ? p.$accent : p.$border};
+  background: ${p => p.$selected ? p.$accent : 'transparent'};
+  display: flex; align-items: center; justify-content: center;
 `;
 
-const MethodLabel = styled.span`
-  font-weight: 600;
-  font-size: 16px;
-  color: black;
-  
-  @media (prefers-color-scheme: dark) {
-    color: lightgray;
-  }
-`;
-
-const CardList = styled.div`
-  margin-top: 16px;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-`;
-
-const SavedCard = styled.div<{ $selected: boolean }>`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 12px;
-  border-radius: 12px;
-  background: ${props => props.$selected ? 'rgba(36, 172, 242, 0.1)' : 'transparent'};
-  border: 1px solid ${props => props.$selected ? 'rgb(36, 172, 242)' : 'rgba(0, 0, 0, 0.1)'};
-  cursor: pointer;
-  transition: all 0.3s ease;
-  
-  &:hover {
-    background: rgba(36, 172, 242, 0.05);
-  }
-  
-  @media (prefers-color-scheme: dark) {
-    border-color: ${props => props.$selected ? 'rgb(36, 172, 242)' : 'rgba(255, 255, 255, 0.1)'};
-    background: ${props => props.$selected ? 'rgba(36, 172, 242, 0.15)' : 'transparent'};
-  }
-`;
-
-const CardDetails = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 12px;
-`;
-
-const CardBrandLogo = styled.div`
-  width: 48px;
-  height: 32px;
-  background: white;
-  border-radius: 6px;
-  border: 1px solid #f3f4f6;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 4px;
-`;
-
-const CardInfo = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-`;
-
-const CardBank = styled.p`
-  font-size: 14px;
-  font-weight: 600;
-  margin: 0;
-  
-  @media (prefers-color-scheme: dark) {
-    color: white;
-  }
-`;
-
-const CardNumber = styled.p`
-  font-size: 12px;
-  color: gray;
-  margin: 0;
-`;
-
-const RadioButton = styled.div<{ $selected: boolean }>`
-  width: 20px;
-  height: 20px;
-  border-radius: 50%;
-  border: 2px solid ${props => props.$selected ? 'rgb(36, 172, 242)' : '#e5e7eb'};
-  background: ${props => props.$selected ? 'rgb(36, 172, 242)' : 'transparent'};
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.3s ease;
-`;
-
-const AddCardButton = styled.button`
-  width: 100%;
-  padding: 12px;
+const AddCardBtn = styled.button<{ $accent: string; $border: string }>`
+  width: 100%; padding: 14px;
   background: transparent;
-  border: 2px dashed rgba(36, 172, 242, 0.5);
-  border-radius: 12px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  color: rgb(36, 172, 242);
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  
-  &:hover {
-    background: rgba(36, 172, 242, 0.05);
-    border-color: rgb(36, 172, 242);
-  }
+  border: 1.5px dashed ${p => p.$accent}40;
+  border-radius: 14px;
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+  color: ${p => p.$accent}; font-weight: 600; font-size: 13px;
+  cursor: pointer; transition: all 0.3s;
+  font-family: 'Sora', sans-serif;
 `;
 
 const Modal = styled.div<{ $isOpen: boolean }>`
-  position: fixed;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.75);
-  backdrop-filter: blur(10px);
-  display: ${props => props.$isOpen ? 'flex' : 'none'};
-  justify-content: center;
-  align-items: center;
-  z-index: 9999;
-  padding: 20px;
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,0.8);
+  backdrop-filter: blur(8px);
+  display: ${p => p.$isOpen ? 'flex' : 'none'};
+  justify-content: center; align-items: center;
+  z-index: 9999; padding: 20px;
 `;
 
-const ModalContent = styled.div`
-  width: 100%;
-  max-width: 420px;
-  background: white;
-  border-radius: 20px;
-  padding: 24px;
-  
-  @media (prefers-color-scheme: dark) {
-    background: rgb(1, 1, 1);
-  }
+const ModalContent = styled.div<{ $surface: string }>`
+  width: 100%; max-width: 420px;
+  background: ${p => p.$surface};
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 24px; padding: 28px;
 `;
 
-const ModalHeader = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 24px;
+const InputField = styled.input<{ $surface: string; $border: string; $text: string }>`
+  width: 100%; padding: 14px 16px;
+  border: 1px solid ${p => p.$border};
+  border-radius: 14px; font-size: 14px;
+  background: ${p => p.$surface}; color: ${p => p.$text};
+  font-family: 'Sora', sans-serif;
+  &:focus { outline: none; border-color: #B8FF00; }
+  &::placeholder { color: #555; }
 `;
 
-const ModalTitle = styled.h2`
-  font-size: 20px;
-  font-weight: 700;
-  margin: 0;
-  
-  @media (prefers-color-scheme: dark) {
-    color: white;
-  }
+const LabelText = styled.label<{ $text: string }>`
+  display: block; font-size: 12px; font-weight: 600;
+  margin-bottom: 8px; color: ${p => p.$text};
+  letter-spacing: 0.5px; text-transform: uppercase;
 `;
 
-const CloseButton = styled.button`
-  background: none;
-  border: none;
-  cursor: pointer;
-  color: gray;
-  
-  &:hover {
-    color: black;
-  }
-  
-  @media (prefers-color-scheme: dark) {
-    &:hover {
-      color: white;
-    }
-  }
-`;
-
-const FormGroup = styled.div`
-  margin-bottom: 16px;
-`;
-
-const Label = styled.label`
-  display: block;
-  font-size: 14px;
-  font-weight: 600;
-  margin-bottom: 8px;
-  
-  @media (prefers-color-scheme: dark) {
-    color: lightgray;
-  }
-`;
-
-const Input = styled.input`
-  width: 100%;
-  padding: 12px;
-  border:none;
-  border-radius: 12px;
-  font-size: 14px;
-  background: white;
-  
-  &:focus {
-    outline: none;
-    border-color: rgb(36, 172, 242);
-  }
-  
-  @media (prefers-color-scheme: dark) {
-    background: rgb(15, 15, 15);
-    border-color: rgba(255, 255, 255, 0.1);
-    color: white;
-  }
-`;
-
-const InputRow = styled.div`
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 12px;
-`;
-
-const SubmitButton = styled.button`
-  width: 100%;
-  padding: 14px;
-  background: linear-gradient(135deg, rgb(36, 172, 242), rgb(139, 48, 241));
-  color: white;
-  border: none;
-  border-radius: 12px;
-  font-weight: 700;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  
-  &:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 16px rgba(36, 172, 242, 0.3);
-  }
-  
-  &:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-  }
-`;
-
-const DeleteButton = styled.button`
-  background: none;
-  border: none;
-  color: #ef4444;
-  cursor: pointer;
-  padding: 4px;
-  transition: all 0.3s ease;
-  
-  &:hover {
-    transform: scale(1.1);
-  }
-`;
-
-const ProceedButton = styled.button`
-  width: 100%;
-  padding: 16px;
-  background: linear-gradient(135deg, rgb(36, 172, 242), rgb(139, 48, 241));
-  color: white;
-  border: none;
-  border-radius: 16px;
-  font-weight: 700;
-  font-size: 16px;
-  cursor: pointer;
-  margin-top: 24px;
-  transition: all 0.3s ease;
-  
-  &:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 16px rgba(36, 172, 242, 0.3);
-  }
-  
-  &:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-  }
+const SubmitBtn = styled.button<{ $accent: string }>`
+  width: 100%; padding: 14px;
+  background: ${p => p.$accent}; color: #0A0A0A;
+  border: none; border-radius: 14px;
+  font-weight: 700; font-size: 14px;
+  font-family: 'Sora', sans-serif;
+  cursor: pointer; transition: all 0.3s;
+  &:hover { box-shadow: 0 8px 24px ${p => p.$accent}30; }
+  &:disabled { opacity: 0.5; cursor: not-allowed; }
 `;
 
 interface Card {
-  id: string;
-  cardNumber: string;
-  cardHolder: string;
-  expiryMonth: string;
-  expiryYear: string;
-  cvv: string;
-  bank: string;
+  id: string; cardNumber: string; cardHolder: string;
+  expiryMonth: string; expiryYear: string; cvv: string; bank: string;
 }
 
 const CheckoutContainer = () => {
+  const { colors } = useTheme();
   const [selectedMethod, setSelectedMethod] = useState('CARD');
   const [selectedCard, setSelectedCard] = useState('');
   const [savedCards, setSavedCards] = useState<Card[]>([]);
   const [isAddCardModalOpen, setIsAddCardModalOpen] = useState(false);
-  const [newCard, setNewCard] = useState({
-    cardNumber: '',
-    cardHolder: '',
-    expiryMonth: '',
-    expiryYear: '',
-    cvv: '',
-    bank: ''
-  });
+  const [newCard, setNewCard] = useState({ cardNumber: '', cardHolder: '', expiryMonth: '', expiryYear: '', cvv: '', bank: '' });
 
   const navigate = useNavigate();
   const { state } = useLocation();
-
   const initiatedPrice = state?.price || 0;
-  const packageType = state?.type || '';
 
-  // Load saved cards from localStorage
   useEffect(() => {
     const stored = localStorage.getItem('savedCards');
     if (stored) {
       const cards = JSON.parse(stored);
       setSavedCards(cards);
-      if (cards.length > 0) {
-        setSelectedCard(cards[0].id);
-      }
+      if (cards.length > 0) setSelectedCard(cards[0].id);
     }
   }, []);
 
   const handleAddCard = () => {
     if (!newCard.cardNumber || !newCard.cardHolder || !newCard.expiryMonth || !newCard.expiryYear || !newCard.cvv || !newCard.bank) {
-      alert('Please fill in all fields');
-      return;
+      alert('Please fill in all fields'); return;
     }
-
-    const card: Card = {
-      id: Date.now().toString(),
-      ...newCard
-    };
-
-    const updatedCards = [...savedCards, card];
-    setSavedCards(updatedCards);
-    localStorage.setItem('savedCards', JSON.stringify(updatedCards));
+    const card: Card = { id: Date.now().toString(), ...newCard };
+    const updated = [...savedCards, card];
+    setSavedCards(updated);
+    localStorage.setItem('savedCards', JSON.stringify(updated));
     setSelectedCard(card.id);
     setIsAddCardModalOpen(false);
-    setNewCard({
-      cardNumber: '',
-      cardHolder: '',
-      expiryMonth: '',
-      expiryYear: '',
-      cvv: '',
-      bank: ''
-    });
+    setNewCard({ cardNumber: '', cardHolder: '', expiryMonth: '', expiryYear: '', cvv: '', bank: '' });
   };
 
   const handleDeleteCard = (cardId: string) => {
-    const updatedCards = savedCards.filter(card => card.id !== cardId);
-    setSavedCards(updatedCards);
-    localStorage.setItem('savedCards', JSON.stringify(updatedCards));
-    if (selectedCard === cardId && updatedCards.length > 0) {
-      setSelectedCard(updatedCards[0].id);
-    }
+    const updated = savedCards.filter(c => c.id !== cardId);
+    setSavedCards(updated);
+    localStorage.setItem('savedCards', JSON.stringify(updated));
+    if (selectedCard === cardId && updated.length > 0) setSelectedCard(updated[0].id);
   };
 
-  const getCardBrand = (cardNumber: string) => {
-    const firstDigit = cardNumber.charAt(0);
-    if (firstDigit === '4') return 'visa';
-    if (firstDigit === '5') return 'mastercard';
-    return 'card';
-  };
+  const getCardBrand = (n: string) => n.charAt(0) === '4' ? 'visa' : n.charAt(0) === '5' ? 'mastercard' : 'card';
 
-  const formatCardNumber = (value: string) => {
-    const cleaned = value.replace(/\s/g, '');
-    const formatted = cleaned.match(/.{1,4}/g)?.join(' ') || cleaned;
-    return formatted;
-  };
+  const formatCardNumber = (v: string) => v.replace(/\s/g, '').match(/.{1,4}/g)?.join(' ') || v;
 
   const handleCardNumberChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value.replace(/\s/g, '');
-    if (value.length <= 16 && /^\d*$/.test(value)) {
-      setNewCard({ ...newCard, cardNumber: value });
-    }
+    const v = e.target.value.replace(/\s/g, '');
+    if (v.length <= 16 && /^\d*$/.test(v)) setNewCard({ ...newCard, cardNumber: v });
   };
 
   const handleProceed = () => {
-    if (selectedMethod === 'CARD' && !selectedCard) {
-      alert('Please select a card');
-      return;
-    }
-    // Process payment here
+    if (selectedMethod === 'CARD' && !selectedCard) { alert('Please select a card'); return; }
     console.log('Processing payment:', { method: selectedMethod, card: selectedCard, amount: initiatedPrice });
-    // navigate to success page or handle payment
   };
 
+  const inputStyle = { background: colors.inputBg, border: `1px solid ${colors.border}`, color: colors.text };
+
   return (
-    <StyledApp>
-      <PageHeader>
-        <PageTitle>Checkout</PageTitle>
-      </PageHeader>
-
-      <div style={{ maxWidth: '600px', margin: '0 auto' }}>
-        {/* Cash on Delivery */}
-        <MethodCard $selected={selectedMethod === 'CASH'}>
-          <MethodButton onClick={() => setSelectedMethod('CASH')}>
-            <MethodInfo>
-              <IconBox>
-                <Banknote size={20} />
-              </IconBox>
-              <MethodLabel>Cash on Delivery</MethodLabel>
-            </MethodInfo>
-            <ArrowRight size={18} style={{ color: '#9ca3af' }} />
-          </MethodButton>
-        </MethodCard>
-
-        {/* Credit/Debit Card */}
-        <MethodCard $selected={selectedMethod === 'CARD'}>
-          <MethodButton onClick={() => setSelectedMethod('CARD')}>
-            <MethodInfo>
-              <IconBox>
-                <CreditCard size={20} />
-              </IconBox>
-              <MethodLabel>Credit/Debit Card</MethodLabel>
-            </MethodInfo>
-            <ChevronLeft 
-              size={18} 
-              style={{ 
-                color: '#9ca3af', 
-                transition: 'transform 0.3s',
-                transform: selectedMethod === 'CARD' ? 'rotate(-90deg)' : 'rotate(180deg)'
-              }} 
-            />
-          </MethodButton>
-
-          {selectedMethod === 'CARD' && (
-            <CardList>
-              {savedCards.map(card => (
-                <SavedCard 
-                  key={card.id}
-                  $selected={selectedCard === card.id}
-                  onClick={() => setSelectedCard(card.id)}
-                >
-                  <CardDetails>
-                    <CardBrandLogo>
-                      <img 
-                        src={getCardBrand(card.cardNumber) === 'visa' 
-                          ? 'https://upload.wikimedia.org/wikipedia/commons/d/d6/Visa_2021.svg' 
-                          : 'https://upload.wikimedia.org/wikipedia/commons/2/2a/Mastercard-logo.svg'
-                        } 
-                        alt={getCardBrand(card.cardNumber)}
-                        style={{ width: '100%', height: 'auto' }} 
-                      />
-                    </CardBrandLogo>
-                    <CardInfo>
-                      <CardBank>{card.bank}</CardBank>
-                      <CardNumber>**** **** **** {card.cardNumber.slice(-4)}</CardNumber>
-                    </CardInfo>
-                  </CardDetails>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                    <DeleteButton onClick={(e) => {
-                      e.stopPropagation();
-                      handleDeleteCard(card.id);
-                    }}>
-                      <Trash2 size={18} />
-                    </DeleteButton>
-                    <RadioButton $selected={selectedCard === card.id}>
-                      {selectedCard === card.id && <Check size={12} color="white" />}
-                    </RadioButton>
-                  </div>
-                </SavedCard>
-              ))}
-
-              <AddCardButton onClick={() => setIsAddCardModalOpen(true)}>
-                <Plus size={20} />
-                Add New Card
-              </AddCardButton>
-            </CardList>
-          )}
-        </MethodCard>
-
-        {/* Crypto Payment */}
-        <MethodCard $selected={selectedMethod === 'CRYPTO'}>
-          <MethodButton onClick={() => {
-            setSelectedMethod('CRYPTO');
-            navigate('/send', { state: { priceTosend: initiatedPrice } });
-          }}>
-            <MethodInfo>
-              <IconBox>
-                <Coins size={20} />
-              </IconBox>
-              <MethodLabel>Pay with Crypto</MethodLabel>
-            </MethodInfo>
-            <ArrowRight size={18} style={{ color: '#9ca3af' }} />
-          </MethodButton>
-        </MethodCard>
-
-        <ProceedButton onClick={handleProceed} disabled={selectedMethod === 'CARD' && !selectedCard}>
-          Proceed to Pay ₦{initiatedPrice.toLocaleString()}
-        </ProceedButton>
-<br/><br/>
-        <BackButton onClick={() => navigate(-1)}>
-          <ChevronLeft size={20} /> Back
-        </BackButton>
+    <PageContainer $bg={colors.bg}>
+      {/* Header */}
+      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 32, paddingTop: 8 }}>
+        <CircleBtn $surface={colors.surface} $border={colors.border} onClick={() => navigate(-1)}>
+          <ChevronLeft size={17} />
+        </CircleBtn>
+        <span style={{ fontSize: 14, fontWeight: 600 }}>Checkout</span>
+        <div style={{ width: 42 }} />
       </div>
 
-      {/* Add Card Modal */}
+      <div style={{ maxWidth: '600px', margin: '0 auto' }}>
+        {/* Cash */}
+        <CardBox $surface={colors.surface} $border={colors.border} $selected={selectedMethod === 'CASH'} $accent={colors.accent}>
+          <div onClick={() => setSelectedMethod('CASH')} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', cursor: 'pointer' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
+              <IconCircle $accent={colors.accent}><Banknote size={18} /></IconCircle>
+              <MethodLabel $text={colors.text}>Cash on Delivery</MethodLabel>
+            </div>
+            <ArrowRight size={16} color={colors.textMuted} />
+          </div>
+        </CardBox>
+
+        {/* Card */}
+        <CardBox $surface={colors.surface} $border={colors.border} $selected={selectedMethod === 'CARD'} $accent={colors.accent}>
+          <div onClick={() => setSelectedMethod('CARD')} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', cursor: 'pointer' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
+              <IconCircle $accent={colors.accent}><CreditCard size={18} /></IconCircle>
+              <MethodLabel $text={colors.text}>Credit/Debit Card</MethodLabel>
+            </div>
+            <ChevronLeft size={16} color={colors.textMuted} style={{ transform: selectedMethod === 'CARD' ? 'rotate(-90deg)' : 'rotate(180deg)', transition: 'transform 0.3s' }} />
+          </div>
+
+          {selectedMethod === 'CARD' && (
+            <div style={{ marginTop: 16, display: 'flex', flexDirection: 'column', gap: 10 }}>
+              {savedCards.map(card => (
+                <div key={card.id} onClick={() => setSelectedCard(card.id)} style={{
+                  display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+                  padding: '14px', borderRadius: 14,
+                  background: selectedCard === card.id ? `${colors.accent}12` : 'transparent',
+                  border: `1px solid ${selectedCard === card.id ? colors.accent : colors.border}`,
+                  cursor: 'pointer', transition: 'all 0.2s',
+                }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+                    <div style={{ width: 44, height: 30, background: colors.surfaceElevated, borderRadius: 6, display: 'flex', alignItems: 'center', justifyContent: 'center', border: `1px solid ${colors.border}` }}>
+                      <img src={getCardBrand(card.cardNumber) === 'visa' ? 'https://upload.wikimedia.org/wikipedia/commons/d/d6/Visa_2021.svg' : 'https://upload.wikimedia.org/wikipedia/commons/2/2a/Mastercard-logo.svg'} alt="" style={{ width: 32, height: 'auto' }} />
+                    </div>
+                    <div>
+                      <div style={{ fontSize: 13, fontWeight: 600, color: colors.text }}>{card.bank}</div>
+                      <div style={{ fontSize: 11, color: colors.textMuted }}>**** **** **** {card.cardNumber.slice(-4)}</div>
+                    </div>
+                  </div>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+                    <button onClick={(e) => { e.stopPropagation(); handleDeleteCard(card.id); }} style={{ background: 'none', border: 'none', color: '#FF5252', cursor: 'pointer', padding: 4 }}>
+                      <Trash2 size={16} />
+                    </button>
+                    <RadioButton $selected={selectedCard === card.id} $accent={colors.accent} $border={colors.border}>
+                      {selectedCard === card.id && <Check size={10} color="#0A0A0A" />}
+                    </RadioButton>
+                  </div>
+                </div>
+              ))}
+
+              <AddCardBtn $accent={colors.accent} $border={colors.border} onClick={() => setIsAddCardModalOpen(true)}>
+                <Plus size={16} /> Add New Card
+              </AddCardBtn>
+            </div>
+          )}
+        </CardBox>
+
+        {/* Crypto */}
+        <CardBox $surface={colors.surface} $border={colors.border} $selected={selectedMethod === 'CRYPTO'} $accent={colors.accent}>
+          <div onClick={() => { setSelectedMethod('CRYPTO'); navigate('/send', { state: { priceTosend: initiatedPrice } }); }} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', cursor: 'pointer' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
+              <IconCircle $accent={colors.accent}><Coins size={18} /></IconCircle>
+              <MethodLabel $text={colors.text}>Pay with Crypto</MethodLabel>
+            </div>
+            <ArrowRight size={16} color={colors.textMuted} />
+          </div>
+        </CardBox>
+
+        <SubmitBtn $accent={colors.accent} onClick={handleProceed} disabled={selectedMethod === 'CARD' && !selectedCard}>
+          Pay {`\u20A6`}{initiatedPrice.toLocaleString()}
+        </SubmitBtn>
+      </div>
+
+      {/* Modal */}
       <Modal $isOpen={isAddCardModalOpen} onClick={() => setIsAddCardModalOpen(false)}>
-        <ModalContent onClick={(e) => e.stopPropagation()}>
-          <ModalHeader>
-            <ModalTitle>Add New Card</ModalTitle>
-            <CloseButton onClick={() => setIsAddCardModalOpen(false)}>
-              <X size={24} />
-            </CloseButton>
-          </ModalHeader>
+        <ModalContent $surface={colors.surface} onClick={(e) => e.stopPropagation()}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24 }}>
+            <span style={{ fontSize: 18, fontWeight: 700, color: colors.text }}>Add Card</span>
+            <button onClick={() => setIsAddCardModalOpen(false)} style={{ background: 'none', border: 'none', color: colors.textMuted, cursor: 'pointer' }}>
+              <X size={20} />
+            </button>
+          </div>
 
-          <FormGroup>
-            <Label>Card Number</Label>
-            <Input
-              type="text"
-              placeholder="1234 5678 9012 3456"
-              value={formatCardNumber(newCard.cardNumber)}
-              onChange={handleCardNumberChange}
-              maxLength={19}
-            />
-          </FormGroup>
-
-          <FormGroup>
-            <Label>Cardholder Name</Label>
-            <Input
-              type="text"
-              placeholder="JOHN DOE"
-              value={newCard.cardHolder}
-              onChange={(e) => setNewCard({ ...newCard, cardHolder: e.target.value.toUpperCase() })}
-            />
-          </FormGroup>
-
-          <FormGroup>
-            <Label>Bank Name</Label>
-            <Input
-              type="text"
-              placeholder="e.g., GTBank, Access Bank"
-              value={newCard.bank}
-              onChange={(e) => setNewCard({ ...newCard, bank: e.target.value })}
-            />
-          </FormGroup>
-
-          <InputRow>
-            <FormGroup>
-              <Label>Expiry Month</Label>
-              <Input
-                type="text"
-                placeholder="MM"
-                value={newCard.expiryMonth}
-                onChange={(e) => {
-                  const value = e.target.value;
-                  if (value.length <= 2 && /^\d*$/.test(value)) {
-                    setNewCard({ ...newCard, expiryMonth: value });
-                  }
-                }}
-                maxLength={2}
-              />
-            </FormGroup>
-
-            <FormGroup>
-              <Label>Expiry Year</Label>
-              <Input
-                type="text"
-                placeholder="YY"
-                value={newCard.expiryYear}
-                onChange={(e) => {
-                  const value = e.target.value;
-                  if (value.length <= 2 && /^\d*$/.test(value)) {
-                    setNewCard({ ...newCard, expiryYear: value });
-                  }
-                }}
-                maxLength={2}
-              />
-            </FormGroup>
-          </InputRow>
-
-          <FormGroup>
-            <Label>CVV</Label>
-            <Input
-              type="password"
-              placeholder="123"
-              value={newCard.cvv}
-              onChange={(e) => {
-                const value = e.target.value;
-                if (value.length <= 3 && /^\d*$/.test(value)) {
-                  setNewCard({ ...newCard, cvv: value });
-                }
-              }}
-              maxLength={3}
-            />
-          </FormGroup>
-
-          <SubmitButton onClick={handleAddCard}>
-            Add Card
-          </SubmitButton>
+          <div style={{ marginBottom: 16 }}>
+            <LabelText $text={colors.textMuted}>Card Number</LabelText>
+            <InputField $surface={colors.inputBg} $border={colors.border} $text={colors.text} placeholder="1234 5678 9012 3456" value={formatCardNumber(newCard.cardNumber)} onChange={handleCardNumberChange} maxLength={19} />
+          </div>
+          <div style={{ marginBottom: 16 }}>
+            <LabelText $text={colors.textMuted}>Cardholder Name</LabelText>
+            <InputField $surface={colors.inputBg} $border={colors.border} $text={colors.text} placeholder="JOHN DOE" value={newCard.cardHolder} onChange={(e) => setNewCard({ ...newCard, cardHolder: e.target.value.toUpperCase() })} />
+          </div>
+          <div style={{ marginBottom: 16 }}>
+            <LabelText $text={colors.textMuted}>Bank Name</LabelText>
+            <InputField $surface={colors.inputBg} $border={colors.border} $text={colors.text} placeholder="GTBank, Access Bank..." value={newCard.bank} onChange={(e) => setNewCard({ ...newCard, bank: e.target.value })} />
+          </div>
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12, marginBottom: 16 }}>
+            <div>
+              <LabelText $text={colors.textMuted}>Month</LabelText>
+              <InputField $surface={colors.inputBg} $border={colors.border} $text={colors.text} placeholder="MM" value={newCard.expiryMonth} onChange={(e) => { const v = e.target.value; if (v.length <= 2 && /^\d*$/.test(v)) setNewCard({ ...newCard, expiryMonth: v }); }} maxLength={2} />
+            </div>
+            <div>
+              <LabelText $text={colors.textMuted}>Year</LabelText>
+              <InputField $surface={colors.inputBg} $border={colors.border} $text={colors.text} placeholder="YY" value={newCard.expiryYear} onChange={(e) => { const v = e.target.value; if (v.length <= 2 && /^\d*$/.test(v)) setNewCard({ ...newCard, expiryYear: v }); }} maxLength={2} />
+            </div>
+          </div>
+          <div style={{ marginBottom: 20 }}>
+            <LabelText $text={colors.textMuted}>CVV</LabelText>
+            <InputField $surface={colors.inputBg} $border={colors.border} $text={colors.text} type="password" placeholder="123" value={newCard.cvv} onChange={(e) => { const v = e.target.value; if (v.length <= 3 && /^\d*$/.test(v)) setNewCard({ ...newCard, cvv: v }); }} maxLength={3} />
+          </div>
+          <SubmitBtn $accent={colors.accent} onClick={handleAddCard}>Add Card</SubmitBtn>
         </ModalContent>
       </Modal>
-    </StyledApp>
+    </PageContainer>
   );
 };
 

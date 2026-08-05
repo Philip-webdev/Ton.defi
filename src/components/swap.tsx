@@ -13,14 +13,13 @@ import FootNavig from './footnavig';
 const StyledApp = styled.div`
   background-color:  #F9F9F9;
   color: black;
-   zoom :100%;
-  font-family: orbitron;
+  font-family: 'Sora', sans-serif;
   @media (prefers-color-scheme: dark) {
      background-color: rgb(33,33,33);
       color: white ;
   }
-   min-height: 250vh;
-  padding: 20px 20px;
+  min-height: 100vh;
+  padding: 20px;
 `;
 const ExPanel = styled.div`
 background-color: white;
@@ -45,7 +44,7 @@ const AppContainer = styled.div`
   width: 100%;
   height:fit-content;
   margin: 0;
-  font-family: orbitron ;
+  font-family: 'Sora', sans-serif ;
 `;
 
 function swap() {
@@ -82,47 +81,55 @@ function swap() {
       </Helmet>
       <AppContainer>
         <ExPanel>
-          <div style={{ display: 'flex', gap: '17px', padding: '20px', borderRadius: '10px' }}>
-            <img src='https://i.imgur.com/w8vihMp.png' height='20px' width='20px' style={{ borderRadius: '100%' }} />
+          <div style={{ display: 'flex', gap: '16px', padding: '16px', borderRadius: '12px', alignItems: 'center' }}>
+            <img src='https://i.imgur.com/w8vihMp.png' height='20' width='20' style={{ borderRadius: '50%' }} />
             <div>
-              <a href='https://app.zap.africa/' style={{ color: 'gray', textDecoration: 'none' }}>Zap Exchange</a>
+              <a href='https://app.zap.africa/' style={{ color: 'gray', textDecoration: 'none', fontSize: '14px', fontWeight: 500 }}>Zap Exchange</a>
             </div>
           </div>
         </ExPanel>
 
-        <br />
+        <div style={{ height: '12px' }} />
 
         <ExPanel>
-          <div style={{ display: 'flex', gap: '17px', padding: '20px', borderRadius: '10px' }}>
-            <img src='https://i.imgur.com/gvqiAg0.png' height='20px' width='20px' style={{ borderRadius: '100%' }} />
+          <div style={{ display: 'flex', gap: '16px', padding: '16px', borderRadius: '12px', alignItems: 'center' }}>
+            <img src='https://i.imgur.com/gvqiAg0.png' height='20' width='20' style={{ borderRadius: '50%' }} />
             <div>
-              <a href='#/ethEx' style={{ color: 'gray', textDecoration: 'none' }}>NekstPei Exchange</a>
+              <a href='#/ethEx' style={{ color: 'gray', textDecoration: 'none', fontSize: '14px', fontWeight: 500 }}>NekstPei Exchange</a>
             </div>
           </div>
         </ExPanel>
-        <br />
-        <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-          <div>Swapping {coin} </div>
-          <select style={{ background: 'none', color: 'gray', border: 'none', borderRadius: '10px' }} onChange={(e) => setCoin(e.target.value)}>
+
+        <div style={{ height: '16px' }} />
+
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '0 4px' }}>
+          <div style={{ fontSize: '14px', fontWeight: 500 }}>Swapping {coin}</div>
+          <select style={{ background: 'none', color: 'gray', border: 'none', borderRadius: '8px', fontSize: '14px', fontWeight: 600, outline: 'none' }} onChange={(e) => setCoin(e.target.value)}>
             <option value={"TON"}>TON</option>
             <option value={"BTC"}>BTC</option>
             <option value={"SOL"}>SOL</option>
             <option value={"ETH"}>ETH</option>
           </select>
         </div>
-        <br />
-        <ExPanel style={{background:'none'}}>
+
+        <div style={{ height: '12px' }} />
+
+        <ExPanel style={{ background: 'none' }}>
           <input
-            style={{ width: '100%', height: '40px', borderRadius: '5px', borderStyle: 'groove',borderWidth:'1px', background:'transparent', color:'white', borderColor:'grey' }}
-            value={commodity} // Bind input to state
-            onChange={(e) => setCommodity(e.target.value)} // Update state on change
+            style={{ width: '100%', height: '44px', borderRadius: '10px', border: '1px solid rgba(255,255,255,0.15)', background: 'transparent', color: 'white', padding: '0 14px', fontSize: '14px', outline: 'none', boxSizing: 'border-box' }}
+            value={commodity}
+            onChange={(e) => setCommodity(e.target.value)}
           />
         </ExPanel>
-        <br />
-        <div style={{ display:'flex', fontFamily: 'helvetica', color: 'gray',  justifyContent:'space-between' }}> <div style={{marginTop:'7px'}}>You get ${Count}  </div> <div><Button>Swap</Button> </div></div>
-        <br />
-       
-        <br />
+
+        <div style={{ height: '16px' }} />
+
+        <div style={{ display: 'flex', fontFamily: "'Sora', sans-serif", color: 'gray', justifyContent: 'space-between', alignItems: 'center', padding: '0 4px' }}>
+          <div style={{ fontSize: '14px', fontWeight: 500 }}>You get ${Count}</div>
+          <div><Button>Swap</Button></div>
+        </div>
+
+        <div style={{ height: '24px' }} />
 
         <div><FootNavig/></div>
       </AppContainer>

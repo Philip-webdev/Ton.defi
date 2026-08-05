@@ -1,134 +1,136 @@
-@import url('https://fonts.googleapis.com/css2?family=Geom:ital,wght@0,300..900;1,300..900&family=Orbitron:wght@400..900&display=swap');
-
+@import url('https://fonts.googleapis.com/css2?family=Sora:wght@200;300;400;500;600;700;800&display=swap');
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-a{
-  color: inherit;
-}
-.boxx{animation : rotate 10s infinite;  }
-@keyframes color-changing {
-  0% {
-    color: red;
-  }
-  
-  100% {
-    color: rgb(36, 172, 242);
-  }
-}
-    @keyframes  rotate {
-        0% {
-            transform: rotate(0deg);
-        }
-        100% {
-            transform: rotate(360deg);
-        }
-    }
-
- .active_buttons.active {
-    color: rgb(36, 172, 242);
-}
-.qr-reader{
-    width: 80vw;
-    height: 100vw;
-    margin-top: 30px;
-    & > section{
-      border-radius: 20px;
-      & > div{
-        box-shadow: rgba(255, 255, 255, 0.5) 0px 0px 0px 5px inset !important;
-      }
-    }
-  }
-.input-placeholder::placeholder {
-
-    background: none;
-
-  
-  }
-  
-   .logs::placeholder {
-    text-decoration-color: gray;
-    color: grey;
-  }
-  
- 
-h1 {
-    text-align: center;
-    margin-bottom: 20px;
+* {
+  font-family: 'Sora', sans-serif;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  -webkit-tap-highlight-color: transparent;
 }
 
-.input-group {
-    margin: 10px;
-    font-family: orbitron;
-}
-input:focus{
-    border:none;
-    outline:none;
-    box-shadow: none;
-}
-label {
-    display: inline-block;
-    width: 100px;
+html, body {
+  overscroll-behavior: none;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-input[type="text"],input[type="number"],
-input[type="email"]
- {
-    padding: 5px 10px;
-    font-size: 16px;
-    border-radius: 7px;
-    border-color: rgb(36, 172, 242);
+body {
+  background: #0A0A0A;
+  color: #F0EDE8;
+  overflow-x: hidden;
+}
+
+a { color: inherit; text-decoration: none; }
+
+input, textarea, select, button {
+  font-family: 'Sora', sans-serif;
+  -webkit-appearance: none;
+  outline: none;
+  border: none;
+  background: none;
+}
+
+input:focus, textarea:focus {
+  outline: none;
+  border: none;
+  box-shadow: none;
 }
 
 button {
-    /* background-color: #007bff; */
-    color: white;
-    border: none;
-    
-    cursor: pointer;
-    padding: 5px 10px;
-    margin:auto;
-    
-}
-button:hover {
-    background-color: white;
-    color: #000;
-}
-#order-button:hover{
-    background-color: white;
-    color: #000;
-}
-#swapper{
-    width:100px;
+  cursor: pointer;
+  color: inherit;
 }
 
-
-
-#result {
-    margin-top: 20px;
-    font-weight: bold;
+::-webkit-scrollbar {
+  width: 0;
+  display: none;
 }
 
-#loader {
-    margin-top: 20px;
-    text-align: center;
+::selection {
+  background: rgba(184, 255, 0, 0.3);
+  color: #F0EDE8;
 }
 
-
-
-  #shadowbut:hover{
-     box-shadow:0 0 10px rgb(36,172,242);
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
 
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
 
-@keyframes color-changing {
-  0% {
-    color: white;
-  }
-  
-  100% {
-    color: hsl(142 76% 36%);
+@keyframes fadeInDown {
+  from { opacity: 0; transform: translateY(-12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes scaleIn {
+  from { opacity: 0; transform: scale(0.95); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(40px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideInRight {
+  from { opacity: 0; transform: translateX(30px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes slideInLeft {
+  from { opacity: 0; transform: translateX(-30px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+@keyframes breathe {
+  0%, 100% { opacity: 0.4; }
+  50% { opacity: 0.7; }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+
+@keyframes pulseGlow {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(184,255,0,0.3); }
+  50% { box-shadow: 0 0 0 8px rgba(184,255,0,0); }
+}
+
+@keyframes progressPulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(184,255,0,0.4); }
+  70% { box-shadow: 0 0 0 10px rgba(184,255,0,0); }
+  100% { box-shadow: 0 0 0 0 rgba(184,255,0,0); }
+}
+
+@keyframes cartBounce {
+  0% { transform: scale(1); }
+  30% { transform: scale(1.15); }
+  60% { transform: scale(0.95); }
+  100% { transform: scale(1); }
+}
+
+.qr-reader {
+  width: 80vw;
+  height: 100vw;
+  margin-top: 30px;
+  & > section {
+    border-radius: 20px;
+    & > div {
+      box-shadow: rgba(255, 255, 255, 0.5) 0px 0px 0px 5px inset !important;
+    }
   }
 }

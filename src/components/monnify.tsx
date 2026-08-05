@@ -9,7 +9,7 @@ width: 90%;
 height: 40px;
 border-color: black;
 font-size: 30px;
-font-family: orbitron;
+font-family: 'Sora', sans-serif;
 placeholder :transparent;
  @media (prefers-color-scheme: dark) {
      background-color: rgb(15,15,15);

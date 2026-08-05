@@ -8,7 +8,7 @@ import styled from "styled-components";
 const StyledApp = styled.div`
   background-color: #4B96FF;
   color: white;
-font-family: orbitron ;
+font-family: 'Sora', sans-serif ;
   border-radius:7px;
  margin: 0;
   min-height: 100vh;
@@ -19,7 +19,7 @@ const AppContainer = styled.div`
   width: 100%;
    background-color: #4B96FF;
   color: white;
-font-family: orbitron ;
+font-family: 'Sora', sans-serif ;
   border-radius:7px;
   height: 100vh;
   margin: 0;

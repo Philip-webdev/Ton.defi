@@ -20,13 +20,13 @@ import { useLocation } from "react-router-dom";
 const StyledApp = styled.div`
   background-color: #f9f9f9;
   color: black;
-  font-family: orbitron;
+  font-family: 'Sora', sans-serif;
   @media (prefers-color-scheme: dark) {
     background-color: rgb(33, 33, 33);
     color: white;
   }
-  min-height: 250vh;
-  padding: 40px 40px;
+  min-height: 100vh;
+  padding: 20px;
   margin: 0;
 `;
 
@@ -97,8 +97,8 @@ function SendCoin() {
 
           {/* TON */}
           <div onClick={() => toggleDropdown("ton")} style={{ cursor: "pointer" }}>
-            <Icon style={{ borderRadius: "7px", width: "90%", padding: "20px", margin: "7px" }}>
-              <img src="https://i.imgur.com/JlK5oxR.png" height="15" width="15" /> TON
+            <Icon style={{ borderRadius: "12px", width: "100%", padding: "16px", marginBottom: "10px", display: 'flex', alignItems: 'center', gap: '10px', fontSize: '14px', fontWeight: 500 }}>
+              <img src="https://i.imgur.com/JlK5oxR.png" height="20" width="20" style={{ borderRadius: '50%' }} /> TON
             </Icon>
           </div>
           <div id="ton" style={{ display: "none" }}>
@@ -107,8 +107,8 @@ function SendCoin() {
 
         
           <div onClick={() => toggleDropdown("btc")} style={{ cursor: "pointer" }}>
-            <Icon style={{ borderRadius: "7px", width: "90%", padding: "20px", margin: "7px" }}>
-              <img src="https://i.imgur.com/sSYmdfQ.png" height="15" width="15" /> BTC
+            <Icon style={{ borderRadius: "12px", width: "100%", padding: "16px", marginBottom: "10px", display: 'flex', alignItems: 'center', gap: '10px', fontSize: '14px', fontWeight: 500 }}>
+              <img src="https://i.imgur.com/sSYmdfQ.png" height="20" width="20" style={{ borderRadius: '50%' }} /> BTC
             </Icon>
           </div>
           <div id="btc" style={{ display: "none" }}>
@@ -116,8 +116,8 @@ function SendCoin() {
           </div>
   
           <div onClick={() => toggleDropdown("sol")} style={{ cursor: "pointer" }}>
-            <Icon style={{ borderRadius: "7px", width: "90%", padding: "20px", margin: "7px" }}>
-              <img src="https://i.imgur.com/rjWW55s.png" height="15" width="15" /> SOL
+            <Icon style={{ borderRadius: "12px", width: "100%", padding: "16px", marginBottom: "10px", display: 'flex', alignItems: 'center', gap: '10px', fontSize: '14px', fontWeight: 500 }}>
+              <img src="https://i.imgur.com/rjWW55s.png" height="20" width="20" style={{ borderRadius: '50%' }} /> SOL
             </Icon>
           </div>
           <div id="sol" style={{ display: "none" }}>
@@ -126,8 +126,8 @@ function SendCoin() {
 
     
           <div onClick={() => toggleDropdown("eth")} style={{ cursor: "pointer" }}>
-            <Icon style={{ borderRadius: "7px", width: "90%", padding: "20px", margin: "7px" }}>
-              <img src="https://i.imgur.com/dhJjQcO.png" height="15" width="15" /> ETH
+            <Icon style={{ borderRadius: "12px", width: "100%", padding: "16px", marginBottom: "10px", display: 'flex', alignItems: 'center', gap: '10px', fontSize: '14px', fontWeight: 500 }}>
+              <img src="https://i.imgur.com/dhJjQcO.png" height="20" width="20" style={{ borderRadius: '50%' }} /> ETH
             </Icon>
           </div>
           <div id="eth" style={{ display: "none" }}>
@@ -138,7 +138,7 @@ function SendCoin() {
             <Usdt />
           </div>
 
-          <br />
+          <div style={{ height: '16px' }} />
 
            
           <textarea
@@ -146,13 +146,14 @@ function SendCoin() {
             value={list}
             readOnly
             style={{
-              marginLeft: "9px",
               width: "100%",
               height: "100px",
               background: "none",
               outline: "none",
               border: "none",
-              color: "white",
+              color: "inherit",
+              fontSize: '14px',
+              resize: 'none',
             }}
           />
         </FlexBoxCol>

@@ -7,13 +7,13 @@ import FootNavig from "./footnavig";
 const StyledApp = styled.div`
   background-color: #F9F9F9;
   color: black;
- zoom :90%;
-    font-family: orbitron ;
+ 
+    font-family: 'Sora', sans-serif ;
    @media (prefers-color-scheme: dark) {
      background-color: rgb(33,33,33);
       color: white ;
   }
-  min-height: 250vh;
+  min-height: 100vh;
   padding: 20px 20px;
 `;
 const ExPanel = styled.div`
@@ -28,7 +28,7 @@ const AppContainer = styled.div`
    width: 100%;
   height:fit-content;
   margin: 0;
-  font-family: orbitron ;
+  font-family: 'Sora', sans-serif ;
 `;
 
 const Icon = styled.div`
@@ -51,9 +51,9 @@ return(
         <br/>
 <h3>Buy & Sell crypto</h3>
         <div style={{  justifyContent:'space-around',    borderRadius:'10px'}}>
-<ExPanel style={{display: 'flex'  , gap:'17px',padding:'20px', borderColor:'whitesmoke', borderBottomStyle:'groove', borderWidth:'1px', borderRadius:'10px'}}><img src='https://i.imgur.com/k5hxjjq.png' height='20px' width='20px' style={{borderRadius:'100%'}} /><div style={{marginLeft:'7px'}}><a href="https://exchange.mercuryo.io/" style={{color:'grey', textDecoration:'none'}}>Mercuryo</a></div></ExPanel>
-  <ExPanel  style={{display: 'flex'  , gap:'17px',padding:'20px', borderColor:'whitesmoke', borderBottomStyle:'groove', borderWidth:'1px', borderRadius:'10px'}}><img src='https://i.imgur.com/d5IDxCo.jpeg' height='20px' width='20px' style={{borderRadius:'100%'}} /><div  style={{marginLeft:'7px'}}><a href="https://global.transak.com/" style={{color:'grey', textDecoration:'none'}}>Transak</a></div></ExPanel>
-  <ExPanel  style={{display: 'flex'  , gap:'17px',padding:'20px', borderColor:'whitesmoke', borderBottomStyle:'groove', borderWidth:'1px', borderRadius:'10px'}}><img src='https://i.imgur.com/lP16Nne.png' height='20px' width='20px' style={{borderRadius:'100%'}} /><div  style={{marginLeft:'7px'}}><a href="https://ramp.alchemypay.org/#/index" style={{color:'grey', textDecoration:'none'}}>Alchemypay</a></div></ExPanel>
+<ExPanel style={{display: 'flex'  , gap:'17px',padding:'20px', borderColor:'whitesmoke', borderBottomStyle:'solid', borderWidth:'1px', borderRadius:'10px'}}><img src='https://i.imgur.com/k5hxjjq.png' height='20px' width='20px' style={{borderRadius:'100%'}} /><div style={{marginLeft:'7px'}}><a href="https://exchange.mercuryo.io/" style={{color:'grey', textDecoration:'none'}}>Mercuryo</a></div></ExPanel>
+  <ExPanel  style={{display: 'flex'  , gap:'17px',padding:'20px', borderColor:'whitesmoke', borderBottomStyle:'solid', borderWidth:'1px', borderRadius:'10px'}}><img src='https://i.imgur.com/d5IDxCo.jpeg' height='20px' width='20px' style={{borderRadius:'100%'}} /><div  style={{marginLeft:'7px'}}><a href="https://global.transak.com/" style={{color:'grey', textDecoration:'none'}}>Transak</a></div></ExPanel>
+  <ExPanel  style={{display: 'flex'  , gap:'17px',padding:'20px', borderColor:'whitesmoke', borderBottomStyle:'solid', borderWidth:'1px', borderRadius:'10px'}}><img src='https://i.imgur.com/lP16Nne.png' height='20px' width='20px' style={{borderRadius:'100%'}} /><div  style={{marginLeft:'7px'}}><a href="https://ramp.alchemypay.org/#/index" style={{color:'grey', textDecoration:'none'}}>Alchemypay</a></div></ExPanel>
   </div>
 
            <div><FootNavig/></div> 

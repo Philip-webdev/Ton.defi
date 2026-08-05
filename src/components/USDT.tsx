@@ -12,7 +12,7 @@ const StyledApp = styled.div`
   background-color: #F9F9F9;
   color: black;
   border-radius: 17px;
-  font-family: orbitron;
+  font-family: 'Sora', sans-serif;
 
 
   @media (prefers-color-scheme: dark) {
@@ -27,7 +27,7 @@ const AppContainer = styled.div`
    width: 100%;
    height: fit-content;
    margin: 0;
-   font-family: orbitron;
+   font-family: 'Sora', sans-serif;
 `;
 
 
@@ -38,7 +38,7 @@ width: 90%;
 height:40px;
 border-color: black;
 font-size: 16px;
-font-family: orbitron;
+font-family: 'Sora', sans-serif;
 placeholder :transparent;
  @media (prefers-color-scheme: dark) {
      background-color: rgb(15,15,15);
@@ -64,7 +64,7 @@ width: 90%;
 height:70px;
 
 font-size: 16px;
-font-family: orbitron;
+font-family: 'Sora', sans-serif;
  @media (prefers-color-scheme: dark) {
      background-color: rgb(15,15,15);
     
@@ -313,8 +313,8 @@ return(
        <div onClick={dropdown} style={{cursor:'pointer', left:'0'}}><Icon style={{borderRadius:'7px', width:'90%', padding:'20px',  lineHeight:'17px',  margin:'7px',fontSize:'larger'}}><img src='https://i.imgur.com/ywfZokP.png' alt='Tron' style={{ width: '15px', height: '15px' }} /> TRC-20</Icon></div>
            <div id="elem" style={{display:'none',margin:'20px'}}>
      <div >
-     <div style={{zoom:'80%', padding:'10px'}}>Token Address: {trc20Address} </div>
-<div style={{fontFamily:'helvetica', padding:'20px'}}>${trcBalance}</div>
+     <div style={{ padding:'10px' }}>Token Address: {trc20Address} </div>
+<div style={{fontFamily: "'Sora', sans-serif", padding:'20px'}}>${trcBalance}</div>
      
      </div>
             <div style={{borderRadius:'7px', padding:'20px',  lineHeight:'17px', fontSize:'larger'}}> <Input id="toAddress" placeholder="Recipient Address"  style={{color: 'grey', background:'transparent',   borderWidth:'1px',  borderRadius:'7px'}} /></div>
@@ -329,8 +329,8 @@ return(
           
 <div>
 
-<div style={{zoom:'80%', padding:'3px'}}>Token Address: {tokenAddress}</div>
-<div style={{fontFamily:'helvetica', padding:'20px'}}>${ercBalance}</div>
+<div style={{ padding:'3px' }}>Token Address: {tokenAddress}</div>
+<div style={{fontFamily: "'Sora', sans-serif", padding:'20px'}}>${ercBalance}</div>
 </div>
      
     

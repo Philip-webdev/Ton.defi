@@ -11,7 +11,7 @@ const StyledApp = styled.div`
   background-color: #0f0f10; /* dark base to match Web3 look */
   color: #e6eef8;
   margin: 0;
-  font-family: orbitron;
+  font-family: 'Sora', sans-serif;
   min-height: 100vh;
   padding: 20px;
 `;

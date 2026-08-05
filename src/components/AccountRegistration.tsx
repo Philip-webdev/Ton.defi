@@ -14,10 +14,10 @@ const StyledApp = styled.div`
   background-color: #F9F9F9;
   color: black;
   
-  font-family: orbitron;
-   min-height: 250vh;
+  font-family: 'Sora', sans-serif;
+   min-height: 100vh;
   padding: 20px;
- zoom :100%;
+ 
   @media (prefers-color-scheme: dark) {
     background-color: rgb(33,33,33);
     color: white;
@@ -38,7 +38,7 @@ const AppContainer = styled.div`
    width: 100%;
    height: fit-content;
    margin: 0;
-   font-family: orbitron;
+   font-family: 'Sora', sans-serif;
 `;
 
 const Icon = styled.div`
@@ -272,7 +272,7 @@ else{
       alertBox.style.padding = '10px 20px';
       alertBox.style.borderRadius = '5px';
       alertBox.style.boxShadow = '0 2px 5px rgba(0, 0, 0, 0.3)';
-      alertBox.style.fontFamily = 'orbitron';
+      alertBox.style.fontFamily = "'Sora', sans-serif";
       alertBox.style.zIndex = '1000';
       document.body.appendChild(alertBox);
       setTimeout(() => {
@@ -299,7 +299,7 @@ else{
       alertBox.style.padding = '10px 20px';
       alertBox.style.borderRadius = '5px';
       alertBox.style.boxShadow = '0 2px 5px rgba(0, 0, 0, 0.3)';
-      alertBox.style.fontFamily = 'orbitron';
+      alertBox.style.fontFamily = "'Sora', sans-serif";
       alertBox.style.zIndex = '1000';
       document.body.appendChild(alertBox);
       setTimeout(() => {
@@ -325,7 +325,7 @@ else{
       alertBox.style.padding = '10px 20px';
       alertBox.style.borderRadius = '5px';
       alertBox.style.boxShadow = '0 2px 5px rgba(0, 0, 0, 0.3)';
-      alertBox.style.fontFamily = 'orbitron';
+      alertBox.style.fontFamily = "'Sora', sans-serif";
       alertBox.style.zIndex = '1000';
       document.body.appendChild(alertBox);
       setTimeout(() => {
@@ -351,7 +351,7 @@ else{
       alertBox.style.padding = '10px 20px';
       alertBox.style.borderRadius = '5px';
       alertBox.style.boxShadow = '0 2px 5px rgba(0, 0, 0, 0.3)';
-      alertBox.style.fontFamily = 'orbitron';
+      alertBox.style.fontFamily = "'Sora', sans-serif";
       alertBox.style.zIndex = '1000';
       document.body.appendChild(alertBox);
 
@@ -428,7 +428,7 @@ else{
             <div id="QRcode3"  style={{position: 'absolute',top: '50%', left: '50%',transform: 'translate(-50%, -50%)'}}> </div>
             <div id="QRcode4"  style={{position: 'absolute',top: '50%', left: '50%',transform: 'translate(-50%, -50%)'}}> </div>
             </div>
-              <div style={{right:'0', display:'flex'}}><Button onClick={alreadyExists} style={{fontSize:'inherit'}}  >Import</Button> <Button onClick={createWallets} style={{fontSize:'14px'}} >Create</Button>  <Button onClick={showQR}><BsQrCode/></Button> <div   style={{  left: '85%', height:'34.5px'  }}> <select id="QRcodeChoice" style={{height:'34.5px', background:'transparent', border:'none', color:'gray', fontFamily:'orbitron'}}  onChange={showQR}   >
+              <div style={{right:'0', display:'flex'}}><Button onClick={alreadyExists} style={{fontSize:'inherit'}}  >Import</Button> <Button onClick={createWallets} style={{fontSize:'14px'}} >Create</Button>  <Button onClick={showQR}><BsQrCode/></Button> <div   style={{  left: '85%', height:'34.5px'  }}> <select id="QRcodeChoice" style={{height:'34.5px', background:'transparent', border:'none', color:'gray', fontFamily: "'Sora', sans-serif"}}  onChange={showQR}   >
               <option  value="eth">eth</option>
               <option  value="btc">btc</option>
               <option value="sol">sol</option>
@@ -440,8 +440,8 @@ else{
                         <img src='https://i.imgur.com/sSYmdfQ.png' alt='bitcoin' style={{ width: '40px', height: '40px' }} />
                     </div>
                     <div style={{ display:'inline', pointerEvents:'painted' }}>
-                        <div style={{ zoom:'90%', marginLeft:'7px' }}>Bitcoin wallet          <BsCopy onClick={copy}/></div> 
-                        <div id='bitcopy' style={{ zoom:'57%', marginLeft:'8px', width:'fit-content' }}>{BitcoinWalletAddress}  </div>
+                        <div style={{ marginLeft:'7px' }}>Bitcoin wallet          <BsCopy onClick={copy}/></div> 
+                        <div id='bitcopy' style={{ marginLeft:'8px', width:'fit-content' }}>{BitcoinWalletAddress}  </div>
                     </div>
                 </ExPanel>
                 <br/> 
@@ -450,8 +450,8 @@ else{
                         <img src='https://i.imgur.com/dhJjQcO.png' alt='Ethereum' style={{ width: '40px', height: '40px' }} />
                     </div>
                     <div style={{ display:'inline', pointerEvents:'painted' }}>
-                        <div style={{ zoom:'90%', marginLeft:'7px' }}>Ethereum wallet        <BsCopy onClick={copy1}/></div> 
-                        <div   id="ethcopy" style={{ zoom:'57%', marginLeft:'8px', width:'fit-content' }}>{EthereumWalletAddress}  </div>
+                        <div style={{ marginLeft:'7px' }}>Ethereum wallet        <BsCopy onClick={copy1}/></div> 
+                        <div   id="ethcopy" style={{ marginLeft:'8px', width:'fit-content' }}>{EthereumWalletAddress}  </div>
                     </div>
                 </ExPanel>
                 <br/> 
@@ -460,8 +460,8 @@ else{
                         <img src='https://i.imgur.com/rjWW55s.png' alt='Solana' style={{ width: '40px', height: '40px' }} />
                     </div> 
                     <div style={{ display:'inline' }}>  
-                        <div style={{ zoom:'90%', marginLeft:'7px' }}>Solana wallet           <BsCopy onClick={copy2}/></div>
-                        <div  id="solcopy" style={{ zoom:'57%', marginLeft:'8px', width:'fit-content' }}>{SolanaWalletAddress}  </div>
+                        <div style={{ marginLeft:'7px' }}>Solana wallet           <BsCopy onClick={copy2}/></div>
+                        <div  id="solcopy" style={{ marginLeft:'8px', width:'fit-content' }}>{SolanaWalletAddress}  </div>
                     </div>
                 </ExPanel>
                 <br/> 
@@ -470,14 +470,14 @@ else{
                     <img src='https://i.imgur.com/ywfZokP.png' alt='Tron' style={{ width: '40px', height: '40px' }} />
                   </div>
                   <div style={{ display:'inline' }}>
-                    <div style={{ zoom:'90%', marginLeft:'7px' }}>Tron wallet                    <BsCopy onClick={copy3}/></div>
-                    <div  id="tronCopy" style={{ zoom:'57%', marginLeft:'8px', width:'fit-content' }}>{tronWalletAddress}  </div>
+                    <div style={{ marginLeft:'7px' }}>Tron wallet                    <BsCopy onClick={copy3}/></div>
+                    <div  id="tronCopy" style={{ marginLeft:'8px', width:'fit-content' }}>{tronWalletAddress}  </div>
                   </div>
                 </ExPanel>
                 <br/>
               <ExPanel style={{  padding:'10px', borderRadius: '7px' }} >
           
-                    <div style={{ zoom:'90%', margin :'7px' }} onClick={dropdown}>Fiat wallet         </div> <br/> 
+                    <div style={{ margin :'7px' }} onClick={dropdown}>Fiat wallet         </div> <br/> 
                     <div  id="fiat" style={{ display:'none' }}><WalletForm/> </div>
                  
                 </ExPanel>

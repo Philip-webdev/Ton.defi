@@ -11,14 +11,14 @@ const StyledApp = styled.div`
   color: black;
   border-radius: 17px;
      
-    font-family: orbitron ;
+    font-family: 'Sora', sans-serif ;
   @media (prefers-color-scheme: dark) {
     background-color:  #F9F9F9;
    
   }
   min-height: 100vh;
   padding: 20px 20px;
-   zoom :100%;
+   
 `;
 const Icon = styled.div`
 background-color: white;
@@ -34,7 +34,7 @@ const AppContainer = styled.div`
    width: 100%;
   height:fit-content;
   margin: 0;
-  font-family: orbitron ;
+  font-family: 'Sora', sans-serif ;
 `;
 
 function organizer(){

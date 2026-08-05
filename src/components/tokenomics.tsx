@@ -7,8 +7,8 @@ import FootNavig from './footnavig';
 const StyledApp = styled.div`
   background-color: #F9F9F9;
   color: black;
-   zoom :100%;
-    font-family: orbitron ;
+   
+    font-family: 'Sora', sans-serif ;
   @media (prefers-color-scheme: dark) {
      background-color: rgb(15,15,15);
       color: white ;
@@ -30,7 +30,7 @@ const AppContainer = styled.div`
   height:fit-content;
   margin: 0;
   overflow: scroll;
-  font-family: orbitron ;
+  font-family: 'Sora', sans-serif ;
 `;
 
 function tokenomics(){

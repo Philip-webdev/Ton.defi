@@ -8,7 +8,7 @@ import styled from "styled-components";
 const StyledApp = styled.div`
   background-color:green;
    
-font-family: orbitron ;
+font-family: 'Sora', sans-serif ;
   @media (prefers-color-scheme: dark) {
     
         color:white;
@@ -20,7 +20,7 @@ font-family: orbitron ;
 const Icon = styled.div`
 color:white;
  border-radius:7px;  
- font-family: orbitron;
+ font-family: 'Sora', sans-serif;
  font-size: larger;
  
 `;

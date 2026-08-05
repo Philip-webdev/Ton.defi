@@ -8,14 +8,12 @@ import FootNavig from "./footnavig";
 const StyledApp = styled.div`
   background-color: #F9F9F9;
   color: black;
- zoom :100%;
-    font-family: orbitron ;
+  font-family: 'Sora', sans-serif;
   @media (prefers-color-scheme: dark) {
     background-color: rgb(15,15,15);
-    
   }
-  min-height: 250vh;
-  padding: 10px 10px;
+  min-height: 100vh;
+  padding: 20px;
 `;
 const Icon = styled.div`
 background-color: white;
@@ -38,7 +36,7 @@ const AppContainer = styled.div`
   height:fit-content;
   margin: auto;
   
-  font-family: orbitron ;
+  font-family: 'Sora', sans-serif ;
 `;
 function discover() {
 

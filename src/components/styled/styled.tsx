@@ -7,7 +7,7 @@ export const Card = styled.div`
   border-style: none;
   border-color:none ;
   background-color: transparent;
-font-family: orbitron;
+font-family: 'Sora', sans-serif;
   
 `;
 
@@ -16,7 +16,7 @@ export const FlexBoxRow = styled.div`
   flex-direction: row;
   gap:5px;
   align-items: center;
-  font-family: orbitron;
+  font-family: 'Sora', sans-serif;
 `;
 
 export const FlexBoxCol = styled.div`
@@ -34,7 +34,7 @@ export const Button = styled.button`
   padding: 10px 20px;
   color: var(--tg-theme-button-text-color);
   font-weight: 700;
-  font-family: orbitron;
+  font-family: 'Sora', sans-serif;
   cursor: pointer;
   pointer-events: ${(props) => (props.disabled ? "none" : "inherit")};
 `;
@@ -49,7 +49,7 @@ export const Input = styled("input")`
   padding: 10px 20px;
   border-radius: 10px;
   width: 100%;
-  font-family: orbitron;
+  font-family: 'Sora', sans-serif;
   border: 1px solid black;
 
   @media (prefers-color-scheme: dark) {

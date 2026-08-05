@@ -13,16 +13,16 @@ const StyledApp = styled.div`
   background-color:  #F9F9F9;
   color:inherit;
   
-  font-family: orbitron;
+  font-family: 'Sora', sans-serif;
   @media (prefers-color-scheme: dark) {
      background-color: rgb(33,33,33);
       color: white ;
   }
-  min-height: 250vh;
+  min-height: 100vh;
   padding: 20px 20px;
   margin:0;
   
-   zoom :100%;
+   
 `;
 
 const AppContainer = styled.div`
@@ -52,7 +52,7 @@ const AppContainer = styled.div`
    alertBox.style.padding = '10px 20px';
    alertBox.style.borderRadius = '5px';
    alertBox.style.boxShadow = '0 2px 5px rgba(0, 0, 0, 0.3)';
-   alertBox.style.fontFamily = 'orbitron';
+   alertBox.style.fontFamily = "'Sora', sans-serif";
    alertBox.style.zIndex = '1000';
    document.body.appendChild(alertBox);
    setTimeout(() => {

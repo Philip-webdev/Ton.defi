@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { HashRouter, Route, Routes, useNavigate } from "react-router-dom";
 import "@twa-dev/sdk";
 import "./App.css";
+import { ThemeProvider } from "./contexts/ThemeContext";
 
 // Components
 import Home from "./components/home";
@@ -62,6 +63,7 @@ function App() {
 }, [loading, location.pathname]);
 
   return (
+    <ThemeProvider>
     <div
       style={{
         left: "0%",
@@ -108,6 +110,7 @@ function App() {
          
       </Routes>
     </div>
+    </ThemeProvider>
   );
 }
 
