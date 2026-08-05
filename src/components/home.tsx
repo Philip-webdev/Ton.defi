@@ -12,7 +12,8 @@ import { useNavigate } from "react-router-dom";
 import { useTheme } from "../contexts/ThemeContext";
 import {
   getLocalCart, setLocalCart, addToLocalCart, updateLocalCartItemQty,
-  createFoodOrder, fetchFoodOrders, getLocalBalance, fetchFoodWallet
+  createFoodOrder, fetchFoodOrders, getLocalBalance, fetchFoodWallet,
+  updateProfile, fetchProfile
 } from "../services/api";
 
 // ─── Types ────────────────────────────────────────────────────────
@@ -999,10 +1000,15 @@ function ProfileScreen({ setScreen, colors, toggleTheme }: {
       return;
     }
     const reader = new FileReader();
-    reader.onload = () => {
+    reader.onload = async () => {
       const dataUrl = reader.result as string;
       setAvatar(dataUrl);
       localStorage.setItem("nekstpei_avatar", dataUrl);
+      try {
+        await updateProfile(email, { avatar: dataUrl });
+      } catch (e) {
+        console.error("Failed to sync avatar to backend:", e);
+      }
     };
     reader.readAsDataURL(file);
   };

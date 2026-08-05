@@ -195,11 +195,10 @@ export async function updateProfile(email: string, data: any) {
 // ─── Settings ─────────────────────────────────────────────────────
 export async function saveAddress(phone: string, address: string): Promise<void> {
   try {
-    await fetch(`${API_BASE}/matchlist`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ phone, address }),
-    });
+    const email = localStorage.getItem("email") || "";
+    if (email) {
+      await updateProfile(email, { phone, address });
+    }
   } catch (e) {
     console.error("Address save error:", e);
   }
