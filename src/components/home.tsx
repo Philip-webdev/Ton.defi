@@ -394,15 +394,28 @@ export default function CampusPlanner() {
             {/* Top Bar */}
             <div style={S.topBar(colors.border)}>
               <div style={{ display: "flex", alignItems: "center", gap: 12, cursor: "pointer" }} onClick={() => setScreen("profile")}>
-                <div style={{
-                  width: 42, height: 42, borderRadius: "50%",
-                  background: `linear-gradient(135deg, ${colors.accent}30, ${colors.accent}10)`,
-                  border: `1px solid ${colors.accent}30`,
-                  display: "flex", alignItems: "center", justifyContent: "center",
-                  fontSize: 14, fontWeight: 700, color: colors.accent,
-                }}>
-                  {(localStorage.getItem("fullName") ?? "N")[0]?.toUpperCase()}
-                </div>
+                {(() => {
+                  const uploadedAvatar = localStorage.getItem("nekstpei_avatar");
+                  if (uploadedAvatar) {
+                    return (
+                      <img src={uploadedAvatar} alt="Profile" style={{
+                        width: 42, height: 42, borderRadius: "50%",
+                        border: `1px solid ${colors.accent}30`, objectFit: "cover",
+                      }} />
+                    );
+                  }
+                  return (
+                    <div style={{
+                      width: 42, height: 42, borderRadius: "50%",
+                      background: `linear-gradient(135deg, ${colors.accent}30, ${colors.accent}10)`,
+                      border: `1px solid ${colors.accent}30`,
+                      display: "flex", alignItems: "center", justifyContent: "center",
+                      fontSize: 14, fontWeight: 700, color: colors.accent,
+                    }}>
+                      {(localStorage.getItem("fullName") ?? "N")[0]?.toUpperCase()}
+                    </div>
+                  );
+                })()}
                 <div>
                   <div style={{ fontSize: 11, color: colors.textMuted, letterSpacing: "0.5px", fontWeight: 500 }}>{getGreeting()}</div>
                   <div style={{ fontSize: 16, fontWeight: 700, color: colors.text, marginTop: 1 }}>
