@@ -328,7 +328,7 @@ export default function CampusPlanner() {
           <div className="screen-anim" style={{ paddingTop: 8 }}>
             {/* Top Bar */}
             <div style={S.topBar(colors.border)}>
-              <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+              <div style={{ display: "flex", alignItems: "center", gap: 12, cursor: "pointer" }} onClick={() => setScreen("profile")}>
                 <div style={{
                   width: 42, height: 42, borderRadius: "50%",
                   background: `linear-gradient(135deg, ${colors.accent}30, ${colors.accent}10)`,
@@ -355,23 +355,22 @@ export default function CampusPlanner() {
             {/* Editorial Headline */}
             <div style={{ marginTop: 16, marginBottom: 24 }}>
               <div style={{ fontSize: 32, fontWeight: 200, color: colors.text, lineHeight: 1.15, letterSpacing: "-0.5px" }}>
-                Discover
+                Send food,
               </div>
               <div style={{ fontSize: 32, fontWeight: 700, color: colors.text, lineHeight: 1.15, letterSpacing: "-0.5px" }}>
-                fresh food<span style={{ color: colors.accent }}>.</span>
+                not just money<span style={{ color: colors.accent }}>.</span>
               </div>
             </div>
 
             {/* Featured Card */}
-            <div className="featured-card" style={{ marginBottom: 24, animation: "fadeInUp .5s ease both", animationDelay: ".1s" }}>
-              <img src={IMAGES.featured1} alt="Featured meal" />
+            <div className="featured-card" style={{ marginBottom: 24, animation: "fadeInUp .5s ease both", animationDelay: ".1s" }} onClick={() => setScreen("cart")}>
+              <img src={IMAGES.featured1} alt="Food value" />
               <div className="featured-overlay">
-                <div style={{ fontSize: 10, fontWeight: 600, color: colors.accent, letterSpacing: "1px", textTransform: "uppercase", marginBottom: 6 }}>Featured</div>
-                <div style={{ fontSize: 20, fontWeight: 700, color: "white", marginBottom: 4 }}>Healthy Bowl Collection</div>
-                <div style={{ fontSize: 12, color: "rgba(255,255,255,0.6)", marginBottom: 12 }}>Fresh salads & grain bowls</div>
+                <div style={{ fontSize: 10, fontWeight: 600, color: colors.accent, letterSpacing: "1px", textTransform: "uppercase", marginBottom: 6 }}>Food Value</div>
+                <div style={{ fontSize: 20, fontWeight: 700, color: "white", marginBottom: 4 }}>Fund. Send. Redeem.</div>
+                <div style={{ fontSize: 12, color: "rgba(255,255,255,0.6)", marginBottom: 12 }}>Buy food credits, send to anyone, redeem at verified vendors</div>
                 <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-                  <span style={{ fontSize: 16, fontWeight: 700, color: colors.accent }}>From {formatNaira(2500)}</span>
-                  <span style={{ fontSize: 11, color: "rgba(255,255,255,0.4)", textDecoration: "line-through" }}>{formatNaira(3500)}</span>
+                  <span style={{ fontSize: 13, fontWeight: 700, color: colors.accent }}>Start with {formatNaira(1000)}</span>
                 </div>
               </div>
             </div>
@@ -379,13 +378,13 @@ export default function CampusPlanner() {
             {/* Quick Actions */}
             <div className="action-grid" style={{ animation: "fadeInUp .5s ease both", animationDelay: ".15s" }}>
               {[
-                { icon: <Plus size={20} />, label: "Add Food", color: colors.accent },
-                { icon: <Send size={20} />, label: "Send Food", color: colors.text },
-                { icon: <Search size={20} />, label: "Find Food", color: colors.text },
-                { icon: <Scan size={20} />, label: "Scan Pay", color: colors.text },
-                { icon: <Brain size={20} />, label: "AI Planner", color: colors.text },
+                { icon: <Plus size={20} />, label: "Fund", color: colors.accent, action: () => setScreen("cart") },
+                { icon: <Send size={20} />, label: "Send", color: colors.text, action: () => navigate("/send") },
+                { icon: <Search size={20} />, label: "Discover", color: colors.text, action: () => setScreen("category") },
+                { icon: <Scan size={20} />, label: "Scan Pay", color: colors.text, action: () => navigate("/scan") },
+                { icon: <Brain size={20} />, label: "AI Planner", color: colors.text, action: () => navigate("/tools") },
               ].map((a, i) => (
-                <div key={i} className="action-item" onClick={() => { if (i === 2) setScreen("category"); }}>
+                <div key={i} className="action-item" onClick={a.action}>
                   <div className="action-circle" style={{ borderColor: i === 0 ? colors.accent : colors.border, background: i === 0 ? colors.accentSoft : colors.surface }}>
                     <span style={{ color: a.color }}>{a.icon}</span>
                   </div>
@@ -429,15 +428,15 @@ export default function CampusPlanner() {
             </div>
 
             {/* Promo Banner */}
-            <div className="promo-card" style={{ marginTop: 24, animation: "fadeInUp .5s ease both", animationDelay: ".3s" }}>
+            <div className="promo-card" style={{ marginTop: 24, animation: "fadeInUp .5s ease both", animationDelay: ".3s" }} onClick={() => setScreen("profile")}>
               <img src={IMAGES.promo} alt="Promo" />
               <div className="promo-overlay">
                 <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 8 }}>
                   <Gift size={16} color={colors.accent} />
-                  <span style={{ fontSize: 10, fontWeight: 600, color: colors.accent, letterSpacing: "1px", textTransform: "uppercase" }}>Weekend Deal</span>
+                  <span style={{ fontSize: 10, fontWeight: 600, color: colors.accent, letterSpacing: "1px", textTransform: "uppercase" }}>Refer & Earn</span>
                 </div>
-                <div style={{ fontSize: 18, fontWeight: 700, color: "white", marginBottom: 4 }}>Up to 20% off fresh produce</div>
-                <div style={{ fontSize: 12, color: "rgba(255,255,255,0.6)" }}>Limited time offer</div>
+                <div style={{ fontSize: 18, fontWeight: 700, color: "white", marginBottom: 4 }}>Send {formatNaira(500)} food value free</div>
+                <div style={{ fontSize: 12, color: "rgba(255,255,255,0.6)" }}>When you invite a friend to Nekstpei</div>
               </div>
             </div>
           </div>
@@ -807,7 +806,7 @@ function TrackingScreen({ order, onBack, colors }: {
               <div style={{ fontSize: 14, fontWeight: 600, color: colors.text }}>{order.driver.name}</div>
               <div style={{ fontSize: 12, color: colors.textMuted, marginTop: 1 }}>{order.driver.phone}</div>
             </div>
-            <button style={{ ...S.floatingBtn(colors.success, `${colors.success}15`) }}>
+            <button onClick={() => window.location.href = `tel:${order.driver!.phone}`} style={{ ...S.floatingBtn(colors.success, `${colors.success}15`) }}>
               <Phone size={16} />
             </button>
           </div>
@@ -874,12 +873,12 @@ function ProfileScreen({ setScreen, colors, toggleTheme }: {
       </div>
 
       {[
-        { icon: <Wallet size={18} />, label: "Food Value", sub: "Balance & top-up", screen: "home" as Screen },
-        { icon: <Package size={18} />, label: "Order History", sub: "Past orders", screen: "orders" as Screen },
-        { icon: <MapPin size={18} />, label: "Addresses", sub: "Manage delivery", screen: "home" as Screen },
-        { icon: <Bell size={18} />, label: "Notifications", sub: "Updates & promos", screen: "home" as Screen },
+        { icon: <Wallet size={18} />, label: "Food Value", sub: "Balance & top-up", action: () => setScreen("home") },
+        { icon: <Package size={18} />, label: "Order History", sub: "Past orders", action: () => setScreen("orders") },
+        { icon: <MapPin size={18} />, label: "Addresses", sub: "Manage delivery", action: () => window.location.href = '#/settings' },
+        { icon: <Bell size={18} />, label: "Notifications", sub: "Updates & promos", action: () => setScreen("orders") },
       ].map((item, i) => (
-        <div key={i} onClick={() => setScreen(item.screen)} style={{
+        <div key={i} onClick={item.action} style={{
           display: "flex", alignItems: "center", gap: 16, padding: "16px 18px",
           ...S.card(colors.surface, colors.border), marginBottom: 10, cursor: "pointer",
           transition: "all .2s",

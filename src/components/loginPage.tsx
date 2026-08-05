@@ -39,7 +39,7 @@ const LogoText = styled.h1`
   color: #F0EDE8;
   margin: 0;
   letter-spacing: -0.5px;
-  span { color: #B8FF00; font-weight: 700; }
+  span { color: #24ACF2; font-weight: 700; }
 `;
 
 const Subtitle = styled.p`
@@ -70,7 +70,7 @@ const Tab = styled.button<{ $active: boolean }>`
   font-family: inherit;
   cursor: pointer;
   transition: all 0.3s ease;
-  background: ${p => p.$active ? '#B8FF00' : 'transparent'};
+  background: ${p => p.$active ? '#24ACF2' : 'transparent'};
   color: ${p => p.$active ? '#0A0A0A' : '#555'};
   letter-spacing: 0.3px;
 `;
@@ -108,8 +108,8 @@ const Input = styled.input`
 
   &:focus {
     outline: none;
-    border-color: #B8FF00;
-    background: rgba(184,255,0,0.04);
+    border-color: #24ACF2;
+    background: rgba(36,172,242,0.04);
   }
   &::placeholder { color: #555; }
   &:disabled { opacity: 0.5; cursor: not-allowed; }
@@ -127,15 +127,15 @@ const PasswordToggle = styled.button`
   padding: 4px;
   display: flex;
   align-items: center;
-  &:hover { color: #B8FF00; }
+  &:hover { color: #24ACF2; }
   &:disabled { opacity: 0.4; cursor: not-allowed; }
 `;
 
 const SubmitButton = styled.button`
   width: 100%;
   padding: 16px;
-  background: #B8FF00;
-  color: #0A0A0A;
+  background: #24ACF2;
+  color: white;
   border: none;
   border-radius: 14px;
   font-weight: 700;
@@ -152,7 +152,7 @@ const SubmitButton = styled.button`
 
   &:hover:not(:disabled) {
     transform: translateY(-1px);
-    box-shadow: 0 8px 24px rgba(184,255,0,0.25);
+    box-shadow: 0 8px 24px rgba(36,172,242,0.25);
   }
   &:active:not(:disabled) { transform: translateY(0); }
   &:disabled { opacity: 0.5; cursor: not-allowed; }
@@ -181,7 +181,7 @@ const StatusMessage = styled.div<{ $type: 'success' | 'error' | 'loading' }>`
     background: rgba(255,82,82,0.1); color: #FF5252;
   `}
   ${p => p.$type === 'loading' && `
-    background: rgba(184,255,0,0.08); color: #B8FF00;
+    background: rgba(36,172,242,0.08); color: #24ACF2;
   `}
 `;
 

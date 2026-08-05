@@ -34,7 +34,7 @@ import Marketplace from "./components/marketplace";
 import CheckoutContainer from "./components/checkout";
 import RemindMarket from "./components/Reminder";
 import UnderConstruction from "./components/UnderConstruction";
-import CampusPlanner from "./components/web3";
+// import CampusPlanner from "./components/web3";
 
 function AppWrapper() {
   return (
