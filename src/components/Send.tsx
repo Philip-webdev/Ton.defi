@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   ArrowLeft, Send, User, Search, Clock, Check, X,
   Phone, Mail, Wallet, ChevronRight, Plus, Zap,
@@ -6,13 +6,16 @@ import {
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useTheme } from "../contexts/ThemeContext";
+import { sendFoodCredits, fetchContacts } from "../services/api";
 
 // ─── Types ────────────────────────────────────────────────────────
 interface Contact {
   id: string;
+  _id?: string;
   name: string;
   phone?: string;
   email?: string;
+  contactEmail?: string;
   avatar?: string;
   initials: string;
   lastTransfer?: string;
@@ -23,21 +26,6 @@ interface TransferPreset {
   label: string;
   icon: string;
 }
-
-// ─── Data ─────────────────────────────────────────────────────────
-const RECENT_CONTACTS: Contact[] = [
-  { id: "1", name: "Chidinma Okafor", phone: "+234 803 *** 4521", initials: "CO", lastTransfer: "Yesterday" },
-  { id: "2", name: "Amina Bello", phone: "+234 805 *** 7832", initials: "AB", lastTransfer: "Jul 28" },
-  { id: "3", name: "Dad", phone: "+234 802 *** 1234", initials: "D", lastTransfer: "Jul 25" },
-  { id: "4", name: "Mama Nkechi Kitchen", initials: "MN", lastTransfer: "Jul 20" },
-];
-
-const SUGGESTED_CONTACTS: Contact[] = [
-  { id: "5", name: "Emeka Nwosu", phone: "+234 806 *** 9102", initials: "EN" },
-  { id: "6", name: "Fatima Abdullahi", email: "fatima@email.com", initials: "FA" },
-  { id: "7", name: "Campus Green Mart", initials: "CG" },
-  { id: "8", name: "Blessing Eze", phone: "+234 809 *** 3344", initials: "BE" },
-];
 
 const FOOD_PRESETS: TransferPreset[] = [
   { amount: 500, label: "Snack Pack", icon: "🍪" },
@@ -61,19 +49,62 @@ export default function FoodTransfer() {
   const [note, setNote] = useState("");
   const [transferType, setTransferType] = useState<"credits" | "package">("credits");
   const [sending, setSending] = useState(false);
+  const [contacts, setContacts] = useState<Contact[]>([]);
+  const [error, setError] = useState("");
 
-  const filteredContacts = [...RECENT_CONTACTS, ...SUGGESTED_CONTACTS].filter(c =>
+  const email = localStorage.getItem("email") || "";
+
+  const DEFAULT_CONTACTS: Contact[] = [
+    { id: "5", name: "Emeka Nwosu", phone: "+234 806 *** 9102", initials: "EN" },
+    { id: "6", name: "Fatima Abdullahi", email: "fatima@email.com", initials: "FA" },
+    { id: "7", name: "Campus Green Mart", initials: "CG" },
+    { id: "8", name: "Blessing Eze", phone: "+234 809 *** 3344", initials: "BE" },
+  ];
+
+  const RECENT_CONTACTS = contacts.length > 0 ? contacts.slice(0, 3) : DEFAULT_CONTACTS;
+  const SUGGESTED_CONTACTS = contacts.length > 0 ? contacts : DEFAULT_CONTACTS;
+
+  useEffect(() => {
+    loadContacts();
+  }, [email]);
+
+  const loadContacts = async () => {
+    if (!email) return;
+    try {
+      const data = await fetchContacts(email);
+      if (Array.isArray(data)) {
+        setContacts(data.map((c: any) => ({
+          id: c._id || c.id,
+          name: c.name,
+          phone: c.phone,
+          email: c.contactEmail || c.email,
+          initials: c.initials || c.name.split(" ").map((w: string) => w[0]).join("").toUpperCase().slice(0, 2),
+          lastTransfer: c.lastTransfer,
+        })));
+      }
+    } catch (e) {
+      console.error("Failed to load contacts:", e);
+    }
+  };
+
+  const filteredContacts = [...contacts, ...DEFAULT_CONTACTS].filter(c =>
     c.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
     c.phone?.includes(searchQuery) ||
     c.email?.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
-  const handleSend = () => {
+  const handleSend = async () => {
+    if (!selectedContact || !amount || Number(amount) < 100 || !email) return;
     setSending(true);
-    setTimeout(() => {
-      setSending(false);
+    setError("");
+    try {
+      const contactInfo = selectedContact.phone || selectedContact.email || "";
+      await sendFoodCredits(email, selectedContact.name, contactInfo, Number(amount), note);
       setStep("success");
-    }, 1500);
+    } catch (e: any) {
+      setError(e.message || "Transfer failed. Please try again.");
+    }
+    setSending(false);
   };
 
   const resetTransfer = () => {

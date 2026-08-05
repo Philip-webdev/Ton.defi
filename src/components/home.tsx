@@ -10,6 +10,10 @@ import {
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useTheme } from "../contexts/ThemeContext";
+import {
+  getLocalCart, setLocalCart, addToLocalCart, updateLocalCartItemQty,
+  createFoodOrder, fetchFoodOrders, getLocalBalance, fetchFoodWallet
+} from "../services/api";
 
 // ─── Types ────────────────────────────────────────────────────────
 type Screen = "home" | "category" | "cart" | "orders" | "tracking" | "profile";
@@ -198,12 +202,58 @@ export default function CampusPlanner() {
   const [selectedOrder, setSelectedOrder] = useState<Order>(SAMPLE_ORDERS[0]);
   const [cart, setCart] = useState<CartItem[]>([]);
   const [activeFilter, setActiveFilter] = useState("all");
+  const [foodBalance, setFoodBalance] = useState(0);
+  const [orders, setOrders] = useState<Order[]>(SAMPLE_ORDERS);
+
+  const email = localStorage.getItem("email") || "";
+
+  useEffect(() => {
+    // Load cart from localStorage
+    const savedCart = getLocalCart();
+    if (savedCart.length > 0) {
+      setCart(savedCart);
+    }
+    // Load wallet balance
+    loadBalance();
+    // Load orders
+    loadOrders();
+  }, [email]);
+
+  const loadBalance = async () => {
+    if (!email) return;
+    try {
+      const wallet = await fetchFoodWallet(email);
+      setFoodBalance(wallet.balance || 0);
+    } catch (e) {
+      console.error("Failed to load balance:", e);
+    }
+  };
+
+  const loadOrders = async () => {
+    if (!email) return;
+    try {
+      const data = await fetchFoodOrders(email);
+      if (Array.isArray(data) && data.length > 0) {
+        setOrders(data.map((o: any) => ({
+          id: o.orderId || o._id,
+          items: o.items || [],
+          total: o.total,
+          status: o.status,
+          date: o.date || o.createdAt,
+          address: o.address,
+          estimatedDelivery: o.estimatedDelivery || "ASAP",
+          driver: o.driver,
+        })));
+      }
+    } catch (e) {
+      console.error("Failed to load orders:", e);
+    }
+  };
 
   const addToCart = useCallback((product: Product) => {
     setCart(prev => {
-      const existing = prev.find(c => c.id === product.id);
-      if (existing) return prev.map(c => c.id === product.id ? { ...c, qty: c.qty + 1 } : c);
-      return [...prev, { ...product, qty: 1 }];
+      const newCart = addToLocalCart({ ...product, qty: 1, vendor: product.vendor?.name || "Campus Green Mart" });
+      return newCart;
     });
   }, []);
 
@@ -631,23 +681,39 @@ function CartScreen({ cart, setCart, setScreen, colors }: {
   cart: CartItem[]; setCart: React.Dispatch<React.SetStateAction<CartItem[]>>;
   setScreen: (s: Screen) => void; colors: ReturnType<typeof useTheme>["colors"];
 }) {
+  const navigate = useNavigate();
+  const [ordering, setOrdering] = useState(false);
+
   const total = cart.reduce((s, i) => s + i.price * i.qty, 0);
   const deliveryFee = total > 5000 ? 0 : 500;
 
   const updateQty = (id: number, delta: number) => {
-    setCart(prev => prev.map(item => {
-      if (item.id === id) {
-        const newQty = item.qty + delta;
-        return newQty > 0 ? { ...item, qty: newQty } : item;
-      }
-      return item;
-    }).filter(item => item.qty > 0));
+    const newCart = updateLocalCartItemQty(id, delta);
+    setCart(newCart);
   };
 
-  const placeOrder = () => {
-    alert("Order placed!\nYour groceries are being prepared.");
-    setCart([]);
-    setScreen("orders");
+  const placeOrder = async () => {
+    const email = localStorage.getItem("email");
+    const address = localStorage.getItem("deliveryAddress") || "12 Wuse Zone 5, Abuja";
+    if (!email || cart.length === 0) return;
+
+    setOrdering(true);
+    try {
+      const result = await createFoodOrder(
+        email,
+        cart.map(i => ({ id: i.id, name: i.name, price: i.price, unit: i.unit, image: i.image, qty: i.qty, vendor: i.vendor?.name || "Campus Green Mart" })),
+        total,
+        deliveryFee,
+        address,
+        "food_credits"
+      );
+      setCart([]);
+      setLocalCart([]);
+      setScreen("orders");
+    } catch (e: any) {
+      alert(e.message || "Order failed. Please try again.");
+    }
+    setOrdering(false);
   };
 
   return (
@@ -910,6 +976,23 @@ function ProfileScreen({ setScreen, colors, toggleTheme }: {
   const storedName = localStorage.getItem("fullName") ?? "";
   const name = storedName || email.split("@")[0].replace(/[._]/g, " ").replace(/\b\w/g, c => c.toUpperCase());
   const initials = name.split(" ").map(w => w[0]).join("").toUpperCase().slice(0, 2);
+  const [avatar, setAvatar] = useState<string | null>(() => localStorage.getItem("nekstpei_avatar"));
+
+  const handleAvatarUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    if (file.size > 2 * 1024 * 1024) {
+      alert("Image must be under 2MB");
+      return;
+    }
+    const reader = new FileReader();
+    reader.onload = () => {
+      const dataUrl = reader.result as string;
+      setAvatar(dataUrl);
+      localStorage.setItem("nekstpei_avatar", dataUrl);
+    };
+    reader.readAsDataURL(file);
+  };
 
   return (
     <div className="screen-anim" style={{ paddingTop: 8 }}>
@@ -920,13 +1003,33 @@ function ProfileScreen({ setScreen, colors, toggleTheme }: {
       </div>
 
       <div style={{ textAlign: "center", marginBottom: 36, marginTop: 16 }}>
-        <div style={{
-          width: 80, height: 80, borderRadius: "50%",
-          background: `linear-gradient(135deg, ${colors.accent}30, ${colors.accent}10)`,
-          border: `2px solid ${colors.accent}40`,
-          display: "inline-flex", alignItems: "center", justifyContent: "center",
-          fontSize: 28, fontWeight: 700, color: colors.accent, marginBottom: 16,
-        }}>{initials}</div>
+        <label htmlFor="avatar-upload" style={{ cursor: "pointer", display: "inline-block", position: "relative" }}>
+          {avatar ? (
+            <img src={avatar} alt="Profile" style={{
+              width: 80, height: 80, borderRadius: "50%", objectFit: "cover",
+              border: `2px solid ${colors.accent}40`, marginBottom: 16,
+            }} />
+          ) : (
+            <div style={{
+              width: 80, height: 80, borderRadius: "50%",
+              background: `linear-gradient(135deg, ${colors.accent}30, ${colors.accent}10)`,
+              border: `2px solid ${colors.accent}40`,
+              display: "inline-flex", alignItems: "center", justifyContent: "center",
+              fontSize: 28, fontWeight: 700, color: colors.accent, marginBottom: 16,
+            }}>{initials}</div>
+          )}
+          <div style={{
+            position: "absolute", bottom: 12, right: -4,
+            width: 24, height: 24, borderRadius: "50%",
+            background: colors.accent, display: "flex", alignItems: "center", justifyContent: "center",
+          }}>
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#0A0A0A" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/>
+              <circle cx="12" cy="13" r="4"/>
+            </svg>
+          </div>
+        </label>
+        <input id="avatar-upload" type="file" accept="image/*" onChange={handleAvatarUpload} style={{ display: "none" }} />
         <div style={{ fontSize: 22, fontWeight: 700, color: colors.text }}>{name}</div>
         <div style={{ fontSize: 13, color: colors.textMuted, marginTop: 4 }}>{email}</div>
       </div>

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   ArrowLeft, ArrowUpRight, ArrowDownLeft, Plus, Wallet,
   Receipt, Clock, Filter, ChevronRight, Check, X,
@@ -7,12 +7,14 @@ import {
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useTheme } from "../contexts/ThemeContext";
+import { fetchFoodWallet, fetchFoodTransactions, topUpFoodWallet } from "../services/api";
 
 // ─── Types ────────────────────────────────────────────────────────
 type TransactionType = "topup" | "send" | "receive" | "redemption" | "refund";
 
 interface Transaction {
   id: string;
+  _id?: string;
   type: TransactionType;
   amount: number;
   description: string;
@@ -22,19 +24,16 @@ interface Transaction {
   reference?: string;
   vendor?: string;
   recipient?: string;
+  createdAt?: string;
 }
 
-// ─── Data ─────────────────────────────────────────────────────────
-const SAMPLE_TRANSACTIONS: Transaction[] = [
-  { id: "TXN-001", type: "topup", amount: 20000, description: "Wallet Top-up via Card", date: "Today", time: "2:30 PM", status: "completed", reference: "REF-8847291" },
-  { id: "TXN-002", type: "send", amount: 5000, description: "Sent to Chidinma O.", date: "Today", time: "1:15 PM", status: "completed", reference: "REF-8847156", recipient: "Chidinma O." },
-  { id: "TXN-003", type: "redemption", amount: 3200, description: "Redeemed at Mama Nkechi Kitchen", date: "Yesterday", time: "12:45 PM", status: "completed", reference: "REF-8846032", vendor: "Mama Nkechi Kitchen" },
-  { id: "TXN-004", type: "receive", amount: 10000, description: "Received from Dad", date: "Yesterday", time: "9:00 AM", status: "completed", reference: "REF-8845891", recipient: "Dad" },
-  { id: "TXN-005", type: "topup", amount: 15000, description: "Wallet Top-up via Bank Transfer", date: "Jul 28", time: "4:20 PM", status: "completed", reference: "REF-8844567" },
-  { id: "TXN-006", type: "redemption", amount: 1800, description: "Redeemed at Campus Green Mart", date: "Jul 27", time: "6:10 PM", status: "completed", reference: "REF-8843291", vendor: "Campus Green Mart" },
-  { id: "TXN-007", type: "send", amount: 3000, description: "Sent to Amina B.", date: "Jul 26", time: "11:30 AM", status: "completed", reference: "REF-8842145", recipient: "Amina B." },
-  { id: "TXN-008", type: "refund", amount: 1200, description: "Refund from Failed Order", date: "Jul 25", time: "3:45 PM", status: "completed", reference: "REF-8841002" },
-];
+interface WalletData {
+  balance: number;
+  totalTopups: number;
+  totalSpent: number;
+  totalSent: number;
+  totalReceived: number;
+}
 
 const TOPUP_METHODS = [
   { id: "card", label: "Debit Card", icon: CreditCard, desc: "Visa, Mastercard" },
@@ -70,23 +69,59 @@ export default function FoodWallet() {
   const [topupAmount, setTopupAmount] = useState("");
   const [selectedMethod, setSelectedMethod] = useState("card");
   const [selectedTx, setSelectedTx] = useState<Transaction | null>(null);
+  const [transactions, setTransactions] = useState<Transaction[]>([]);
+  const [wallet, setWallet] = useState<WalletData>({ balance: 0, totalTopups: 0, totalSpent: 0, totalSent: 0, totalReceived: 0 });
+  const [loading, setLoading] = useState(true);
+  const [topping, setTopping] = useState(false);
 
-  const balance = SAMPLE_TRANSACTIONS.reduce((acc, tx) => {
-    if (tx.type === "topup" || tx.type === "receive" || tx.type === "refund") return acc + tx.amount;
-    return acc - tx.amount;
-  }, 0);
+  const email = localStorage.getItem("email") || "";
 
+  useEffect(() => {
+    loadData();
+  }, [email]);
+
+  const loadData = async () => {
+    if (!email) {
+      setLoading(false);
+      return;
+    }
+    try {
+      const [walletData, txData] = await Promise.all([
+        fetchFoodWallet(email),
+        fetchFoodTransactions(email),
+      ]);
+      setWallet(walletData);
+      setTransactions(Array.isArray(txData) ? txData : []);
+    } catch (e) {
+      console.error("Failed to load wallet data:", e);
+    }
+    setLoading(false);
+  };
+
+  const handleTopUp = async () => {
+    const amount = Number(topupAmount);
+    if (!amount || amount < 100 || !email) return;
+    setTopping(true);
+    try {
+      const result = await topUpFoodWallet(email, amount, selectedMethod);
+      if (result.wallet) {
+        setWallet(result.wallet);
+      }
+      await loadData();
+      setShowTopup(false);
+      setTopupAmount("");
+    } catch (e) {
+      console.error("Top-up failed:", e);
+    }
+    setTopping(false);
+  };
+
+  const balance = wallet.balance;
   const filteredTx = activeTab === "all"
-    ? SAMPLE_TRANSACTIONS
-    : SAMPLE_TRANSACTIONS.filter(tx => tx.type === activeTab);
-
-  const totalSpent = SAMPLE_TRANSACTIONS
-    .filter(tx => tx.type === "redemption" || tx.type === "send")
-    .reduce((acc, tx) => acc + tx.amount, 0);
-
-  const totalTopup = SAMPLE_TRANSACTIONS
-    .filter(tx => tx.type === "topup")
-    .reduce((acc, tx) => acc + tx.amount, 0);
+    ? transactions
+    : transactions.filter(tx => tx.type === activeTab);
+  const totalSpent = wallet.totalSpent + wallet.totalSent;
+  const totalTopup = wallet.totalTopups;
 
   return (
     <>
@@ -310,7 +345,7 @@ export default function FoodWallet() {
           </div>
           <div className="stat-card">
             <Receipt size={16} color={colors.warning} style={{ marginBottom: 6 }} />
-            <div style={{ fontSize: 16, fontWeight: 700, color: colors.text }}>{SAMPLE_TRANSACTIONS.length}</div>
+            <div style={{ fontSize: 16, fontWeight: 700, color: colors.text }}>{transactions.length}</div>
             <div style={{ fontSize: 10, color: colors.textMuted, marginTop: 2 }}>Transactions</div>
           </div>
         </div>
@@ -447,12 +482,8 @@ export default function FoodWallet() {
             </div>
 
             <button
-              disabled={!topupAmount || Number(topupAmount) < 100}
-              onClick={() => {
-                alert(`Top-up of ${formatNaira(Number(topupAmount))} initiated!\nYou will be redirected to complete payment.`);
-                setShowTopup(false);
-                setTopupAmount("");
-              }}
+              disabled={!topupAmount || Number(topupAmount) < 100 || topping}
+              onClick={handleTopUp}
               style={{
                 width: "100%", padding: "16px", borderRadius: 14,
                 background: topupAmount && Number(topupAmount) >= 100 ? colors.accent : colors.surfaceElevated,
@@ -464,7 +495,7 @@ export default function FoodWallet() {
               }}
             >
               <Zap size={16} style={{ marginRight: 6, verticalAlign: "middle" }} />
-              Top Up {topupAmount ? formatNaira(Number(topupAmount)) : ""}
+              {topping ? "Processing..." : `Top Up ${topupAmount ? formatNaira(Number(topupAmount)) : ""}`}
             </button>
           </div>
         </>
