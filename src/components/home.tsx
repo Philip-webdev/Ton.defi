@@ -312,7 +312,7 @@ export default function CampusPlanner() {
         }
         .promo-overlay {
           position: absolute; inset: 0;
-          background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.1) 60%);
+          background: linear-gradient(to top, rgba(0,0,0,0.92) 0%, rgba(0,0,0,0.5) 60%);
           display: flex; flex-direction: column; justify-content: flex-end;
           padding: 20px;
         }
@@ -325,7 +325,7 @@ export default function CampusPlanner() {
         }
         .featured-overlay {
           position: absolute; inset: 0;
-          background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0) 50%);
+          background: linear-gradient(to top, rgba(0,0,0,0.92) 0%, rgba(0,0,0,0.4) 60%);
           display: flex; flex-direction: column; justify-content: flex-end;
           padding: 20px;
         }
