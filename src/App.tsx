@@ -36,6 +36,13 @@ import RemindMarket from "./components/Reminder";
 import UnderConstruction from "./components/UnderConstruction";
 // import CampusPlanner from "./components/web3";
 
+// Nekstpei FoodTech Modules
+import FoodWallet from "./components/food-wallet";
+import VendorPortal from "./components/vendor";
+import AIFoodAssistant from "./components/ai-assistant";
+import InstitutionalDashboard from "./components/institutional";
+import TrustLayerComponent from "./components/trust";
+
 function AppWrapper() {
   return (
     <HashRouter>
@@ -106,7 +113,13 @@ function App() {
        <Route path="/marketplace" element={<Marketplace />} /> 
         <Route path="/reminders" element={<RemindMarket/>}/>
           <Route path="/welcome" element={<Welcome />} />
-          <Route path="/wallet" element={<UnderConstruction />} />
+          
+          {/* Nekstpei FoodTech Routes */}
+          <Route path="/wallet" element={<FoodWallet />} />
+          <Route path="/vendor" element={<VendorPortal />} />
+          <Route path="/ai-assistant" element={<AIFoodAssistant />} />
+          <Route path="/institutional" element={<InstitutionalDashboard />} />
+          <Route path="/trust" element={<TrustLayerComponent />} />
          
       </Routes>
     </div>
