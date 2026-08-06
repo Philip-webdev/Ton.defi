@@ -7,7 +7,7 @@ import {
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useTheme } from "../contexts/ThemeContext";
-import { fetchFoodWallet, fetchFoodTransactions, topUpFoodWallet } from "../services/api";
+import { fetchFoodWallet, fetchFoodTransactions, topUpFoodWallet, fetchVA } from "../services/api";
 
 // ─── Types ────────────────────────────────────────────────────────
 type TransactionType = "topup" | "send" | "receive" | "redemption" | "refund";
@@ -73,6 +73,7 @@ export default function FoodWallet() {
   const [wallet, setWallet] = useState<WalletData>({ balance: 0, totalTopups: 0, totalSpent: 0, totalSent: 0, totalReceived: 0 });
   const [loading, setLoading] = useState(true);
   const [topping, setTopping] = useState(false);
+  const [vaData, setVaData] = useState<any>(null);
 
   const email = localStorage.getItem("email") || "";
 
@@ -86,12 +87,14 @@ export default function FoodWallet() {
       return;
     }
     try {
-      const [walletData, txData] = await Promise.all([
+      const [walletData, txData, vaResult] = await Promise.all([
         fetchFoodWallet(email),
         fetchFoodTransactions(email),
+        fetchVA(email),
       ]);
       setWallet(walletData);
       setTransactions(Array.isArray(txData) ? txData : []);
+      setVaData(vaResult);
     } catch (e) {
       console.error("Failed to load wallet data:", e);
     }
@@ -294,6 +297,23 @@ export default function FoodWallet() {
             <Plus size={17} />
           </button>
         </div>
+
+        {/* ─── VIRTUAL ACCOUNT ─────────────────────────────── */}
+        {vaData && vaData.va_generated && (
+          <div className="wallet-anim" style={{
+            padding: "16px 18px", borderRadius: 16,
+            background: `${colors.surface}`, border: `1px solid ${colors.border}`,
+            marginBottom: 16, animationDelay: ".05s",
+          }}>
+            <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 10 }}>
+              <Banknote size={18} color={colors.accent} />
+              <span style={{ fontSize: 13, fontWeight: 600, color: colors.text }}>Virtual Account</span>
+            </div>
+            <div style={{ fontSize: 12, color: colors.textMuted, marginBottom: 2 }}>Bank: {vaData.bank_name}</div>
+            <div style={{ fontSize: 15, fontWeight: 700, color: colors.text, marginBottom: 2 }}>Account: {vaData.account_number}</div>
+            <div style={{ fontSize: 11, color: colors.textMuted }}>Reference: {vaData.account_reference}</div>
+          </div>
+        )}
 
         {/* ─── BALANCE CARD ───────────────────────────────────── */}
         <div className="balance-card wallet-anim" style={{ marginBottom: 24, animationDelay: ".05s" }}>

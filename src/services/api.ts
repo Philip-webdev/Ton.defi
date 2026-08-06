@@ -242,6 +242,25 @@ export async function updateRecipient(email: string, recipientId: string, data: 
   }
 }
 
+// ─── Wallet & VA ──────────────────────────────────────
+export async function fetchWallet(email: string) {
+  try {
+    const res = await fetch(`${API_BASE}/api/wallet/${encodeURIComponent(email)}`);
+    return await res.json();
+  } catch {
+    return null;
+  }
+}
+
+export async function fetchVA(email: string) {
+  try {
+    const res = await fetch(`${API_BASE}/api/va/${encodeURIComponent(email)}`);
+    return await res.json();
+  } catch {
+    return null;
+  }
+}
+
 // ─── Settings ─────────────────────────────────────────────────────
 export async function saveAddress(phone: string, address: string): Promise<void> {
   try {

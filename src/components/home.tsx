@@ -13,7 +13,7 @@ import { useTheme } from "../contexts/ThemeContext";
 import {
   getLocalCart, setLocalCart, addToLocalCart, updateLocalCartItemQty,
   createFoodOrder, fetchFoodOrders, getLocalBalance, fetchFoodWallet,
-  updateProfile, fetchProfile
+  updateProfile, fetchProfile, fetchWallet, fetchVA
 } from "../services/api";
 
 // ─── Types ────────────────────────────────────────────────────────
@@ -991,6 +991,31 @@ function ProfileScreen({ setScreen, colors, toggleTheme }: {
   const name = storedName || email.split("@")[0].replace(/[._]/g, " ").replace(/\b\w/g, c => c.toUpperCase());
   const initials = name.split(" ").map(w => w[0]).join("").toUpperCase().slice(0, 2);
   const [avatar, setAvatar] = useState<string | null>(() => localStorage.getItem("nekstpei_avatar"));
+  const [walletBalance, setWalletBalance] = useState<number>(0);
+  const [vaData, setVaData] = useState<any>(null);
+
+  useEffect(() => {
+    loadWallet();
+    loadVA();
+  }, [email]);
+
+  const loadWallet = async () => {
+    try {
+      const data = await fetchWallet(email);
+      if (data) setWalletBalance(data.balance || 0);
+    } catch (e) {
+      console.error("Failed to load wallet:", e);
+    }
+  };
+
+  const loadVA = async () => {
+    try {
+      const data = await fetchVA(email);
+      if (data) setVaData(data);
+    } catch (e) {
+      console.error("Failed to load VA:", e);
+    }
+  };
 
   const handleAvatarUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -1052,6 +1077,32 @@ function ProfileScreen({ setScreen, colors, toggleTheme }: {
         <div style={{ fontSize: 22, fontWeight: 700, color: colors.text }}>{name}</div>
         <div style={{ fontSize: 13, color: colors.textMuted, marginTop: 4 }}>{email}</div>
       </div>
+
+      {/* Wallet Balance */}
+      <div style={{
+        padding: "16px 18px", borderRadius: 16,
+        background: `linear-gradient(135deg, ${colors.accent}15, ${colors.accent}05)`,
+        border: `1px solid ${colors.accent}20`, marginBottom: 10,
+      }}>
+        <div style={{ fontSize: 11, fontWeight: 600, color: colors.textMuted, letterSpacing: "0.5px", textTransform: "uppercase", marginBottom: 4 }}>Wallet Balance</div>
+        <div style={{ fontSize: 24, fontWeight: 700, color: colors.text }}>{formatNaira(walletBalance)}</div>
+      </div>
+
+      {/* Virtual Account */}
+      {vaData && vaData.va_generated && (
+        <div style={{
+          padding: "16px 18px", borderRadius: 16,
+          background: `${colors.surface}`, border: `1px solid ${colors.border}`, marginBottom: 10,
+        }}>
+          <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 12 }}>
+            <Building2 size={18} color={colors.accent} />
+            <span style={{ fontSize: 13, fontWeight: 600, color: colors.text }}>Virtual Account</span>
+          </div>
+          <div style={{ fontSize: 12, color: colors.textMuted, marginBottom: 4 }}>Bank: {vaData.bank_name}</div>
+          <div style={{ fontSize: 14, fontWeight: 600, color: colors.text, marginBottom: 4 }}>Account: {vaData.account_number}</div>
+          <div style={{ fontSize: 11, color: colors.textMuted }}>Reference: {vaData.account_reference}</div>
+        </div>
+      )}
 
       {[
         { icon: <Wallet size={18} />, label: "Food Wallet", sub: "Balance, history & receipts", action: () => window.location.href = '#/wallet' },
