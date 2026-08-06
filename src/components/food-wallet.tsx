@@ -7,7 +7,7 @@ import {
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useTheme } from "../contexts/ThemeContext";
-import { fetchFoodWallet, fetchFoodTransactions, topUpFoodWallet, fetchVA } from "../services/api";
+import { fetchFoodWallet, fetchFoodTransactions, topUpFoodWallet, fetchVA, convertWalletToFoodCredits } from "../services/api";
 
 // ─── Types ────────────────────────────────────────────────────────
 type TransactionType = "topup" | "send" | "receive" | "redemption" | "refund";
@@ -74,6 +74,9 @@ export default function FoodWallet() {
   const [loading, setLoading] = useState(true);
   const [topping, setTopping] = useState(false);
   const [vaData, setVaData] = useState<any>(null);
+  const [showConvert, setShowConvert] = useState(false);
+  const [convertAmount, setConvertAmount] = useState("");
+  const [converting, setConverting] = useState(false);
 
   const email = localStorage.getItem("email") || "";
 
@@ -117,6 +120,24 @@ export default function FoodWallet() {
       console.error("Top-up failed:", e);
     }
     setTopping(false);
+  };
+
+  const handleConvert = async () => {
+    const amount = Number(convertAmount);
+    if (!amount || amount < 100 || !email) return;
+    setConverting(true);
+    try {
+      const result = await convertWalletToFoodCredits(email, amount);
+      if (result.wallet) {
+        setWallet(result.wallet);
+      }
+      await loadData();
+      setShowConvert(false);
+      setConvertAmount("");
+    } catch (e) {
+      console.error("Conversion failed:", e);
+    }
+    setConverting(false);
   };
 
   const balance = wallet.balance;
@@ -432,10 +453,59 @@ export default function FoodWallet() {
               );
             })
           )}
-        </div>
+</div>
       </div>
 
-      {/* ─── TOP-UP SHEET ─────────────────────────────────────── */}
+      {/* ─── CONVERT BALANCE ─────────────────────────── */}
+      <div style={{ marginBottom: 16, animationDelay: ".1s" }}>
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 12 }}>
+          <span style={{ fontSize: 13, fontWeight: 600, color: colors.text }}>Convert Wallet to Food Credits</span>
+          <button onClick={() => setShowConvert(!showConvert)} style={{
+            fontSize: 12, fontWeight: 600, color: colors.accent, background: "none",
+            border: "none", cursor: "pointer", fontFamily: "'Sora', sans-serif",
+          }}>
+            {showConvert ? "Hide" : "Convert"}
+          </button>
+        </div>
+        {showConvert && (
+          <div style={{
+            padding: 16, borderRadius: 16,
+            background: colors.surface, border: `1px solid ${colors.border}`,
+          }}>
+            <div style={{ fontSize: 12, color: colors.textMuted, marginBottom: 8 }}>
+              Available: {formatNaira(wallet.balance)}
+            </div>
+            <div style={{ display: "flex", gap: 8, marginBottom: 12 }}>
+              <input
+                type="number"
+                style={{
+                  flex: 1, background: colors.inputBg, border: `1px solid ${colors.border}`,
+                  borderRadius: 12, padding: "12px 14px", fontSize: 14, color: colors.text,
+                  fontFamily: "'Sora', sans-serif", outline: "none",
+                }}
+                placeholder="Amount to convert"
+                value={convertAmount}
+                onChange={e => setConvertAmount(e.target.value)}
+              />
+              <button
+                onClick={handleConvert}
+                disabled={converting || !convertAmount || Number(convertAmount) < 100}
+                style={{
+                  padding: "12px 16px", borderRadius: 12, border: "none",
+                  background: colors.accent, color: "#0A0A0A",
+                  fontSize: 13, fontWeight: 700, cursor: "pointer",
+                  fontFamily: "'Sora', sans-serif",
+                  opacity: converting || !convertAmount || Number(convertAmount) < 100 ? 0.5 : 1,
+                }}
+              >
+                {converting ? "..." : "Convert"}
+              </button>
+            </div>
+          </div>
+        )}
+      </div>
+
+      {/* ─── TOP-UP SHEET ─────────────────────────────── */}
       {showTopup && (
         <>
           <div className="topup-overlay" onClick={() => setShowTopup(false)} />

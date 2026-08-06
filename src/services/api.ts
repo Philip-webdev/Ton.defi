@@ -261,6 +261,19 @@ export async function fetchVA(email: string) {
   }
 }
 
+export async function convertWalletToFoodCredits(email: string, amount: number) {
+  try {
+    const res = await fetch(`${API_BASE}/api/food-convert`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email, amount }),
+    });
+    return await res.json();
+  } catch {
+    return { error: "Network error" };
+  }
+}
+
 // ─── Settings ─────────────────────────────────────────────────────
 export async function saveAddress(phone: string, address: string): Promise<void> {
   try {
