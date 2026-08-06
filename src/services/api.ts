@@ -38,13 +38,18 @@ export async function topUpFoodWallet(email: string, amount: number, method: str
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ email, amount, method }),
     });
-    const data = await res.json();
-    setLocalWallet(data.wallet);
-    return data;
+    return await res.json();
   } catch {
-    // Fallback to localStorage
-    const wallet = topUpLocal(amount, method);
-    return { wallet };
+    return { error: "Network error" };
+  }
+}
+
+export async function verifyPayment(reference: string) {
+  try {
+    const res = await fetch(`${API_BASE}/api/food-wallet/verify/${encodeURIComponent(reference)}`);
+    return await res.json();
+  } catch {
+    return { status: false };
   }
 }
 

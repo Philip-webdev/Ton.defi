@@ -7,7 +7,7 @@ import {
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useTheme } from "../contexts/ThemeContext";
-import { fetchFoodWallet, fetchFoodTransactions, topUpFoodWallet, fetchVA, convertWalletToFoodCredits } from "../services/api";
+import { fetchFoodWallet, fetchFoodTransactions, topUpFoodWallet, fetchVA, convertWalletToFoodCredits, verifyPayment } from "../services/api";
 
 // ─── Types ────────────────────────────────────────────────────────
 type TransactionType = "topup" | "send" | "receive" | "redemption" | "refund";
@@ -110,9 +110,39 @@ export default function FoodWallet() {
     setTopping(true);
     try {
       const result = await topUpFoodWallet(email, amount, selectedMethod);
-      if (result.wallet) {
-        setWallet(result.wallet);
+
+      if (result.error) {
+        alert(result.error);
+        setTopping(false);
+        return;
       }
+
+      if (result.type === "card" && result.checkout_url) {
+        window.open(result.checkout_url, "_blank");
+        setShowTopup(false);
+        setTopupAmount("");
+        setTopping(false);
+
+        const reference = result.reference;
+        let attempts = 0;
+        const maxAttempts = 30;
+        const pollInterval = setInterval(async () => {
+          attempts++;
+          const verification = await verifyPayment(reference);
+          if (verification?.data?.status === "successful" || attempts >= maxAttempts) {
+            clearInterval(pollInterval);
+            await loadData();
+          }
+        }, 10000);
+        return;
+      }
+
+      if (result.type === "bank_transfer") {
+        setVaDetails(result);
+        setTopping(false);
+        return;
+      }
+
       await loadData();
       setShowTopup(false);
       setTopupAmount("");
@@ -121,6 +151,8 @@ export default function FoodWallet() {
     }
     setTopping(false);
   };
+
+  const [vaDetails, setVaDetails] = useState<any>(null);
 
   const handleConvert = async () => {
     const amount = Number(convertAmount);
@@ -587,6 +619,23 @@ export default function FoodWallet() {
               <Zap size={16} style={{ marginRight: 6, verticalAlign: "middle" }} />
               {topping ? "Processing..." : `Top Up ${topupAmount ? formatNaira(Number(topupAmount)) : ""}`}
             </button>
+
+            {/* Bank Transfer VA Details */}
+            {vaDetails && selectedMethod === "bank_transfer" && (
+              <div style={{
+                marginTop: 16, padding: 16, borderRadius: 16,
+                background: `${colors.success}10`, border: `1px solid ${colors.success}30`,
+              }}>
+                <div style={{ fontSize: 12, fontWeight: 600, color: colors.success, marginBottom: 10 }}>Transfer to this account</div>
+                <div style={{ fontSize: 11, color: colors.textMuted, marginBottom: 4 }}>Bank: <span style={{ fontWeight: 600, color: colors.text }}>{vaDetails.bank_name}</span></div>
+                <div style={{ fontSize: 11, color: colors.textMuted, marginBottom: 4 }}>Account Number: <span style={{ fontWeight: 700, color: colors.text, fontSize: 16, letterSpacing: 2 }}>{vaDetails.account_number}</span></div>
+                <div style={{ fontSize: 11, color: colors.textMuted, marginBottom: 4 }}>Reference: <span style={{ fontWeight: 600, color: colors.text }}>{vaDetails.account_reference}</span></div>
+                <div style={{ fontSize: 11, color: colors.textMuted, marginBottom: 4 }}>Amount: <span style={{ fontWeight: 700, color: colors.accent }}>{formatNaira(vaDetails.amount)}</span></div>
+                <div style={{ fontSize: 10, color: colors.textMuted, marginTop: 8 }}>
+                  Your food wallet will be credited automatically within 5 minutes after transfer.
+                </div>
+              </div>
+            )}
           </div>
         </>
       )}
