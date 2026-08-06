@@ -2,11 +2,12 @@ import { useState, useEffect } from "react";
 import {
   ArrowLeft, Send, User, Search, Clock, Check, X,
   Phone, Mail, Wallet, ChevronRight, Plus, Zap,
-  ArrowUpRight, Gift, Star, Users
+  ArrowUpRight, Gift, Star, Users, CheckCircle2, AlertCircle,
+  Trash2, ShieldCheck
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useTheme } from "../contexts/ThemeContext";
-import { sendFoodCredits, fetchContacts } from "../services/api";
+import { sendFoodCredits, fetchContacts, addRecipient, fetchRecipients, removeRecipient } from "../services/api";
 
 // ─── Types ────────────────────────────────────────────────────────
 interface Contact {
@@ -51,6 +52,13 @@ export default function FoodTransfer() {
   const [sending, setSending] = useState(false);
   const [contacts, setContacts] = useState<Contact[]>([]);
   const [error, setError] = useState("");
+  const [showAddRecipient, setShowAddRecipient] = useState(false);
+  const [recipientSearch, setRecipientSearch] = useState("");
+  const [recipientResult, setRecipientResult] = useState<any>(null);
+  const [addingRecipient, setAddingRecipient] = useState(false);
+  const [recipientMsg, setRecipientMsg] = useState("");
+  const [recipientsPage, setRecipientsPage] = useState(1);
+  const [recipientsData, setRecipientsData] = useState<any>({ recipients: [], pagination: { total: 0 } });
 
   const email = localStorage.getItem("email") || "";
 
@@ -66,6 +74,7 @@ export default function FoodTransfer() {
 
   useEffect(() => {
     loadContacts();
+    loadRecipients();
   }, [email]);
 
   const loadContacts = async () => {
@@ -87,11 +96,62 @@ export default function FoodTransfer() {
     }
   };
 
-  const filteredContacts = [...contacts, ...DEFAULT_CONTACTS].filter(c =>
+  const loadRecipients = async (page = 1) => {
+    if (!email) return;
+    try {
+      const data = await fetchRecipients(email, page, 10);
+      setRecipientsData(data);
+    } catch (e) {
+      console.error("Failed to load recipients:", e);
+    }
+  };
+
+  const allRecipients = (recipientsData.recipients || []).map((r: any) => ({
+    id: r._id,
+    name: r.recipientName,
+    phone: r.recipientPhone,
+    email: r.recipientEmail,
+    initials: r.recipientName.split(" ").map((w: string) => w[0]).join("").toUpperCase().slice(0, 2),
+    lastTransfer: "Saved recipient",
+  }));
+
+  const filteredContacts = [...contacts, ...DEFAULT_CONTACTS, ...allRecipients].filter(c =>
     c.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
     c.phone?.includes(searchQuery) ||
     c.email?.toLowerCase().includes(searchQuery.toLowerCase())
   );
+
+  const handleAddRecipient = async () => {
+    if (!recipientSearch.trim() || !email) return;
+    setAddingRecipient(true);
+    setRecipientMsg("");
+    try {
+      const result = await addRecipient(email, recipientSearch.trim());
+      if (result.error) {
+        setRecipientMsg(result.error);
+      } else {
+        setRecipientMsg(result.message || "Recipient added");
+        setRecipientResult(result.recipient);
+        setRecipientSearch("");
+        loadRecipients();
+        loadContacts();
+      }
+    } catch (e: any) {
+      setRecipientMsg("Failed to add recipient. Please try again.");
+    }
+    setAddingRecipient(false);
+  };
+
+  const handleRemoveRecipient = async (recipientId: string) => {
+    if (!email) return;
+    try {
+      await removeRecipient(email, recipientId);
+      loadRecipients();
+      loadContacts();
+    } catch (e) {
+      console.error("Failed to remove recipient:", e);
+    }
+  };
 
   const handleSend = async () => {
     if (!selectedContact || !amount || Number(amount) < 100 || !email) return;
@@ -351,16 +411,154 @@ export default function FoodTransfer() {
               )}
             </div>
 
-            {/* Add New Contact */}
-            <div style={{
-              marginTop: 20, padding: "16px", borderRadius: 16,
-              border: `1px dashed ${colors.border}`, textAlign: "center",
-              cursor: "pointer", transition: "all .2s",
-            }}>
-              <Plus size={20} color={colors.textMuted} style={{ marginBottom: 6 }} />
-              <div style={{ fontSize: 13, fontWeight: 600, color: colors.textMuted }}>Add New Recipient</div>
-              <div style={{ fontSize: 11, color: colors.textMuted, marginTop: 2 }}>Phone, email, or Nekstpei ID</div>
+            {/* Add New Recipient */}
+            <div style={{ marginTop: 20 }}>
+              {!showAddRecipient ? (
+                <div
+                  onClick={() => setShowAddRecipient(true)}
+                  style={{
+                    padding: "16px", borderRadius: 16,
+                    border: `1px dashed ${colors.border}`, textAlign: "center",
+                    cursor: "pointer", transition: "all .2s",
+                  }}
+                >
+                  <Plus size={20} color={colors.textMuted} style={{ marginBottom: 6 }} />
+                  <div style={{ fontSize: 13, fontWeight: 600, color: colors.textMuted }}>Add New Recipient</div>
+                  <div style={{ fontSize: 11, color: colors.textMuted, marginTop: 2 }}>Phone, email, or Nekstpei ID</div>
+                </div>
+              ) : (
+                <div style={{
+                  padding: 16, borderRadius: 16,
+                  border: `1px solid ${colors.border}`, background: colors.surface,
+                }}>
+                  <div style={{ fontSize: 13, fontWeight: 600, color: colors.text, marginBottom: 12 }}>Add Recipient</div>
+                  <div style={{ display: "flex", gap: 8, marginBottom: 8 }}>
+                    <input
+                      style={{
+                        flex: 1, background: colors.inputBg, border: `1px solid ${colors.border}`,
+                        borderRadius: 12, padding: "12px 14px", fontSize: 14, color: colors.text,
+                        fontFamily: "'Sora', sans-serif", outline: "none",
+                      }}
+                      placeholder="Enter email or phone number"
+                      value={recipientSearch}
+                      onChange={e => setRecipientSearch(e.target.value)}
+                      onKeyDown={e => { if (e.key === "Enter") handleAddRecipient(); }}
+                    />
+                    <button
+                      onClick={handleAddRecipient}
+                      disabled={addingRecipient || !recipientSearch.trim()}
+                      style={{
+                        padding: "12px 16px", borderRadius: 12, border: "none",
+                        background: colors.accent, color: "#0A0A0A",
+                        fontSize: 13, fontWeight: 700, cursor: "pointer",
+                        fontFamily: "'Sora', sans-serif",
+                        opacity: addingRecipient || !recipientSearch.trim() ? 0.5 : 1,
+                      }}
+                    >
+                      {addingRecipient ? "..." : "Verify"}
+                    </button>
+                  </div>
+                  {recipientMsg && (
+                    <div style={{
+                      fontSize: 12, padding: "8px 12px", borderRadius: 10,
+                      background: recipientMsg.includes("error") || recipientMsg.includes("failed") || recipientMsg.includes("No user")
+                        ? `${colors.error}20` : `${colors.success}20`,
+                      color: recipientMsg.includes("error") || recipientMsg.includes("failed") || recipientMsg.includes("No user")
+                        ? colors.error : colors.success,
+                      marginBottom: 8,
+                    }}>
+                      {recipientMsg}
+                    </div>
+                  )}
+                  {recipientResult && (
+                    <div style={{
+                      display: "flex", alignItems: "center", gap: 10,
+                      padding: "10px 12px", borderRadius: 12,
+                      background: `${colors.success}15`, border: `1px solid ${colors.success}30`,
+                    }}>
+                      <CheckCircle2 size={18} color={colors.success} />
+                      <div style={{ flex: 1 }}>
+                        <div style={{ fontSize: 13, fontWeight: 600, color: colors.text }}>{recipientResult.recipientName}</div>
+                        <div style={{ fontSize: 11, color: colors.textMuted }}>{recipientResult.recipientEmail}</div>
+                      </div>
+                      <button
+                        onClick={() => {
+                          setSelectedContact({
+                            id: recipientResult._id,
+                            name: recipientResult.recipientName,
+                            email: recipientResult.recipientEmail,
+                            phone: recipientResult.recipientPhone,
+                            initials: recipientResult.recipientName.split(" ").map((w: string) => w[0]).join("").toUpperCase().slice(0, 2),
+                          });
+                          setStep("amount");
+                          setShowAddRecipient(false);
+                          setRecipientResult(null);
+                          setRecipientMsg("");
+                        }}
+                        style={{
+                          padding: "8px 14px", borderRadius: 10, border: "none",
+                          background: colors.accent, color: "#0A0A0A",
+                          fontSize: 12, fontWeight: 700, cursor: "pointer",
+                          fontFamily: "'Sora', sans-serif",
+                        }}
+                      >
+                        Send
+                      </button>
+                    </div>
+                  )}
+                </div>
+              )}
             </div>
+
+            {/* Saved Recipients */}
+            {recipientsData.recipients && recipientsData.recipients.length > 0 && (
+              <div style={{ marginTop: 20 }}>
+                <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 14 }}>
+                  <ShieldCheck size={14} color={colors.textMuted} />
+                  <span style={{ fontSize: 12, fontWeight: 600, color: colors.textMuted, letterSpacing: "0.5px", textTransform: "uppercase" }}>
+                    Saved Recipients ({recipientsData.pagination.total})
+                  </span>
+                </div>
+                {recipientsData.recipients.map((r: any) => (
+                  <div key={r._id} className="contact-row" onClick={() => {
+                    setSelectedContact({
+                      id: r._id,
+                      name: r.recipientName,
+                      email: r.recipientEmail,
+                      phone: r.recipientPhone,
+                      initials: r.recipientName.split(" ").map((w: string) => w[0]).join("").toUpperCase().slice(0, 2),
+                    });
+                    setStep("amount");
+                  }}>
+                    <div style={{
+                      width: 44, height: 44, borderRadius: "50%",
+                      background: `linear-gradient(135deg, ${colors.accent}25, ${colors.accent}10)`,
+                      border: `1px solid ${colors.accent}20`,
+                      display: "flex", alignItems: "center", justifyContent: "center",
+                      fontSize: 14, fontWeight: 700, color: colors.accent, flexShrink: 0,
+                    }}>
+                      {r.recipientName.split(" ").map((w: string) => w[0]).join("").toUpperCase().slice(0, 2)}
+                    </div>
+                    <div style={{ flex: 1, minWidth: 0 }}>
+                      <div style={{ fontSize: 14, fontWeight: 600, color: colors.text }}>{r.recipientName}</div>
+                      <div style={{ fontSize: 11, color: colors.textMuted, marginTop: 1 }}>
+                        {r.recipientEmail}
+                        {r.status === "blocked" && <span style={{ color: colors.error, marginLeft: 6 }}>· Blocked</span>}
+                      </div>
+                    </div>
+                    <button
+                      onClick={(e) => { e.stopPropagation(); handleRemoveRecipient(r._id); }}
+                      style={{
+                        background: "none", border: "none", cursor: "pointer",
+                        padding: 4, color: colors.textMuted,
+                      }}
+                    >
+                      <Trash2 size={14} />
+                    </button>
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
         )}
 

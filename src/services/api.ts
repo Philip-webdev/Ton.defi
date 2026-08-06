@@ -192,6 +192,56 @@ export async function updateProfile(email: string, data: any) {
   }
 }
 
+// ─── Recipients ───────────────────────────────────────────────
+export async function addRecipient(senderEmail: string, searchKey: string) {
+  try {
+    const res = await fetch(`${API_BASE}/api/food-recipients`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ senderEmail, searchKey }),
+    });
+    return await res.json();
+  } catch {
+    return { error: "Network error" };
+  }
+}
+
+export async function fetchRecipients(email: string, page?: number, limit?: number) {
+  try {
+    const params = new URLSearchParams();
+    if (page) params.set("page", page.toString());
+    if (limit) params.set("limit", limit.toString());
+    const res = await fetch(`${API_BASE}/api/food-recipients/${encodeURIComponent(email)}?${params}`);
+    return await res.json();
+  } catch {
+    return { recipients: [], pagination: { page: 1, limit: 20, total: 0, totalPages: 0 } };
+  }
+}
+
+export async function removeRecipient(email: string, recipientId: string) {
+  try {
+    const res = await fetch(`${API_BASE}/api/food-recipients/${encodeURIComponent(email)}/${recipientId}`, {
+      method: "DELETE",
+    });
+    return await res.json();
+  } catch {
+    return { error: "Network error" };
+  }
+}
+
+export async function updateRecipient(email: string, recipientId: string, data: { status?: string; note?: string }) {
+  try {
+    const res = await fetch(`${API_BASE}/api/food-recipients/${encodeURIComponent(email)}/${recipientId}`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data),
+    });
+    return await res.json();
+  } catch {
+    return { error: "Network error" };
+  }
+}
+
 // ─── Settings ─────────────────────────────────────────────────────
 export async function saveAddress(phone: string, address: string): Promise<void> {
   try {
