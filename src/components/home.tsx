@@ -998,10 +998,12 @@ function ProfileScreen({ setScreen, colors, toggleTheme }: {
   const initials = name.split(" ").map(w => w[0]).join("").toUpperCase().slice(0, 2);
   const [avatar, setAvatar] = useState<string | null>(() => localStorage.getItem("nekstpei_avatar"));
   const [walletBalance, setWalletBalance] = useState<number>(0);
+  const [foodBalance, setFoodBalance] = useState<number>(0);
   const [vaData, setVaData] = useState<any>(null);
 
   useEffect(() => {
     loadWallet();
+    loadFoodBalance();
     loadVA();
   }, [email]);
 
@@ -1011,6 +1013,15 @@ function ProfileScreen({ setScreen, colors, toggleTheme }: {
       if (data) setWalletBalance(data.balance || 0);
     } catch (e) {
       console.error("Failed to load wallet:", e);
+    }
+  };
+
+  const loadFoodBalance = async () => {
+    try {
+      const data = await fetchFoodWallet(email);
+      if (data) setFoodBalance(data.balance || 0);
+    } catch (e) {
+      console.error("Failed to load food balance:", e);
     }
   };
 
@@ -1084,14 +1095,19 @@ function ProfileScreen({ setScreen, colors, toggleTheme }: {
         <div style={{ fontSize: 13, color: colors.textMuted, marginTop: 4 }}>{email}</div>
       </div>
 
-      {/* Wallet Balance */}
+      {/* Wallet Balances */}
       <div style={{
         padding: "16px 18px", borderRadius: 16,
         background: `linear-gradient(135deg, ${colors.accent}15, ${colors.accent}05)`,
         border: `1px solid ${colors.accent}20`, marginBottom: 10,
       }}>
-        <div style={{ fontSize: 11, fontWeight: 600, color: colors.textMuted, letterSpacing: "0.5px", textTransform: "uppercase", marginBottom: 4 }}>Wallet Balance</div>
-        <div style={{ fontSize: 24, fontWeight: 700, color: colors.text }}>{formatNaira(walletBalance)}</div>
+        <div style={{ fontSize: 11, fontWeight: 600, color: colors.textMuted, letterSpacing: "0.5px", textTransform: "uppercase", marginBottom: 4 }}>Food Credit Balance</div>
+        <div style={{ fontSize: 24, fontWeight: 700, color: colors.text }}>{formatNaira(foodBalance)}</div>
+        {walletBalance > 0 && (
+          <div style={{ fontSize: 12, color: colors.textMuted, marginTop: 6 }}>
+            NGN Wallet: {formatNaira(walletBalance)} — <span style={{ color: colors.accent, cursor: "pointer" }} onClick={() => window.location.href = '#/wallet'}>Convert to food credits</span>
+          </div>
+        )}
       </div>
 
       {/* Virtual Account */}
