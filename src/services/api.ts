@@ -31,12 +31,12 @@ export async function fetchFoodWallet(email: string) {
   }
 }
 
-export async function topUpFoodWallet(email: string, amount: number, method: string) {
+export async function topUpFoodWallet(email: string, amount: number) {
   try {
     const res = await fetch(`${API_BASE}/api/food-wallet/topup`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email, amount, method }),
+      body: JSON.stringify({ email, amount }),
     });
     return await res.json();
   } catch {

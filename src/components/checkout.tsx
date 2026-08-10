@@ -166,7 +166,7 @@ const CheckoutContainer = () => {
     setProcessing(true);
     try {
       if (selectedMethod === 'CARD') {
-        const result = await topUpFoodWallet(email, initiatedPrice, 'card');
+        const result = await topUpFoodWallet(email, initiatedPrice);
         if (result?.checkout_url) {
           window.open(result.checkout_url, '_blank');
           navigate('/home');
@@ -181,12 +181,6 @@ const CheckoutContainer = () => {
           return;
         }
         await createFoodOrder(email, [], initiatedPrice, 0, '', 'food_credits');
-        navigate('/home');
-        return;
-      }
-      if (selectedMethod === 'BANK_TRANSFER') {
-        const result = await topUpFoodWallet(email, initiatedPrice, 'bank_transfer');
-        alert(`Transfer to ${result.bank_name} ${result.account_number} with reference ${result.account_reference}`);
         navigate('/home');
         return;
       }

@@ -36,9 +36,7 @@ interface WalletData {
 }
 
 const TOPUP_METHODS = [
-  { id: "card", label: "Debit Card", icon: CreditCard, desc: "Visa, Mastercard" },
-  { id: "bank", label: "Bank Transfer", icon: Banknote, desc: "All banks" },
-  { id: "ussd", label: "USSD", icon: Smartphone, desc: "*737# etc" },
+  { id: "card", label: "Pay with Card / Bank / USSD", icon: CreditCard, desc: "Via Korapay secure checkout" },
 ];
 
 // ─── Helpers ──────────────────────────────────────────────────────
@@ -67,7 +65,6 @@ export default function FoodWallet() {
   const [activeTab, setActiveTab] = useState<"all" | "topup" | "send" | "receive" | "redemption">("all");
   const [showTopup, setShowTopup] = useState(false);
   const [topupAmount, setTopupAmount] = useState("");
-  const [selectedMethod, setSelectedMethod] = useState("card");
   const [selectedTx, setSelectedTx] = useState<Transaction | null>(null);
   const [transactions, setTransactions] = useState<Transaction[]>([]);
   const [wallet, setWallet] = useState<WalletData>({ balance: 0, totalTopups: 0, totalSpent: 0, totalSent: 0, totalReceived: 0 });
@@ -109,7 +106,7 @@ export default function FoodWallet() {
     if (!amount || amount < 100 || !email) return;
     setTopping(true);
     try {
-      const result = await topUpFoodWallet(email, amount, selectedMethod);
+      const result = await topUpFoodWallet(email, amount);
 
       if (result.error) {
         alert(result.error);
@@ -117,12 +114,14 @@ export default function FoodWallet() {
         return;
       }
 
-      if (result.type === "card" && result.checkout_url) {
+      // Open Korapay checkout popup
+      if (result.checkout_url) {
         window.open(result.checkout_url, "_blank");
         setShowTopup(false);
         setTopupAmount("");
         setTopping(false);
 
+        // Poll for payment verification
         const reference = result.reference;
         let attempts = 0;
         const maxAttempts = 30;
@@ -137,12 +136,6 @@ export default function FoodWallet() {
         return;
       }
 
-      if (result.type === "bank_transfer") {
-        setVaDetails(result);
-        setTopping(false);
-        return;
-      }
-
       await loadData();
       setShowTopup(false);
       setTopupAmount("");
@@ -152,7 +145,7 @@ export default function FoodWallet() {
     setTopping(false);
   };
 
-  const [vaDetails, setVaDetails] = useState<any>(null);
+  const [vaDetails] = useState<any>(null);
 
   const handleConvert = async () => {
     const amount = Number(convertAmount);
@@ -576,31 +569,24 @@ export default function FoodWallet() {
               ))}
             </div>
 
-            <div style={{ fontSize: 12, fontWeight: 600, color: colors.textMuted, marginBottom: 12, letterSpacing: "0.5px", textTransform: "uppercase" }}>
-              Payment Method
-            </div>
-
-            <div style={{ display: "flex", flexDirection: "column", gap: 10, marginBottom: 24 }}>
-              {TOPUP_METHODS.map(m => (
-                <button
-                  key={m.id}
-                  className={`method-btn${selectedMethod === m.id ? " selected" : ""}`}
-                  onClick={() => setSelectedMethod(m.id)}
-                >
-                  <div style={{
-                    width: 40, height: 40, borderRadius: "50%",
-                    background: selectedMethod === m.id ? colors.accent : colors.surfaceElevated,
-                    display: "flex", alignItems: "center", justifyContent: "center",
-                    color: selectedMethod === m.id ? "#0A0A0A" : colors.textMuted,
-                  }}>
-                    <m.icon size={18} />
-                  </div>
-                  <div>
-                    <div style={{ fontSize: 13, fontWeight: 600 }}>{m.label}</div>
-                    <div style={{ fontSize: 11, color: colors.textMuted }}>{m.desc}</div>
-                  </div>
-                </button>
-              ))}
+            <div style={{
+              display: "flex", alignItems: "center", gap: 12,
+              padding: "12px 14px", borderRadius: 14,
+              background: `${colors.accent}10`, border: `1px solid ${colors.accent}30`,
+              marginBottom: 24,
+            }}>
+              <div style={{
+                width: 40, height: 40, borderRadius: "50%",
+                background: colors.accent,
+                display: "flex", alignItems: "center", justifyContent: "center",
+                color: "#0A0A0A",
+              }}>
+                <CreditCard size={18} />
+              </div>
+              <div>
+                <div style={{ fontSize: 13, fontWeight: 600, color: colors.text }}>Pay with Card / Bank / USSD</div>
+                <div style={{ fontSize: 11, color: colors.textMuted }}>Via Korapay secure checkout</div>
+              </div>
             </div>
 
             <button
@@ -617,25 +603,8 @@ export default function FoodWallet() {
               }}
             >
               <Zap size={16} style={{ marginRight: 6, verticalAlign: "middle" }} />
-              {topping ? "Processing..." : `Top Up ${topupAmount ? formatNaira(Number(topupAmount)) : ""}`}
+              {topping ? "Processing..." : `Fund Wallet ${topupAmount ? formatNaira(Number(topupAmount)) : ""}`}
             </button>
-
-            {/* Bank Transfer VA Details */}
-            {vaDetails && selectedMethod === "bank_transfer" && (
-              <div style={{
-                marginTop: 16, padding: 16, borderRadius: 16,
-                background: `${colors.success}10`, border: `1px solid ${colors.success}30`,
-              }}>
-                <div style={{ fontSize: 12, fontWeight: 600, color: colors.success, marginBottom: 10 }}>Transfer to this account</div>
-                <div style={{ fontSize: 11, color: colors.textMuted, marginBottom: 4 }}>Bank: <span style={{ fontWeight: 600, color: colors.text }}>{vaDetails.bank_name}</span></div>
-                <div style={{ fontSize: 11, color: colors.textMuted, marginBottom: 4 }}>Account Number: <span style={{ fontWeight: 700, color: colors.text, fontSize: 16, letterSpacing: 2 }}>{vaDetails.account_number}</span></div>
-                <div style={{ fontSize: 11, color: colors.textMuted, marginBottom: 4 }}>Reference: <span style={{ fontWeight: 600, color: colors.text }}>{vaDetails.account_reference}</span></div>
-                <div style={{ fontSize: 11, color: colors.textMuted, marginBottom: 4 }}>Amount: <span style={{ fontWeight: 700, color: colors.accent }}>{formatNaira(vaDetails.amount)}</span></div>
-                <div style={{ fontSize: 10, color: colors.textMuted, marginTop: 8 }}>
-                  Your food wallet will be credited automatically within 5 minutes after transfer.
-                </div>
-              </div>
-            )}
           </div>
         </>
       )}
