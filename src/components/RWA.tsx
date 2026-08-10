@@ -3,7 +3,6 @@ import styled from "styled-components";
 import { Button } from "./styled/styled";
 import '../index.css';
 import { BsHouse, BsWallet2, BsShop, BsLightningCharge, BsCashStack, BsCashCoin, BsCash, BsApp } from "react-icons/bs";
-import  Growtree from  "./Growfront";
 import FootNavig from "./footnavig";
 
 const StyledApp = styled.div`
@@ -53,8 +52,8 @@ function RWA() {
      }, []);
    
     if (loading) {
-        return <Growtree/>;
-   
+        return <div style={{ display: "flex", justifyContent: "center", alignItems: "center", height: "100vh", fontFamily: "'Sora', sans-serif" }}>Loading...</div>;
+    
       }
   
 return(

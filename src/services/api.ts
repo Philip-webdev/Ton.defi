@@ -655,3 +655,114 @@ export function getMonnifyAccount(): string | null {
 export function setMonnifyAccount(accountNumber: string): void {
   localStorage.setItem("monnifyAccountNumber", accountNumber);
 }
+
+// ─── Vendor APIs ──────────────────────────────────────────────────
+export async function registerVendor(data: any) {
+  const res = await fetch(`${API_BASE}/api/vendors/register`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(data),
+  });
+  return res.json();
+}
+
+export async function loginVendor(email: string, password: string) {
+  const res = await fetch(`${API_BASE}/api/vendors/login`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ email, password }),
+  });
+  return res.json();
+}
+
+export async function fetchVendorProfile(email: string) {
+  const res = await fetch(`${API_BASE}/api/vendors/profile/${encodeURIComponent(email)}`);
+  return res.json();
+}
+
+export async function updateVendorProfile(email: string, updates: any) {
+  const res = await fetch(`${API_BASE}/api/vendors/profile/${encodeURIComponent(email)}`, {
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(updates),
+  });
+  return res.json();
+}
+
+export async function toggleVendorStatus(email: string) {
+  const res = await fetch(`${API_BASE}/api/vendors/status/${encodeURIComponent(email)}`, { method: "PATCH" });
+  return res.json();
+}
+
+export async function fetchVendorMenu(email: string) {
+  const res = await fetch(`${API_BASE}/api/vendors/menu/${encodeURIComponent(email)}`);
+  return res.json();
+}
+
+export async function addVendorMenuItem(email: string, item: any) {
+  const res = await fetch(`${API_BASE}/api/vendors/menu/${encodeURIComponent(email)}`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(item),
+  });
+  return res.json();
+}
+
+export async function updateVendorMenuItem(email: string, itemId: string, updates: any) {
+  const res = await fetch(`${API_BASE}/api/vendors/menu/${encodeURIComponent(email)}/${itemId}`, {
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(updates),
+  });
+  return res.json();
+}
+
+export async function deleteVendorMenuItem(email: string, itemId: string) {
+  const res = await fetch(`${API_BASE}/api/vendors/menu/${encodeURIComponent(email)}/${itemId}`, { method: "DELETE" });
+  return res.json();
+}
+
+export async function fetchVendorDashboard(email: string) {
+  const res = await fetch(`${API_BASE}/api/vendors/dashboard/${encodeURIComponent(email)}`);
+  return res.json();
+}
+
+export async function fetchNearbyVendors(lat?: number, lng?: number, category?: string) {
+  const params = new URLSearchParams();
+  if (lat) params.set("lat", String(lat));
+  if (lng) params.set("lng", String(lng));
+  if (category) params.set("category", category);
+  const res = await fetch(`${API_BASE}/api/vendors/nearby?${params}`);
+  return res.json();
+}
+
+// ─── Audit Trail APIs ─────────────────────────────────────────────
+export async function createAuditLog(data: any) {
+  const res = await fetch(`${API_BASE}/api/audit/log`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(data),
+  });
+  return res.json();
+}
+
+export async function fetchAuditLogs(params: { email?: string; eventType?: string; entityType?: string; limit?: number; skip?: number }) {
+  const query = new URLSearchParams();
+  if (params.email) query.set("email", params.email);
+  if (params.eventType) query.set("eventType", params.eventType);
+  if (params.entityType) query.set("entityType", params.entityType);
+  if (params.limit) query.set("limit", String(params.limit));
+  if (params.skip) query.set("skip", String(params.skip));
+  const res = await fetch(`${API_BASE}/api/audit/logs?${query}`);
+  return res.json();
+}
+
+export async function fetchAuditTrail(entityType: string, entityId: string) {
+  const res = await fetch(`${API_BASE}/api/audit/trail/${encodeURIComponent(entityType)}/${encodeURIComponent(entityId)}`);
+  return res.json();
+}
+
+export async function fetchAuditByReference(reference: string) {
+  const res = await fetch(`${API_BASE}/api/audit/transaction/${encodeURIComponent(reference)}`);
+  return res.json();
+}

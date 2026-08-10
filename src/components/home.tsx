@@ -200,11 +200,11 @@ export default function CampusPlanner() {
 
   const [screen, setScreen] = useState<Screen>("home");
   const [selectedCategory, setSelectedCategory] = useState("staples");
-  const [selectedOrder, setSelectedOrder] = useState<Order>(SAMPLE_ORDERS[0]);
+  const [selectedOrder, setSelectedOrder] = useState<Order | null>(null);
   const [cart, setCart] = useState<CartItem[]>([]);
   const [activeFilter, setActiveFilter] = useState("all");
   const [foodBalance, setFoodBalance] = useState(0);
-  const [orders, setOrders] = useState<Order[]>(SAMPLE_ORDERS);
+  const [orders, setOrders] = useState<Order[]>([]);
 
   const email = localStorage.getItem("email") || "";
 
@@ -565,11 +565,11 @@ export default function CampusPlanner() {
 
         {/* ─── ORDERS ───────────────────────────────────────── */}
         {screen === "orders" && (
-          <OrdersScreen setScreen={setScreen} setSelectedOrder={setSelectedOrder} colors={colors} />
+          <OrdersScreen orders={orders} setScreen={setScreen} setSelectedOrder={setSelectedOrder} colors={colors} />
         )}
 
         {/* ─── TRACKING ─────────────────────────────────────── */}
-        {screen === "tracking" && (
+        {screen === "tracking" && selectedOrder && (
           <TrackingScreen order={selectedOrder} onBack={() => setScreen("orders")} colors={colors} />
         )}
 
@@ -823,7 +823,8 @@ function CartScreen({ cart, setCart, setScreen, colors }: {
 }
 
 // ─── Orders Screen ────────────────────────────────────────────────
-function OrdersScreen({ setScreen, setSelectedOrder, colors }: {
+function OrdersScreen({ orders, setScreen, setSelectedOrder, colors }: {
+  orders: Order[];
   setScreen: (s: Screen) => void; setSelectedOrder: (o: Order) => void;
   colors: ReturnType<typeof useTheme>["colors"];
 }) {
@@ -842,7 +843,12 @@ function OrdersScreen({ setScreen, setSelectedOrder, colors }: {
         <div style={{ width: 42 }} />
       </div>
 
-      {SAMPLE_ORDERS.map(order => {
+      {orders.length === 0 ? (
+        <div style={{ textAlign: "center", padding: "40px 20px", color: colors.textMuted }}>
+          <div style={{ fontSize: 14, fontWeight: 600, marginBottom: 8 }}>No orders yet</div>
+          <div style={{ fontSize: 12 }}>Your food orders will appear here</div>
+        </div>
+      ) : orders.map(order => {
         const s = statusMap[order.status];
         return (
           <div key={order.id} onClick={() => { setSelectedOrder(order); setScreen("tracking"); }} style={{

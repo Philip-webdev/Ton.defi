@@ -700,7 +700,17 @@ export default function FoodWallet() {
               ))}
             </div>
 
-            <button style={{
+            <button onClick={() => {
+              if (!selectedTx) return;
+              const receipt = `NEKSTPEI FOOD WALLET RECEIPT\n\nReference: ${selectedTx.reference}\nType: ${selectedTx.type}\nAmount: ${formatNaira(selectedTx.amount)}\nStatus: ${selectedTx.status}\nDate: ${selectedTx.createdAt || "—"}\nDescription: ${selectedTx.description || "—"}\n\nPowered by Nekstpei`;
+              const blob = new Blob([receipt], { type: "text/plain" });
+              const url = URL.createObjectURL(blob);
+              const a = document.createElement("a");
+              a.href = url;
+              a.download = `receipt-${selectedTx.reference || "txn"}.txt`;
+              a.click();
+              URL.revokeObjectURL(url);
+            }} style={{
               width: "100%", padding: "14px", borderRadius: 14,
               border: `1px solid ${colors.border}`, background: colors.surface,
               color: colors.text, fontSize: 13, fontWeight: 600, marginTop: 16,

@@ -5,7 +5,6 @@ import { useEffect, useState } from 'react';
 import ProductCard from './productCard';
 import { Search } from "lucide-react";
 import FootNavig from './footnavig';
-import BottomCart from './BottomCart';
 
 const StyledApp = styled.div`
   background-color: #0f0f10; /* dark base to match Web3 look */
@@ -160,15 +159,14 @@ function Marketplace() {
 
       <FootNavig />
 
-      <BottomCart
-        open={isCartOpen}
-        onClose={() => setCartOpen(false)}
-        cart={cart}
-        onRemove={removeFromCart}
-        onUpdateQty={updateQty}
-        clearCart={clearCart}
-        total={total}
-      />
+      {isCartOpen && cart.length > 0 && (
+        <div style={{ position: "fixed", bottom: 80, left: 0, right: 0, background: "rgba(0,0,0,0.9)", padding: "16px 20px", zIndex: 1000, maxWidth: 430, margin: "0 auto" }}>
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+            <span style={{ color: "white", fontSize: 14, fontWeight: 600 }}>{cart.length} items - ₦{total.toLocaleString()}</span>
+            <button onClick={() => setCartOpen(false)} style={{ background: "none", border: "none", color: "white", cursor: "pointer" }}>Close</button>
+          </div>
+        </div>
+      )}
     </StyledApp>
   );
 }

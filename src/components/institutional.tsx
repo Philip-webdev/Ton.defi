@@ -1,8 +1,7 @@
 import { useState } from "react";
 import {
   ArrowLeft, Building2, Users, Wallet, BarChart3, Settings,
-  ChevronRight, Download, Plus, Search, Filter, Eye,
-  TrendingUp, TrendingDown, Clock, Check, X, Zap, Gift
+  ChevronRight, Download, Plus, TrendingUp, Clock, Check, X, Zap, Search
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useTheme } from "../contexts/ThemeContext";
@@ -43,27 +42,11 @@ interface Distribution {
 }
 
 // ─── Data ─────────────────────────────────────────────────────────
-const SAMPLE_PROGRAMS: Program[] = [
-  { id: "prog1", name: "Student Meal Support 2026", type: "meal_plan", budget: 5000000, spent: 3200000, beneficiaries: 450, status: "active", startDate: "Jan 2026", endDate: "Dec 2026" },
-  { id: "prog2", name: "Staff Lunch Allowance", type: "food_support", budget: 2000000, spent: 1400000, beneficiaries: 120, status: "active", startDate: "Jan 2026", endDate: "Dec 2026" },
-  { id: "prog3", name: "Emergency Food Relief", type: "emergency", budget: 1000000, spent: 850000, beneficiaries: 200, status: "active", startDate: "Jul 2026", endDate: "Sep 2026" },
-  { id: "prog4", name: "Summer Meal Program", type: "meal_plan", budget: 800000, spent: 800000, beneficiaries: 150, status: "completed", startDate: "May 2026", endDate: "Aug 2026" },
-];
+const SAMPLE_PROGRAMS: Program[] = [];
 
-const SAMPLE_BENEFICIARIES: Beneficiary[] = [
-  { id: "b1", name: "Chidinma Okafor", email: "chidinma@uni.edu", department: "Computer Science", allocatedCredits: 50000, usedCredits: 32000, status: "active", lastRedemption: "Today" },
-  { id: "b2", name: "Emeka Nwosu", email: "emeka@uni.edu", department: "Engineering", allocatedCredits: 50000, usedCredits: 41000, status: "active", lastRedemption: "Yesterday" },
-  { id: "b3", name: "Amina Bello", email: "amina@uni.edu", department: "Law", allocatedCredits: 50000, usedCredits: 28000, status: "active", lastRedemption: "Jul 28" },
-  { id: "b4", name: "Blessing Eze", email: "blessing@uni.edu", department: "Medicine", allocatedCredits: 50000, usedCredits: 45000, status: "active", lastRedemption: "Today" },
-  { id: "b5", name: "Fatima Abdullahi", email: "fatima@uni.edu", department: "Business Admin", allocatedCredits: 50000, usedCredits: 12000, status: "inactive", lastRedemption: "Jul 15" },
-];
+const SAMPLE_BENEFICIARIES: Beneficiary[] = [];
 
-const SAMPLE_DISTRIBUTIONS: Distribution[] = [
-  { id: "d1", date: "Today, 9:00 AM", amount: 250000, program: "Student Meal Support", beneficiaries: 50, status: "completed" },
-  { id: "d2", date: "Yesterday, 10:30 AM", amount: 120000, program: "Staff Lunch Allowance", beneficiaries: 120, status: "completed" },
-  { id: "d3", date: "Jul 28, 2:00 PM", amount: 200000, program: "Emergency Food Relief", beneficiaries: 80, status: "completed" },
-  { id: "d4", date: "Jul 27, 11:00 AM", amount: 180000, program: "Student Meal Support", beneficiaries: 35, status: "completed" },
-];
+const SAMPLE_DISTRIBUTIONS: Distribution[] = [];
 
 // ─── Helpers ──────────────────────────────────────────────────────
 const formatNaira = (n: number) => `\u20A6${n.toLocaleString()}`;
@@ -210,7 +193,7 @@ export default function InstitutionalDashboard() {
           {([
             { id: "overview" as Tab, icon: BarChart3, label: "Overview" },
             { id: "beneficiaries" as Tab, icon: Users, label: "People" },
-            { id: "programs" as Tab, icon: Gift, label: "Programs" },
+            { id: "programs" as Tab, icon: Zap, label: "Programs" },
             { id: "reports" as Tab, icon: Download, label: "Reports" },
           ]).map(tab => (
             <button

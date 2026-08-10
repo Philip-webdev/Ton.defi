@@ -1,11 +1,12 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
-  ArrowLeft, Shield, Search, Filter, ChevronRight, Eye,
+  ArrowLeft, Shield, ChevronRight, Eye,
   Check, Clock, AlertTriangle, FileText, Download, Lock,
   ArrowUpRight, ArrowDownLeft, ShoppingCart, Send, Wallet, Zap
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useTheme } from "../contexts/ThemeContext";
+import { fetchAuditLogs, fetchAuditTrail } from "../services/api";
 
 // ─── Types ────────────────────────────────────────────────────────
 type Tab = "trail" | "traceability" | "transparency";
@@ -50,54 +51,11 @@ interface TransparencyReport {
 }
 
 // ─── Data ─────────────────────────────────────────────────────────
-const SAMPLE_AUDIT: AuditRecord[] = [
-  { id: "AUD-001", type: "purchase", amount: 20000, from: "Chidinma O. (Card)", to: "Food Wallet", timestamp: "Today, 2:30 PM", status: "verified", hash: "0x8f4a...2e1b" },
-  { id: "AUD-002", type: "transfer", amount: 5000, from: "Chidinma O.", to: "Emeka N.", timestamp: "Today, 1:15 PM", status: "verified", hash: "0x3b7c...9d4f" },
-  { id: "AUD-003", type: "redemption", amount: 3200, from: "Emeka N.", to: "Mama Nkechi Kitchen", timestamp: "Yesterday, 12:45 PM", status: "verified", hash: "0x6e2d...1a8c", vendor: "Mama Nkechi Kitchen", location: "Wuse Zone 5" },
-  { id: "AUD-004", type: "transfer", amount: 10000, from: "Dad", to: "Chidinma O.", timestamp: "Yesterday, 9:00 AM", status: "verified", hash: "0x1f5e...7b3a" },
-  { id: "AUD-005", type: "purchase", amount: 15000, from: "Chidinma O. (Bank)", to: "Food Wallet", timestamp: "Jul 28, 4:20 PM", status: "verified", hash: "0x9c4b...2d6e" },
-  { id: "AUD-006", type: "redemption", amount: 1800, from: "Chidinma O.", to: "Campus Green Mart", timestamp: "Jul 27, 6:10 PM", status: "verified", hash: "0x2a8f...5c1d", vendor: "Campus Green Mart", location: "University Gate" },
-  { id: "AUD-007", type: "transfer", amount: 3000, from: "Chidinma O.", to: "Amina B.", timestamp: "Jul 26, 11:30 AM", status: "verified", hash: "0x7d3e...8f2b" },
-  { id: "AUD-008", type: "refund", amount: 1200, from: "Campus Eats", to: "Chidinma O.", timestamp: "Jul 25, 3:45 PM", status: "verified", hash: "0x4b1a...6e9c" },
-  { id: "AUD-009", type: "transfer", amount: 2000, from: "Fatima A.", to: "Blessing E.", timestamp: "Jul 24, 2:00 PM", status: "flagged", hash: "0x8c5d...3a7f" },
-  { id: "AUD-010", type: "redemption", amount: 4500, from: "Blessing E.", to: "Fresh Basket Store", timestamp: "Jul 23, 1:30 PM", status: "verified", hash: "0x1e9f...4b2c", vendor: "Fresh Basket Store", location: "Maitama District" },
-];
+const SAMPLE_AUDIT: AuditRecord[] = [];
 
-const SAMPLE_TRACEABILITY: TraceabilityRecord[] = [
-  {
-    id: "TR-001", creditId: "FC-8847291", origin: "Chidinma O.", currentHolder: "Mama Nkechi Kitchen",
-    purchaseDate: "Today, 2:30 PM", expiryDate: "Aug 30, 2026", totalTransfers: 2, status: "redeemed",
-    lastRedemption: "Yesterday, 12:45 PM",
-    timeline: [
-      { event: "Credits Purchased", date: "Today, 2:30 PM", actor: "Chidinma O." },
-      { event: "Transferred", date: "Today, 1:15 PM", actor: "Chidinma O. → Emeka N." },
-      { event: "Redeemed", date: "Yesterday, 12:45 PM", actor: "Emeka N. at Mama Nkechi Kitchen" },
-    ],
-  },
-  {
-    id: "TR-002", creditId: "FC-8845891", origin: "Dad", currentHolder: "Chidinma O.",
-    purchaseDate: "Yesterday, 9:00 AM", expiryDate: "Sep 15, 2026", totalTransfers: 1, status: "active",
-    timeline: [
-      { event: "Credits Purchased", date: "Yesterday, 9:00 AM", actor: "Dad" },
-      { event: "Transferred", date: "Yesterday, 9:00 AM", actor: "Dad → Chidinma O." },
-    ],
-  },
-  {
-    id: "TR-003", creditId: "FC-8844567", origin: "Chidinma O.", currentHolder: "Campus Green Mart",
-    purchaseDate: "Jul 28, 4:20 PM", expiryDate: "Aug 28, 2026", totalTransfers: 1, status: "redeemed",
-    lastRedemption: "Jul 27, 6:10 PM",
-    timeline: [
-      { event: "Credits Purchased", date: "Jul 28, 4:20 PM", actor: "Chidinma O." },
-      { event: "Redeemed", date: "Jul 27, 6:10 PM", actor: "Chidinma O. at Campus Green Mart" },
-    ],
-  },
-];
+const SAMPLE_TRACEABILITY: TraceabilityRecord[] = [];
 
-const SAMPLE_TRANSPARENCY: TransparencyReport[] = [
-  { id: "TRPT-001", program: "Student Meal Support 2026", period: "July 2026", totalBudget: 5000000, distributed: 3200000, redeemed: 2800000, unspent: 400000, beneficiaries: 450, avgRedemption: 6222 },
-  { id: "TRPT-002", program: "Staff Lunch Allowance", period: "July 2026", totalBudget: 2000000, distributed: 1400000, redeemed: 1200000, unspent: 200000, beneficiaries: 120, avgRedemption: 10000 },
-  { id: "TRPT-003", program: "Emergency Food Relief", period: "July 2026", totalBudget: 1000000, distributed: 850000, redeemed: 750000, unspent: 100000, beneficiaries: 200, avgRedemption: 3750 },
-];
+const SAMPLE_TRANSPARENCY: TransparencyReport[] = [];
 
 // ─── Helpers ──────────────────────────────────────────────────────
 const formatNaira = (n: number) => `\u20A6${n.toLocaleString()}`;
@@ -128,10 +86,27 @@ const typeColor = (type: string, colors: any) => {
 export default function TrustLayer() {
   const { colors } = useTheme();
   const navigate = useNavigate();
+  const email = localStorage.getItem("email") || "";
 
   const [activeTab, setActiveTab] = useState<Tab>("trail");
   const [selectedRecord, setSelectedRecord] = useState<AuditRecord | null>(null);
   const [selectedTrace, setSelectedTrace] = useState<TraceabilityRecord | null>(null);
+  const [auditLogs, setAuditLogs] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    loadAuditLogs();
+  }, [email]);
+
+  const loadAuditLogs = async () => {
+    try {
+      const data = await fetchAuditLogs({ email, limit: 50 });
+      if (data?.logs) {
+        setAuditLogs(data.logs);
+      }
+    } catch {}
+    setLoading(false);
+  };
 
   return (
     <>
@@ -277,15 +252,21 @@ export default function TrustLayer() {
         {activeTab === "trail" && (
           <div className="trust-anim" style={{ animationDelay: ".1s" }}>
             <div style={{ fontSize: 12, fontWeight: 600, color: colors.textMuted, letterSpacing: "0.5px", textTransform: "uppercase", marginBottom: 12 }}>
-              All Transactions ({SAMPLE_AUDIT.length})
+              All Transactions ({auditLogs.length})
             </div>
 
-            {SAMPLE_AUDIT.map(record => {
-              const Icon = typeIcon(record.type);
-              const color = typeColor(record.type, colors);
+            {auditLogs.length === 0 ? (
+              <div style={{ textAlign: "center", padding: "40px 20px", color: colors.textMuted }}>
+                <div style={{ fontSize: 14, fontWeight: 600, marginBottom: 8 }}>No audit records yet</div>
+                <div style={{ fontSize: 12 }}>Your transaction history will appear here</div>
+              </div>
+            ) : auditLogs.map((record: any) => {
+              const recordType = record.eventType || "transfer";
+              const Icon = typeIcon(recordType);
+              const color = typeColor(recordType, colors);
 
               return (
-                <div key={record.id} className="audit-row" onClick={() => setSelectedRecord(record)}>
+                <div key={record._id || record.id} className="audit-row" onClick={() => setSelectedRecord(record)}>
                   <div style={{
                     width: 42, height: 42, borderRadius: "50%",
                     background: `${color}15`, display: "flex", alignItems: "center", justifyContent: "center",
@@ -295,18 +276,15 @@ export default function TrustLayer() {
                   </div>
                   <div style={{ flex: 1, minWidth: 0 }}>
                     <div style={{ fontSize: 13, fontWeight: 600, color: colors.text, textTransform: "capitalize" }}>
-                      {record.type}
+                      {record.action || record.eventType}
                     </div>
                     <div style={{ fontSize: 11, color: colors.textMuted, marginTop: 2 }}>
-                      {record.from} → {record.to}
+                      {record.actorEmail}
                     </div>
                     <div style={{ display: "flex", alignItems: "center", gap: 6, marginTop: 4 }}>
-                      <span className="hash-badge">{record.hash}</span>
-                      <span style={{
-                        fontSize: 9, fontWeight: 600,
-                        color: record.status === "verified" ? colors.success : record.status === "pending" ? colors.warning : colors.error,
-                      }}>
-                        {record.status === "verified" ? "Verified" : record.status === "pending" ? "Pending" : "Flagged"}
+                      <span className="hash-badge">{record.hash ? record.hash.slice(0, 10) + "..." : "—"}</span>
+                      <span style={{ fontSize: 9, fontWeight: 600, color: colors.success }}>
+                        Verified
                       </span>
                     </div>
                   </div>

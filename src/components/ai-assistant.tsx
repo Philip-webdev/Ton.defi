@@ -1,129 +1,43 @@
 import { useState, useRef, useEffect } from "react";
 import {
-  ArrowLeft, Send, Brain, Sparkles, Clock, MapPin,
-  Wallet, ChevronRight, RefreshCw, ThumbsUp, ThumbsDown,
-  ShoppingCart, Utensils, Zap, Leaf, Star
+  ArrowLeft, Send, Brain, MapPin,
+  Wallet, Utensils, Zap, Leaf
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useTheme } from "../contexts/ThemeContext";
+import { GoogleGenAI } from "@google/genai";
 
 // ─── Types ────────────────────────────────────────────────────────
 interface Message {
   id: string;
   role: "user" | "assistant";
   content: string;
-  suggestions?: Suggestion[];
-  mealPlan?: MealPlan;
 }
 
-interface Suggestion {
-  label: string;
-  action: string;
-  icon?: React.ReactNode;
-}
+// ─── Gemini Setup ─────────────────────────────────────────────────
+const ai = new GoogleGenAI({ apiKey: import.meta.env.VITE_GEMINI_API_KEY });
 
-interface MealPlan {
-  title: string;
-  totalCost: number;
-  days: DayMeal[];
-}
+const SYSTEM_PROMPT = `You are Nekstpei AI Food Assistant, an expert food-budget planner for Nigerian students and young professionals. You have deep knowledge of:
 
-interface DayMeal {
-  day: string;
-  meals: { name: string; vendor: string; price: number; time: string }[];
-  total: number;
-}
+- Current Nigerian food prices (market prices, campus food prices)
+- Affordable meal planning and budget optimization
+- Nutritious meals on a tight budget
+- Nigerian cuisine (jollof rice, suya, amala, egusi soup, etc.)
+- Food vendors and where to find affordable meals
+- Bulk buying strategies and seasonal food availability
 
-// ─── Sample AI Responses ──────────────────────────────────────────
-const AI_RESPONSES: Record<string, Message> = {
-  "budget_plan": {
-    id: "r1",
-    role: "assistant",
-    content: "I've created a 5-day meal plan within your ₦10,000 budget. This includes balanced meals from verified vendors near you.",
-    mealPlan: {
-      title: "5-Day Budget Meal Plan",
-      totalCost: 9800,
-      days: [
-        {
-          day: "Monday",
-          meals: [
-            { name: "Yam + Egg Sauce", vendor: "Mama Nkechi Kitchen", price: 1800, time: "8:00 AM" },
-            { name: "Jollof Rice + Chicken", vendor: "Campus Eats", price: 2500, time: "1:00 PM" },
-            { name: "Beans + Plantain", vendor: "Fresh Basket Store", price: 1500, time: "7:00 PM" },
-          ],
-          total: 5800,
-        },
-        {
-          day: "Tuesday",
-          meals: [
-            { name: "Oatmeal + Banana", vendor: "Campus Green Mart", price: 800, time: "8:00 AM" },
-            { name: "Fried Rice + Turkey", vendor: "Mama Nkechi Kitchen", price: 3000, time: "1:00 PM" },
-            { name: "Indomie + Egg", vendor: "Campus Eats", price: 1200, time: "7:00 PM" },
-          ],
-          total: 5000,
-        },
-        {
-          day: "Wednesday",
-          meals: [
-            { name: "Bread + Tea", vendor: "Campus Green Mart", price: 600, time: "8:00 AM" },
-            { name: "Ofada Rice + Ayamase", vendor: "Mama Nkechi Kitchen", price: 2800, time: "1:00 PM" },
-            { name: "Suya + Salad", vendor: "Fresh Basket Store", price: 1500, time: "7:00 PM" },
-          ],
-          total: 4900,
-        },
-        {
-          day: "Thursday",
-          meals: [
-            { name: "Akara + Pap", vendor: "Campus Eats", price: 500, time: "8:00 AM" },
-            { name: "Eba + Egusi Soup", vendor: "Mama Nkechi Kitchen", price: 2000, time: "1:00 PM" },
-            { name: "Grilled Fish + Chips", vendor: "Fresh Basket Store", price: 2500, time: "7:00 PM" },
-          ],
-          total: 5000,
-        },
-        {
-          day: "Friday",
-          meals: [
-            { name: "Cereal + Milk", vendor: "Campus Green Mart", price: 700, time: "8:00 AM" },
-            { name: "Chicken Shawarma", vendor: "Campus Eats", price: 1800, time: "1:00 PM" },
-            { name: "Rice + Stew", vendor: "Mama Nkechi Kitchen", price: 1500, time: "7:00 PM" },
-          ],
-          total: 4000,
-        },
-      ],
-    },
-    suggestions: [
-      { label: "Order Now", action: "order", icon: <ShoppingCart size={12} /> },
-      { label: "Modify Plan", action: "modify", icon: <RefreshCw size={12} /> },
-      { label: "Add to Wallet", action: "wallet", icon: <Wallet size={12} /> },
-    ],
-  },
-  "nearby_vendors": {
-    id: "r2",
-    role: "assistant",
-    content: "Here are verified food vendors near you with food credit redemption:",
-    suggestions: [
-      { label: "Mama Nkechi Kitchen", action: "vendor_1", icon: <MapPin size={12} /> },
-      { label: "Campus Green Mart", action: "vendor_2", icon: <MapPin size={12} /> },
-      { label: "Fresh Basket Store", action: "vendor_3", icon: <MapPin size={12} /> },
-    ],
-  },
-  "healthy_options": {
-    id: "r3",
-    role: "assistant",
-    content: "Based on your preferences, here are some balanced meal options that are affordable and nutritious:",
-    suggestions: [
-      { label: "Grilled Fish + Vegetables", action: "order_1", icon: <Leaf size={12} /> },
-      { label: "Beans + Plantain + Salad", action: "order_2", icon: <Utensils size={12} /> },
-      { label: "Yam + Egg Sauce", action: "order_3", icon: <Utensils size={12} /> },
-    ],
-  },
-};
+Rules:
+- Always respond in Nigerian English (casual, friendly tone)
+- Give specific prices in Naira (₦)
+- Be practical and realistic with budget suggestions
+- Suggest actual Nigerian dishes and meals
+- Keep responses concise but helpful (2-4 paragraphs max)
+- If asked about something non-food related, politely redirect to food topics`;
 
 const QUICK_PROMPTS = [
   { label: "I have ₦10,000 for 5 days", icon: <Wallet size={14} /> },
   { label: "What can I eat for ₦2,000?", icon: <Utensils size={14} /> },
   { label: "Healthy lunch options", icon: <Leaf size={14} /> },
-  { label: "Vendors near me", icon: <MapPin size={14} /> },
   { label: "Quick breakfast ideas", icon: <Zap size={14} /> },
 ];
 
@@ -137,12 +51,7 @@ export default function AIFoodAssistant() {
     {
       id: "welcome",
       role: "assistant",
-      content: "Hi! I'm your AI Food Assistant. I can help you plan meals within your budget, find nearby vendors, and suggest affordable food options. What would you like help with?",
-      suggestions: [
-        { label: "Plan my meals", action: "budget_plan", icon: <Brain size={12} /> },
-        { label: "Find vendors", action: "nearby_vendors", icon: <MapPin size={12} /> },
-        { label: "Healthy options", action: "healthy_options", icon: <Leaf size={12} /> },
-      ],
+      content: "Hi! I'm your AI Food Assistant. I can help you plan meals within your budget, find affordable food options, and suggest cheap but nutritious meals. What would you like help with?",
     },
   ]);
   const [input, setInput] = useState("");
@@ -152,7 +61,7 @@ export default function AIFoodAssistant() {
     chatEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
-  const handleSend = (text: string) => {
+  const handleSend = async (text: string) => {
     if (!text.trim()) return;
 
     const userMsg: Message = {
@@ -165,30 +74,40 @@ export default function AIFoodAssistant() {
     setInput("");
     setTyping(true);
 
-    // Simulate AI response
-    setTimeout(() => {
-      let responseKey = "budget_plan";
-      const lower = text.toLowerCase();
-      if (lower.includes("vendor") || lower.includes("near")) responseKey = "nearby_vendors";
-      else if (lower.includes("healthy") || lower.includes("nutrition")) responseKey = "healthy_options";
+    try {
+      const conversationHistory = messages.map(m => ({
+        role: m.role === "user" ? "user" : "model",
+        parts: [{ text: m.content }],
+      }));
 
-      const response = AI_RESPONSES[responseKey];
-      setMessages(prev => [...prev, { ...response, id: `a-${Date.now()}` }]);
-      setTyping(false);
-    }, 1500);
-  };
+      const response = await ai.models.generateContent({
+        model: "gemini-2.0-flash",
+        contents: [
+          { role: "user", parts: [{ text: SYSTEM_PROMPT }] },
+          { role: "model", parts: [{ text: "Understood! I'm ready to help with food budgeting and meal planning in Nigeria." }] },
+          ...conversationHistory,
+          { role: "user", parts: [{ text }] },
+        ],
+      });
 
-  const handleSuggestion = (action: string) => {
-    const response = AI_RESPONSES[action];
-    if (response) {
-      setTyping(true);
-      setTimeout(() => {
-        setMessages(prev => [...prev, { ...response, id: `a-${Date.now()}` }]);
-        setTyping(false);
-      }, 1000);
-    } else {
-      handleSend(action);
+      const assistantMsg: Message = {
+        id: `a-${Date.now()}`,
+        role: "assistant",
+        content: response.text || "Sorry, I couldn't generate a response. Please try again.",
+      };
+
+      setMessages(prev => [...prev, assistantMsg]);
+    } catch (error) {
+      console.error("Gemini error:", error);
+      const errorMsg: Message = {
+        id: `a-${Date.now()}`,
+        role: "assistant",
+        content: "Sorry, I'm having trouble connecting. Please try again in a moment.",
+      };
+      setMessages(prev => [...prev, errorMsg]);
     }
+
+    setTyping(false);
   };
 
   return (
@@ -382,50 +301,6 @@ export default function AIFoodAssistant() {
             <div className={`msg-bubble ${msg.role === "user" ? "msg-user" : "msg-assistant"}`}>
               {msg.content}
             </div>
-
-            {/* Meal Plan */}
-            {msg.mealPlan && (
-              <div className="meal-plan-card" style={{ marginTop: 10 }}>
-                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 12 }}>
-                  <span style={{ fontSize: 13, fontWeight: 700, color: colors.text }}>{msg.mealPlan.title}</span>
-                  <span style={{ fontSize: 12, fontWeight: 700, color: colors.accent }}>
-                    {`\u20A6${msg.mealPlan.totalCost.toLocaleString()}`}
-                  </span>
-                </div>
-
-                {msg.mealPlan.days.map(day => (
-                  <div key={day.day} className="day-row">
-                    <div style={{ fontSize: 12, fontWeight: 700, color: colors.accent, marginBottom: 6 }}>{day.day}</div>
-                    {day.meals.map((meal, i) => (
-                      <div key={i} style={{ display: "flex", justifyContent: "space-between", padding: "4px 0", fontSize: 11 }}>
-                        <div>
-                          <span style={{ color: colors.textSecondary }}>{meal.time}</span>
-                          <span style={{ color: colors.text, marginLeft: 6 }}>{meal.name}</span>
-                          <span style={{ color: colors.textMuted, marginLeft: 4 }}>({meal.vendor})</span>
-                        </div>
-                        <span style={{ color: colors.text, fontWeight: 600 }}>{`\u20A6${meal.price.toLocaleString()}`}</span>
-                      </div>
-                    ))}
-                    <div style={{ display: "flex", justifyContent: "flex-end", marginTop: 4 }}>
-                      <span style={{ fontSize: 11, fontWeight: 700, color: colors.text }}>
-                        Day total: {`\u20A6${day.total.toLocaleString()}`}
-                      </span>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            )}
-
-            {/* Suggestions */}
-            {msg.suggestions && (
-              <div style={{ display: "flex", gap: 6, marginTop: 10, flexWrap: "wrap" }}>
-                {msg.suggestions.map((s, i) => (
-                  <button key={i} className="suggestion-chip" onClick={() => handleSuggestion(s.action)}>
-                    {s.icon} {s.label}
-                  </button>
-                ))}
-              </div>
-            )}
           </div>
         ))}
 

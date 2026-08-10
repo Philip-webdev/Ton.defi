@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   ArrowLeft, QrCode, Package, DollarSign, BarChart3, Megaphone,
   Check, X, Clock, TrendingUp, Users, ShoppingCart, Eye,
@@ -6,6 +6,7 @@ import {
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useTheme } from "../contexts/ThemeContext";
+import { fetchVendorDashboard, fetchVendorOrders, updateVendorOrderStatus, toggleVendorStatus, fetchVendorProfile } from "../services/api";
 
 // ─── Types ────────────────────────────────────────────────────────
 type Tab = "orders" | "analytics" | "settlement" | "promotions" | "settings";
@@ -37,33 +38,7 @@ interface Promotion {
 }
 
 // ─── Data ─────────────────────────────────────────────────────────
-const SAMPLE_ORDERS: VendorOrder[] = [
-  {
-    id: "ORD-401", customer: "Chidinma O.", time: "2 min ago", status: "pending",
-    items: [{ name: "Jollof Rice + Chicken", qty: 1, price: 2500 }, { name: "Chivita", qty: 1, price: 500 }],
-    total: 3000, paymentMethod: "food_credits",
-  },
-  {
-    id: "ORD-400", customer: "Emeka N.", time: "8 min ago", status: "preparing",
-    items: [{ name: "Fried Rice + Turkey", qty: 2, price: 3000 }],
-    total: 6000, paymentMethod: "food_credits",
-  },
-  {
-    id: "ORD-399", customer: "Amina B.", time: "15 min ago", status: "ready",
-    items: [{ name: "Beans + Plantain", qty: 1, price: 1800 }, { name: "Pure Water", qty: 2, price: 300 }],
-    total: 2400, paymentMethod: "cash",
-  },
-  {
-    id: "ORD-398", customer: "Blessing E.", time: "25 min ago", status: "completed",
-    items: [{ name: "Yam + Egg Sauce", qty: 1, price: 2000 }],
-    total: 2000, paymentMethod: "food_credits",
-  },
-  {
-    id: "ORD-397", customer: "Fatima A.", time: "40 min ago", status: "completed",
-    items: [{ name: "Ofada Rice + Ayamase", qty: 1, price: 3500 }],
-    total: 3500, paymentMethod: "card",
-  },
-];
+const SAMPLE_ORDERS: VendorOrder[] = [];
 
 const WEEKLY_STATS = [
   { day: "Mon", revenue: 45000, orders: 18 },
@@ -75,19 +50,9 @@ const WEEKLY_STATS = [
   { day: "Sun", revenue: 82000, orders: 35 },
 ];
 
-const SAMPLE_PROMOTIONS: Promotion[] = [
-  { id: "p1", title: "20% Off Lunch", type: "discount", value: "20%", active: true, usageCount: 47 },
-  { id: "p2", title: "Happy Hour 12-2pm", type: "happy_hour", value: "15% off", active: true, usageCount: 23 },
-  { id: "p3", title: "Buy 5 Get 1 Free", type: "loyalty", value: "Free meal", active: false, usageCount: 12 },
-  { id: "p4", title: "Rice + Stew Bundle", type: "bundle", value: "₦500 off", active: true, usageCount: 31 },
-];
+const SAMPLE_PROMOTIONS: Promotion[] = [];
 
-const SAMPLE_SETTLEMENTS = [
-  { id: "s1", date: "Today", amount: 125000, status: "pending", orders: 42 },
-  { id: "s2", date: "Yesterday", amount: 98000, status: "settled", orders: 35 },
-  { id: "s3", date: "Jul 28", amount: 112000, status: "settled", orders: 38 },
-  { id: "s4", date: "Jul 27", amount: 87000, status: "settled", orders: 29 },
-];
+const SAMPLE_SETTLEMENTS = [] as any[];
 
 // ─── Helpers ──────────────────────────────────────────────────────
 const formatNaira = (n: number) => `\u20A6${n.toLocaleString()}`;
@@ -107,15 +72,53 @@ const statusColor = (status: string, colors: any) => {
 export default function VendorPortal() {
   const { colors } = useTheme();
   const navigate = useNavigate();
+  const email = localStorage.getItem("email") || "";
 
   const [activeTab, setActiveTab] = useState<Tab>("orders");
   const [scanning, setScanning] = useState(false);
   const [scanResult, setScanResult] = useState<string | null>(null);
+  const [orders, setOrders] = useState<VendorOrder[]>([]);
+  const [dashboardData, setDashboardData] = useState<any>(null);
+  const [vendorProfile, setVendorProfile] = useState<any>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    loadDashboard();
+    loadOrders();
+  }, [email]);
+
+  const loadDashboard = async () => {
+    if (!email) return;
+    try {
+      const data = await fetchVendorDashboard(email);
+      setDashboardData(data);
+      setVendorProfile(data?.vendor);
+    } catch {}
+  };
+
+  const loadOrders = async () => {
+    if (!email) return;
+    try {
+      const data = await fetchVendorOrders(email);
+      if (Array.isArray(data)) {
+        setOrders(data.map((o: any) => ({
+          id: o.orderId || o._id,
+          items: o.items || [],
+          total: o.total,
+          status: o.status,
+          customer: o.customerName || "Customer",
+          time: o.time || o.createdAt,
+          paymentMethod: o.paymentMethod || "food_credits",
+        })));
+      }
+    } catch {}
+    setLoading(false);
+  };
 
   const todayStats: DailyStats = {
-    revenue: SAMPLE_ORDERS.reduce((s, o) => s + o.total, 0),
-    orders: SAMPLE_ORDERS.length,
-    avgOrder: Math.round(SAMPLE_ORDERS.reduce((s, o) => s + o.total, 0) / SAMPLE_ORDERS.length),
+    revenue: dashboardData?.stats?.totalRevenue || orders.reduce((s, o) => s + o.total, 0),
+    orders: dashboardData?.stats?.totalOrders || orders.length,
+    avgOrder: dashboardData?.stats?.avgOrderValue || (orders.length > 0 ? Math.round(orders.reduce((s, o) => s + o.total, 0) / orders.length) : 0),
     topItem: "Jollof Rice + Chicken",
   };
 
@@ -127,9 +130,14 @@ export default function VendorPortal() {
     }, 2000);
   };
 
-  const updateOrderStatus = (orderId: string, newStatus: VendorOrder["status"]) => {
-    // In production, this would call the backend
-    console.log(`Order ${orderId} updated to ${newStatus}`);
+  const handleUpdateOrderStatus = async (orderId: string, newStatus: VendorOrder["status"]) => {
+    try {
+      await updateVendorOrderStatus(orderId, newStatus);
+      setOrders(prev => prev.map(o => o.id === orderId ? { ...o, status: newStatus } : o));
+      loadDashboard();
+    } catch (e) {
+      console.error("Failed to update order:", e);
+    }
   };
 
   return (
@@ -351,10 +359,10 @@ export default function VendorPortal() {
 
             {/* Pending Orders */}
             <div style={{ fontSize: 12, fontWeight: 600, color: colors.textMuted, letterSpacing: "0.5px", textTransform: "uppercase", marginBottom: 12 }}>
-              Incoming Orders ({SAMPLE_ORDERS.filter(o => o.status === "pending").length})
+              Incoming Orders ({orders.filter(o => o.status === "pending").length})
             </div>
 
-            {SAMPLE_ORDERS.filter(o => o.status === "pending" || o.status === "preparing" || o.status === "ready").map(order => (
+            {orders.filter(o => o.status === "pending" || o.status === "preparing" || o.status === "ready").map(order => (
               <div key={order.id} className="order-card">
                 <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 10 }}>
                   <div>
@@ -395,14 +403,14 @@ export default function VendorPortal() {
                 <div style={{ display: "flex", gap: 8, marginTop: 12 }}>
                   {order.status === "pending" && (
                     <>
-                      <button onClick={() => updateOrderStatus(order.id, "preparing")} style={{
+                      <button onClick={() => handleUpdateOrderStatus(order.id, "preparing")} style={{
                         flex: 1, padding: "10px", borderRadius: 10, border: "none",
                         background: colors.accent, color: "#0A0A0A", fontSize: 12, fontWeight: 700,
                         cursor: "pointer", fontFamily: "'Sora', sans-serif",
                       }}>
                         Accept
                       </button>
-                      <button onClick={() => updateOrderStatus(order.id, "cancelled")} style={{
+                      <button onClick={() => handleUpdateOrderStatus(order.id, "cancelled")} style={{
                         flex: 1, padding: "10px", borderRadius: 10,
                         border: `1px solid ${colors.error}`, background: "transparent",
                         color: colors.error, fontSize: 12, fontWeight: 700,
@@ -413,7 +421,7 @@ export default function VendorPortal() {
                     </>
                   )}
                   {order.status === "preparing" && (
-                    <button onClick={() => updateOrderStatus(order.id, "ready")} style={{
+                    <button onClick={() => handleUpdateOrderStatus(order.id, "ready")} style={{
                       width: "100%", padding: "10px", borderRadius: 10, border: "none",
                       background: colors.success, color: "#0A0A0A", fontSize: 12, fontWeight: 700,
                       cursor: "pointer", fontFamily: "'Sora', sans-serif",
@@ -422,7 +430,7 @@ export default function VendorPortal() {
                     </button>
                   )}
                   {order.status === "ready" && (
-                    <button onClick={() => updateOrderStatus(order.id, "completed")} style={{
+                    <button onClick={() => handleUpdateOrderStatus(order.id, "completed")} style={{
                       width: "100%", padding: "10px", borderRadius: 10, border: "none",
                       background: colors.success, color: "#0A0A0A", fontSize: 12, fontWeight: 700,
                       cursor: "pointer", fontFamily: "'Sora', sans-serif",
@@ -438,7 +446,7 @@ export default function VendorPortal() {
             <div style={{ fontSize: 12, fontWeight: 600, color: colors.textMuted, letterSpacing: "0.5px", textTransform: "uppercase", marginTop: 20, marginBottom: 12 }}>
               Completed Today
             </div>
-            {SAMPLE_ORDERS.filter(o => o.status === "completed").map(order => (
+            {orders.filter(o => o.status === "completed").map(order => (
               <div key={order.id} className="order-card" style={{ opacity: 0.7 }}>
                 <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
                   <div>

@@ -3,6 +3,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { ChevronLeft, CreditCard, Banknote, Plus, Check, ArrowRight, Coins, X, Trash2 } from 'lucide-react';
 import styled from 'styled-components';
 import { useTheme } from "../contexts/ThemeContext";
+import { createFoodOrder, topUpFoodWallet, fetchFoodWallet } from "../services/api";
 
 const PageContainer = styled.div<{ $bg: string }>`
   background: ${p => p.$bg};
@@ -155,9 +156,44 @@ const CheckoutContainer = () => {
     if (v.length <= 16 && /^\d*$/.test(v)) setNewCard({ ...newCard, cardNumber: v });
   };
 
-  const handleProceed = () => {
+  const [processing, setProcessing] = useState(false);
+  const email = localStorage.getItem("email") || "";
+
+  const handleProceed = async () => {
     if (selectedMethod === 'CARD' && !selectedCard) { alert('Please select a card'); return; }
-    console.log('Processing payment:', { method: selectedMethod, card: selectedCard, amount: initiatedPrice });
+    if (!initiatedPrice || initiatedPrice <= 0) { alert('Invalid amount'); return; }
+
+    setProcessing(true);
+    try {
+      if (selectedMethod === 'CARD') {
+        const result = await topUpFoodWallet(email, initiatedPrice, 'card');
+        if (result?.checkout_url) {
+          window.open(result.checkout_url, '_blank');
+          navigate('/home');
+          return;
+        }
+      }
+      if (selectedMethod === 'FOOD_CREDITS') {
+        const wallet = await fetchFoodWallet(email);
+        if (wallet?.balance < initiatedPrice) {
+          alert('Insufficient food credits');
+          setProcessing(false);
+          return;
+        }
+        await createFoodOrder(email, [], initiatedPrice, 0, '', 'food_credits');
+        navigate('/home');
+        return;
+      }
+      if (selectedMethod === 'BANK_TRANSFER') {
+        const result = await topUpFoodWallet(email, initiatedPrice, 'bank_transfer');
+        alert(`Transfer to ${result.bank_name} ${result.account_number} with reference ${result.account_reference}`);
+        navigate('/home');
+        return;
+      }
+    } catch (e: any) {
+      alert(e.message || 'Payment failed');
+    }
+    setProcessing(false);
   };
 
   const inputStyle = { background: colors.inputBg, border: `1px solid ${colors.border}`, color: colors.text };
@@ -243,8 +279,8 @@ const CheckoutContainer = () => {
           </div>
         </CardBox>
 
-        <SubmitBtn $accent={colors.accent} onClick={handleProceed} disabled={selectedMethod === 'CARD' && !selectedCard}>
-          Pay {`\u20A6`}{initiatedPrice.toLocaleString()}
+        <SubmitBtn $accent={colors.accent} onClick={handleProceed} disabled={processing || (selectedMethod === 'CARD' && !selectedCard)}>
+          {processing ? 'Processing...' : `Pay ${initiatedPrice ? `\u20A6${initiatedPrice.toLocaleString()}` : ''}`}
         </SubmitBtn>
       </div>
 

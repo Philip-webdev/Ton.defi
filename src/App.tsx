@@ -12,7 +12,6 @@ import Register from "./components/AccountRegistration";
 import Swap from "./components/swap";
 import Welcome from "./components/Frontier";
 import Market from "./components/finance";
-import Discover from "./components/discover";
 import Tokenomics from "./components/tokenomics";
 import Tontools from "./components/tontools";
 import Buy from "./components/Buy";
@@ -30,11 +29,9 @@ import Latest from "./components/latest";
 import Scan from "./components/scan";
 import AgroApp from "./components/agro";
 import Marketplace from "./components/marketplace";
-// import SuiWallet from "./components/sui";
 import CheckoutContainer from "./components/checkout";
 import RemindMarket from "./components/Reminder";
 import UnderConstruction from "./components/UnderConstruction";
-// import CampusPlanner from "./components/web3";
 
 // Nekstpei FoodTech Modules
 import FoodWallet from "./components/food-wallet";
@@ -63,11 +60,12 @@ function App() {
 
   useEffect(() => {
   if (!loading) {
-    if (location.pathname === "/welcome" || location.pathname === "/") {
+    const path = window.location.hash.replace("#", "") || "/";
+    if (path === "/welcome" || path === "/") {
       navigate("/user");
     }
   }
-}, [loading, location.pathname]);
+}, [loading]);
 
   return (
     <ThemeProvider>
@@ -92,8 +90,7 @@ function App() {
         <Route path="/tools" element={<Tools />} />
         <Route path="/market" element={<Market />} />
         <Route path="/discover" element={<UnderConstruction />} />
-        <Route path="/marketplace" element={<UnderConstruction />} />
-        {/* <Route path="/discover" element={<Discover />} /> */}
+        <Route path="/marketplace" element={<Marketplace />} />
         <Route path="/tokenomics" element={<Tokenomics />} />
         <Route path="/tontools" element={<Tontools />} />
         <Route path="/buy" element={<Buy />} />
@@ -109,8 +106,6 @@ function App() {
          <Route path="/usdt" element={<Usdt />} /> 
         <Route path="/scan" element={<Scan />} />
         <Route path="/Agro" element={<AgroApp />} />
-         {/* <Route path="/sui" element={<SuiWallet />} /> */}
-       <Route path="/marketplace" element={<Marketplace />} /> 
         <Route path="/reminders" element={<RemindMarket/>}/>
           <Route path="/welcome" element={<Welcome />} />
           

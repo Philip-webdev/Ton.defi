@@ -5,7 +5,6 @@ import '../index.css';
 import 'react-icons/bs';
 import 'react-icons/fa';
 import { BsHouse, BsWallet2, BsShop, BsLightningCharge,    BsApp, BsBell, BsAlarm, BsBadge3D, BsChatLeftDots, BsInbox, BsGraphUp, BsBarChartLine, BsBarChart } from "react-icons/bs";
-import Crowd from "./CrowdFront";
 import { FaBullhorn } from "react-icons/fa";
 import FootNavig from "./footnavig";
 
@@ -103,7 +102,7 @@ const [loading, setLoading] = useState(true);
   }, [account]);
 
  if (loading) {
-     return <Crowd />;
+     return <div style={{ display: "flex", justifyContent: "center", alignItems: "center", height: "100vh", fontFamily: "'Sora', sans-serif" }}>Loading...</div>;
 
    }
 

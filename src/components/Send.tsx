@@ -7,7 +7,7 @@ import {
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useTheme } from "../contexts/ThemeContext";
-import { sendFoodCredits, fetchContacts, addRecipient, fetchRecipients, removeRecipient } from "../services/api";
+import { sendFoodCredits, fetchContacts, addRecipient, fetchRecipients, removeRecipient, fetchFoodWallet } from "../services/api";
 
 // ─── Types ────────────────────────────────────────────────────────
 interface Contact {
@@ -59,6 +59,8 @@ export default function FoodTransfer() {
   const [recipientMsg, setRecipientMsg] = useState("");
   const [recipientsPage, setRecipientsPage] = useState(1);
   const [recipientsData, setRecipientsData] = useState<any>({ recipients: [], pagination: { total: 0 } });
+  const [balance, setBalance] = useState(0);
+  const [lastTransferRef, setLastTransferRef] = useState("");
 
   const email = localStorage.getItem("email") || "";
 
@@ -75,7 +77,18 @@ export default function FoodTransfer() {
   useEffect(() => {
     loadContacts();
     loadRecipients();
+    loadBalance();
   }, [email]);
+
+  const loadBalance = async () => {
+    if (!email) return;
+    try {
+      const wallet = await fetchFoodWallet(email);
+      if (wallet && wallet.balance !== undefined) {
+        setBalance(wallet.balance);
+      }
+    } catch {}
+  };
 
   const loadContacts = async () => {
     if (!email) return;
@@ -159,7 +172,13 @@ export default function FoodTransfer() {
     setError("");
     try {
       const contactInfo = selectedContact.phone || selectedContact.email || "";
-      await sendFoodCredits(email, selectedContact.name, contactInfo, Number(amount), note);
+      const result = await sendFoodCredits(email, selectedContact.name, contactInfo, Number(amount), note);
+      if (result?.transaction?.reference) {
+        setLastTransferRef(result.transaction.reference);
+      }
+      if (result?.newBalance !== undefined) {
+        setBalance(result.newBalance);
+      }
       setStep("success");
     } catch (e: any) {
       setError(e.message || "Transfer failed. Please try again.");
@@ -173,6 +192,7 @@ export default function FoodTransfer() {
     setAmount("");
     setNote("");
     setTransferType("credits");
+    setLastTransferRef("");
   };
 
   return (
@@ -610,7 +630,7 @@ export default function FoodTransfer() {
 
             {/* Balance Info */}
             <div style={{ textAlign: "center", fontSize: 12, color: colors.textMuted, marginBottom: 28 }}>
-              Available: {formatNaira(23000)}
+              Available: {formatNaira(balance)}
             </div>
 
             {/* Quick Presets */}
@@ -742,7 +762,7 @@ export default function FoodTransfer() {
             <div style={{ background: colors.surface, border: `1px solid ${colors.border}`, borderRadius: 16, padding: 18, marginBottom: 24, textAlign: "left" }}>
               <div style={{ fontSize: 12, fontWeight: 600, color: colors.textMuted, letterSpacing: "0.5px", textTransform: "uppercase", marginBottom: 14 }}>Transfer Details</div>
               {[
-                { label: "Reference", value: `TXN-${Date.now().toString(36).toUpperCase()}` },
+                { label: "Reference", value: lastTransferRef || `TXN-${Date.now().toString(36).toUpperCase()}` },
                 { label: "Recipient", value: selectedContact.name },
                 { label: "Amount", value: formatNaira(Number(amount)) },
                 { label: "Status", value: "Completed" },

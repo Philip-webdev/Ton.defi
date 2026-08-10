@@ -1,9 +1,9 @@
-import styled from "styled-components";
 import '../index.css';
 import { useState } from "react";
 import { useTheme } from "../contexts/ThemeContext";
 import { ArrowLeft, ChevronRight, Moon, Sun, Phone, CreditCard } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { saveAddress } from "../services/api";
 
 function Settings() {
   const { toggle, colors } = useTheme();
@@ -12,14 +12,20 @@ function Settings() {
   const [walletAddress, setWalletAddress] = useState("");
   const [showPhone, setShowPhone] = useState(false);
   const [showMonnify, setShowMonnify] = useState(false);
+  const [saving, setSaving] = useState(false);
 
-  const matchAddress = () => {
-    fetch("https://twa-backend-g83o.onrender.com/matchlist", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      credentials: "include",
-      body: JSON.stringify({ phone: phoneNum, address: walletAddress }),
-    });
+  const email = localStorage.getItem("email") || "";
+
+  const handleSaveAddress = async () => {
+    if (!email || !phoneNum || !walletAddress) return;
+    setSaving(true);
+    try {
+      await saveAddress(phoneNum, walletAddress);
+      setShowPhone(false);
+    } catch (e) {
+      console.error("Failed to save:", e);
+    }
+    setSaving(false);
   };
 
   const circleBtn: React.CSSProperties = {
@@ -103,7 +109,7 @@ function Settings() {
               background: colors.inputBg, color: colors.text, fontSize: 13,
               fontFamily: "'Sora', sans-serif", outline: "none",
             }} />
-            <button onClick={matchAddress} style={{
+            <button onClick={handleSaveAddress} disabled={saving} style={{
               padding: "12px", borderRadius: 14, border: "none",
               background: colors.accent, color: "#0A0A0A", fontSize: 13,
               fontWeight: 700, cursor: "pointer", fontFamily: "'Sora', sans-serif",
