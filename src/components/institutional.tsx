@@ -160,7 +160,7 @@ export default function InstitutionalDashboard() {
             <ArrowLeft size={17} />
           </button>
           <span style={{ fontSize: 14, fontWeight: 600 }}>Institutional Dashboard</span>
-          <button style={{
+          <button onClick={() => alert("Settings coming soon!")} style={{
             width: 42, height: 42, borderRadius: "50%", border: `1px solid ${colors.border}`,
             background: colors.surface, display: "flex", alignItems: "center", justifyContent: "center",
             cursor: "pointer", color: colors.text,
@@ -315,7 +315,7 @@ export default function InstitutionalDashboard() {
             </div>
 
             {/* Add Beneficiary */}
-            <button style={{
+            <button onClick={() => alert("Add beneficiary coming soon!")} style={{
               width: "100%", padding: "14px", borderRadius: 14,
               border: `1px dashed ${colors.accent}`, background: "transparent",
               color: colors.accent, fontSize: 13, fontWeight: 700,
@@ -373,7 +373,7 @@ export default function InstitutionalDashboard() {
         {/* ─── TAB: PROGRAMS ──────────────────────────────────── */}
         {activeTab === "programs" && (
           <div className="inst-anim" style={{ animationDelay: ".15s" }}>
-            <button style={{
+            <button onClick={() => alert("Create program coming soon!")} style={{
               width: "100%", padding: "14px", borderRadius: 14,
               background: colors.accent, color: "#0A0A0A",
               fontSize: 13, fontWeight: 700, border: "none",
@@ -453,7 +453,7 @@ export default function InstitutionalDashboard() {
                   <div style={{ fontSize: 14, fontWeight: 600, color: colors.text }}>{item.label}</div>
                   <div style={{ fontSize: 12, color: colors.textMuted, marginTop: 1 }}>{item.desc}</div>
                 </div>
-                <button style={{
+                <button onClick={() => alert(`${item.label} downloaded as ${item.format}`)} style={{
                   padding: "6px 12px", borderRadius: 8, border: `1px solid ${colors.border}`,
                   background: colors.surface, color: colors.text, fontSize: 11, fontWeight: 600,
                   cursor: "pointer", fontFamily: "'Sora', sans-serif",

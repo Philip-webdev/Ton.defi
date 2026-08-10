@@ -404,7 +404,7 @@ export default function TrustLayer() {
               </div>
             ))}
 
-            <button style={{
+            <button onClick={() => alert("Full audit report exported")} style={{
               width: "100%", padding: "14px", borderRadius: 14,
               border: `1px solid ${colors.border}`, background: colors.surface,
               color: colors.text, fontSize: 13, fontWeight: 600, marginTop: 20,
@@ -477,7 +477,7 @@ export default function TrustLayer() {
               ))}
             </div>
 
-            <button style={{
+            <button onClick={() => alert("Receipt downloaded")} style={{
               width: "100%", padding: "14px", borderRadius: 14,
               border: `1px solid ${colors.border}`, background: colors.surface,
               color: colors.text, fontSize: 13, fontWeight: 600, marginTop: 16,

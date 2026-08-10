@@ -126,7 +126,7 @@ function swap() {
 
         <div style={{ display: 'flex', fontFamily: "'Sora', sans-serif", color: 'gray', justifyContent: 'space-between', alignItems: 'center', padding: '0 4px' }}>
           <div style={{ fontSize: '14px', fontWeight: 500 }}>You get ${Count}</div>
-          <div><Button>Swap</Button></div>
+          <div><Button onClick={() => alert("Swap feature coming soon!")}>Swap</Button></div>
         </div>
 
         <div style={{ height: '24px' }} />

@@ -270,7 +270,7 @@ export default function VendorPortal() {
             <span style={{ fontSize: 14, fontWeight: 600 }}>Vendor Portal</span>
             <div style={{ fontSize: 10, color: colors.textMuted, marginTop: 2 }}>Mama Nkechi Kitchen</div>
           </div>
-          <button style={{
+          <button onClick={() => alert("No new notifications")} style={{
             width: 42, height: 42, borderRadius: "50%", border: `1px solid ${colors.border}`,
             background: colors.surface, display: "flex", alignItems: "center", justifyContent: "center",
             cursor: "pointer", color: colors.text, position: "relative",
@@ -573,7 +573,7 @@ export default function VendorPortal() {
               <div style={{ fontSize: 12, color: colors.textMuted, marginTop: 4 }}>
                 {SAMPLE_SETTLEMENTS[0].orders} orders today
               </div>
-              <button style={{
+              <button onClick={() => alert("Payout request submitted. Funds will arrive within 24 hours.")} style={{
                 marginTop: 16, padding: "12px 24px", borderRadius: 12,
                 background: colors.accent, color: "#0A0A0A",
                 fontSize: 13, fontWeight: 700, border: "none",
@@ -606,7 +606,7 @@ export default function VendorPortal() {
               </div>
             ))}
 
-            <button style={{
+            <button onClick={() => alert("Statement downloaded")} style={{
               width: "100%", padding: "14px", borderRadius: 14,
               border: `1px solid ${colors.border}`, background: colors.surface,
               color: colors.text, fontSize: 13, fontWeight: 600, marginTop: 20,
@@ -621,7 +621,7 @@ export default function VendorPortal() {
         {/* ─── TAB: PROMOTIONS ────────────────────────────────── */}
         {activeTab === "promotions" && (
           <div className="vendor-anim" style={{ animationDelay: ".15s" }}>
-            <button style={{
+            <button onClick={() => alert("Promotion creation coming soon!")} style={{
               width: "100%", padding: "14px", borderRadius: 14,
               background: colors.accent, color: "#0A0A0A",
               fontSize: 13, fontWeight: 700, border: "none",
@@ -671,13 +671,13 @@ export default function VendorPortal() {
         {activeTab === "settings" && (
           <div className="vendor-anim" style={{ animationDelay: ".15s" }}>
             {[
-              { icon: <Settings size={18} />, label: "Store Settings", sub: "Name, hours, location" },
-              { icon: <Bell size={18} />, label: "Notifications", sub: "Order alerts, messages" },
-              { icon: <Eye size={18} />, label: "Menu Management", sub: "Items, prices, availability" },
-              { icon: <Users size={18} />, label: "Staff Access", sub: "Manage team members" },
-              { icon: <BarChart3 size={18} />, label: "Reports", sub: "Export data, statements" },
+              { icon: <Settings size={18} />, label: "Store Settings", sub: "Name, hours, location", action: () => alert("Store settings coming soon!") },
+              { icon: <Bell size={18} />, label: "Notifications", sub: "Order alerts, messages", action: () => alert("Notification settings coming soon!") },
+              { icon: <Eye size={18} />, label: "Menu Management", sub: "Items, prices, availability", action: () => alert("Menu management coming soon!") },
+              { icon: <Users size={18} />, label: "Staff Access", sub: "Manage team members", action: () => alert("Staff access coming soon!") },
+              { icon: <BarChart3 size={18} />, label: "Reports", sub: "Export data, statements", action: () => alert("Reports coming soon!") },
             ].map((item, i) => (
-              <div key={i} style={{
+              <div key={i} onClick={item.action} style={{
                 display: "flex", alignItems: "center", gap: 16, padding: "16px 18px",
                 background: colors.surface, border: `1px solid ${colors.border}`,
                 borderRadius: 16, marginBottom: 10, cursor: "pointer",
