@@ -91,6 +91,20 @@ export async function sendFoodCredits(
   }
 }
 
+// ─── QR Payment ──────────────────────────────────────────────
+export async function foodPay(buyerEmail: string, vendorEmail: string, amount: number, reference: string) {
+  try {
+    const res = await fetch(`${API_BASE}/api/food-pay`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ buyerEmail, vendorEmail, amount, reference }),
+    });
+    return await res.json();
+  } catch {
+    return { error: "Network error" };
+  }
+}
+
 // ─── Contacts ─────────────────────────────────────────────────────
 export async function fetchContacts(email: string) {
   try {

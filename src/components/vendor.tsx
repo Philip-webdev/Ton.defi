@@ -6,7 +6,8 @@ import {
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useTheme } from "../contexts/ThemeContext";
-import { fetchVendorDashboard, fetchVendorOrders, updateVendorOrderStatus, toggleVendorStatus, fetchVendorProfile } from "../services/api";
+import { fetchVendorDashboard, fetchVendorOrders, updateVendorOrderStatus, toggleVendorStatus, fetchVendorProfile, foodPay } from "../services/api";
+import QRScanner from "./QRcode";
 
 // ─── Types ────────────────────────────────────────────────────────
 type Tab = "orders" | "analytics" | "settlement" | "promotions" | "settings";
@@ -77,6 +78,9 @@ export default function VendorPortal() {
   const [activeTab, setActiveTab] = useState<Tab>("orders");
   const [scanning, setScanning] = useState(false);
   const [scanResult, setScanResult] = useState<string | null>(null);
+  const [scannedPayment, setScannedPayment] = useState<{ buyerEmail: string; amount: number; reference: string } | null>(null);
+  const [paying, setPaying] = useState(false);
+  const [paySuccess, setPaySuccess] = useState<{ buyerBalance: number; vendorBalance: number } | null>(null);
   const [orders, setOrders] = useState<VendorOrder[]>([]);
   const [dashboardData, setDashboardData] = useState<any>(null);
   const [vendorProfile, setVendorProfile] = useState<any>(null);
@@ -124,10 +128,43 @@ export default function VendorPortal() {
 
   const handleScan = () => {
     setScanning(true);
-    setTimeout(() => {
+    setScanResult(null);
+    setScannedPayment(null);
+    setPaySuccess(null);
+  };
+
+  const handleQRScan = async (decodedText: string) => {
+    try {
+      const data = JSON.parse(decodedText);
+      if (data.buyerEmail && data.amount && data.reference) {
+        setScannedPayment(data);
+        setScanResult(`Buyer: ${data.buyerEmail}\nAmount: ₦${data.amount.toLocaleString()}`);
+        setScanning(false);
+      }
+    } catch {
+      setScanResult("Invalid QR code");
       setScanning(false);
-      setScanResult("FOODCREDIT-8847291-₦3000");
-    }, 2000);
+    }
+  };
+
+  const handleConfirmPayment = async () => {
+    if (!scannedPayment || !email) return;
+    setPaying(true);
+    try {
+      const result = await foodPay(scannedPayment.buyerEmail, email, scannedPayment.amount, scannedPayment.reference);
+      if (result.error) {
+        alert(result.error);
+      } else if (result.success) {
+        setPaySuccess({ buyerBalance: result.buyerBalance, vendorBalance: result.vendorBalance });
+        setScanResult(null);
+        setScannedPayment(null);
+        loadDashboard();
+        loadOrders();
+      }
+    } catch (e) {
+      console.error("Payment failed:", e);
+    }
+    setPaying(false);
   };
 
   const handleUpdateOrderStatus = async (orderId: string, newStatus: VendorOrder["status"]) => {
@@ -337,8 +374,87 @@ export default function VendorPortal() {
               <Scan size={16} /> Scan Food Credit QR
             </button>
 
-            {/* Scan Result */}
-            {scanResult && (
+            {/* Live QR Scanner */}
+            {scanning && (
+              <div style={{ marginBottom: 16 }}>
+                <div style={{ fontSize: 12, fontWeight: 600, color: colors.accent, marginBottom: 8, textAlign: "center" }}>
+                  Point camera at customer's QR code
+                </div>
+                <div style={{ borderRadius: 16, overflow: "hidden", border: `2px solid ${colors.accent}` }}>
+                  <QRScanner onRender={handleQRScan} />
+                </div>
+                <button onClick={() => setScanning(false)} style={{
+                  width: "100%", padding: "10px", borderRadius: 10,
+                  border: `1px solid ${colors.error}`, background: "transparent",
+                  color: colors.error, fontSize: 12, fontWeight: 700,
+                  cursor: "pointer", fontFamily: "'Sora', sans-serif",
+                  marginTop: 10,
+                }}>
+                  Cancel
+                </button>
+              </div>
+            )}
+
+            {/* Payment Confirmation */}
+            {scannedPayment && !paySuccess && (
+              <div style={{
+                background: colors.surface, border: `1px solid ${colors.border}`,
+                borderRadius: 16, padding: 18, marginBottom: 16,
+              }}>
+                <div style={{ fontSize: 13, fontWeight: 700, color: colors.text, marginBottom: 12 }}>Confirm Payment</div>
+                <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 8 }}>
+                  <span style={{ fontSize: 12, color: colors.textMuted }}>Buyer</span>
+                  <span style={{ fontSize: 12, fontWeight: 600, color: colors.text }}>{scannedPayment.buyerEmail}</span>
+                </div>
+                <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 16 }}>
+                  <span style={{ fontSize: 12, color: colors.textMuted }}>Amount</span>
+                  <span style={{ fontSize: 16, fontWeight: 700, color: colors.accent }}>{formatNaira(scannedPayment.amount)}</span>
+                </div>
+                <div style={{ display: "flex", gap: 8 }}>
+                  <button onClick={handleConfirmPayment} disabled={paying} style={{
+                    flex: 1, padding: "12px", borderRadius: 10, border: "none",
+                    background: colors.accent, color: "#0A0A0A", fontSize: 13, fontWeight: 700,
+                    cursor: paying ? "not-allowed" : "pointer", fontFamily: "'Sora', sans-serif",
+                    opacity: paying ? 0.6 : 1,
+                  }}>
+                    {paying ? "Processing..." : `Confirm ${formatNaira(scannedPayment.amount)}`}
+                  </button>
+                  <button onClick={() => { setScannedPayment(null); setScanResult(null); }} style={{
+                    flex: 1, padding: "12px", borderRadius: 10,
+                    border: `1px solid ${colors.border}`, background: "transparent",
+                    color: colors.textMuted, fontSize: 13, fontWeight: 700,
+                    cursor: "pointer", fontFamily: "'Sora', sans-serif",
+                  }}>
+                    Cancel
+                  </button>
+                </div>
+              </div>
+            )}
+
+            {/* Payment Success */}
+            {paySuccess && (
+              <div style={{
+                background: `${colors.success}15`, border: `1px solid ${colors.success}30`,
+                borderRadius: 14, padding: 16, marginBottom: 16,
+                display: "flex", alignItems: "center", gap: 10,
+              }}>
+                <Check size={20} color={colors.success} />
+                <div style={{ flex: 1 }}>
+                  <div style={{ fontSize: 13, fontWeight: 600, color: colors.success }}>Payment Successful</div>
+                  <div style={{ fontSize: 11, color: colors.textMuted, marginTop: 2 }}>
+                    Received {formatNaira(paySuccess.vendorBalance > 0 ? scannedPayment?.amount || 0 : 0)} · Balance: {formatNaira(paySuccess.vendorBalance)}
+                  </div>
+                </div>
+                <button onClick={() => setPaySuccess(null)} style={{
+                  background: "none", border: "none", cursor: "pointer", color: colors.textMuted,
+                }}>
+                  <X size={14} />
+                </button>
+              </div>
+            )}
+
+            {/* Scan Result (errors) */}
+            {scanResult && !scannedPayment && (
               <div style={{
                 background: `${colors.success}15`, border: `1px solid ${colors.success}30`,
                 borderRadius: 14, padding: 14, marginBottom: 16,

@@ -3,8 +3,9 @@ import {
   ArrowLeft, ArrowUpRight, ArrowDownLeft, Plus, Wallet,
   Receipt, Clock, Filter, ChevronRight, Check, X,
   CreditCard, Banknote, Smartphone, Download, Eye, EyeOff,
-  TrendingUp, TrendingDown, ShoppingCart, Send, Zap
+  TrendingUp, TrendingDown, ShoppingCart, Send, Zap, QrCode
 } from "lucide-react";
+import { QRCodeCanvas } from "qrcode.react";
 import { useNavigate } from "react-router-dom";
 import { useTheme } from "../contexts/ThemeContext";
 import { fetchFoodWallet, fetchFoodTransactions, topUpFoodWallet, fetchVA, convertWalletToFoodCredits, verifyPayment } from "../services/api";
@@ -74,6 +75,8 @@ export default function FoodWallet() {
   const [showConvert, setShowConvert] = useState(false);
   const [convertAmount, setConvertAmount] = useState("");
   const [converting, setConverting] = useState(false);
+  const [showQR, setShowQR] = useState(false);
+  const [payAmount, setPayAmount] = useState("");
 
   const email = localStorage.getItem("email") || "";
 
@@ -385,6 +388,14 @@ export default function FoodWallet() {
             }}>
               <Plus size={14} /> Top Up
             </button>
+            <button onClick={() => setShowQR(true)} style={{
+              flex: 1, padding: "12px 0", borderRadius: 12, border: "none",
+              background: colors.success, color: "#0A0A0A", fontSize: 13, fontWeight: 700,
+              cursor: "pointer", fontFamily: "'Sora', sans-serif",
+              display: "flex", alignItems: "center", justifyContent: "center", gap: 6,
+            }}>
+              <QrCode size={14} /> Pay
+            </button>
             <button onClick={() => navigate("/send")} style={{
               flex: 1, padding: "12px 0", borderRadius: 12,
               border: `1px solid ${colors.accent}`, background: "transparent",
@@ -605,6 +616,90 @@ export default function FoodWallet() {
               <Zap size={16} style={{ marginRight: 6, verticalAlign: "middle" }} />
               {topping ? "Processing..." : `Fund Wallet ${topupAmount ? formatNaira(Number(topupAmount)) : ""}`}
             </button>
+          </div>
+        </>
+      )}
+
+      {/* ─── QR PAY SHEET ────────────────────────────────────── */}
+      {showQR && (
+        <>
+          <div className="topup-overlay" onClick={() => { setShowQR(false); setPayAmount(""); }} />
+          <div className="topup-sheet">
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 24 }}>
+              <span style={{ fontSize: 16, fontWeight: 700 }}>Pay with Food Credits</span>
+              <button onClick={() => { setShowQR(false); setPayAmount(""); }} style={{
+                width: 32, height: 32, borderRadius: "50%", border: `1px solid ${colors.border}`,
+                background: colors.surface, display: "flex", alignItems: "center", justifyContent: "center",
+                cursor: "pointer", color: colors.text,
+              }}>
+                <X size={14} />
+              </button>
+            </div>
+
+            <input
+              type="number"
+              className="amount-input"
+              placeholder="Enter amount"
+              value={payAmount}
+              onChange={e => setPayAmount(e.target.value)}
+            />
+
+            <div style={{ display: "flex", gap: 8, marginTop: 12, marginBottom: 24, justifyContent: "center" }}>
+              {[500, 1000, 2000, 5000].map(amt => (
+                <button key={amt} onClick={() => setPayAmount(String(amt))} style={{
+                  padding: "8px 14px", borderRadius: 100, border: `1px solid ${colors.border}`,
+                  background: payAmount === String(amt) ? colors.accentSoft : colors.surface,
+                  color: payAmount === String(amt) ? colors.accent : colors.textMuted,
+                  fontSize: 12, fontWeight: 600, cursor: "pointer",
+                  fontFamily: "'Sora', sans-serif",
+                  borderColor: payAmount === String(amt) ? colors.accent : colors.border,
+                }}>
+                  {formatNaira(amt)}
+                </button>
+              ))}
+            </div>
+
+            {payAmount && Number(payAmount) > 0 && (
+              <div style={{
+                display: "flex", flexDirection: "column", alignItems: "center",
+                padding: 24, borderRadius: 16,
+                background: "#FFFFFF", marginBottom: 20,
+              }}>
+                <QRCodeCanvas
+                  value={JSON.stringify({ buyerEmail: email, amount: Number(payAmount), reference: `PAY-${Date.now().toString(36).toUpperCase()}` })}
+                  size={200}
+                  bgColor="#FFFFFF"
+                  fgColor="#0A0A0A"
+                  level="M"
+                />
+                <div style={{ fontSize: 11, color: "#666", marginTop: 12, textAlign: "center" }}>
+                  Show this QR to the vendor
+                </div>
+                <div style={{ fontSize: 16, fontWeight: 700, color: "#0A0A0A", marginTop: 6 }}>
+                  {formatNaira(Number(payAmount))}
+                </div>
+              </div>
+            )}
+
+            <div style={{
+              display: "flex", alignItems: "center", gap: 12,
+              padding: "12px 14px", borderRadius: 14,
+              background: `${colors.success}10`, border: `1px solid ${colors.success}30`,
+              marginBottom: 16,
+            }}>
+              <div style={{
+                width: 40, height: 40, borderRadius: "50%",
+                background: colors.success,
+                display: "flex", alignItems: "center", justifyContent: "center",
+                color: "#0A0A0A",
+              }}>
+                <QrCode size={18} />
+              </div>
+              <div>
+                <div style={{ fontSize: 13, fontWeight: 600, color: colors.text }}>QR Code Payment</div>
+                <div style={{ fontSize: 11, color: colors.textMuted }}>Vendor scans to receive payment</div>
+              </div>
+            </div>
           </div>
         </>
       )}
