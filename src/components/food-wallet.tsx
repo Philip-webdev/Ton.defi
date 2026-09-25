@@ -8,7 +8,7 @@ import {
 import { QRCodeCanvas } from "qrcode.react";
 import { useNavigate } from "react-router-dom";
 import { useTheme } from "../contexts/ThemeContext";
-import { fetchFoodWallet, fetchFoodTransactions, topUpFoodWallet, fetchVA, convertWalletToFoodCredits, verifyPayment } from "../services/api";
+import { fetchFoodWallet, fetchFoodTransactions, topUpFoodWallet, fetchVA, convertWalletToFoodCredits, verifyPayment, signPaymentQR } from "../services/api";
 
 // ─── Types ────────────────────────────────────────────────────────
 type TransactionType = "topup" | "send" | "receive" | "redemption" | "refund" | "order";
@@ -78,8 +78,35 @@ export default function FoodWallet() {
   const [converting, setConverting] = useState(false);
   const [showQR, setShowQR] = useState(false);
   const [payAmount, setPayAmount] = useState("");
+  const [qrPayload, setQrPayload] = useState<any>(null);
+  const [qrError, setQrError] = useState("");
+  const [qrSigning, setQrSigning] = useState(false);
 
   const email = localStorage.getItem("email") || "";
+
+  // Server-sign the payment QR whenever the sheet is open and amount changes
+  useEffect(() => {
+    let cancelled = false;
+    if (!showQR || !Number(payAmount) || Number(payAmount) <= 0) {
+      setQrPayload(null);
+      setQrError("");
+      return;
+    }
+    setQrSigning(true);
+    setQrError("");
+    const t = setTimeout(async () => {
+      const result = await signPaymentQR(Number(payAmount));
+      if (cancelled) return;
+      setQrSigning(false);
+      if (result.error || !result.qr) {
+        setQrPayload(null);
+        setQrError(result.error || "Could not create payment QR");
+      } else {
+        setQrPayload(result.qr);
+      }
+    }, 400);
+    return () => { cancelled = true; clearTimeout(t); };
+  }, [showQR, payAmount]);
 
   useEffect(() => {
     loadData();
@@ -681,19 +708,36 @@ export default function FoodWallet() {
                 padding: 24, borderRadius: 16,
                 background: "#FFFFFF", marginBottom: 20,
               }}>
-                <QRCodeCanvas
-                  value={JSON.stringify({ buyerEmail: email, amount: Number(payAmount), reference: `PAY-${Date.now().toString(36).toUpperCase()}` })}
-                  size={200}
-                  bgColor="#FFFFFF"
-                  fgColor="#0A0A0A"
-                  level="M"
-                />
-                <div style={{ fontSize: 11, color: "#666", marginTop: 12, textAlign: "center" }}>
-                  Show this QR to the vendor
-                </div>
-                <div style={{ fontSize: 16, fontWeight: 700, color: "#0A0A0A", marginTop: 6 }}>
-                  {formatNaira(Number(payAmount))}
-                </div>
+                {qrSigning && (
+                  <div style={{ fontSize: 12, color: "#666", padding: "56px 20px", textAlign: "center" }}>
+                    Signing payment code…
+                  </div>
+                )}
+                {!qrSigning && qrError && (
+                  <div style={{ fontSize: 12, color: "#C0392B", padding: "40px 20px", textAlign: "center" }}>
+                    {qrError}
+                  </div>
+                )}
+                {!qrSigning && !qrError && qrPayload && (
+                  <>
+                    <QRCodeCanvas
+                      value={JSON.stringify(qrPayload)}
+                      size={200}
+                      bgColor="#FFFFFF"
+                      fgColor="#0A0A0A"
+                      level="M"
+                    />
+                    <div style={{ fontSize: 11, color: "#666", marginTop: 12, textAlign: "center" }}>
+                      Show this QR to the vendor
+                    </div>
+                    <div style={{ fontSize: 16, fontWeight: 700, color: "#0A0A0A", marginTop: 6 }}>
+                      {formatNaira(Number(payAmount))}
+                    </div>
+                    <div style={{ fontSize: 10, color: "#999", marginTop: 4, textAlign: "center" }}>
+                      Expires in 10 minutes
+                    </div>
+                  </>
+                )}
               </div>
             )}
 

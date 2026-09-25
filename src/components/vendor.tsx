@@ -78,7 +78,7 @@ export default function VendorPortal() {
   const [activeTab, setActiveTab] = useState<Tab>("orders");
   const [scanning, setScanning] = useState(false);
   const [scanResult, setScanResult] = useState<string | null>(null);
-  const [scannedPayment, setScannedPayment] = useState<{ buyerEmail: string; amount: number; reference: string } | null>(null);
+  const [scannedPayment, setScannedPayment] = useState<{ buyerEmail: string; amount: number; reference: string; exp: number; sig: string } | null>(null);
   const [paying, setPaying] = useState(false);
   const [paySuccess, setPaySuccess] = useState<{ buyerBalance: number; vendorBalance: number } | null>(null);
   const [orders, setOrders] = useState<VendorOrder[]>([]);
@@ -153,8 +153,12 @@ export default function VendorPortal() {
   const handleQRScan = async (decodedText: string) => {
     try {
       const data = JSON.parse(decodedText);
-      if (data.buyerEmail && data.amount && data.reference) {
+      // Signed payloads include exp + sig — unsigned/forged codes are rejected
+      if (data.buyerEmail && data.amount && data.reference && data.exp && data.sig) {
         setScannedPayment(data);
+        setScanning(false);
+      } else {
+        setScanResult("This QR is not a valid NekstPei payment code");
         setScanning(false);
       }
     } catch {
@@ -167,7 +171,7 @@ export default function VendorPortal() {
     if (!scannedPayment || !email) return;
     setPaying(true);
     try {
-      const result = await foodPay(scannedPayment.buyerEmail, email, scannedPayment.amount, scannedPayment.reference);
+      const result = await foodPay(scannedPayment);
       if (result.error) {
         alert(result.error);
       } else if (result.success) {

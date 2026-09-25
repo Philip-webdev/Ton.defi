@@ -55,7 +55,9 @@ export async function loginVendor(email: string, password: string) {
 // ─── Food Wallet ──────────────────────────────────────────────────
 export async function fetchFoodWallet(email: string) {
   try {
-    const res = await fetch(`${API_BASE}/api/food-wallet/${encodeURIComponent(email)}`);
+    const res = await fetch(`${API_BASE}/api/food-wallet/${encodeURIComponent(email)}`, {
+      headers: authHeaders(),
+    });
     return await res.json();
   } catch {
     return getLocalWallet();
@@ -66,7 +68,7 @@ export async function topUpFoodWallet(email: string, amount: number) {
   try {
     const res = await fetch(`${API_BASE}/api/food-wallet/topup`, {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: authHeaders(),
       body: JSON.stringify({ email, amount }),
     });
     return await res.json();
@@ -90,7 +92,7 @@ export async function fetchFoodTransactions(email: string, type?: string) {
     const url = type && type !== "all"
       ? `${API_BASE}/api/food-transactions/${encodeURIComponent(email)}?type=${type}`
       : `${API_BASE}/api/food-transactions/${encodeURIComponent(email)}`;
-    const res = await fetch(url);
+    const res = await fetch(url, { headers: authHeaders() });
     return await res.json();
   } catch {
     return getLocalTransactions();
@@ -105,35 +107,63 @@ export async function sendFoodCredits(
   amount: number,
   note?: string
 ) {
+  // Server derives sender from JWT — fromEmail kept for call-site compat only
+  const body = { toName, toContact, amount, note };
   try {
     const res = await fetch(`${API_BASE}/api/food-transfer`, {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ fromEmail, toName, toContact, amount, note }),
+      headers: authHeaders(),
+      body: JSON.stringify(body),
     });
     const data = await res.json();
+    if (data.error) return data;
     if (data.newBalance !== undefined) {
       updateLocalBalance(data.newBalance);
     }
     return data;
   } catch {
     // Queue for retry + local fallback
-    enqueue({ url: `${API_BASE}/api/food-transfer`, method: "POST", body: { fromEmail, toName, toContact, amount, note } });
+    enqueue({ url: `${API_BASE}/api/food-transfer`, method: "POST", body });
     return sendLocalFoodCredits(toName, toContact, amount, note);
   }
 }
 
 // ─── QR Payment ──────────────────────────────────────────────
-export async function foodPay(buyerEmail: string, vendorEmail: string, amount: number, reference: string) {
+// Buyer asks the server to sign a payment QR (HMAC — cannot be forged)
+export async function signPaymentQR(amount: number): Promise<{ qr?: any; error?: string }> {
+  try {
+    const res = await fetch(`${API_BASE}/api/food-pay/qr-sign`, {
+      method: "POST",
+      headers: authHeaders(),
+      body: JSON.stringify({ amount }),
+    });
+    const data = await res.json();
+    if (!res.ok) return { error: data.error || `Failed to sign QR (${res.status})` };
+    return data;
+  } catch {
+    return { error: "Network error" };
+  }
+}
+
+// Vendor submits the scanned signed QR — vendorEmail comes from the vendor JWT
+export async function foodPay(qr: {
+  buyerEmail: string;
+  amount: number;
+  reference: string;
+  exp: number;
+  sig: string;
+}) {
   try {
     const res = await fetch(`${API_BASE}/api/food-pay`, {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ buyerEmail, vendorEmail, amount, reference }),
+      headers: authHeaders(),
+      body: JSON.stringify({ qr }),
     });
-    return await res.json();
+    const data = await res.json();
+    if (!res.ok) return { error: data.error || `Payment failed (${res.status})` };
+    return data;
   } catch {
-    enqueue({ url: `${API_BASE}/api/food-pay`, method: "POST", body: { buyerEmail, vendorEmail, amount, reference } });
+    enqueue({ url: `${API_BASE}/api/food-pay`, method: "POST", body: { qr } });
     return { error: "Network error — queued for retry" };
   }
 }
@@ -141,7 +171,9 @@ export async function foodPay(buyerEmail: string, vendorEmail: string, amount: n
 // ─── Contacts ─────────────────────────────────────────────────────
 export async function fetchContacts(email: string) {
   try {
-    const res = await fetch(`${API_BASE}/api/food-contacts/${encodeURIComponent(email)}`);
+    const res = await fetch(`${API_BASE}/api/food-contacts/${encodeURIComponent(email)}`, {
+      headers: authHeaders(),
+    });
     return await res.json();
   } catch {
     return getLocalContacts();
@@ -160,8 +192,8 @@ export async function createFoodOrder(
   try {
     const res = await fetch(`${API_BASE}/api/food-orders`, {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email, items, total, deliveryFee, address, paymentMethod }),
+      headers: authHeaders(),
+      body: JSON.stringify({ items, total, deliveryFee, address, paymentMethod }),
     });
     const data = await res.json();
     if (!res.ok || data.error) {
@@ -176,14 +208,16 @@ export async function createFoodOrder(
     if (e.message && e.message !== 'Failed to fetch' && !e.message.includes('NetworkError')) {
       throw e;
     }
-    enqueue({ url: `${API_BASE}/api/food-orders`, method: "POST", body: { email, items, total, deliveryFee, address, paymentMethod } });
+    enqueue({ url: `${API_BASE}/api/food-orders`, method: "POST", body: { items, total, deliveryFee, address, paymentMethod } });
     return createLocalOrder(items, total, deliveryFee, address, paymentMethod);
   }
 }
 
 export async function fetchFoodOrders(email: string) {
   try {
-    const res = await fetch(`${API_BASE}/api/food-orders/${encodeURIComponent(email)}`);
+    const res = await fetch(`${API_BASE}/api/food-orders/${encodeURIComponent(email)}`, {
+      headers: authHeaders(),
+    });
     return await res.json();
   } catch {
     return getLocalOrders();
@@ -194,7 +228,7 @@ export async function updateFoodOrderStatus(orderId: string, status: string) {
   try {
     const res = await fetch(`${API_BASE}/api/food-orders/${orderId}`, {
       method: "PATCH",
-      headers: { "Content-Type": "application/json" },
+      headers: authHeaders(),
       body: JSON.stringify({ status }),
     });
     return await res.json();
@@ -206,7 +240,9 @@ export async function updateFoodOrderStatus(orderId: string, status: string) {
 // ─── Vendor Orders ────────────────────────────────────────────────
 export async function fetchVendorOrders(vendorEmail: string) {
   try {
-    const res = await fetch(`${API_BASE}/api/vendor-orders/${encodeURIComponent(vendorEmail)}`);
+    const res = await fetch(`${API_BASE}/api/vendor-orders/${encodeURIComponent(vendorEmail)}`, {
+      headers: authHeaders(),
+    });
     return await res.json();
   } catch {
     return getLocalVendorOrders();
@@ -229,7 +265,9 @@ export async function updateVendorOrderStatus(orderId: string, status: string) {
 // ─── Profile ──────────────────────────────────────────────────────
 export async function fetchProfile(email: string) {
   try {
-    const res = await fetch(`${API_BASE}/api/profile/${encodeURIComponent(email)}`);
+    const res = await fetch(`${API_BASE}/api/profile/${encodeURIComponent(email)}`, {
+      headers: authHeaders(),
+    });
     return await res.json();
   } catch {
     return getLocalProfile();
@@ -240,8 +278,8 @@ export async function updateProfile(email: string, data: any) {
   try {
     const res = await fetch(`${API_BASE}/api/profile/update`, {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email, ...data }),
+      headers: authHeaders(),
+      body: JSON.stringify({ ...data }),
     });
     const profile = await res.json();
     setLocalProfile(profile);
@@ -256,8 +294,8 @@ export async function addRecipient(senderEmail: string, searchKey: string) {
   try {
     const res = await fetch(`${API_BASE}/api/food-recipients`, {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ senderEmail, searchKey }),
+      headers: authHeaders(),
+      body: JSON.stringify({ searchKey }),
     });
     return await res.json();
   } catch {
@@ -270,7 +308,9 @@ export async function fetchRecipients(email: string, page?: number, limit?: numb
     const params = new URLSearchParams();
     if (page) params.set("page", page.toString());
     if (limit) params.set("limit", limit.toString());
-    const res = await fetch(`${API_BASE}/api/food-recipients/${encodeURIComponent(email)}?${params}`);
+    const res = await fetch(`${API_BASE}/api/food-recipients/${encodeURIComponent(email)}?${params}`, {
+      headers: authHeaders(),
+    });
     return await res.json();
   } catch {
     return { recipients: [], pagination: { page: 1, limit: 20, total: 0, totalPages: 0 } };
@@ -281,6 +321,7 @@ export async function removeRecipient(email: string, recipientId: string) {
   try {
     const res = await fetch(`${API_BASE}/api/food-recipients/${encodeURIComponent(email)}/${recipientId}`, {
       method: "DELETE",
+      headers: authHeaders(),
     });
     return await res.json();
   } catch {
@@ -292,7 +333,7 @@ export async function updateRecipient(email: string, recipientId: string, data: 
   try {
     const res = await fetch(`${API_BASE}/api/food-recipients/${encodeURIComponent(email)}/${recipientId}`, {
       method: "PATCH",
-      headers: { "Content-Type": "application/json" },
+      headers: authHeaders(),
       body: JSON.stringify(data),
     });
     return await res.json();
@@ -304,7 +345,9 @@ export async function updateRecipient(email: string, recipientId: string, data: 
 // ─── Wallet & VA ──────────────────────────────────────
 export async function fetchWallet(email: string) {
   try {
-    const res = await fetch(`${API_BASE}/api/wallet/${encodeURIComponent(email)}`);
+    const res = await fetch(`${API_BASE}/api/wallet/${encodeURIComponent(email)}`, {
+      headers: authHeaders(),
+    });
     return await res.json();
   } catch {
     return null;
@@ -313,7 +356,9 @@ export async function fetchWallet(email: string) {
 
 export async function fetchVA(email: string) {
   try {
-    const res = await fetch(`${API_BASE}/api/va/${encodeURIComponent(email)}`);
+    const res = await fetch(`${API_BASE}/api/va/${encodeURIComponent(email)}`, {
+      headers: authHeaders(),
+    });
     return await res.json();
   } catch {
     return null;
@@ -324,8 +369,8 @@ export async function convertWalletToFoodCredits(email: string, amount: number) 
   try {
     const res = await fetch(`${API_BASE}/api/food-convert`, {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email, amount }),
+      headers: authHeaders(),
+      body: JSON.stringify({ amount }),
     });
     return await res.json();
   } catch {
@@ -696,7 +741,9 @@ export function clearLocalCart(): void {
 // ─── Cart Cloud Sync ──────────────────────────────────────────────
 export async function fetchCart(email: string): Promise<any[]> {
   try {
-    const res = await fetch(`${API_BASE}/api/cart/${encodeURIComponent(email)}`);
+    const res = await fetch(`${API_BASE}/api/cart/${encodeURIComponent(email)}`, {
+      headers: authHeaders(),
+    });
     const data = await res.json();
     return Array.isArray(data.items) ? data.items : [];
   } catch {
@@ -796,7 +843,9 @@ export function setMonnifyAccount(accountNumber: string): void {
 
 // ─── Vendor APIs ──────────────────────────────────────────────────
 export async function fetchVendorProfile(email: string) {
-  const res = await fetch(`${API_BASE}/api/vendors/profile/${encodeURIComponent(email)}`);
+  const res = await fetch(`${API_BASE}/api/vendors/profile/${encodeURIComponent(email)}`, {
+    headers: authHeaders(),
+  });
   return res.json();
 }
 
@@ -849,7 +898,9 @@ export async function deleteVendorMenuItem(email: string, itemId: string) {
 }
 
 export async function fetchVendorDashboard(email: string) {
-  const res = await fetch(`${API_BASE}/api/vendors/dashboard/${encodeURIComponent(email)}`);
+  const res = await fetch(`${API_BASE}/api/vendors/dashboard/${encodeURIComponent(email)}`, {
+    headers: authHeaders(),
+  });
   return res.json();
 }
 
@@ -864,7 +915,9 @@ export async function verifyVendorTier2(type: 'bvn' | 'nin', number: string) {
 }
 
 export async function fetchVendorVerification(email: string) {
-  const res = await fetch(`${API_BASE}/api/vendors/verification/${encodeURIComponent(email)}`);
+  const res = await fetch(`${API_BASE}/api/vendors/verification/${encodeURIComponent(email)}`, {
+    headers: authHeaders(),
+  });
   return res.json();
 }
 
@@ -881,7 +934,7 @@ export async function fetchNearbyVendors(lat?: number, lng?: number, category?: 
 export async function createAuditLog(data: any) {
   const res = await fetch(`${API_BASE}/api/audit/log`, {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
+    headers: authHeaders(),
     body: JSON.stringify(data),
   });
   return res.json();
@@ -889,21 +942,26 @@ export async function createAuditLog(data: any) {
 
 export async function fetchAuditLogs(params: { email?: string; eventType?: string; entityType?: string; limit?: number; skip?: number }) {
   const query = new URLSearchParams();
-  if (params.email) query.set("email", params.email);
   if (params.eventType) query.set("eventType", params.eventType);
   if (params.entityType) query.set("entityType", params.entityType);
   if (params.limit) query.set("limit", String(params.limit));
   if (params.skip) query.set("skip", String(params.skip));
-  const res = await fetch(`${API_BASE}/api/audit/logs?${query}`);
+  const res = await fetch(`${API_BASE}/api/audit/logs?${query}`, {
+    headers: authHeaders(),
+  });
   return res.json();
 }
 
 export async function fetchAuditTrail(entityType: string, entityId: string) {
-  const res = await fetch(`${API_BASE}/api/audit/trail/${encodeURIComponent(entityType)}/${encodeURIComponent(entityId)}`);
+  const res = await fetch(`${API_BASE}/api/audit/trail/${encodeURIComponent(entityType)}/${encodeURIComponent(entityId)}`, {
+    headers: authHeaders(),
+  });
   return res.json();
 }
 
 export async function fetchAuditByReference(reference: string) {
-  const res = await fetch(`${API_BASE}/api/audit/transaction/${encodeURIComponent(reference)}`);
+  const res = await fetch(`${API_BASE}/api/audit/transaction/${encodeURIComponent(reference)}`, {
+    headers: authHeaders(),
+  });
   return res.json();
 }
