@@ -180,8 +180,18 @@ const CheckoutContainer = () => {
           setProcessing(false);
           return;
         }
-        await createFoodOrder(email, [], initiatedPrice, 0, '', 'food_credits');
+        await createFoodOrder(email, [{ name: 'Food Order', price: initiatedPrice, qty: 1 }], initiatedPrice, 0, '', 'food_credits');
         navigate('/home');
+        return;
+      }
+      if (selectedMethod === 'CASH') {
+        await createFoodOrder(email, [{ name: 'Food Order', price: initiatedPrice, qty: 1 }], initiatedPrice, 0, '', 'cash');
+        alert('Order placed! Pay cash on delivery.');
+        navigate('/home');
+        return;
+      }
+      if (selectedMethod === 'CRYPTO') {
+        navigate('/send', { state: { priceTosend: initiatedPrice } });
         return;
       }
     } catch (e: any) {
@@ -264,7 +274,7 @@ const CheckoutContainer = () => {
 
         {/* Crypto */}
         <CardBox $surface={colors.surface} $border={colors.border} $selected={selectedMethod === 'CRYPTO'} $accent={colors.accent}>
-          <div onClick={() => { setSelectedMethod('CRYPTO'); navigate('/send', { state: { priceTosend: initiatedPrice } }); }} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', cursor: 'pointer' }}>
+          <div onClick={() => setSelectedMethod('CRYPTO')} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', cursor: 'pointer' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
               <IconCircle $accent={colors.accent}><Coins size={18} /></IconCircle>
               <MethodLabel $text={colors.text}>Pay with Crypto</MethodLabel>

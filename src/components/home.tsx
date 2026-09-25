@@ -13,7 +13,8 @@ import { useTheme } from "../contexts/ThemeContext";
 import {
   getLocalCart, setLocalCart, addToLocalCart, updateLocalCartItemQty,
   createFoodOrder, fetchFoodOrders, getLocalBalance, fetchFoodWallet,
-  updateProfile, fetchProfile, fetchWallet, fetchVA
+  updateProfile, fetchProfile, fetchWallet, fetchVA,
+  fetchCart, syncCart, clearCart as clearCloudCart
 } from "../services/api";
 
 // ─── Types ────────────────────────────────────────────────────────
@@ -118,36 +119,6 @@ const PRODUCTS: Product[] = [
   { id: 32, name: "Cerelac", price: 3200, unit: "400g", icon: <Baby size={20} />, image: IMAGES.baby, category: "baby", rating: 4.6, inStock: true, desc: "Baby cereal", vendor: VENDORS[1], stockLevel: "in_stock", redemptionOptions: ["Food Credits", "Cash"] },
 ];
 
-const SAMPLE_ORDERS: Order[] = [
-  {
-    id: "ORD-2847", items: [
-      { ...PRODUCTS[0], qty: 2 },
-      { ...PRODUCTS[5], qty: 3 },
-      { ...PRODUCTS[26], qty: 1 },
-    ],
-    total: 13900, status: "on_the_way", date: "Today, 2:30 PM",
-    address: "12 Wuse Zone 5, Abuja", estimatedDelivery: "4:45 PM",
-    driver: { name: "Emeka O.", phone: "+234 803 *** 4521" },
-  },
-  {
-    id: "ORD-2831", items: [
-      { ...PRODUCTS[13], qty: 1 },
-      { ...PRODUCTS[14], qty: 2 },
-    ],
-    total: 8800, status: "delivered", date: "Yesterday, 11:15 AM",
-    address: "12 Wuse Zone 5, Abuja", estimatedDelivery: "Delivered",
-  },
-  {
-    id: "ORD-2819", items: [
-      { ...PRODUCTS[11], qty: 1 },
-      { ...PRODUCTS[8], qty: 2 },
-      { ...PRODUCTS[24], qty: 1 },
-    ],
-    total: 7800, status: "delivered", date: "Jul 15, 3:00 PM",
-    address: "12 Wuse Zone 5, Abuja", estimatedDelivery: "Delivered",
-  },
-];
-
 // ─── Helpers ──────────────────────────────────────────────────────
 const formatNaira = (n: number) => `\u20A6${n.toLocaleString()}`;
 
@@ -209,14 +180,27 @@ export default function CampusPlanner() {
   const email = localStorage.getItem("email") || "";
 
   useEffect(() => {
-    // Load cart from localStorage
-    const savedCart = getLocalCart();
-    if (savedCart.length > 0) {
-      setCart(savedCart);
-    }
-    // Load wallet balance
+    // Load cart from cloud, fallback to localStorage
+    const loadCart = async () => {
+      if (!email) {
+        const savedCart = getLocalCart();
+        if (savedCart.length > 0) setCart(savedCart);
+        return;
+      }
+      const cloudCart = await fetchCart(email);
+      if (cloudCart.length > 0) {
+        setCart(cloudCart);
+        setLocalCart(cloudCart);
+      } else {
+        const localCart = getLocalCart();
+        if (localCart.length > 0) {
+          setCart(localCart);
+          syncCart(email, localCart);
+        }
+      }
+    };
+    loadCart();
     loadBalance();
-    // Load orders
     loadOrders();
   }, [email]);
 
@@ -234,7 +218,7 @@ export default function CampusPlanner() {
     if (!email) return;
     try {
       const data = await fetchFoodOrders(email);
-      if (Array.isArray(data) && data.length > 0) {
+      if (Array.isArray(data)) {
         setOrders(data.map((o: any) => ({
           id: o.orderId || o._id,
           items: o.items || [],
@@ -257,6 +241,13 @@ export default function CampusPlanner() {
       return newCart;
     });
   }, []);
+
+  // Sync cart to cloud whenever it changes
+  useEffect(() => {
+    if (email && cart.length >= 0) {
+      syncCart(email, cart);
+    }
+  }, [cart, email]);
 
   const cartCount = cart.reduce((s, i) => s + i.qty, 0);
   const cartTotal = cart.reduce((s, i) => s + i.price * i.qty, 0);
@@ -560,7 +551,7 @@ export default function CampusPlanner() {
 
         {/* ─── CART ─────────────────────────────────────────── */}
         {screen === "cart" && (
-          <CartScreen cart={cart} setCart={setCart} setScreen={setScreen} colors={colors} />
+          <CartScreen cart={cart} setCart={setCart} setScreen={setScreen} colors={colors} onOrderPlaced={loadOrders} />
         )}
 
         {/* ─── ORDERS ───────────────────────────────────────── */}
@@ -691,15 +682,17 @@ function ProductCard({ product, onAdd, colors, index }: {
 }
 
 // ─── Cart Screen ──────────────────────────────────────────────────
-function CartScreen({ cart, setCart, setScreen, colors }: {
+function CartScreen({ cart, setCart, setScreen, colors, onOrderPlaced }: {
   cart: CartItem[]; setCart: React.Dispatch<React.SetStateAction<CartItem[]>>;
   setScreen: (s: Screen) => void; colors: ReturnType<typeof useTheme>["colors"];
+  onOrderPlaced: () => Promise<void>;
 }) {
   const navigate = useNavigate();
   const [ordering, setOrdering] = useState(false);
 
   const total = cart.reduce((s, i) => s + i.price * i.qty, 0);
   const deliveryFee = total > 5000 ? 0 : 500;
+  const [orderSuccess, setOrderSuccess] = useState<{ orderId: string; total: number } | null>(null);
 
   const updateQty = (id: number, delta: number) => {
     const newCart = updateLocalCartItemQty(id, delta);
@@ -721,9 +714,12 @@ function CartScreen({ cart, setCart, setScreen, colors }: {
         address,
         "food_credits"
       );
+      const orderId = result.order?.orderId || result.order?.id || "ORD-0000";
       setCart([]);
       setLocalCart([]);
-      setScreen("orders");
+      setOrderSuccess({ orderId, total: total + deliveryFee });
+      setOrdering(false);
+      return;
     } catch (e: any) {
       alert(e.message || "Order failed. Please try again.");
     }
@@ -818,6 +814,71 @@ function CartScreen({ cart, setCart, setScreen, colors }: {
           </button>
         </div>
       )}
+
+      {/* Order Success Receipt */}
+      {orderSuccess && (
+        <div style={{
+          position: "fixed", inset: 0, zIndex: 100,
+          background: "rgba(0,0,0,0.6)", display: "flex",
+          alignItems: "center", justifyContent: "center", padding: 20,
+        }}>
+          <div style={{
+            background: colors.surface, borderRadius: 24, padding: 32,
+            maxWidth: 360, width: "100%", textAlign: "center",
+          }}>
+            <div style={{
+              width: 64, height: 64, borderRadius: "50%",
+              background: `${colors.success}15`, display: "flex",
+              alignItems: "center", justifyContent: "center",
+              margin: "0 auto 16px",
+            }}>
+              <Check size={32} color={colors.success} />
+            </div>
+            <div style={{ fontSize: 18, fontWeight: 700, color: colors.text, marginBottom: 4 }}>
+              Order Placed!
+            </div>
+            <div style={{ fontSize: 12, color: colors.textMuted, marginBottom: 20 }}>
+              Your food is being prepared
+            </div>
+
+            <div style={{
+              background: colors.bg, borderRadius: 14, padding: 16,
+              textAlign: "left", marginBottom: 20,
+            }}>
+              <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 8 }}>
+                <span style={{ fontSize: 12, color: colors.textMuted }}>Order ID</span>
+                <span style={{ fontSize: 12, fontWeight: 600, color: colors.text }}>{orderSuccess.orderId}</span>
+              </div>
+              <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 8 }}>
+                <span style={{ fontSize: 12, color: colors.textMuted }}>Items</span>
+                <span style={{ fontSize: 12, fontWeight: 600, color: colors.text }}>{cart.length} items</span>
+              </div>
+              <div style={{ display: "flex", justifyContent: "space-between", height: 1, background: colors.border, margin: "8px 0" }} />
+              <div style={{ display: "flex", justifyContent: "space-between" }}>
+                <span style={{ fontSize: 13, fontWeight: 700, color: colors.text }}>Total Paid</span>
+                <span style={{ fontSize: 13, fontWeight: 700, color: colors.accent }}>{formatNaira(orderSuccess.total)}</span>
+              </div>
+            </div>
+
+            <button onClick={() => { setOrderSuccess(null); onOrderPlaced(); setScreen("orders"); }} style={{
+              width: "100%", padding: "14px", borderRadius: 14,
+              background: colors.accent, color: "#0A0A0A", fontSize: 14,
+              fontWeight: 700, border: "none", cursor: "pointer",
+              fontFamily: "'Sora', sans-serif", marginBottom: 10,
+            }}>
+              View Order
+            </button>
+            <button onClick={() => { setOrderSuccess(null); onOrderPlaced(); setScreen("home"); }} style={{
+              width: "100%", padding: "14px", borderRadius: 14,
+              background: "transparent", color: colors.textMuted, fontSize: 14,
+              fontWeight: 600, border: `1px solid ${colors.border}`, cursor: "pointer",
+              fontFamily: "'Sora', sans-serif",
+            }}>
+              Continue Shopping
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
@@ -828,9 +889,12 @@ function OrdersScreen({ orders, setScreen, setSelectedOrder, colors }: {
   setScreen: (s: Screen) => void; setSelectedOrder: (o: Order) => void;
   colors: ReturnType<typeof useTheme>["colors"];
 }) {
-  const statusMap = {
+  const statusMap: Record<string, { label: string; color: string }> = {
+    pending: { label: "Pending", color: colors.textMuted },
     preparing: { label: "Preparing", color: colors.warning },
+    ready: { label: "Ready", color: colors.accent },
     on_the_way: { label: "On the way", color: colors.accent },
+    completed: { label: "Completed", color: colors.success },
     delivered: { label: "Delivered", color: colors.success },
     cancelled: { label: "Cancelled", color: colors.error },
   };
@@ -849,7 +913,7 @@ function OrdersScreen({ orders, setScreen, setSelectedOrder, colors }: {
           <div style={{ fontSize: 12 }}>Your food orders will appear here</div>
         </div>
       ) : orders.map(order => {
-        const s = statusMap[order.status];
+        const s = statusMap[order.status] || { label: order.status, color: colors.textMuted };
         return (
           <div key={order.id} onClick={() => { setSelectedOrder(order); setScreen("tracking"); }} style={{
             ...S.card(colors.surface, colors.border), padding: 18, marginBottom: 12,

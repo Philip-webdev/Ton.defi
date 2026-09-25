@@ -1,22 +1,53 @@
 const API_BASE = import.meta.env.VITE_BACKEND_URL || "https://twa-backend-g83o.onrender.com";
 
+// ─── Token Helpers ─────────────────────────────────────────────────
+function getToken(): string | null {
+  return localStorage.getItem("token");
+}
+
+function authHeaders(): Record<string, string> {
+  const token = getToken();
+  const headers: Record<string, string> = { "Content-Type": "application/json" };
+  if (token) headers["Authorization"] = `Bearer ${token}`;
+  return headers;
+}
+
 // ─── Auth ─────────────────────────────────────────────────────────
 export async function registerUser(fullName: string, email: string, password: string) {
-  const res = await fetch(`${API_BASE}/register`, {
+  const res = await fetch(`${API_BASE}/api/auth/register`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ fullName, email, password }),
-    credentials: "include",
+    body: JSON.stringify({ fullName, email, password, role: "buyer" }),
   });
   return res.json();
 }
 
 export async function loginUser(email: string, password: string) {
-  const res = await fetch(`${API_BASE}/login`, {
+  const res = await fetch(`${API_BASE}/api/auth/login`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ email, password }),
-    credentials: "include",
+    body: JSON.stringify({ email, password, role: "buyer" }),
+  });
+  return res.json();
+}
+
+export async function registerVendor(data: {
+  email: string; password: string; businessName: string;
+  phone?: string; category?: string; address?: string; city?: string; state?: string;
+}) {
+  const res = await fetch(`${API_BASE}/api/auth/register`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ ...data, role: "vendor" }),
+  });
+  return res.json();
+}
+
+export async function loginVendor(email: string, password: string) {
+  const res = await fetch(`${API_BASE}/api/auth/login`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ email, password, role: "vendor" }),
   });
   return res.json();
 }
@@ -86,7 +117,8 @@ export async function sendFoodCredits(
     }
     return data;
   } catch {
-    // Fallback to localStorage
+    // Queue for retry + local fallback
+    enqueue({ url: `${API_BASE}/api/food-transfer`, method: "POST", body: { fromEmail, toName, toContact, amount, note } });
     return sendLocalFoodCredits(toName, toContact, amount, note);
   }
 }
@@ -101,7 +133,8 @@ export async function foodPay(buyerEmail: string, vendorEmail: string, amount: n
     });
     return await res.json();
   } catch {
-    return { error: "Network error" };
+    enqueue({ url: `${API_BASE}/api/food-pay`, method: "POST", body: { buyerEmail, vendorEmail, amount, reference } });
+    return { error: "Network error — queued for retry" };
   }
 }
 
@@ -131,12 +164,19 @@ export async function createFoodOrder(
       body: JSON.stringify({ email, items, total, deliveryFee, address, paymentMethod }),
     });
     const data = await res.json();
+    if (!res.ok || data.error) {
+      throw new Error(data.error || `Order failed (${res.status})`);
+    }
     if (data.newBalance !== undefined) {
       updateLocalBalance(data.newBalance);
     }
     return data;
-  } catch {
-    // Fallback to localStorage
+  } catch (e: any) {
+    // Only queue on network failure (not on API errors like insufficient balance)
+    if (e.message && e.message !== 'Failed to fetch' && !e.message.includes('NetworkError')) {
+      throw e;
+    }
+    enqueue({ url: `${API_BASE}/api/food-orders`, method: "POST", body: { email, items, total, deliveryFee, address, paymentMethod } });
     return createLocalOrder(items, total, deliveryFee, address, paymentMethod);
   }
 }
@@ -177,7 +217,7 @@ export async function updateVendorOrderStatus(orderId: string, status: string) {
   try {
     const res = await fetch(`${API_BASE}/api/vendor-orders/${orderId}`, {
       method: "PATCH",
-      headers: { "Content-Type": "application/json" },
+      headers: authHeaders(),
       body: JSON.stringify({ status }),
     });
     return await res.json();
@@ -318,6 +358,58 @@ const CART_KEY = "nekstpei_cart";
 const CONTACT_KEY = "nekstpei_contacts";
 const PROFILE_KEY = "nekstpei_profile";
 const VENDOR_ORDER_KEY = "nekstpei_vendor_orders";
+const QUEUE_KEY = "nekstpei_write_queue";
+
+// ─── Offline Write Queue ──────────────────────────────────────────
+interface QueuedWrite {
+  id: string;
+  url: string;
+  method: string;
+  body: any;
+  timestamp: number;
+  retries: number;
+}
+
+function getQueue(): QueuedWrite[] {
+  try { return JSON.parse(localStorage.getItem(QUEUE_KEY) || "[]"); } catch { return []; }
+}
+
+function setQueue(queue: QueuedWrite[]): void {
+  localStorage.setItem(QUEUE_KEY, JSON.stringify(queue));
+}
+
+function enqueue(write: Omit<QueuedWrite, 'id' | 'timestamp' | 'retries'>): void {
+  const queue = getQueue();
+  queue.push({ ...write, id: `qw-${Date.now()}-${Math.random().toString(36).slice(2, 6)}`, timestamp: Date.now(), retries: 0 });
+  setQueue(queue);
+}
+
+export async function processQueue(): Promise<void> {
+  const queue = getQueue();
+  if (queue.length === 0) return;
+
+  const remaining: QueuedWrite[] = [];
+  for (const write of queue) {
+    try {
+      const res = await fetch(write.url, {
+        method: write.method,
+        headers: { "Content-Type": "application/json", Authorization: `Bearer ${getToken() || ''}` },
+        body: JSON.stringify(write.body),
+      });
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    } catch {
+      if (write.retries < 3) {
+        remaining.push({ ...write, retries: write.retries + 1 });
+      }
+    }
+  }
+  setQueue(remaining);
+}
+
+// Process queue on app load
+if (typeof window !== 'undefined') {
+  setTimeout(() => processQueue(), 3000);
+}
 
 interface WalletData {
   balance: number;
@@ -601,6 +693,38 @@ export function clearLocalCart(): void {
   setLocal(CART_KEY, []);
 }
 
+// ─── Cart Cloud Sync ──────────────────────────────────────────────
+export async function fetchCart(email: string): Promise<any[]> {
+  try {
+    const res = await fetch(`${API_BASE}/api/cart/${encodeURIComponent(email)}`);
+    const data = await res.json();
+    return Array.isArray(data.items) ? data.items : [];
+  } catch {
+    return getLocalCart();
+  }
+}
+
+export async function syncCart(email: string, items: any[], deliveryAddress?: string): Promise<void> {
+  try {
+    await fetch(`${API_BASE}/api/cart/${encodeURIComponent(email)}`, {
+      method: "POST",
+      headers: authHeaders(),
+      body: JSON.stringify({ items, deliveryAddress: deliveryAddress || '' }),
+    });
+  } catch {
+    // Offline — localStorage already updated by caller
+  }
+}
+
+export async function clearCart(email: string): Promise<void> {
+  try {
+    await fetch(`${API_BASE}/api/cart/${encodeURIComponent(email)}`, {
+      method: "DELETE",
+      headers: authHeaders(),
+    });
+  } catch {}
+}
+
 // ─── Contacts LocalStorage ────────────────────────────────────────
 export function getLocalContacts(): LocalContact[] {
   return getLocal<LocalContact[]>(CONTACT_KEY, getDefaultContacts());
@@ -671,24 +795,6 @@ export function setMonnifyAccount(accountNumber: string): void {
 }
 
 // ─── Vendor APIs ──────────────────────────────────────────────────
-export async function registerVendor(data: any) {
-  const res = await fetch(`${API_BASE}/api/vendors/register`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(data),
-  });
-  return res.json();
-}
-
-export async function loginVendor(email: string, password: string) {
-  const res = await fetch(`${API_BASE}/api/vendors/login`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ email, password }),
-  });
-  return res.json();
-}
-
 export async function fetchVendorProfile(email: string) {
   const res = await fetch(`${API_BASE}/api/vendors/profile/${encodeURIComponent(email)}`);
   return res.json();
@@ -697,14 +803,17 @@ export async function fetchVendorProfile(email: string) {
 export async function updateVendorProfile(email: string, updates: any) {
   const res = await fetch(`${API_BASE}/api/vendors/profile/${encodeURIComponent(email)}`, {
     method: "PUT",
-    headers: { "Content-Type": "application/json" },
+    headers: authHeaders(),
     body: JSON.stringify(updates),
   });
   return res.json();
 }
 
 export async function toggleVendorStatus(email: string) {
-  const res = await fetch(`${API_BASE}/api/vendors/status/${encodeURIComponent(email)}`, { method: "PATCH" });
+  const res = await fetch(`${API_BASE}/api/vendors/status/${encodeURIComponent(email)}`, {
+    method: "PATCH",
+    headers: authHeaders(),
+  });
   return res.json();
 }
 
@@ -716,7 +825,7 @@ export async function fetchVendorMenu(email: string) {
 export async function addVendorMenuItem(email: string, item: any) {
   const res = await fetch(`${API_BASE}/api/vendors/menu/${encodeURIComponent(email)}`, {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
+    headers: authHeaders(),
     body: JSON.stringify(item),
   });
   return res.json();
@@ -725,19 +834,37 @@ export async function addVendorMenuItem(email: string, item: any) {
 export async function updateVendorMenuItem(email: string, itemId: string, updates: any) {
   const res = await fetch(`${API_BASE}/api/vendors/menu/${encodeURIComponent(email)}/${itemId}`, {
     method: "PUT",
-    headers: { "Content-Type": "application/json" },
+    headers: authHeaders(),
     body: JSON.stringify(updates),
   });
   return res.json();
 }
 
 export async function deleteVendorMenuItem(email: string, itemId: string) {
-  const res = await fetch(`${API_BASE}/api/vendors/menu/${encodeURIComponent(email)}/${itemId}`, { method: "DELETE" });
+  const res = await fetch(`${API_BASE}/api/vendors/menu/${encodeURIComponent(email)}/${itemId}`, {
+    method: "DELETE",
+    headers: authHeaders(),
+  });
   return res.json();
 }
 
 export async function fetchVendorDashboard(email: string) {
   const res = await fetch(`${API_BASE}/api/vendors/dashboard/${encodeURIComponent(email)}`);
+  return res.json();
+}
+
+// ─── Vendor Verification ─────────────────────────────────────────
+export async function verifyVendorTier2(type: 'bvn' | 'nin', number: string) {
+  const res = await fetch(`${API_BASE}/api/vendors/verify/tier2`, {
+    method: "POST",
+    headers: authHeaders(),
+    body: JSON.stringify({ type, number }),
+  });
+  return res.json();
+}
+
+export async function fetchVendorVerification(email: string) {
+  const res = await fetch(`${API_BASE}/api/vendors/verification/${encodeURIComponent(email)}`);
   return res.json();
 }
 

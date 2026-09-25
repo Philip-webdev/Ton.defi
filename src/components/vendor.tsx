@@ -6,11 +6,11 @@ import {
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useTheme } from "../contexts/ThemeContext";
-import { fetchVendorDashboard, fetchVendorOrders, updateVendorOrderStatus, toggleVendorStatus, fetchVendorProfile, foodPay } from "../services/api";
+import { fetchVendorDashboard, fetchVendorOrders, updateVendorOrderStatus, toggleVendorStatus, fetchVendorProfile, foodPay, fetchFoodTransactions } from "../services/api";
 import QRScanner from "./QRcode";
 
 // ─── Types ────────────────────────────────────────────────────────
-type Tab = "orders" | "analytics" | "settlement" | "promotions" | "settings";
+type Tab = "orders" | "transactions" | "analytics" | "settlement" | "promotions" | "settings";
 
 interface VendorOrder {
   id: string;
@@ -85,10 +85,13 @@ export default function VendorPortal() {
   const [dashboardData, setDashboardData] = useState<any>(null);
   const [vendorProfile, setVendorProfile] = useState<any>(null);
   const [loading, setLoading] = useState(true);
+  const [transactions, setTransactions] = useState<any[]>([]);
+  const [txFilter, setTxFilter] = useState<string>("all");
 
   useEffect(() => {
     loadDashboard();
     loadOrders();
+    loadTransactions();
   }, [email]);
 
   const loadDashboard = async () => {
@@ -119,6 +122,20 @@ export default function VendorPortal() {
     setLoading(false);
   };
 
+  const loadTransactions = async () => {
+    if (!email) return;
+    try {
+      const data = await fetchFoodTransactions(email, txFilter);
+      if (Array.isArray(data)) {
+        setTransactions(data);
+      }
+    } catch {}
+  };
+
+  useEffect(() => {
+    loadTransactions();
+  }, [txFilter]);
+
   const todayStats: DailyStats = {
     revenue: dashboardData?.stats?.totalRevenue || orders.reduce((s, o) => s + o.total, 0),
     orders: dashboardData?.stats?.totalOrders || orders.length,
@@ -138,11 +155,10 @@ export default function VendorPortal() {
       const data = JSON.parse(decodedText);
       if (data.buyerEmail && data.amount && data.reference) {
         setScannedPayment(data);
-        setScanResult(`Buyer: ${data.buyerEmail}\nAmount: ₦${data.amount.toLocaleString()}`);
         setScanning(false);
       }
     } catch {
-      setScanResult("Invalid QR code");
+      setScanResult("Invalid QR code — please try again");
       setScanning(false);
     }
   };
@@ -343,9 +359,9 @@ export default function VendorPortal() {
         <div className="vendor-anim" style={{ display: "flex", gap: 4, marginBottom: 24, animationDelay: ".1s" }}>
           {([
             { id: "orders" as Tab, icon: Package, label: "Orders" },
+            { id: "transactions" as Tab, icon: DollarSign, label: "Ledger" },
             { id: "analytics" as Tab, icon: BarChart3, label: "Analytics" },
             { id: "settlement" as Tab, icon: DollarSign, label: "Settle" },
-            { id: "promotions" as Tab, icon: Megaphone, label: "Promos" },
             { id: "settings" as Tab, icon: Settings, label: "More" },
           ]).map(tab => (
             <button
@@ -374,64 +390,7 @@ export default function VendorPortal() {
               <Scan size={16} /> Scan Food Credit QR
             </button>
 
-            {/* Live QR Scanner */}
-            {scanning && (
-              <div style={{ marginBottom: 16 }}>
-                <div style={{ fontSize: 12, fontWeight: 600, color: colors.accent, marginBottom: 8, textAlign: "center" }}>
-                  Point camera at customer's QR code
-                </div>
-                <div style={{ borderRadius: 16, overflow: "hidden", border: `2px solid ${colors.accent}` }}>
-                  <QRScanner onRender={handleQRScan} />
-                </div>
-                <button onClick={() => setScanning(false)} style={{
-                  width: "100%", padding: "10px", borderRadius: 10,
-                  border: `1px solid ${colors.error}`, background: "transparent",
-                  color: colors.error, fontSize: 12, fontWeight: 700,
-                  cursor: "pointer", fontFamily: "'Sora', sans-serif",
-                  marginTop: 10,
-                }}>
-                  Cancel
-                </button>
-              </div>
-            )}
-
-            {/* Payment Confirmation */}
-            {scannedPayment && !paySuccess && (
-              <div style={{
-                background: colors.surface, border: `1px solid ${colors.border}`,
-                borderRadius: 16, padding: 18, marginBottom: 16,
-              }}>
-                <div style={{ fontSize: 13, fontWeight: 700, color: colors.text, marginBottom: 12 }}>Confirm Payment</div>
-                <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 8 }}>
-                  <span style={{ fontSize: 12, color: colors.textMuted }}>Buyer</span>
-                  <span style={{ fontSize: 12, fontWeight: 600, color: colors.text }}>{scannedPayment.buyerEmail}</span>
-                </div>
-                <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 16 }}>
-                  <span style={{ fontSize: 12, color: colors.textMuted }}>Amount</span>
-                  <span style={{ fontSize: 16, fontWeight: 700, color: colors.accent }}>{formatNaira(scannedPayment.amount)}</span>
-                </div>
-                <div style={{ display: "flex", gap: 8 }}>
-                  <button onClick={handleConfirmPayment} disabled={paying} style={{
-                    flex: 1, padding: "12px", borderRadius: 10, border: "none",
-                    background: colors.accent, color: "#0A0A0A", fontSize: 13, fontWeight: 700,
-                    cursor: paying ? "not-allowed" : "pointer", fontFamily: "'Sora', sans-serif",
-                    opacity: paying ? 0.6 : 1,
-                  }}>
-                    {paying ? "Processing..." : `Confirm ${formatNaira(scannedPayment.amount)}`}
-                  </button>
-                  <button onClick={() => { setScannedPayment(null); setScanResult(null); }} style={{
-                    flex: 1, padding: "12px", borderRadius: 10,
-                    border: `1px solid ${colors.border}`, background: "transparent",
-                    color: colors.textMuted, fontSize: 13, fontWeight: 700,
-                    cursor: "pointer", fontFamily: "'Sora', sans-serif",
-                  }}>
-                    Cancel
-                  </button>
-                </div>
-              </div>
-            )}
-
-            {/* Payment Success */}
+            {/* Payment Success Banner */}
             {paySuccess && (
               <div style={{
                 background: `${colors.success}15`, border: `1px solid ${colors.success}30`,
@@ -442,30 +401,10 @@ export default function VendorPortal() {
                 <div style={{ flex: 1 }}>
                   <div style={{ fontSize: 13, fontWeight: 600, color: colors.success }}>Payment Successful</div>
                   <div style={{ fontSize: 11, color: colors.textMuted, marginTop: 2 }}>
-                    Received {formatNaira(paySuccess.vendorBalance > 0 ? scannedPayment?.amount || 0 : 0)} · Balance: {formatNaira(paySuccess.vendorBalance)}
+                    Balance: {formatNaira(paySuccess.vendorBalance)}
                   </div>
                 </div>
                 <button onClick={() => setPaySuccess(null)} style={{
-                  background: "none", border: "none", cursor: "pointer", color: colors.textMuted,
-                }}>
-                  <X size={14} />
-                </button>
-              </div>
-            )}
-
-            {/* Scan Result (errors) */}
-            {scanResult && !scannedPayment && (
-              <div style={{
-                background: `${colors.success}15`, border: `1px solid ${colors.success}30`,
-                borderRadius: 14, padding: 14, marginBottom: 16,
-                display: "flex", alignItems: "center", gap: 10,
-              }}>
-                <Check size={18} color={colors.success} />
-                <div style={{ flex: 1 }}>
-                  <div style={{ fontSize: 12, fontWeight: 600, color: colors.success }}>QR Scanned Successfully</div>
-                  <div style={{ fontSize: 11, color: colors.textMuted, marginTop: 2 }}>{scanResult}</div>
-                </div>
-                <button onClick={() => setScanResult(null)} style={{
                   background: "none", border: "none", cursor: "pointer", color: colors.textMuted,
                 }}>
                   <X size={14} />
@@ -573,6 +512,107 @@ export default function VendorPortal() {
                 </div>
               </div>
             ))}
+          </div>
+        )}
+
+        {/* ─── TAB: TRANSACTIONS ──────────────────────────────── */}
+        {activeTab === "transactions" && (
+          <div className="vendor-anim" style={{ animationDelay: ".15s" }}>
+            {/* Filter chips */}
+            <div style={{ display: "flex", gap: 6, marginBottom: 16, overflowX: "auto", paddingBottom: 4 }}>
+              {["all", "receive", "order", "topup", "refund"].map(f => (
+                <button key={f} onClick={() => setTxFilter(f)} style={{
+                  padding: "8px 16px", borderRadius: 20, border: "none",
+                  background: txFilter === f ? colors.accent : colors.surface,
+                  color: txFilter === f ? "#0A0A0A" : colors.textMuted,
+                  fontSize: 12, fontWeight: 600, cursor: "pointer",
+                  fontFamily: "'Sora', sans-serif", whiteSpace: "nowrap",
+                  textTransform: "capitalize",
+                }}>
+                  {f === "all" ? "All" : f}
+                </button>
+              ))}
+            </div>
+
+            {/* Summary cards */}
+            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10, marginBottom: 16 }}>
+              <div style={{
+                background: colors.surface, border: `1px solid ${colors.border}`,
+                borderRadius: 14, padding: 14,
+              }}>
+                <div style={{ fontSize: 11, color: colors.textMuted, marginBottom: 4 }}>Today</div>
+                <div style={{ fontSize: 18, fontWeight: 700, color: colors.accent }}>
+                  {formatNaira(transactions.filter(t => {
+                    const d = new Date(t.createdAt);
+                    const now = new Date();
+                    return d.toDateString() === now.toDateString();
+                  }).reduce((s, t) => s + (t.amount || 0), 0))}
+                </div>
+              </div>
+              <div style={{
+                background: colors.surface, border: `1px solid ${colors.border}`,
+                borderRadius: 14, padding: 14,
+              }}>
+                <div style={{ fontSize: 11, color: colors.textMuted, marginBottom: 4 }}>Transactions</div>
+                <div style={{ fontSize: 18, fontWeight: 700, color: colors.text }}>
+                  {transactions.length}
+                </div>
+              </div>
+            </div>
+
+            {/* Transaction list */}
+            {transactions.length === 0 ? (
+              <div style={{
+                background: colors.surface, border: `1px solid ${colors.border}`,
+                borderRadius: 14, padding: 32, textAlign: "center",
+              }}>
+                <DollarSign size={28} color={colors.textMuted} style={{ marginBottom: 10 }} />
+                <div style={{ fontSize: 13, color: colors.textMuted }}>No transactions yet</div>
+              </div>
+            ) : (
+              transactions.map((tx, i) => (
+                <div key={tx._id || i} style={{
+                  display: "flex", alignItems: "center", gap: 12,
+                  padding: "14px 16px", marginBottom: 8,
+                  background: colors.surface, border: `1px solid ${colors.border}`,
+                  borderRadius: 14,
+                }}>
+                  <div style={{
+                    width: 38, height: 38, borderRadius: 10,
+                    background: tx.type === "receive" ? `${colors.success}15` :
+                                tx.type === "order" ? `${colors.accent}15` : `${colors.error}15`,
+                    display: "flex", alignItems: "center", justifyContent: "center",
+                  }}>
+                    {tx.type === "receive" ? (
+                      <TrendingUp size={16} color={colors.success} />
+                    ) : tx.type === "order" ? (
+                      <Package size={16} color={colors.accent} />
+                    ) : (
+                      <ArrowLeft size={16} color={colors.error} />
+                    )}
+                  </div>
+                  <div style={{ flex: 1 }}>
+                    <div style={{ fontSize: 13, fontWeight: 600, color: colors.text }}>
+                      {tx.description || tx.type}
+                    </div>
+                    <div style={{ fontSize: 11, color: colors.textMuted, marginTop: 2 }}>
+                      {tx.from ? `From: ${tx.from}` : tx.vendor ? `To: ${tx.vendor}` : tx.reference}
+                    </div>
+                  </div>
+                  <div style={{ textAlign: "right" }}>
+                    <div style={{
+                      fontSize: 14, fontWeight: 700,
+                      color: tx.type === "receive" || tx.type === "topup" ? colors.success : colors.text,
+                    }}>
+                      {tx.type === "receive" || tx.type === "topup" ? "+" : "-"}{formatNaira(tx.amount)}
+                    </div>
+                    <div style={{ fontSize: 10, color: colors.textMuted, marginTop: 2 }}>
+                      {new Date(tx.createdAt).toLocaleDateString()}
+                    </div>
+                  </div>
+                </div>
+              ))
+            )}
           </div>
         )}
 
@@ -786,6 +826,40 @@ export default function VendorPortal() {
         {/* ─── TAB: SETTINGS ──────────────────────────────────── */}
         {activeTab === "settings" && (
           <div className="vendor-anim" style={{ animationDelay: ".15s" }}>
+            {/* Verification Status */}
+            <div style={{
+              background: colors.surface, border: `1px solid ${colors.border}`,
+              borderRadius: 16, padding: 18, marginBottom: 16,
+            }}>
+              <div style={{ fontSize: 13, fontWeight: 700, color: colors.text, marginBottom: 12 }}>
+                Verification Status
+              </div>
+              <div style={{
+                display: "flex", alignItems: "center", gap: 10, marginBottom: 12,
+                padding: "10px 14px", borderRadius: 10,
+                background: vendorProfile?.verificationTier >= 2 ? `${colors.success}15` : `${colors.error}15`,
+                border: `1px solid ${vendorProfile?.verificationTier >= 2 ? colors.success : colors.error}30`,
+              }}>
+                <div style={{
+                  width: 8, height: 8, borderRadius: "50%",
+                  background: vendorProfile?.verificationTier >= 2 ? colors.success : colors.error,
+                }} />
+                <span style={{
+                  fontSize: 12, fontWeight: 600,
+                  color: vendorProfile?.verificationTier >= 2 ? colors.success : colors.error,
+                }}>
+                  {vendorProfile?.verificationTier === 3 ? "Verified Business" :
+                   vendorProfile?.verificationTier === 2 ? "Identity Verified" : "Basic (Unverified)"}
+                </span>
+              </div>
+              {(!vendorProfile?.verificationTier || vendorProfile.verificationTier < 2) && (
+                <div style={{ fontSize: 11, color: colors.textMuted, lineHeight: 1.5 }}>
+                  Verify your identity with BVN or NIN to unlock ₦500,000/day limit and receive food credit payments.
+                </div>
+              )}
+            </div>
+
+            {/* Settings items */}
             {[
               { icon: <Settings size={18} />, label: "Store Settings", sub: "Name, hours, location", action: () => alert("Store settings coming soon!") },
               { icon: <Bell size={18} />, label: "Notifications", sub: "Order alerts, messages", action: () => alert("Notification settings coming soon!") },
@@ -813,7 +887,115 @@ export default function VendorPortal() {
             ))}
           </div>
         )}
+
+        {/* Error banner */}
+        {scanResult && (
+          <div style={{
+            background: `${colors.error}15`, border: `1px solid ${colors.error}30`,
+            borderRadius: 14, padding: 14, marginBottom: 16,
+            display: "flex", alignItems: "center", gap: 10,
+          }}>
+            <X size={18} color={colors.error} />
+            <div style={{ flex: 1, fontSize: 12, fontWeight: 600, color: colors.error }}>{scanResult}</div>
+            <button onClick={() => setScanResult(null)} style={{
+              background: "none", border: "none", cursor: "pointer", color: colors.textMuted,
+            }}>
+              <X size={14} />
+            </button>
+          </div>
+        )}
       </div>
+
+      {/* ─── FULL-SCREEN QR SCANNER ───────────────────────────── */}
+      {scanning && (
+        <QRScanner onScan={handleQRScan} onClose={() => setScanning(false)} />
+      )}
+
+      {/* ─── PAYMENT CONFIRMATION BOTTOM SHEET ────────────────── */}
+      {scannedPayment && !paySuccess && (
+        <div style={{
+          position: "fixed", inset: 0, zIndex: 9998,
+          background: "rgba(0,0,0,0.5)", display: "flex",
+          alignItems: "flex-end", justifyContent: "center",
+        }}>
+          <div style={{
+            width: "100%", maxWidth: 420, background: colors.surface,
+            borderTopLeftRadius: 28, borderTopRightRadius: 28,
+            padding: "28px 24px 36px", textAlign: "center",
+          }}>
+            {/* Handle bar */}
+            <div style={{
+              width: 36, height: 4, borderRadius: 2,
+              background: colors.border, margin: "0 auto 20px",
+            }} />
+
+            {/* Amount */}
+            <div style={{
+              fontSize: 36, fontWeight: 800, color: colors.accent,
+              fontFamily: "'Sora', sans-serif", marginBottom: 4,
+            }}>
+              {formatNaira(scannedPayment.amount)}
+            </div>
+            <div style={{ fontSize: 12, color: colors.textMuted, marginBottom: 24 }}>
+              Payment from {scannedPayment.buyerEmail}
+            </div>
+
+            {/* Details */}
+            <div style={{
+              background: colors.bg, borderRadius: 14, padding: 16, marginBottom: 24,
+              textAlign: "left",
+            }}>
+              <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 10 }}>
+                <span style={{ fontSize: 12, color: colors.textMuted }}>From</span>
+                <span style={{ fontSize: 12, fontWeight: 600, color: colors.text }}>{scannedPayment.buyerEmail}</span>
+              </div>
+              <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 10 }}>
+                <span style={{ fontSize: 12, color: colors.textMuted }}>To</span>
+                <span style={{ fontSize: 12, fontWeight: 600, color: colors.text }}>{email}</span>
+              </div>
+              <div style={{ display: "flex", justifyContent: "space-between" }}>
+                <span style={{ fontSize: 12, color: colors.textMuted }}>Reference</span>
+                <span style={{ fontSize: 11, fontWeight: 600, color: colors.text }}>{scannedPayment.reference}</span>
+              </div>
+            </div>
+
+            {/* Action buttons */}
+            <div style={{ display: "flex", gap: 10 }}>
+              <button onClick={() => { setScannedPayment(null); setScanResult(null); }} style={{
+                flex: 1, padding: "14px", borderRadius: 14,
+                border: `1px solid ${colors.border}`, background: "transparent",
+                color: colors.textMuted, fontSize: 14, fontWeight: 700,
+                cursor: "pointer", fontFamily: "'Sora', sans-serif",
+              }}>
+                Cancel
+              </button>
+              <button onClick={handleConfirmPayment} disabled={paying} style={{
+                flex: 1.5, padding: "14px", borderRadius: 14, border: "none",
+                background: colors.accent, color: "#0A0A0A", fontSize: 14, fontWeight: 700,
+                cursor: paying ? "not-allowed" : "pointer", fontFamily: "'Sora', sans-serif",
+                opacity: paying ? 0.6 : 1,
+              }}>
+                {paying ? (
+                  <span style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 8 }}>
+                    <span style={{
+                      width: 14, height: 14, border: "2px solid #0A0A0A30",
+                      borderTopColor: "#0A0A0A", borderRadius: "50%",
+                      animation: "spin 0.8s linear infinite",
+                    }} />
+                    Processing...
+                  </span>
+                ) : `Confirm ${formatNaira(scannedPayment.amount)}`}
+              </button>
+            </div>
+          </div>
+
+          <style>{`
+            @keyframes spin {
+              to { transform: rotate(360deg); }
+            }
+          `}</style>
+        </div>
+      )}
     </>
   );
 }

@@ -229,12 +229,15 @@ function UserLogin() {
     setStatus({ type: 'loading', message: 'Creating your account...' });
 
     try {
-      const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/register`, {
+      const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/auth/register`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ fullName, email, password }),
+        body: JSON.stringify({ fullName, email, password, role: 'buyer' }),
       });
       if (!response.ok) throw new Error('Registration failed. Please try again.');
+
+      const regData = await response.json();
+      if (regData.token) localStorage.setItem('token', regData.token);
 
       const fetchAcc = await fetch(`${import.meta.env.VITE_NEW_WALLET}`, {
         method: 'POST',
@@ -275,11 +278,10 @@ function UserLogin() {
     setStatus({ type: 'loading', message: 'Signing you in...' });
 
     try {
-      const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/login`, {
+      const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/auth/login`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        credentials: 'include',
-        body: JSON.stringify({ email, password }),
+        body: JSON.stringify({ email, password, role: 'buyer' }),
       });
 
       if (!response.ok) {
@@ -292,8 +294,15 @@ function UserLogin() {
         throw new Error('Login failed. Please try again.');
       }
 
-      localStorage.setItem('fullName', fullName);
+      const data = await response.json();
       localStorage.setItem('email',    email);
+      if (data.token) localStorage.setItem('token', data.token);
+      // Only overwrite fullName if we have a non-empty value (registration sets it; login should preserve it)
+      if (fullName) {
+        localStorage.setItem('fullName', fullName);
+      } else if (data.user?.fullName) {
+        localStorage.setItem('fullName', data.user.fullName);
+      }
 
       setStatus({ type: 'success', message: 'Login successful! Redirecting...' });
 

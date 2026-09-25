@@ -11,7 +11,7 @@ import { useTheme } from "../contexts/ThemeContext";
 import { fetchFoodWallet, fetchFoodTransactions, topUpFoodWallet, fetchVA, convertWalletToFoodCredits, verifyPayment } from "../services/api";
 
 // ─── Types ────────────────────────────────────────────────────────
-type TransactionType = "topup" | "send" | "receive" | "redemption" | "refund";
+type TransactionType = "topup" | "send" | "receive" | "redemption" | "refund" | "order";
 
 interface Transaction {
   id: string;
@@ -49,6 +49,7 @@ const txIcon: Record<TransactionType, typeof ArrowUpRight> = {
   receive: ArrowDownLeft,
   redemption: ShoppingCart,
   refund: ArrowDownLeft,
+  order: ShoppingCart,
 };
 
 const txColor = (type: TransactionType, accent: string, success: string, error: string) => {
@@ -96,7 +97,12 @@ export default function FoodWallet() {
         fetchVA(email),
       ]);
       setWallet(walletData);
-      setTransactions(Array.isArray(txData) ? txData : []);
+      setTransactions(Array.isArray(txData) ? txData.map((tx: any) => ({
+        ...tx,
+        id: tx._id || tx.id || tx.reference,
+        date: tx.createdAt ? new Date(tx.createdAt).toLocaleDateString() : tx.date || '—',
+        time: tx.createdAt ? new Date(tx.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : tx.time || '—',
+      })) : []);
       setVaData(vaResult);
     } catch (e) {
       console.error("Failed to load wallet data:", e);
@@ -108,18 +114,27 @@ export default function FoodWallet() {
     const amount = Number(topupAmount);
     if (!amount || amount < 100 || !email) return;
     setTopping(true);
+
+    // Open blank window synchronously (before await) to avoid popup blocker
+    const popup = window.open("", "_blank");
+
     try {
       const result = await topUpFoodWallet(email, amount);
 
       if (result.error) {
+        if (popup) popup.close();
         alert(result.error);
         setTopping(false);
         return;
       }
 
-      // Open Korapay checkout popup
+      // Navigate popup to Korapay checkout
       if (result.checkout_url) {
-        window.open(result.checkout_url, "_blank");
+        if (popup) {
+          popup.location.href = result.checkout_url;
+        } else {
+          window.open(result.checkout_url, "_blank");
+        }
         setShowTopup(false);
         setTopupAmount("");
         setTopping(false);
@@ -143,6 +158,7 @@ export default function FoodWallet() {
       setShowTopup(false);
       setTopupAmount("");
     } catch (e) {
+      if (popup) popup.close();
       console.error("Top-up failed:", e);
     }
     setTopping(false);

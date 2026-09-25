@@ -36,6 +36,8 @@ import UnderConstruction from "./components/UnderConstruction";
 // Nekstpei FoodTech Modules
 import FoodWallet from "./components/food-wallet";
 import VendorPortal from "./components/vendor";
+import VendorLogin from "./components/vendor-login";
+import VendorRegister from "./components/vendor-register";
 import AIFoodAssistant from "./components/ai-assistant";
 import InstitutionalDashboard from "./components/institutional";
 import TrustLayerComponent from "./components/trust";
@@ -111,6 +113,8 @@ function App() {
           
           {/* Nekstpei FoodTech Routes */}
           <Route path="/wallet" element={<FoodWallet />} />
+          <Route path="/vendor-login" element={<VendorLogin />} />
+          <Route path="/vendor-register" element={<VendorRegister />} />
           <Route path="/vendor" element={<VendorPortal />} />
           <Route path="/ai-assistant" element={<AIFoodAssistant />} />
           <Route path="/institutional" element={<InstitutionalDashboard />} />
