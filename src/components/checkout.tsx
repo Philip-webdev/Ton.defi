@@ -3,7 +3,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { ChevronLeft, CreditCard, Banknote, Plus, Check, ArrowRight, Coins, X, Trash2 } from 'lucide-react';
 import styled from 'styled-components';
 import { useTheme } from "../contexts/ThemeContext";
-import { createFoodOrder, topUpFoodWallet, fetchFoodWallet } from "../services/api";
+import { createFoodOrder, topUpFoodWallet, fetchFoodWallet, storePendingTopup } from "../services/api";
 
 const PageContainer = styled.div<{ $bg: string }>`
   background: ${p => p.$bg};
@@ -168,6 +168,7 @@ const CheckoutContainer = () => {
       if (selectedMethod === 'CARD') {
         const result = await topUpFoodWallet(email, initiatedPrice);
         if (result?.checkout_url) {
+          if (result.reference) storePendingTopup(result.reference);
           window.open(result.checkout_url, '_blank');
           navigate('/home');
           return;

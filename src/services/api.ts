@@ -86,6 +86,50 @@ export async function verifyPayment(reference: string) {
   }
 }
 
+// Korapay returns 'success' for a paid charge (some payloads use 'successful')
+export function isChargePaid(status?: string) {
+  return status === "success" || status === "successful";
+}
+
+// Remember an in-flight top-up so any page load re-verifies it server-side
+// (covers lost popups, closed tabs, missed webhooks).
+const PENDING_TOPUP_KEY = "pending_topup_v1";
+
+export function storePendingTopup(reference: string) {
+  try {
+    localStorage.setItem(PENDING_TOPUP_KEY, JSON.stringify({ reference, createdAt: Date.now() }));
+  } catch {}
+}
+
+export function clearPendingTopup() {
+  try { localStorage.removeItem(PENDING_TOPUP_KEY); } catch {}
+}
+
+export async function checkPendingTopup(): Promise<"paid" | "failed" | "pending" | null> {
+  try {
+    const raw = localStorage.getItem(PENDING_TOPUP_KEY);
+    if (!raw) return null;
+    const { reference, createdAt } = JSON.parse(raw);
+    if (!reference || Date.now() - createdAt > 24 * 60 * 60 * 1000) {
+      localStorage.removeItem(PENDING_TOPUP_KEY);
+      return null;
+    }
+    const v = await verifyPayment(reference);
+    const status = v?.data?.status;
+    if (isChargePaid(status)) {
+      localStorage.removeItem(PENDING_TOPUP_KEY);
+      return "paid";
+    }
+    if (status === "failed" || status === "abandoned") {
+      localStorage.removeItem(PENDING_TOPUP_KEY);
+      return "failed";
+    }
+    return "pending";
+  } catch {
+    return null;
+  }
+}
+
 // ─── Food Transactions ────────────────────────────────────────────
 export async function fetchFoodTransactions(email: string, type?: string) {
   try {

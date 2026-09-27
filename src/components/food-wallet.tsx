@@ -8,7 +8,7 @@ import {
 import { QRCodeCanvas } from "qrcode.react";
 import { useNavigate } from "react-router-dom";
 import { useTheme } from "../contexts/ThemeContext";
-import { fetchFoodWallet, fetchFoodTransactions, topUpFoodWallet, fetchVA, convertWalletToFoodCredits, verifyPayment, signPaymentQR } from "../services/api";
+import { fetchFoodWallet, fetchFoodTransactions, topUpFoodWallet, fetchVA, convertWalletToFoodCredits, verifyPayment, signPaymentQR, isChargePaid, storePendingTopup, clearPendingTopup, checkPendingTopup } from "../services/api";
 
 // ─── Types ────────────────────────────────────────────────────────
 type TransactionType = "topup" | "send" | "receive" | "redemption" | "refund" | "order";
@@ -72,6 +72,7 @@ export default function FoodWallet() {
   const [wallet, setWallet] = useState<WalletData>({ balance: 0, totalTopups: 0, totalSpent: 0, totalSent: 0, totalReceived: 0 });
   const [loading, setLoading] = useState(true);
   const [topping, setTopping] = useState(false);
+  const [topupError, setTopupError] = useState("");
   const [vaData, setVaData] = useState<any>(null);
   const [showConvert, setShowConvert] = useState(false);
   const [convertAmount, setConvertAmount] = useState("");
@@ -118,6 +119,8 @@ export default function FoodWallet() {
       return;
     }
     try {
+      // Heal any in-flight top-up (missed webhook / lost popup) before reading balance
+      await checkPendingTopup();
       const [walletData, txData, vaResult] = await Promise.all([
         fetchFoodWallet(email),
         fetchFoodTransactions(email),
@@ -141,6 +144,7 @@ export default function FoodWallet() {
     const amount = Number(topupAmount);
     if (!amount || amount < 100 || !email) return;
     setTopping(true);
+    setTopupError("");
 
     // Open blank window synchronously (before await) to avoid popup blocker
     const popup = window.open("", "_blank");
@@ -168,14 +172,30 @@ export default function FoodWallet() {
 
         // Poll for payment verification
         const reference = result.reference;
+        storePendingTopup(reference);
         let attempts = 0;
         const maxAttempts = 30;
         const pollInterval = setInterval(async () => {
           attempts++;
           const verification = await verifyPayment(reference);
-          if (verification?.data?.status === "successful" || attempts >= maxAttempts) {
+          const status = verification?.data?.status;
+          if (isChargePaid(status)) {
             clearInterval(pollInterval);
+            clearPendingTopup();
+            if (popup && !popup.closed) popup.close();
             await loadData();
+            return;
+          }
+          if (status === "failed" || status === "abandoned") {
+            clearInterval(pollInterval);
+            clearPendingTopup();
+            if (popup && !popup.closed) popup.close();
+            setTopupError("Payment was not completed. You have not been charged.");
+            return;
+          }
+          if (attempts >= maxAttempts) {
+            clearInterval(pollInterval);
+            // Keep pending marker — next wallet/home load will re-verify
           }
         }, 10000);
         return;
@@ -622,6 +642,16 @@ export default function FoodWallet() {
                 </button>
               ))}
             </div>
+
+            {topupError && (
+              <div style={{
+                fontSize: 12, color: "#e05b5b", background: "#e05b5b15",
+                border: "1px solid #e05b5b40", borderRadius: 10,
+                padding: "10px 12px", marginBottom: 16, textAlign: "center",
+              }}>
+                {topupError}
+              </div>
+            )}
 
             <div style={{
               display: "flex", alignItems: "center", gap: 12,

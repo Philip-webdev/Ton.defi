@@ -14,7 +14,7 @@ import {
   getLocalCart, setLocalCart, addToLocalCart, updateLocalCartItemQty,
   createFoodOrder, fetchFoodOrders, getLocalBalance, fetchFoodWallet,
   updateProfile, fetchProfile, fetchWallet, fetchVA,
-  fetchCart, syncCart, clearCart as clearCloudCart
+  fetchCart, syncCart, clearCart as clearCloudCart, checkPendingTopup
 } from "../services/api";
 
 // ─── Types ────────────────────────────────────────────────────────
@@ -204,11 +204,18 @@ export default function CampusPlanner() {
     loadOrders();
   }, [email]);
 
-  const loadBalance = async () => {
+  const loadBalance = async (retries = 0): Promise<void> => {
     if (!email) return;
     try {
+      // Re-verify an in-flight top-up (missed webhook / checkout closed)
+      const pending = await checkPendingTopup();
       const wallet = await fetchFoodWallet(email);
       setFoodBalance(wallet.balance || 0);
+      // Payment still settling — keep checking for ~2 minutes so the
+      // balance updates on screen without the user refreshing
+      if (pending === "pending" && retries < 24) {
+        setTimeout(() => { loadBalance(retries + 1); }, 5000);
+      }
     } catch (e) {
       console.error("Failed to load balance:", e);
     }
