@@ -244,7 +244,7 @@ export default function CampusPlanner() {
 
   const addToCart = useCallback((product: Product) => {
     setCart(prev => {
-      const newCart = addToLocalCart({ ...product, qty: 1, vendor: product.vendor?.name || "Campus Green Mart" });
+      const newCart = addToLocalCart({ ...product, qty: 1, vendor: product.vendor?.name || "" });
       return newCart;
     });
   }, []);
@@ -715,7 +715,7 @@ function CartScreen({ cart, setCart, setScreen, colors, onOrderPlaced }: {
     try {
       const result = await createFoodOrder(
         email,
-        cart.map(i => ({ id: i.id, name: i.name, price: i.price, unit: i.unit, image: i.image, qty: i.qty, vendor: i.vendor?.name || "Campus Green Mart" })),
+        cart.map(i => ({ id: i.id, name: i.name, price: i.price, unit: i.unit, image: i.image, qty: i.qty, vendor: i.vendor?.name || "" })),
         total,
         deliveryFee,
         address,
@@ -1202,7 +1202,7 @@ function ProfileScreen({ setScreen, colors, toggleTheme }: {
         { icon: <Package size={18} />, label: "Order History", sub: "Past orders & redemptions", action: () => setScreen("orders") },
         { icon: <MapPin size={18} />, label: "Addresses", sub: "Manage delivery", action: () => window.location.href = '#/settings' },
         { icon: <Bell size={18} />, label: "Notifications", sub: "Updates & promos", action: () => setScreen("orders") },
-        { icon: <Store size={18} />, label: "Vendor Portal", sub: "Manage your store", action: () => window.location.href = '#/vendor' },
+        { icon: <Store size={18} />, label: "Vendor Portal", sub: "Manage your store", action: () => window.location.href = localStorage.getItem("role") === "vendor" ? "#/vendor" : "#/vendor-login" },
         { icon: <Building2 size={18} />, label: "Institutional", sub: "Food programs & reports", action: () => window.location.href = '#/institutional' },
         { icon: <Shield size={18} />, label: "Trust Layer", sub: "Audit trail & traceability", action: () => window.location.href = '#/trust' },
       ].map((item, i) => (

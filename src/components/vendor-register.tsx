@@ -413,6 +413,7 @@ export default function VendorRegister() {
       // Store auth data
       localStorage.setItem('email', email);
       localStorage.setItem('businessName', businessName);
+      localStorage.setItem('fullName', businessName);
       localStorage.setItem('role', 'vendor');
       if (data.token) localStorage.setItem('token', data.token);
 

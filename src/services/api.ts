@@ -648,8 +648,14 @@ function sendLocalFoodCredits(toName: string, toContact: string, amount: number,
 }
 
 // ─── Transactions LocalStorage ────────────────────────────────────
+const SEEDED_TX_IDS = new Set(["TXN-001", "TXN-002", "TXN-003", "TXN-004"]);
+const SEEDED_ORDER_IDS = new Set(["ORD-2847"]);
+
 export function getLocalTransactions(): LocalTransaction[] {
-  return getLocal<LocalTransaction[]>(TX_KEY, getDefaultTransactions());
+  const list = getLocal<LocalTransaction[]>(TX_KEY, []);
+  const cleaned = list.filter(t => !SEEDED_TX_IDS.has(t.id));
+  if (cleaned.length !== list.length) setLocal(TX_KEY, cleaned);
+  return cleaned;
 }
 
 function addLocalTransaction(tx: LocalTransaction): void {
@@ -658,18 +664,12 @@ function addLocalTransaction(tx: LocalTransaction): void {
   setLocal(TX_KEY, txs);
 }
 
-function getDefaultTransactions(): LocalTransaction[] {
-  return [
-    { id: "TXN-001", type: "topup", amount: 20000, description: "Wallet Top-up via Card", date: "Today", time: "2:30 PM", status: "completed", reference: "REF-8847291" },
-    { id: "TXN-002", type: "send", amount: 5000, description: "Sent to Chidinma O.", date: "Today", time: "1:15 PM", status: "completed", reference: "REF-8847156", recipient: "Chidinma O." },
-    { id: "TXN-003", type: "redemption", amount: 3200, description: "Redeemed at Mama Nkechi Kitchen", date: "Yesterday", time: "12:45 PM", status: "completed", reference: "REF-8846032", vendor: "Mama Nkechi Kitchen" },
-    { id: "TXN-004", type: "receive", amount: 10000, description: "Received from Dad", date: "Yesterday", time: "9:00 AM", status: "completed", reference: "REF-8845891", from: "Dad" },
-  ];
-}
-
 // ─── Orders LocalStorage ──────────────────────────────────────────
 export function getLocalOrders(): LocalOrder[] {
-  return getLocal<LocalOrder[]>(ORDER_KEY, getDefaultOrders());
+  const list = getLocal<LocalOrder[]>(ORDER_KEY, []);
+  const cleaned = list.filter(o => !o.orderId || !SEEDED_ORDER_IDS.has(o.orderId));
+  if (cleaned.length !== list.length) setLocal(ORDER_KEY, cleaned);
+  return cleaned;
 }
 
 function createLocalOrder(items: any[], total: number, deliveryFee: number, address: string, paymentMethod: string) {
@@ -724,23 +724,6 @@ function updateLocalOrderStatus(orderId: string, status: string) {
   const updated = orders.map(o => (o.orderId === orderId || o.id === orderId) ? { ...o, status } : o);
   setLocal(ORDER_KEY, updated);
   return updated.find(o => o.orderId === orderId || o.id === orderId);
-}
-
-function getDefaultOrders(): LocalOrder[] {
-  return [
-    {
-      orderId: "ORD-2847",
-      items: [
-        { id: 1, name: "Long Grain Rice", price: 4500, unit: "5kg", image: "", qty: 2, vendor: "Mama Nkechi Kitchen" },
-        { id: 6, name: "Fresh Tomatoes", price: 800, unit: "1kg", image: "", qty: 3, vendor: "Campus Green Mart" },
-      ],
-      total: 11400, deliveryFee: 0, status: "on_the_way",
-      date: "Today, 2:30 PM", address: "12 Wuse Zone 5, Abuja",
-      estimatedDelivery: "4:45 PM",
-      driver: { name: "Emeka O.", phone: "+234 803 *** 4521" },
-      paymentMethod: "food_credits",
-    },
-  ];
 }
 
 // ─── Cart LocalStorage ────────────────────────────────────────────

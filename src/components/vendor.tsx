@@ -88,6 +88,13 @@ export default function VendorPortal() {
   const [transactions, setTransactions] = useState<any[]>([]);
   const [txFilter, setTxFilter] = useState<string>("all");
 
+  // The portal is vendor-only — send everyone else to vendor login
+  useEffect(() => {
+    if (localStorage.getItem("role") !== "vendor") {
+      window.location.replace("#/vendor-login");
+    }
+  }, []);
+
   useEffect(() => {
     loadDashboard();
     loadOrders();
@@ -325,7 +332,9 @@ export default function VendorPortal() {
           </button>
           <div style={{ textAlign: "center" }}>
             <span style={{ fontSize: 14, fontWeight: 600 }}>Vendor Portal</span>
-            <div style={{ fontSize: 10, color: colors.textMuted, marginTop: 2 }}>Mama Nkechi Kitchen</div>
+            <div style={{ fontSize: 10, color: colors.textMuted, marginTop: 2 }}>
+              {vendorProfile?.businessName || localStorage.getItem("businessName") || "My Store"}
+            </div>
           </div>
           <button onClick={() => alert("No new notifications")} style={{
             width: 42, height: 42, borderRadius: "50%", border: `1px solid ${colors.border}`,

@@ -235,6 +235,8 @@ export default function VendorLogin() {
 
       localStorage.setItem('email', email);
       localStorage.setItem('businessName', data.user?.businessName || '');
+      // Keep the shared home greeting in sync with this session's identity
+      localStorage.setItem('fullName', data.user?.businessName || email);
       localStorage.setItem('role', 'vendor');
       if (data.token) localStorage.setItem('token', data.token);
 
