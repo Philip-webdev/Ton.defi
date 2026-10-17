@@ -696,6 +696,7 @@ function CartScreen({ cart, setCart, setScreen, colors, onOrderPlaced }: {
 }) {
   const navigate = useNavigate();
   const [ordering, setOrdering] = useState(false);
+  const [payMethod, setPayMethod] = useState<"food_credits" | "riikko_wallet">("food_credits");
 
   const total = cart.reduce((s, i) => s + i.price * i.qty, 0);
   const deliveryFee = total > 5000 ? 0 : 500;
@@ -719,7 +720,7 @@ function CartScreen({ cart, setCart, setScreen, colors, onOrderPlaced }: {
         total,
         deliveryFee,
         address,
-        "food_credits"
+        payMethod
       );
       const orderId = result.order?.orderId || result.order?.id || "ORD-0000";
       setCart([]);
@@ -804,6 +805,38 @@ function CartScreen({ cart, setCart, setScreen, colors, onOrderPlaced }: {
               <Zap size={14} /> Free delivery on orders over {formatNaira(5000)}
             </div>
           )}
+
+          {/* Payment method */}
+          <div style={{ marginTop: 20 }}>
+            <div style={{ fontSize: 12, fontWeight: 600, color: colors.textMuted, marginBottom: 10 }}>Pay with</div>
+            <div style={{ display: "flex", gap: 10 }}>
+              <button onClick={() => setPayMethod("food_credits")} style={{
+                flex: 1, padding: "12px 10px", borderRadius: 14,
+                border: `1.5px solid ${payMethod === "food_credits" ? colors.accent : colors.border}`,
+                background: payMethod === "food_credits" ? colors.accentSoft : colors.surface,
+                color: colors.text, cursor: "pointer", fontFamily: "'Sora', sans-serif",
+                display: "flex", flexDirection: "column", alignItems: "center", gap: 6,
+              }}>
+                <Wallet size={18} color={payMethod === "food_credits" ? colors.accent : colors.textMuted} />
+                <span style={{ fontSize: 11, fontWeight: 700 }}>Food Credits</span>
+              </button>
+              <button onClick={() => setPayMethod("riikko_wallet")} style={{
+                flex: 1, padding: "12px 10px", borderRadius: 14,
+                border: `1.5px solid ${payMethod === "riikko_wallet" ? colors.accent : colors.border}`,
+                background: payMethod === "riikko_wallet" ? colors.accentSoft : colors.surface,
+                color: colors.text, cursor: "pointer", fontFamily: "'Sora', sans-serif",
+                display: "flex", flexDirection: "column", alignItems: "center", gap: 6,
+              }}>
+                <CreditCard size={18} color={payMethod === "riikko_wallet" ? colors.accent : colors.textMuted} />
+                <span style={{ fontSize: 11, fontWeight: 700 }}>Riikko Wallet</span>
+              </button>
+            </div>
+            {payMethod === "riikko_wallet" && (
+              <div style={{ marginTop: 8, fontSize: 11, color: colors.textMuted, textAlign: "center" }}>
+                Pays from your linked Riikko cash wallet
+              </div>
+            )}
+          </div>
         </>
       )}
 
