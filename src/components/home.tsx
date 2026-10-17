@@ -699,7 +699,9 @@ function CartScreen({ cart, setCart, setScreen, colors, onOrderPlaced }: {
   const [payMethod, setPayMethod] = useState<"food_credits" | "riikko_wallet">("food_credits");
 
   const total = cart.reduce((s, i) => s + i.price * i.qty, 0);
-  const deliveryFee = total > 5000 ? 0 : 500;
+  // Delivery fee: 10% of subtotal, clamped ₦100–₦1,000 — never free.
+  // The server recomputes the same formula before charging.
+  const deliveryFee = Math.min(1000, Math.max(100, Math.round((total * 10) / 100)));
   const [orderSuccess, setOrderSuccess] = useState<{ orderId: string; total: number } | null>(null);
 
   const updateQty = (id: number, delta: number) => {
@@ -784,10 +786,8 @@ function CartScreen({ cart, setCart, setScreen, colors, onOrderPlaced }: {
               <span>Subtotal</span><span style={{ fontWeight: 600 }}>{formatNaira(total)}</span>
             </div>
             <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 10, fontSize: 12, color: colors.textSecondary }}>
-              <span>Delivery</span>
-              <span style={{ fontWeight: 600, color: deliveryFee === 0 ? colors.success : colors.text }}>
-                {deliveryFee === 0 ? "FREE" : formatNaira(deliveryFee)}
-              </span>
+              <span>Delivery (10%)</span>
+              <span style={{ fontWeight: 600 }}>{formatNaira(deliveryFee)}</span>
             </div>
             <div style={{ height: 1, background: colors.border, margin: "12px 0" }} />
             <div style={{ display: "flex", justifyContent: "space-between", fontSize: 15, fontWeight: 700, color: colors.text }}>
@@ -796,15 +796,13 @@ function CartScreen({ cart, setCart, setScreen, colors, onOrderPlaced }: {
             </div>
           </div>
 
-          {deliveryFee === 0 && (
-            <div style={{
-              marginTop: 12, ...S.card(colors.accentSoft, `${colors.accent}20`),
-              padding: "12px 16px", display: "flex", alignItems: "center", gap: 10,
-              fontSize: 12, color: colors.accent,
-            }}>
-              <Zap size={14} /> Free delivery on orders over {formatNaira(5000)}
-            </div>
-          )}
+          <div style={{
+            marginTop: 12, ...S.card(colors.accentSoft, `${colors.accent}20`),
+            padding: "12px 16px", display: "flex", alignItems: "center", gap: 10,
+            fontSize: 12, color: colors.accent,
+          }}>
+            <Zap size={14} /> Delivery fee: 10% of your order (min {formatNaira(100)}, max {formatNaira(1000)})
+          </div>
 
           {/* Payment method */}
           <div style={{ marginTop: 20 }}>
