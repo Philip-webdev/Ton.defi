@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import {
   ArrowLeft, QrCode, Package, DollarSign, BarChart3, Megaphone,
   Check, X, Clock, TrendingUp, Users, ShoppingCart, Eye,
@@ -92,6 +92,9 @@ export default function VendorPortal() {
   const [editingItem, setEditingItem] = useState<any>(null);
   const [menuSaving, setMenuSaving] = useState(false);
   const [menuForm, setMenuForm] = useState({ name: "", price: "", description: "", category: "", image: "" });
+  const [newOrderAlert, setNewOrderAlert] = useState<VendorOrder | null>(null);
+  const knownOrderIds = useRef<Set<string> | null>(null);
+  const alertTimer = useRef<number | null>(null);
 
   // The portal is vendor-only — send everyone else to vendor login
   useEffect(() => {
@@ -107,6 +110,37 @@ export default function VendorPortal() {
     loadMenu();
   }, [email]);
 
+  // Live order alerts — poll so a new order chimes and banners while the
+  // portal is open. First load seeds the known set silently (no false alarm).
+  useEffect(() => {
+    const t = window.setInterval(() => loadOrders(), 15000);
+    return () => window.clearInterval(t);
+  }, [email]);
+
+  useEffect(() => () => {
+    if (alertTimer.current) window.clearTimeout(alertTimer.current);
+  }, []);
+
+  const playOrderChime = () => {
+    try {
+      const ctx = new (window.AudioContext || (window as any).webkitAudioContext)();
+      [880, 1174.66].forEach((freq, i) => {
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.type = "sine";
+        osc.frequency.value = freq;
+        const t0 = ctx.currentTime + i * 0.18;
+        gain.gain.setValueAtTime(0.0001, t0);
+        gain.gain.exponentialRampToValueAtTime(0.3, t0 + 0.02);
+        gain.gain.exponentialRampToValueAtTime(0.0001, t0 + 0.3);
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        osc.start(t0);
+        osc.stop(t0 + 0.32);
+      });
+    } catch {}
+  };
+
   const loadDashboard = async () => {
     if (!email) return;
     try {
@@ -121,7 +155,7 @@ export default function VendorPortal() {
     try {
       const data = await fetchVendorOrders(email);
       if (Array.isArray(data)) {
-        setOrders(data.map((o: any) => ({
+        const mapped: VendorOrder[] = data.map((o: any) => ({
           id: o.orderId || o._id,
           items: o.items || [],
           total: o.total,
@@ -129,7 +163,22 @@ export default function VendorPortal() {
           customer: o.customerName || "Customer",
           time: o.time || o.createdAt,
           paymentMethod: o.paymentMethod || "food_credits",
-        })));
+        }));
+        // New-order detection: first load seeds the set silently; later
+        // polls chime + banner for any pending order we hadn't seen.
+        if (knownOrderIds.current === null) {
+          knownOrderIds.current = new Set(mapped.map((o) => o.id));
+        } else {
+          const fresh = mapped.find((o) => o.status === "pending" && !knownOrderIds.current!.has(o.id));
+          if (fresh) {
+            setNewOrderAlert(fresh);
+            playOrderChime();
+            if (alertTimer.current) window.clearTimeout(alertTimer.current);
+            alertTimer.current = window.setTimeout(() => setNewOrderAlert(null), 12000);
+          }
+          mapped.forEach((o) => knownOrderIds.current!.add(o.id));
+        }
+        setOrders(mapped);
       }
     } catch {}
     setLoading(false);
@@ -424,6 +473,36 @@ export default function VendorPortal() {
           </button>
         </div>
 
+        {/* ─── NEW ORDER ALERT BANNER ─────────────────────────── */}
+        {newOrderAlert && (
+          <div onClick={() => { setActiveTab("orders"); setNewOrderAlert(null); }} style={{
+            background: `linear-gradient(135deg, ${colors.success}22, ${colors.accent}18)`,
+            border: `1px solid ${colors.success}55`,
+            borderRadius: 16, padding: 16, marginBottom: 16, cursor: "pointer",
+            display: "flex", alignItems: "center", gap: 12,
+            animation: "fadeIn .3s ease both",
+            boxShadow: `0 8px 28px ${colors.success}25`,
+          }}>
+            <div style={{
+              width: 44, height: 44, borderRadius: "50%", background: `${colors.success}20`,
+              display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0,
+            }}>
+              <ShoppingCart size={20} color={colors.success} />
+            </div>
+            <div style={{ flex: 1, minWidth: 0 }}>
+              <div style={{ fontSize: 13, fontWeight: 700, color: colors.text }}>🍽️ New Order!</div>
+              <div style={{ fontSize: 11, color: colors.textMuted, marginTop: 2 }}>
+                {newOrderAlert.customer} · {formatNaira(newOrderAlert.total)} · tap to view
+              </div>
+            </div>
+            <button onClick={(e) => { e.stopPropagation(); setNewOrderAlert(null); }} style={{
+              background: "none", border: "none", cursor: "pointer", color: colors.textMuted, padding: 4,
+            }}>
+              <X size={16} />
+            </button>
+          </div>
+        )}
+
         {/* ─── TODAY'S STATS ──────────────────────────────────── */}
         <div className="vendor-anim" style={{ display: "flex", gap: 10, marginBottom: 20, animationDelay: ".05s" }}>
           <div className="stat-card">
@@ -457,9 +536,17 @@ export default function VendorPortal() {
               key={tab.id}
               className={`tab-btn${activeTab === tab.id ? " active" : ""}`}
               onClick={() => setActiveTab(tab.id)}
+              style={{ position: "relative" }}
             >
               <tab.icon size={16} />
               {tab.label}
+              {tab.id === "orders" && orders.some(o => o.status === "pending") && (
+                <div style={{
+                  position: "absolute", top: 6, right: 12,
+                  width: 8, height: 8, borderRadius: "50%", background: colors.error,
+                  boxShadow: `0 0 6px ${colors.error}`,
+                }} />
+              )}
             </button>
           ))}
         </div>
