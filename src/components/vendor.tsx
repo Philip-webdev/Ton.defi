@@ -2,15 +2,15 @@ import { useState, useEffect } from "react";
 import {
   ArrowLeft, QrCode, Package, DollarSign, BarChart3, Megaphone,
   Check, X, Clock, TrendingUp, Users, ShoppingCart, Eye,
-  ChevronRight, Download, Settings, Bell, Scan, Zap, Star
+  ChevronRight, Download, Settings, Bell, Scan, Zap, Star, Store, Plus, Trash2, Pencil
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useTheme } from "../contexts/ThemeContext";
-import { fetchVendorDashboard, fetchVendorOrders, updateVendorOrderStatus, toggleVendorStatus, fetchVendorProfile, foodPay, fetchFoodTransactions } from "../services/api";
+import { fetchVendorDashboard, fetchVendorOrders, updateVendorOrderStatus, toggleVendorStatus, fetchVendorProfile, foodPay, fetchFoodTransactions, fetchVendorMenu, addVendorMenuItem, updateVendorMenuItem, deleteVendorMenuItem } from "../services/api";
 import QRScanner from "./QRcode";
 
 // ─── Types ────────────────────────────────────────────────────────
-type Tab = "orders" | "transactions" | "analytics" | "settlement" | "promotions" | "settings";
+type Tab = "orders" | "menu" | "transactions" | "analytics" | "settlement" | "promotions" | "settings";
 
 interface VendorOrder {
   id: string;
@@ -87,6 +87,11 @@ export default function VendorPortal() {
   const [loading, setLoading] = useState(true);
   const [transactions, setTransactions] = useState<any[]>([]);
   const [txFilter, setTxFilter] = useState<string>("all");
+  const [menuItems, setMenuItems] = useState<any[]>([]);
+  const [menuFormOpen, setMenuFormOpen] = useState(false);
+  const [editingItem, setEditingItem] = useState<any>(null);
+  const [menuSaving, setMenuSaving] = useState(false);
+  const [menuForm, setMenuForm] = useState({ name: "", price: "", description: "", category: "", image: "" });
 
   // The portal is vendor-only — send everyone else to vendor login
   useEffect(() => {
@@ -99,6 +104,7 @@ export default function VendorPortal() {
     loadDashboard();
     loadOrders();
     loadTransactions();
+    loadMenu();
   }, [email]);
 
   const loadDashboard = async () => {
@@ -136,6 +142,75 @@ export default function VendorPortal() {
       if (Array.isArray(data)) {
         setTransactions(data);
       }
+    } catch {}
+  };
+
+  const loadMenu = async () => {
+    if (!email) return;
+    try {
+      const data = await fetchVendorMenu(email);
+      if (Array.isArray(data?.menu)) setMenuItems(data.menu);
+    } catch {}
+  };
+
+  const openAddItem = () => {
+    setEditingItem(null);
+    setMenuForm({ name: "", price: "", description: "", category: "", image: "" });
+    setMenuFormOpen(true);
+  };
+
+  const openEditItem = (item: any) => {
+    setEditingItem(item);
+    setMenuForm({
+      name: item.name || "",
+      price: String(item.price ?? ""),
+      description: item.description || "",
+      category: item.category || "",
+      image: item.image || "",
+    });
+    setMenuFormOpen(true);
+  };
+
+  const handleSaveItem = async () => {
+    if (!menuForm.name.trim() || !menuForm.price) return;
+    setMenuSaving(true);
+    try {
+      const payload: any = {
+        name: menuForm.name.trim(),
+        price: Number(menuForm.price),
+      };
+      if (menuForm.description.trim()) payload.description = menuForm.description.trim();
+      if (menuForm.category.trim()) payload.category = menuForm.category.trim();
+      if (menuForm.image.trim()) payload.image = menuForm.image.trim();
+      const result = editingItem
+        ? await updateVendorMenuItem(email, editingItem._id, payload)
+        : await addVendorMenuItem(email, payload);
+      if (result?.error) {
+        alert(result.error);
+      } else {
+        setMenuItems(result?.menu || []);
+        setMenuFormOpen(false);
+        setEditingItem(null);
+      }
+    } catch {
+      alert("Failed to save item — please try again");
+    }
+    setMenuSaving(false);
+  };
+
+  const handleDeleteItem = async (itemId: string) => {
+    if (!window.confirm("Remove this item from your menu?")) return;
+    try {
+      const result = await deleteVendorMenuItem(email, itemId);
+      if (result?.error) alert(result.error);
+      else setMenuItems(result?.menu || []);
+    } catch {}
+  };
+
+  const handleToggleAvailability = async (item: any) => {
+    try {
+      const result = await updateVendorMenuItem(email, item._id, { available: item.available === false });
+      if (result?.menu) setMenuItems(result.menu);
     } catch {}
   };
 
@@ -372,8 +447,9 @@ export default function VendorPortal() {
         <div className="vendor-anim" style={{ display: "flex", gap: 4, marginBottom: 24, animationDelay: ".1s" }}>
           {([
             { id: "orders" as Tab, icon: Package, label: "Orders" },
+            { id: "menu" as Tab, icon: Store, label: "Menu" },
             { id: "transactions" as Tab, icon: DollarSign, label: "Ledger" },
-            { id: "analytics" as Tab, icon: BarChart3, label: "Analytics" },
+            { id: "analytics" as Tab, icon: BarChart3, label: "Stats" },
             { id: "settlement" as Tab, icon: DollarSign, label: "Settle" },
             { id: "settings" as Tab, icon: Settings, label: "More" },
           ]).map(tab => (
@@ -525,6 +601,117 @@ export default function VendorPortal() {
                 </div>
               </div>
             ))}
+          </div>
+        )}
+
+        {/* ─── TAB: MENU ──────────────────────────────────────── */}
+        {activeTab === "menu" && (
+          <div className="vendor-anim" style={{ animationDelay: ".15s" }}>
+            <button onClick={openAddItem} style={{
+              width: "100%", padding: "14px", borderRadius: 14,
+              background: colors.accent, color: "#0A0A0A",
+              fontSize: 13, fontWeight: 700, border: "none",
+              cursor: "pointer", fontFamily: "'Sora', sans-serif",
+              display: "flex", alignItems: "center", justifyContent: "center", gap: 8,
+              marginBottom: 20, boxShadow: `0 8px 32px ${colors.accent}30`,
+            }}>
+              <Plus size={16} /> Add Menu Item
+            </button>
+
+            {menuItems.length === 0 ? (
+              <div style={{
+                background: colors.surface, border: `1px solid ${colors.border}`,
+                borderRadius: 16, padding: 32, textAlign: "center",
+              }}>
+                <Store size={28} color={colors.textMuted} style={{ marginBottom: 10 }} />
+                <div style={{ fontSize: 13, fontWeight: 600, color: colors.text, marginBottom: 4 }}>Your menu is empty</div>
+                <div style={{ fontSize: 11, color: colors.textMuted, lineHeight: 1.5 }}>
+                  Add your first item — it shows up in Riikko's WhatsApp food ordering instantly.
+                </div>
+              </div>
+            ) : (
+              (() => {
+                const categories = Array.from(new Set(menuItems.map((m: any) => m.category || "Other")));
+                return categories.map(cat => (
+                  <div key={cat} style={{ marginBottom: 16 }}>
+                    <div style={{
+                      fontSize: 12, fontWeight: 600, color: colors.textMuted,
+                      letterSpacing: "0.5px", textTransform: "uppercase", marginBottom: 10,
+                    }}>
+                      {cat}
+                    </div>
+                    {menuItems.filter((m: any) => (m.category || "Other") === cat).map((item: any) => (
+                      <div key={item._id} style={{
+                        background: colors.surface, border: `1px solid ${colors.border}`,
+                        borderRadius: 16, padding: 16, marginBottom: 8,
+                        display: "flex", alignItems: "center", gap: 12,
+                        opacity: item.available === false ? 0.55 : 1,
+                      }}>
+                        <div style={{ flex: 1, minWidth: 0 }}>
+                          <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                            <span style={{ fontSize: 13, fontWeight: 700, color: colors.text }}>{item.name}</span>
+                            {item.available === false && (
+                              <span style={{
+                                fontSize: 9, fontWeight: 600, color: colors.error,
+                                background: `${colors.error}15`, padding: "2px 8px", borderRadius: 100,
+                              }}>
+                                Hidden
+                              </span>
+                            )}
+                          </div>
+                          {item.description && (
+                            <div style={{
+                              fontSize: 11, color: colors.textMuted, marginTop: 3,
+                              overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap",
+                            }}>
+                              {item.description}
+                            </div>
+                          )}
+                          <div style={{ fontSize: 13, fontWeight: 700, color: colors.accent, marginTop: 4 }}>
+                            {formatNaira(item.price)}{item.unit ? ` / ${item.unit}` : ""}
+                          </div>
+                        </div>
+                        <button onClick={() => handleToggleAvailability(item)} title={item.available === false ? "Show on menu" : "Hide from menu"} style={{
+                          width: 34, height: 34, borderRadius: 10, border: `1px solid ${colors.border}`,
+                          background: colors.surfaceElevated, cursor: "pointer",
+                          display: "flex", alignItems: "center", justifyContent: "center",
+                          color: item.available === false ? colors.textMuted : colors.success,
+                        }}>
+                          <Eye size={15} />
+                        </button>
+                        <button onClick={() => openEditItem(item)} title="Edit item" style={{
+                          width: 34, height: 34, borderRadius: 10, border: `1px solid ${colors.border}`,
+                          background: colors.surfaceElevated, cursor: "pointer",
+                          display: "flex", alignItems: "center", justifyContent: "center",
+                          color: colors.accent,
+                        }}>
+                          <Pencil size={15} />
+                        </button>
+                        <button onClick={() => handleDeleteItem(item._id)} title="Delete item" style={{
+                          width: 34, height: 34, borderRadius: 10, border: `1px solid ${colors.error}40`,
+                          background: "transparent", cursor: "pointer",
+                          display: "flex", alignItems: "center", justifyContent: "center",
+                          color: colors.error,
+                        }}>
+                          <Trash2 size={15} />
+                        </button>
+                      </div>
+                    ))}
+                  </div>
+                ));
+              })()
+            )}
+
+            {/* Hint about what Riikko sees */}
+            {menuItems.length > 0 && (
+              <div style={{
+                background: `${colors.accent}10`, border: `1px solid ${colors.accent}25`,
+                borderRadius: 14, padding: 14, marginTop: 8,
+                fontSize: 11, color: colors.textSecondary, lineHeight: 1.5,
+              }}>
+                Hidden items stay in your menu but won't be offered to customers ordering through Riikko on WhatsApp.
+              </div>
+            )}
           </div>
         )}
 
@@ -876,7 +1063,7 @@ export default function VendorPortal() {
             {[
               { icon: <Settings size={18} />, label: "Store Settings", sub: "Name, hours, location", action: () => alert("Store settings coming soon!") },
               { icon: <Bell size={18} />, label: "Notifications", sub: "Order alerts, messages", action: () => alert("Notification settings coming soon!") },
-              { icon: <Eye size={18} />, label: "Menu Management", sub: "Items, prices, availability", action: () => alert("Menu management coming soon!") },
+              { icon: <Eye size={18} />, label: "Menu Management", sub: "Items, prices, availability", action: () => setActiveTab("menu") },
               { icon: <Users size={18} />, label: "Staff Access", sub: "Manage team members", action: () => alert("Staff access coming soon!") },
               { icon: <BarChart3 size={18} />, label: "Reports", sub: "Export data, statements", action: () => alert("Reports coming soon!") },
             ].map((item, i) => (
@@ -1007,6 +1194,89 @@ export default function VendorPortal() {
               to { transform: rotate(360deg); }
             }
           `}</style>
+        </div>
+      )}
+      {/* ─── MENU ADD/EDIT BOTTOM SHEET ──────────────────────── */}
+      {menuFormOpen && (
+        <div style={{
+          position: "fixed", inset: 0, zIndex: 9998,
+          background: "rgba(0,0,0,0.5)", display: "flex",
+          alignItems: "flex-end", justifyContent: "center",
+        }} onClick={() => { if (!menuSaving) { setMenuFormOpen(false); setEditingItem(null); } }}>
+          <div onClick={e => e.stopPropagation()} style={{
+            width: "100%", maxWidth: 430, background: colors.surface,
+            borderTopLeftRadius: 28, borderTopRightRadius: 28,
+            padding: "20px 24px 36px", maxHeight: "90svh", overflowY: "auto",
+          }}>
+            <div style={{ width: 36, height: 4, borderRadius: 2, background: colors.border, margin: "0 auto 18px" }} />
+            <div style={{ fontSize: 16, fontWeight: 700, color: colors.text, marginBottom: 18, textAlign: "center" }}>
+              {editingItem ? "Edit Item" : "Add Menu Item"}
+            </div>
+
+            {[
+              { key: "name", label: "Item name *", placeholder: "e.g. Jollof Rice + Chicken" },
+              { key: "price", label: "Price (₦) *", placeholder: "e.g. 3500", inputMode: "numeric" as const },
+              { key: "category", label: "Category", placeholder: "e.g. Rice Dishes, Swallows, Drinks" },
+              { key: "image", label: "Photo URL (optional)", placeholder: "https://…" },
+            ].map(field => (
+              <div key={field.key} style={{ marginBottom: 14 }}>
+                <label style={{ display: "block", fontSize: 11, fontWeight: 600, color: colors.textMuted, marginBottom: 6, textTransform: "uppercase", letterSpacing: "0.5px" }}>
+                  {field.label}
+                </label>
+                <input
+                  type="text"
+                  inputMode={(field as any).inputMode}
+                  value={(menuForm as any)[field.key]}
+                  onChange={e => setMenuForm(prev => ({ ...prev, [field.key]: e.target.value }))}
+                  placeholder={field.placeholder}
+                  style={{
+                    width: "100%", padding: "12px 14px", borderRadius: 12,
+                    border: `1px solid ${colors.border}`, background: colors.bg,
+                    color: colors.text, fontSize: 14, fontFamily: "'Sora', sans-serif",
+                    outline: "none", boxSizing: "border-box",
+                  }}
+                />
+              </div>
+            ))}
+
+            <div style={{ marginBottom: 18 }}>
+              <label style={{ display: "block", fontSize: 11, fontWeight: 600, color: colors.textMuted, marginBottom: 6, textTransform: "uppercase", letterSpacing: "0.5px" }}>
+                Description
+              </label>
+              <textarea
+                value={menuForm.description}
+                onChange={e => setMenuForm(prev => ({ ...prev, description: e.target.value }))}
+                placeholder="What's in it…"
+                rows={2}
+                style={{
+                  width: "100%", padding: "12px 14px", borderRadius: 12,
+                  border: `1px solid ${colors.border}`, background: colors.bg,
+                  color: colors.text, fontSize: 13, fontFamily: "'Sora', sans-serif",
+                  outline: "none", resize: "vertical", boxSizing: "border-box",
+                }}
+              />
+            </div>
+
+            <div style={{ display: "flex", gap: 10 }}>
+              <button onClick={() => { setMenuFormOpen(false); setEditingItem(null); }} disabled={menuSaving} style={{
+                flex: 1, padding: "14px", borderRadius: 14,
+                border: `1px solid ${colors.border}`, background: "transparent",
+                color: colors.textMuted, fontSize: 14, fontWeight: 700,
+                cursor: "pointer", fontFamily: "'Sora', sans-serif",
+              }}>
+                Cancel
+              </button>
+              <button onClick={handleSaveItem} disabled={menuSaving || !menuForm.name.trim() || !menuForm.price} style={{
+                flex: 1.5, padding: "14px", borderRadius: 14, border: "none",
+                background: colors.accent, color: "#0A0A0A", fontSize: 14, fontWeight: 700,
+                cursor: menuSaving || !menuForm.name.trim() || !menuForm.price ? "not-allowed" : "pointer",
+                fontFamily: "'Sora', sans-serif",
+                opacity: menuSaving || !menuForm.name.trim() || !menuForm.price ? 0.6 : 1,
+              }}>
+                {menuSaving ? "Saving…" : editingItem ? "Save Changes" : "Add Item"}
+              </button>
+            </div>
+          </div>
         </div>
       )}
     </>
