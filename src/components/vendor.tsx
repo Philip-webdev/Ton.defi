@@ -258,7 +258,9 @@ export default function VendorPortal() {
 
   const handleToggleAvailability = async (item: any) => {
     try {
-      const result = await updateVendorMenuItem(email, item._id, { available: item.available === false });
+      const wasHidden = item.available === false || item.isAvailable === false;
+      // Toggle: hidden → show (isAvailable true), shown → hide (isAvailable false).
+      const result = await updateVendorMenuItem(email, item._id, { isAvailable: wasHidden });
       if (result?.menu) setMenuItems(result.menu);
     } catch {}
   };
@@ -727,17 +729,19 @@ export default function VendorPortal() {
                     }}>
                       {cat}
                     </div>
-                    {menuItems.filter((m: any) => (m.category || "Other") === cat).map((item: any) => (
+                    {menuItems.filter((m: any) => (m.category || "Other") === cat).map((item: any) => {
+                      const hidden = item.available === false || item.isAvailable === false;
+                      return (
                       <div key={item._id} style={{
                         background: colors.surface, border: `1px solid ${colors.border}`,
                         borderRadius: 16, padding: 16, marginBottom: 8,
                         display: "flex", alignItems: "center", gap: 12,
-                        opacity: item.available === false ? 0.55 : 1,
+                        opacity: hidden ? 0.55 : 1,
                       }}>
                         <div style={{ flex: 1, minWidth: 0 }}>
                           <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
                             <span style={{ fontSize: 13, fontWeight: 700, color: colors.text }}>{item.name}</span>
-                            {item.available === false && (
+                            {hidden && (
                               <span style={{
                                 fontSize: 9, fontWeight: 600, color: colors.error,
                                 background: `${colors.error}15`, padding: "2px 8px", borderRadius: 100,
@@ -758,11 +762,11 @@ export default function VendorPortal() {
                             {formatNaira(item.price)}{item.unit ? ` / ${item.unit}` : ""}
                           </div>
                         </div>
-                        <button onClick={() => handleToggleAvailability(item)} title={item.available === false ? "Show on menu" : "Hide from menu"} style={{
+                        <button onClick={() => handleToggleAvailability(item)} title={hidden ? "Show on menu" : "Hide from menu"} style={{
                           width: 34, height: 34, borderRadius: 10, border: `1px solid ${colors.border}`,
                           background: colors.surfaceElevated, cursor: "pointer",
                           display: "flex", alignItems: "center", justifyContent: "center",
-                          color: item.available === false ? colors.textMuted : colors.success,
+                          color: hidden ? colors.textMuted : colors.success,
                         }}>
                           <Eye size={15} />
                         </button>
@@ -783,7 +787,8 @@ export default function VendorPortal() {
                           <Trash2 size={15} />
                         </button>
                       </div>
-                    ))}
+                      );
+                    })}
                   </div>
                 ));
               })()
