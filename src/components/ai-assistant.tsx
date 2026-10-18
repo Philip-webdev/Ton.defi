@@ -17,7 +17,7 @@ interface Message {
 // ─── Gemini Setup ─────────────────────────────────────────────────
 const ai = new GoogleGenAI({ apiKey: import.meta.env.VITE_GEMINI_API_KEY });
 
-const SYSTEM_PROMPT = `You are Nekstpei AI Food Assistant, an expert food-budget planner for Nigerian students and young professionals. You have deep knowledge of:
+const SYSTEM_PROMPT = `You are NextPlate AI Food Assistant, an expert food-budget planner for Nigerian students and young professionals. You have deep knowledge of:
 
 - Current Nigerian food prices (market prices, campus food prices)
 - Affordable meal planning and budget optimization

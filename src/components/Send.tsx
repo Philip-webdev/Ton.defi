@@ -444,7 +444,7 @@ export default function FoodTransfer() {
                 >
                   <Plus size={20} color={colors.textMuted} style={{ marginBottom: 6 }} />
                   <div style={{ fontSize: 13, fontWeight: 600, color: colors.textMuted }}>Add New Recipient</div>
-                  <div style={{ fontSize: 11, color: colors.textMuted, marginTop: 2 }}>Phone, email, or Nekstpei ID</div>
+                  <div style={{ fontSize: 11, color: colors.textMuted, marginTop: 2 }}>Phone, email, or NextPlate ID</div>
                 </div>
               ) : (
                 <div style={{

@@ -418,7 +418,7 @@ function UserLogin() {
         </form>
 
         <Footer>
-          <FooterText>Nekstpei © 2026 · Secure & Reliable</FooterText>
+          <FooterText>NextPlate © 2026 · Secure & Reliable</FooterText>
         </Footer>
       </LoginCard>
 

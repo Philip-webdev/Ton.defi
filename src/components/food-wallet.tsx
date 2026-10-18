@@ -856,7 +856,7 @@ export default function FoodWallet() {
 
             <button onClick={() => {
               if (!selectedTx) return;
-              const receipt = `NEKSTPEI FOOD WALLET RECEIPT\n\nReference: ${selectedTx.reference}\nType: ${selectedTx.type}\nAmount: ${formatNaira(selectedTx.amount)}\nStatus: ${selectedTx.status}\nDate: ${selectedTx.createdAt || "—"}\nDescription: ${selectedTx.description || "—"}\n\nPowered by Nekstpei`;
+              const receipt = `NEXTPLATE FOOD WALLET RECEIPT\n\nReference: ${selectedTx.reference}\nType: ${selectedTx.type}\nAmount: ${formatNaira(selectedTx.amount)}\nStatus: ${selectedTx.status}\nDate: ${selectedTx.createdAt || "—"}\nDescription: ${selectedTx.description || "—"}\n\nPowered by NextPlate`;
               const blob = new Blob([receipt], { type: "text/plain" });
               const url = URL.createObjectURL(blob);
               const a = document.createElement("a");

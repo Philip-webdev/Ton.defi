@@ -33,7 +33,7 @@ import CheckoutContainer from "./components/checkout";
 import RemindMarket from "./components/Reminder";
 import UnderConstruction from "./components/UnderConstruction";
 
-// Nekstpei FoodTech Modules
+// NextPlate FoodTech Modules
 import FoodWallet from "./components/food-wallet";
 import VendorPortal from "./components/vendor";
 import VendorLogin from "./components/vendor-login";
@@ -111,7 +111,7 @@ function App() {
         <Route path="/reminders" element={<RemindMarket/>}/>
           <Route path="/welcome" element={<Welcome />} />
           
-          {/* Nekstpei FoodTech Routes */}
+          {/* NextPlate FoodTech Routes */}
           <Route path="/wallet" element={<FoodWallet />} />
           <Route path="/vendor-login" element={<VendorLogin />} />
           <Route path="/vendor-register" element={<VendorRegister />} />

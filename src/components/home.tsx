@@ -513,7 +513,7 @@ export default function CampusPlanner() {
                   <span style={{ fontSize: 10, fontWeight: 600, color: colors.accent, letterSpacing: "1px", textTransform: "uppercase" }}>Refer & Earn</span>
                 </div>
                 <div style={{ fontSize: 18, fontWeight: 700, color: "white", marginBottom: 4 }}>Send {formatNaira(500)} food value free</div>
-                <div style={{ fontSize: 12, color: "rgba(255,255,255,0.6)" }}>When you invite a friend to Nekstpei</div>
+                  <div style={{ fontSize: 12, color: "rgba(255,255,255,0.6)" }}>When you invite a friend to NextPlate</div>
               </div>
             </div>
           </div>
@@ -1094,7 +1094,7 @@ function ProfileScreen({ setScreen, colors, toggleTheme }: {
   setScreen: (s: Screen) => void; colors: ReturnType<typeof useTheme>["colors"];
   toggleTheme: () => void;
 }) {
-  const email = localStorage.getItem("email") ?? "user@nekstpei.com";
+  const email = localStorage.getItem("email") ?? "user@nextplate.com";
   const storedName = localStorage.getItem("fullName") ?? "";
   const name = storedName || email.split("@")[0].replace(/[._]/g, " ").replace(/\b\w/g, c => c.toUpperCase());
   const initials = name.split(" ").map(w => w[0]).join("").toUpperCase().slice(0, 2);

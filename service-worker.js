@@ -1,6 +1,6 @@
-const CACHE_NAME = 'nekstpei-v1';
-const STATIC_CACHE = 'nekstpei-static-v1';
-const API_CACHE = 'nekstpei-api-v1';
+const CACHE_NAME = 'nextplate-v1';
+const STATIC_CACHE = 'nextplate-static-v1';
+const API_CACHE = 'nextplate-api-v1';
 
 // Assets to cache immediately on install
 const STATIC_ASSETS = [
