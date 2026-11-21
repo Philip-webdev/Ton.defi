@@ -149,7 +149,7 @@ Output clearly using headings and tables where useful.
 
   const handleSubmit = async () => {
     const prompt = buildFoodManagementPrompt();
-    console.log("LLM PROMPT:", prompt);
+    // console.log("LLM PROMPT:", prompt);
 
     try {
       await planner(prompt);

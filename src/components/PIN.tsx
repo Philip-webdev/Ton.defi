@@ -135,7 +135,7 @@ async function getMonie(accountNumber: string) {
                 getRequest.onsuccess = () => {
                   if (getRequest.result) {
                     const userId = getRequest.result.userId;
-                    console.log('✅ Retrieved user ID:', userId);
+                    // console.log('✅ Retrieved user ID:', userId);
                     resolve(userId);
                   } else {
                     resolve(null); // Nothing saved
@@ -153,7 +153,7 @@ async function createNodeRequest(){
   const creatorId = await getUsersIdFromIndexedDB();
   const packageCost = plan; // use state value
 
-   fetch("https://twa-backend-g83o.onrender.com/nodes", {
+   fetch("https://twa-backend-cd2n.onrender.com/nodes", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             credentials: "include",  
@@ -163,7 +163,7 @@ async function createNodeRequest(){
 //use javascript switch case to check if wallet balance is > 0
 
 async function joinNodeRequest(){
-  const res = await fetch("https://twa-backend-g83o.onrender.com/users", {
+  const res = await fetch("https://twa-backend-cd2n.onrender.com/users", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     credentials: "include",  
@@ -225,7 +225,7 @@ async function joinNodeRequest(){
       store.put({ id: 'latest', userId: userId });
   
       tx.oncomplete = () => {
-        console.log(' user ID saved to IndexedDB:', userId);
+        // console.log(' user ID saved to IndexedDB:', userId);
       };
   
       tx.onerror = (err) => {
@@ -240,7 +240,7 @@ async function joinNodeRequest(){
   };
   saveuserIdToIndexedDB();
   
-  fetch(`https://twa-backend-g83o.onrender.com/nodes/${userId}/join`, {
+  fetch(`https://twa-backend-cd2n.onrender.com/nodes/${userId}/join`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     credentials: "include",  

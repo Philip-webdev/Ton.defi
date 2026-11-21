@@ -114,14 +114,14 @@ const[color,  setColor] = useState('grey');
     try{
       const p_k = [ethk, btck, solK,  tronK]; 
         const Address =  [ethAdd, bitAdd, solAdd, tronAdd] ;
-        const res = await   fetch("https://twa-backend-g83o.onrender.com/wallets", {
+        const res = await   fetch("https://twa-backend-cd2n.onrender.com/wallets", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           credentials: "include",  
           body: JSON.stringify({  p_k, Address }),
       })
       const responseData = await res.json();
-      console.log(responseData.walletId)
+      // console.log(responseData.walletId)
       const saveWalletIdToIndexedDB = ( ) => {
         const walletId = responseData.walletId;
       
@@ -151,7 +151,7 @@ const[color,  setColor] = useState('grey');
           store.put({ id: 'latest', walletId: walletId });
       
           tx.oncomplete = () => {
-            console.log(' Wallet ID saved to IndexedDB:', walletId);
+            // console.log(' Wallet ID saved to IndexedDB:', walletId);
           };
       
           tx.onerror = (err) => {
@@ -198,7 +198,7 @@ else{
                 getRequest.onsuccess = () => {
                   if (getRequest.result) {
                     const walletId = getRequest.result.walletId;
-                    console.log('✅ Retrieved Wallet ID:', walletId);
+                    // console.log('✅ Retrieved Wallet ID:', walletId);
                     resolve(walletId);
                   } else {
                     resolve(null); // Nothing saved
@@ -216,7 +216,7 @@ else{
   const walletId = await getWalletIdFromIndexedDB();
   if (!walletId) throw new Error('Wallet ID not found in IndexedDB');
 
-  const response = await fetch(`https://twa-backend-g83o.onrender.com/wallets/${walletId}`, {
+  const response = await fetch(`https://twa-backend-cd2n.onrender.com/wallets/${walletId}`, {
     method: "GET",
     headers: { "Content-Type": "application/json" },
     credentials: "include"

@@ -175,7 +175,7 @@ async function sendTRC20Token(toAddress: string, amount: number) {
     if (!senderAddress) {
       throw new Error("Sender address is null");
     }
-    console.log("Sender Address:", senderAddress);
+    // console.log("Sender Address:", senderAddress);
 
     const tx = await contract.methods.transfer(toAddress, amount * 1e6).send({
       feeLimit: 10000000, // 10 TRX gas fee limit
@@ -184,7 +184,7 @@ async function sendTRC20Token(toAddress: string, amount: number) {
       from: senderAddress,
     });
 
-    console.log('  Transaction successful:', tx);
+    // console.log('  Transaction successful:', tx);
   } catch (error) {
     console.error('  Error sending TRC-20:', error);
   }
@@ -233,19 +233,19 @@ async function transferUSDT(senderWallet: ethers.Wallet, recipientAddress: strin
       to: usdtContractAddress,
       data: contract.interface.encodeFunctionData('transfer', [recipientAddress, ethers.parseUnits(amount.toString(), 6)]),
     });
-    console.log(`Estimated Gas: ${gasEstimate.toString()}`);
+    // console.log(`Estimated Gas: ${gasEstimate.toString()}`);
 
     // Send transaction
-    console.log(`🔄 Sending ${amount} USDT to ${recipientAddress}...`);
+    // console.log(`🔄 Sending ${amount} USDT to ${recipientAddress}...`);
     const tx = await contract.transfer(recipientAddress, ethers.parseUnits(amount.toString(), 6), {
       gasLimit: gasEstimate,
     });
 
-    console.log(`Transaction sent! Tx Hash: ${tx.hash}`);
+    // console.log(`Transaction sent! Tx Hash: ${tx.hash}`);
 
     // Wait for confirmation
     await tx.wait();
-    console.log(`🎉 Transaction confirmed: ${tx.hash}`);
+    // console.log(`🎉 Transaction confirmed: ${tx.hash}`);
   } catch (error) {
     if (error instanceof Error) {
         console.error('Error sending USDT:', error.message);

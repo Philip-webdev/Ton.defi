@@ -420,7 +420,7 @@ export default function VendorRegister() {
       // Add menu items if any
       if (validMenuItems.length > 0) {
         for (const item of validMenuItems) {
-          await fetch(`${import.meta.env.VITE_BACKEND_URL || 'https://twa-backend-g83o.onrender.com'}/api/vendors/menu/${encodeURIComponent(email)}`, {
+          await fetch(`${import.meta.env.VITE_BACKEND_URL || 'https://twa-backend-cd2n.onrender.com'}/api/vendors/menu/${encodeURIComponent(email)}`, {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
@@ -432,7 +432,7 @@ export default function VendorRegister() {
       }
 
       // Save notification preferences
-      await fetch(`${import.meta.env.VITE_BACKEND_URL || 'https://twa-backend-g83o.onrender.com'}/api/vendors/profile/${encodeURIComponent(email)}`, {
+      await fetch(`${import.meta.env.VITE_BACKEND_URL || 'https://twa-backend-cd2n.onrender.com'}/api/vendors/profile/${encodeURIComponent(email)}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

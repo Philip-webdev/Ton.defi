@@ -38,14 +38,14 @@ const WalletForm = () => {
     e.preventDefault();
      
     try {
-      const res = await fetch("https://twa-backend-g83o.onrender.com/api/monnify", {
+      const res = await fetch("https://twa-backend-cd2n.onrender.com/api/monnify", {
         method: "POST",
         headers: { "Content-Type": "application/json"   },
         body: JSON.stringify(form),
       });
       const data = await res.json();
       if (res.ok) {
-      console.log(data.responseBody.accountNumber);
+      // console.log(data.responseBody.accountNumber);
         setMessage("Your account number is " + data.responseBody.accountNumber + " " + data.responseBody.topUpAccountDetails.bankName);
         localStorage.setItem("monnifyAccountNumber",data.responseBody.accountNumber);
       } else {
