@@ -748,7 +748,7 @@ export function addToLocalCart(item: any): any[] {
   return newCart;
 }
 
-export function updateLocalCartItemQty(itemId: number, delta: number): any[] {
+export function updateLocalCartItemQty(itemId: string | number, delta: number): any[] {
   const cart = getLocalCart();
   const newCart = cart.map((item: any) => {
     if (item.id === itemId) {

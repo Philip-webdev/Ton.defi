@@ -14,7 +14,8 @@ import {
   getLocalCart, setLocalCart, addToLocalCart, updateLocalCartItemQty,
   createFoodOrder, fetchFoodOrders, getLocalBalance, fetchFoodWallet,
   updateProfile, fetchProfile, fetchWallet, fetchVA,
-  fetchCart, syncCart, clearCart as clearCloudCart, checkPendingTopup
+  fetchCart, syncCart, clearCart as clearCloudCart, checkPendingTopup,
+  fetchNearbyVendors, fetchVendorMenu
 } from "../services/api";
 
 // ─── Types ────────────────────────────────────────────────────────
@@ -26,7 +27,7 @@ interface Vendor {
 }
 
 interface Product {
-  id: number; name: string; price: number; unit: string;
+  id: string; name: string; price: number; unit: string;
   icon: React.ReactNode; image: string; category: string;
   rating: number; inStock: boolean; desc: string;
   vendor: Vendor; stockLevel: "in_stock" | "low_stock" | "out_of_stock";
@@ -64,14 +65,6 @@ const IMAGES = {
   empty: "https://images.unsplash.com/photo-1495195134817-aeb325a55b65?w=400&q=80",
 };
 
-// ─── Vendors ──────────────────────────────────────────────────────
-const VENDORS: Vendor[] = [
-  { id: "v1", name: "Mama Nkechi Kitchen", rating: 4.8, location: "Wuse Zone 5", openNow: true, deliveryTime: "20-30 min" },
-  { id: "v2", name: "Campus Green Mart", rating: 4.6, location: "University Gate", openNow: true, deliveryTime: "15-25 min" },
-  { id: "v3", name: "Fresh Basket Store", rating: 4.7, location: "Maitama District", openNow: true, deliveryTime: "25-35 min" },
-  { id: "v4", name: "Campus Eats", rating: 4.5, location: "Student Village", openNow: false, deliveryTime: "30-40 min" },
-];
-
 // ─── Data ─────────────────────────────────────────────────────────
 const CATEGORIES: Category[] = [
   { id: "staples", name: "Grains", icon: <Wheat size={18} />, image: IMAGES.rice },
@@ -82,41 +75,6 @@ const CATEGORIES: Category[] = [
   { id: "snacks", name: "Snacks", icon: <Cookie size={18} />, image: IMAGES.snacks },
   { id: "cooking", name: "Cooking", icon: <Flame size={18} />, image: IMAGES.cooking },
   { id: "baby", name: "Baby", icon: <Baby size={18} />, image: IMAGES.baby },
-];
-
-const PRODUCTS: Product[] = [
-  { id: 1, name: "Long Grain Rice", price: 4500, unit: "5kg", icon: <Wheat size={20} />, image: IMAGES.rice, category: "staples", rating: 4.8, inStock: true, desc: "Premium parboiled rice", vendor: VENDORS[0], stockLevel: "in_stock", redemptionOptions: ["Food Credits", "Cash", "Card"] },
-  { id: 2, name: "Semovita", price: 2800, unit: "2kg", icon: <Utensils size={20} />, image: IMAGES.rice, category: "staples", rating: 4.6, inStock: true, desc: "Smooth semolina", vendor: VENDORS[1], stockLevel: "in_stock", redemptionOptions: ["Food Credits", "Cash"] },
-  { id: 3, name: "Wheat Flour", price: 3200, unit: "2kg", icon: <Wheat size={20} />, image: IMAGES.rice, category: "staples", rating: 4.5, inStock: true, desc: "Premium baking flour", vendor: VENDORS[2], stockLevel: "in_stock", redemptionOptions: ["Food Credits", "Cash", "Card"] },
-  { id: 4, name: "Garri", price: 1800, unit: "1kg", icon: <Circle size={20} />, image: IMAGES.rice, category: "staples", rating: 4.7, inStock: true, desc: "White garri", vendor: VENDORS[0], stockLevel: "low_stock", redemptionOptions: ["Food Credits", "Cash"] },
-  { id: 5, name: "Indomie Noodles", price: 3500, unit: "10 packs", icon: <Utensils size={20} />, image: IMAGES.rice, category: "staples", rating: 4.4, inStock: true, desc: "Mixed flavors", vendor: VENDORS[1], stockLevel: "in_stock", redemptionOptions: ["Food Credits", "Cash", "Card"] },
-  { id: 6, name: "Fresh Tomatoes", price: 800, unit: "1kg", icon: <Cherry size={20} />, image: IMAGES.vegetables, category: "produce", rating: 4.9, inStock: true, desc: "Farm fresh", vendor: VENDORS[2], stockLevel: "in_stock", redemptionOptions: ["Food Credits", "Cash"] },
-  { id: 7, name: "Scotch Bonnet", price: 500, unit: "500g", icon: <Flame size={20} />, image: IMAGES.vegetables, category: "produce", rating: 4.8, inStock: true, desc: "Hot atarodo", vendor: VENDORS[2], stockLevel: "in_stock", redemptionOptions: ["Food Credits", "Cash"] },
-  { id: 8, name: "Fresh Onions", price: 600, unit: "1kg", icon: <Circle size={20} />, image: IMAGES.vegetables, category: "produce", rating: 4.6, inStock: true, desc: "Red onions", vendor: VENDORS[2], stockLevel: "in_stock", redemptionOptions: ["Food Credits", "Cash"] },
-  { id: 9, name: "Ugwu Leaves", price: 400, unit: "bunch", icon: <Leaf size={20} />, image: IMAGES.vegetables, category: "produce", rating: 4.7, inStock: true, desc: "Fluted pumpkin", vendor: VENDORS[2], stockLevel: "low_stock", redemptionOptions: ["Food Credits", "Cash"] },
-  { id: 10, name: "Green Beans", price: 700, unit: "500g", icon: <Leaf size={20} />, image: IMAGES.vegetables, category: "produce", rating: 4.5, inStock: true, desc: "Crisp beans", vendor: VENDORS[2], stockLevel: "in_stock", redemptionOptions: ["Food Credits", "Cash"] },
-  { id: 11, name: "Frozen Chicken", price: 5500, unit: "1kg", icon: <Drumstick size={20} />, image: IMAGES.meat, category: "protein", rating: 4.3, inStock: true, desc: "Mixed cuts", vendor: VENDORS[0], stockLevel: "in_stock", redemptionOptions: ["Food Credits", "Cash", "Card"] },
-  { id: 12, name: "Catfish", price: 3800, unit: "1kg", icon: <Fish size={20} />, image: IMAGES.meat, category: "protein", rating: 4.8, inStock: true, desc: "Fresh omo ada", vendor: VENDORS[0], stockLevel: "in_stock", redemptionOptions: ["Food Credits", "Cash"] },
-  { id: 13, name: "Goat Meat", price: 6200, unit: "1kg", icon: <Beef size={20} />, image: IMAGES.meat, category: "protein", rating: 4.7, inStock: true, desc: "Cut to size", vendor: VENDORS[0], stockLevel: "low_stock", redemptionOptions: ["Food Credits", "Cash"] },
-  { id: 14, name: "Eggs Crate", price: 3200, unit: "30 pcs", icon: <Egg size={20} />, image: IMAGES.dairy, category: "dairy", rating: 4.9, inStock: true, desc: "Large size", vendor: VENDORS[1], stockLevel: "in_stock", redemptionOptions: ["Food Credits", "Cash", "Card"] },
-  { id: 15, name: "Peak Milk", price: 2400, unit: "900g", icon: <Milk size={20} />, image: IMAGES.dairy, category: "dairy", rating: 4.6, inStock: true, desc: "Full cream", vendor: VENDORS[1], stockLevel: "in_stock", redemptionOptions: ["Food Credits", "Cash"] },
-  { id: 16, name: "Hollandia Yoghurt", price: 1200, unit: "1L", icon: <Milk size={20} />, image: IMAGES.dairy, category: "dairy", rating: 4.5, inStock: true, desc: "Creamy yoghurt", vendor: VENDORS[1], stockLevel: "in_stock", redemptionOptions: ["Food Credits", "Cash"] },
-  { id: 17, name: "Pure Water", price: 300, unit: "1 bag", icon: <Droplets size={20} />, image: IMAGES.beverages, category: "beverages", rating: 4.2, inStock: true, desc: "12 sachets", vendor: VENDORS[3], stockLevel: "in_stock", redemptionOptions: ["Food Credits", "Cash"] },
-  { id: 18, name: "Chivita Juice", price: 1500, unit: "1L", icon: <Wine size={20} />, image: IMAGES.beverages, category: "beverages", rating: 4.4, inStock: true, desc: "Orange flavor", vendor: VENDORS[1], stockLevel: "in_stock", redemptionOptions: ["Food Credits", "Cash", "Card"] },
-  { id: 19, name: "Nescafe Classic", price: 2800, unit: "100g", icon: <Coffee size={20} />, image: IMAGES.beverages, category: "beverages", rating: 4.7, inStock: true, desc: "Instant coffee", vendor: VENDORS[1], stockLevel: "in_stock", redemptionOptions: ["Food Credits", "Cash"] },
-  { id: 20, name: "Bournvita", price: 1900, unit: "500g", icon: <Coffee size={20} />, image: IMAGES.beverages, category: "beverages", rating: 4.5, inStock: true, desc: "Chocolate mix", vendor: VENDORS[1], stockLevel: "in_stock", redemptionOptions: ["Food Credits", "Cash"] },
-  { id: 21, name: "Plantain Chips", price: 500, unit: "pack", icon: <Banana size={20} />, image: IMAGES.snacks, category: "snacks", rating: 4.6, inStock: true, desc: "Crispy slices", vendor: VENDORS[3], stockLevel: "in_stock", redemptionOptions: ["Food Credits", "Cash"] },
-  { id: 22, name: "Chin Chin", price: 800, unit: "pack", icon: <Cookie size={20} />, image: IMAGES.snacks, category: "snacks", rating: 4.8, inStock: true, desc: "Homemade", vendor: VENDORS[3], stockLevel: "in_stock", redemptionOptions: ["Food Credits", "Cash"] },
-  { id: 23, name: "Puff Puff Mix", price: 600, unit: "pack", icon: <Cake size={20} />, image: IMAGES.snacks, category: "snacks", rating: 4.4, inStock: true, desc: "Ready to fry", vendor: VENDORS[3], stockLevel: "low_stock", redemptionOptions: ["Food Credits", "Cash"] },
-  { id: 24, name: "Groundnut", price: 1200, unit: "500g", icon: <Apple size={20} />, image: IMAGES.snacks, category: "snacks", rating: 4.7, inStock: true, desc: "Roasted", vendor: VENDORS[3], stockLevel: "in_stock", redemptionOptions: ["Food Credits", "Cash"] },
-  { id: 25, name: "Palm Oil", price: 2200, unit: "750ml", icon: <Droplets size={20} />, image: IMAGES.cooking, category: "cooking", rating: 4.8, inStock: true, desc: "Pure red", vendor: VENDORS[2], stockLevel: "in_stock", redemptionOptions: ["Food Credits", "Cash"] },
-  { id: 26, name: "Vegetable Oil", price: 1800, unit: "1L", icon: <Droplets size={20} />, image: IMAGES.cooking, category: "cooking", rating: 4.5, inStock: true, desc: "Refined", vendor: VENDORS[2], stockLevel: "in_stock", redemptionOptions: ["Food Credits", "Cash", "Card"] },
-  { id: 27, name: "Maggi Cubes", price: 600, unit: "48 pcs", icon: <Flame size={20} />, image: IMAGES.cooking, category: "cooking", rating: 4.9, inStock: true, desc: "Seasoning", vendor: VENDORS[2], stockLevel: "in_stock", redemptionOptions: ["Food Credits", "Cash"] },
-  { id: 28, name: "Iru", price: 500, unit: "pack", icon: <Leaf size={20} />, image: IMAGES.cooking, category: "cooking", rating: 4.6, inStock: true, desc: "Locust beans", vendor: VENDORS[2], stockLevel: "in_stock", redemptionOptions: ["Food Credits", "Cash"] },
-  { id: 29, name: "Ogiri", price: 400, unit: "pack", icon: <Leaf size={20} />, image: IMAGES.cooking, category: "cooking", rating: 4.3, inStock: true, desc: "Castor seed", vendor: VENDORS[2], stockLevel: "out_of_stock", redemptionOptions: ["Food Credits", "Cash"] },
-  { id: 30, name: "Pampers", price: 6500, unit: "pack", icon: <Baby size={20} />, image: IMAGES.baby, category: "baby", rating: 4.7, inStock: true, desc: "Diapers", vendor: VENDORS[1], stockLevel: "in_stock", redemptionOptions: ["Food Credits", "Cash", "Card"] },
-  { id: 31, name: "NAN Formula", price: 8500, unit: "400g", icon: <Baby size={20} />, image: IMAGES.baby, category: "baby", rating: 4.8, inStock: true, desc: "Infant milk", vendor: VENDORS[1], stockLevel: "in_stock", redemptionOptions: ["Food Credits", "Cash"] },
-  { id: 32, name: "Cerelac", price: 3200, unit: "400g", icon: <Baby size={20} />, image: IMAGES.baby, category: "baby", rating: 4.6, inStock: true, desc: "Baby cereal", vendor: VENDORS[1], stockLevel: "in_stock", redemptionOptions: ["Food Credits", "Cash"] },
 ];
 
 // ─── Helpers ──────────────────────────────────────────────────────
@@ -165,6 +123,33 @@ const S = {
 };
 
 // ─── Main Component ───────────────────────────────────────────────
+const toProduct = (vendor: any, item: any, index: number): Product => {
+  const available = item.isAvailable !== false;
+  const rating = Number(vendor.rating) || 0;
+  return {
+    id: `${vendor.email}-${item._id || index}`,
+    name: item.name,
+    price: Number(item.price) || 0,
+    unit: "",
+    icon: <Utensils size={20} />,
+    image: item.image || IMAGES.rice,
+    category: item.category || "main",
+    rating,
+    inStock: available,
+    desc: item.description || "",
+    vendor: {
+      id: vendor.email,
+      name: vendor.businessName,
+      rating,
+      location: vendor.city || vendor.address || "",
+      openNow: vendor.isOpen !== false,
+      deliveryTime: "",
+    },
+    stockLevel: available ? "in_stock" : "out_of_stock",
+    redemptionOptions: ["Food Credits", "Cash"],
+  };
+};
+
 export default function CampusPlanner() {
   const { colors, toggle: toggleTheme } = useTheme();
   const navigate = useNavigate();
@@ -176,6 +161,8 @@ export default function CampusPlanner() {
   const [activeFilter, setActiveFilter] = useState("all");
   const [foodBalance, setFoodBalance] = useState(0);
   const [orders, setOrders] = useState<Order[]>([]);
+  const [products, setProducts] = useState<Product[]>([]);
+  const [productsLoading, setProductsLoading] = useState(true);
 
   const email = localStorage.getItem("email") || "";
 
@@ -202,7 +189,30 @@ export default function CampusPlanner() {
     loadCart();
     loadBalance();
     loadOrders();
+    loadProducts();
   }, [email]);
+
+  const loadProducts = async () => {
+    try {
+      const vendors = await fetchNearbyVendors();
+      const menus = await Promise.all(
+        (Array.isArray(vendors) ? vendors : []).map(async (vendor: any) => {
+          try {
+            const data = await fetchVendorMenu(vendor.email);
+            const menu = Array.isArray(data?.menu) ? data.menu : [];
+            return menu.map((item: any, i: number) => toProduct(vendor, item, i));
+          } catch {
+            return [];
+          }
+        })
+      );
+      setProducts(menus.flat());
+    } catch (e) {
+      console.error("Failed to load products:", e);
+    } finally {
+      setProductsLoading(false);
+    }
+  };
 
   const loadBalance = async (retries = 0): Promise<void> => {
     if (!email) return;
@@ -260,8 +270,14 @@ export default function CampusPlanner() {
   const cartTotal = cart.reduce((s, i) => s + i.price * i.qty, 0);
 
   const filteredProducts = activeFilter === "all"
-    ? PRODUCTS
-    : PRODUCTS.filter(p => p.category === activeFilter);
+    ? products
+    : products.filter(p => p.category === activeFilter);
+
+  const categories: Category[] = Array.from(new Set(products.map(p => p.category))).map(id =>
+    CATEGORIES.find(c => c.id === id) ?? {
+      id, name: id.charAt(0).toUpperCase() + id.slice(1), icon: <Utensils size={18} />, image: IMAGES.rice,
+    }
+  );
 
   return (
     <>
@@ -479,7 +495,7 @@ export default function CampusPlanner() {
                 >
                   <Sparkles size={13} /> All
                 </button>
-                {CATEGORIES.map(cat => (
+                {categories.map(cat => (
                   <button
                     key={cat.id}
                     style={S.pill(activeFilter === cat.id, colors.accent, colors.surface, colors.border)}
@@ -525,7 +541,7 @@ export default function CampusPlanner() {
             <div style={S.topBar(colors.border)}>
               <button style={S.circleBtn(colors.surface, colors.border)} onClick={() => setScreen("home")}><ArrowLeft size={17} /></button>
               <span style={{ fontSize: 14, fontWeight: 600, color: colors.text }}>
-                {CATEGORIES.find(c => c.id === activeFilter)?.name ?? "All Items"}
+                {categories.find(c => c.id === activeFilter)?.name ?? "All Items"}
               </span>
               <div style={{ width: 42 }} />
             </div>
@@ -537,7 +553,7 @@ export default function CampusPlanner() {
               >
                 All
               </button>
-              {CATEGORIES.map(cat => (
+              {categories.map(cat => (
                 <button
                   key={cat.id}
                   style={S.pill(activeFilter === cat.id, colors.accent, colors.surface, colors.border)}
@@ -553,6 +569,9 @@ export default function CampusPlanner() {
                 <ProductCard key={p.id} product={p} index={i} colors={colors} onAdd={addToCart} />
               ))}
             </div>
+            {!productsLoading && filteredProducts.length === 0 && (
+              <p style={{ color: colors.textMuted, textAlign: "center", marginTop: 24 }}>No products listed yet.</p>
+            )}
           </div>
         )}
 
@@ -704,7 +723,7 @@ function CartScreen({ cart, setCart, setScreen, colors, onOrderPlaced }: {
   const deliveryFee = Math.min(1000, Math.max(100, Math.round((total * 10) / 100)));
   const [orderSuccess, setOrderSuccess] = useState<{ orderId: string; total: number } | null>(null);
 
-  const updateQty = (id: number, delta: number) => {
+  const updateQty = (id: string, delta: number) => {
     const newCart = updateLocalCartItemQty(id, delta);
     setCart(newCart);
   };
