@@ -168,8 +168,17 @@ export async function sendFoodCredits(
   } catch {
     // Queue for retry + local fallback
     enqueue({ url: `${API_BASE}/api/food-transfer`, method: "POST", body });
-    return sendLocalFoodCredits(toName, toContact, amount, note);
+    return { queued: true };
   }
+}
+
+export async function claimFoodTransfer(token: string) {
+  const res = await fetch(`${API_BASE}/api/food-transfer/claim`, {
+    method: "POST",
+    headers: authHeaders(),
+    body: JSON.stringify({ token }),
+  });
+  return res.json();
 }
 
 // ─── QR Payment ──────────────────────────────────────────────

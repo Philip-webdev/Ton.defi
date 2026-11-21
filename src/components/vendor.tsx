@@ -1016,12 +1016,12 @@ export default function VendorPortal() {
                 Pending Settlement
               </div>
               <div style={{ fontSize: 36, fontWeight: 200, color: colors.text, letterSpacing: "-1px" }}>
-                {formatNaira(SAMPLE_SETTLEMENTS[0].amount)}
+                {formatNaira(SAMPLE_SETTLEMENTS[0]?.amount ?? 0)}
               </div>
               <div style={{ fontSize: 12, color: colors.textMuted, marginTop: 4 }}>
-                {SAMPLE_SETTLEMENTS[0].orders} orders today
+                {SAMPLE_SETTLEMENTS[0]?.orders ?? 0} orders today
               </div>
-              <button onClick={() => alert("Payout request submitted. Funds will arrive within 24 hours.")} style={{
+              <button disabled={SAMPLE_SETTLEMENTS.length === 0} onClick={() => alert("Payout request submitted. Funds will arrive within 24 hours.")} style={{
                 marginTop: 16, padding: "12px 24px", borderRadius: 12,
                 background: colors.accent, color: "#0A0A0A",
                 fontSize: 13, fontWeight: 700, border: "none",

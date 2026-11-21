@@ -60,19 +60,12 @@ export default function FoodTransfer() {
   const [recipientsPage, setRecipientsPage] = useState(1);
   const [recipientsData, setRecipientsData] = useState<any>({ recipients: [], pagination: { total: 0 } });
   const [balance, setBalance] = useState(0);
-  const [lastTransferRef, setLastTransferRef] = useState("");
+  const [receipt, setReceipt] = useState<{ reference: string; date: string; status: string; queued: boolean; inviteUrl: string } | null>(null);
 
   const email = localStorage.getItem("email") || "";
 
-  const DEFAULT_CONTACTS: Contact[] = [
-    { id: "5", name: "Emeka Nwosu", phone: "+234 806 *** 9102", initials: "EN" },
-    { id: "6", name: "Fatima Abdullahi", email: "fatima@email.com", initials: "FA" },
-    { id: "7", name: "Campus Green Mart", initials: "CG" },
-    { id: "8", name: "Blessing Eze", phone: "+234 809 *** 3344", initials: "BE" },
-  ];
-
-  const RECENT_CONTACTS = contacts.length > 0 ? contacts.slice(0, 3) : DEFAULT_CONTACTS;
-  const SUGGESTED_CONTACTS = contacts.length > 0 ? contacts : DEFAULT_CONTACTS;
+  const RECENT_CONTACTS = contacts.slice(0, 3);
+  const SUGGESTED_CONTACTS = contacts;
 
   useEffect(() => {
     loadContacts();
@@ -128,7 +121,7 @@ export default function FoodTransfer() {
     lastTransfer: "Saved recipient",
   }));
 
-  const filteredContacts = [...contacts, ...DEFAULT_CONTACTS, ...allRecipients].filter(c =>
+  const filteredContacts = [...contacts, ...allRecipients].filter(c =>
     c.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
     c.phone?.includes(searchQuery) ||
     c.email?.toLowerCase().includes(searchQuery.toLowerCase())
@@ -173,8 +166,21 @@ export default function FoodTransfer() {
     try {
       const contactInfo = selectedContact.phone || selectedContact.email || "";
       const result = await sendFoodCredits(email, selectedContact.name, contactInfo, Number(amount), note);
-      if (result?.transaction?.reference) {
-        setLastTransferRef(result.transaction.reference);
+      if (result?.error) {
+        throw new Error(result.error);
+      }
+      if (result?.queued) {
+        setReceipt({ reference: "", date: new Date().toLocaleString(), status: "Queued", queued: true, inviteUrl: "" });
+      } else {
+        const tx = result?.transaction;
+        const statusLabel = tx?.status === "completed" ? "Completed" : tx?.status === "pending" ? "Pending claim" : (tx?.status ?? "Unknown");
+        setReceipt({
+          reference: tx?.reference ?? "",
+          date: tx?.createdAt ? new Date(tx.createdAt).toLocaleString() : new Date().toLocaleString(),
+          status: statusLabel,
+          queued: false,
+          inviteUrl: result?.invite?.url ?? "",
+        });
       }
       if (result?.newBalance !== undefined) {
         setBalance(result.newBalance);
@@ -186,13 +192,25 @@ export default function FoodTransfer() {
     setSending(false);
   };
 
+  const shareInvite = async () => {
+    if (!receipt?.inviteUrl) return;
+    const text = `${formatNaira(Number(amount))} food value is waiting for you. Claim it here: ${receipt.inviteUrl}`;
+    if (navigator.share) {
+      try {
+        await navigator.share({ text });
+        return;
+      } catch {}
+    }
+    window.open(`https://wa.me/?text=${encodeURIComponent(text)}`, "_blank");
+  };
+
   const resetTransfer = () => {
     setStep("recipient");
     setSelectedContact(null);
     setAmount("");
     setNote("");
     setTransferType("credits");
-    setLastTransferRef("");
+    setReceipt(null);
   };
 
   return (
@@ -616,7 +634,7 @@ export default function FoodTransfer() {
                 Amount
               </div>
               <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 4 }}>
-                <span style={{ fontSize: 28, fontWeight: 200, color: colors.textMuted }}>\u20A6</span>
+                <span style={{ fontSize: 28, fontWeight: 200, color: colors.textMuted }}>{"\u20A6"}</span>
                 <input
                   className="amount-input"
                   type="number"
@@ -754,19 +772,25 @@ export default function FoodTransfer() {
             <div className="success-check">
               <Check size={36} color="#0A0A0A" strokeWidth={3} />
             </div>
-            <div style={{ fontSize: 22, fontWeight: 700, color: colors.text, marginBottom: 8 }}>Food Value Sent!</div>
+            <div style={{ fontSize: 22, fontWeight: 700, color: colors.text, marginBottom: 8 }}>
+              {receipt?.queued ? "Transfer Queued" : receipt?.inviteUrl ? "Invite Sent" : "Food Value Sent!"}
+            </div>
             <div style={{ fontSize: 14, color: colors.textMuted, marginBottom: 32 }}>
-              {formatNaira(Number(amount))} sent to {selectedContact.name}
+              {receipt?.queued
+                ? `${formatNaira(Number(amount))} will be sent to ${selectedContact.name} when you're back online`
+                : receipt?.inviteUrl
+                  ? `${formatNaira(Number(amount))} is held for ${selectedContact.name} until they claim it with your link`
+                  : `${formatNaira(Number(amount))} sent to ${selectedContact.name}`}
             </div>
 
             <div style={{ background: colors.surface, border: `1px solid ${colors.border}`, borderRadius: 16, padding: 18, marginBottom: 24, textAlign: "left" }}>
               <div style={{ fontSize: 12, fontWeight: 600, color: colors.textMuted, letterSpacing: "0.5px", textTransform: "uppercase", marginBottom: 14 }}>Transfer Details</div>
               {[
-                { label: "Reference", value: lastTransferRef || `TXN-${Date.now().toString(36).toUpperCase()}` },
+                { label: "Reference", value: receipt?.reference || "—" },
                 { label: "Recipient", value: selectedContact.name },
                 { label: "Amount", value: formatNaira(Number(amount)) },
-                { label: "Status", value: "Completed" },
-                { label: "Date", value: new Date().toLocaleString() },
+                { label: "Status", value: receipt?.status ?? "—" },
+                { label: "Date", value: receipt?.date ?? "—" },
               ].map((row, i, arr) => (
                 <div key={i} style={{
                   display: "flex", justifyContent: "space-between", alignItems: "center",
@@ -779,6 +803,15 @@ export default function FoodTransfer() {
               ))}
             </div>
 
+            {receipt?.inviteUrl && (
+              <button onClick={shareInvite} style={{
+                width: "100%", padding: "14px", borderRadius: 14, marginBottom: 12,
+                border: "none", background: colors.accent, color: "#0A0A0A",
+                fontSize: 13, fontWeight: 700, cursor: "pointer", fontFamily: "'Sora', sans-serif",
+              }}>
+                Share invite link
+              </button>
+            )}
             <div style={{ display: "flex", gap: 10 }}>
               <button onClick={resetTransfer} style={{
                 flex: 1, padding: "14px", borderRadius: 14,

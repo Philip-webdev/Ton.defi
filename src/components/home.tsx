@@ -15,7 +15,7 @@ import {
   createFoodOrder, fetchFoodOrders, getLocalBalance, fetchFoodWallet,
   updateProfile, fetchProfile, fetchWallet, fetchVA,
   fetchCart, syncCart, clearCart as clearCloudCart, checkPendingTopup,
-  fetchNearbyVendors, fetchVendorMenu
+  fetchNearbyVendors, fetchVendorMenu, claimFoodTransfer
 } from "../services/api";
 
 // ─── Types ────────────────────────────────────────────────────────
@@ -190,7 +190,26 @@ export default function CampusPlanner() {
     loadBalance();
     loadOrders();
     loadProducts();
+    claimPendingTransfer();
   }, [email]);
+
+  const claimPendingTransfer = async () => {
+    const token = localStorage.getItem("pendingClaim");
+    if (!token || !localStorage.getItem("token")) return;
+    localStorage.removeItem("pendingClaim");
+    try {
+      const result = await claimFoodTransfer(token);
+      if (result.error) {
+        alert(result.error);
+        return;
+      }
+      setFoodBalance(result.newBalance);
+      alert(`You received ₦${Number(result.amount).toLocaleString()} in food value.`);
+    } catch (e) {
+      console.error("Failed to claim transfer:", e);
+      localStorage.setItem("pendingClaim", token);
+    }
+  };
 
   const loadProducts = async () => {
     try {

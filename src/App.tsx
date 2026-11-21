@@ -7,6 +7,7 @@ import { ThemeProvider } from "./contexts/ThemeContext";
 // Components
 import Home from "./components/home";
 import Send from "./components/Send";
+import ClaimInvite from "./components/claim-invite";
 import Tools from "./components/tools";
 import Register from "./components/AccountRegistration";
 import Swap from "./components/swap";
@@ -87,6 +88,7 @@ function App() {
         <Route path="/home" element={<Home />} />
         <Route path="/checkout" element={<CheckoutContainer />} />
          <Route path="/send" element={<Send />} />
+        <Route path="/claim" element={<ClaimInvite />} />
          <Route path="/swap" element={<Swap />} /> 
         <Route path="/register" element={<Register />} />
         <Route path="/tools" element={<Tools />} />
