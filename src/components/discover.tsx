@@ -48,7 +48,7 @@ function discover() {
     useEffect(() => {
            const fetchData = async () => {
                try {
-                   const response = await fetch('https://twa-backend-cd2n.onrender.com/api/cryptoblogs');
+                   const response = await fetch('https://twa-backend-hsy3.onrender.com/api/cryptoblogs');
                    const result = await response.json();
                    // console.log(result);
    

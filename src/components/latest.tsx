@@ -39,7 +39,7 @@ const [newsList, setNewsList] = useState(<div></div>);
 useEffect(() => {
   const fetchNews = async () => {
     try {
-      const res = await fetch("https://twa-backend-cd2n.onrender.com/cryptofund", {
+      const res = await fetch("https://twa-backend-hsy3.onrender.com/cryptofund", {
         method: "GET",
         headers: { "Content-Type": "application/json" },
       });

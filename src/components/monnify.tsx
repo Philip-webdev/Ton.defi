@@ -38,7 +38,7 @@ const WalletForm = () => {
     e.preventDefault();
      
     try {
-      const res = await fetch("https://twa-backend-cd2n.onrender.com/api/monnify", {
+      const res = await fetch("https://twa-backend-hsy3.onrender.com/api/monnify", {
         method: "POST",
         headers: { "Content-Type": "application/json"   },
         body: JSON.stringify(form),

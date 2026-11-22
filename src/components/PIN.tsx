@@ -153,7 +153,7 @@ async function createNodeRequest(){
   const creatorId = await getUsersIdFromIndexedDB();
   const packageCost = plan; // use state value
 
-   fetch("https://twa-backend-cd2n.onrender.com/nodes", {
+   fetch("https://twa-backend-hsy3.onrender.com/nodes", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             credentials: "include",  
@@ -163,7 +163,7 @@ async function createNodeRequest(){
 //use javascript switch case to check if wallet balance is > 0
 
 async function joinNodeRequest(){
-  const res = await fetch("https://twa-backend-cd2n.onrender.com/users", {
+  const res = await fetch("https://twa-backend-hsy3.onrender.com/users", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     credentials: "include",  
@@ -240,7 +240,7 @@ async function joinNodeRequest(){
   };
   saveuserIdToIndexedDB();
   
-  fetch(`https://twa-backend-cd2n.onrender.com/nodes/${userId}/join`, {
+  fetch(`https://twa-backend-hsy3.onrender.com/nodes/${userId}/join`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     credentials: "include",  

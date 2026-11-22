@@ -1,4 +1,4 @@
-const API_BASE = import.meta.env.VITE_BACKEND_URL || "https://twa-backend-cd2n.onrender.com";
+const API_BASE = import.meta.env.VITE_BACKEND_URL || "https://twa-backend-hsy3.onrender.com";
 
 // ─── Token Helpers ─────────────────────────────────────────────────
 function getToken(): string | null {
